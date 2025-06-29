@@ -18,6 +18,7 @@ const AddPetProfile: React.FC = () => {
   const [newPet, setNewPet] = useState<any>(null);
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>({
+    pet_id: "", // Added to satisfy FormData type
     pet_name: "",
     pet_age: "",
     pet_species: "",
@@ -198,12 +199,12 @@ const AddPetProfile: React.FC = () => {
   };
 
   // Handler for Upload Records button in modal
-  const handleShowUploadUI = () => {
-    setShowSuccess(false);
-    if (newPetId) {
-      navigate(`/petowner/pet/${newPetId}/upload-documents`);
-    }
-  };
+  // const handleShowUploadUI = () => {
+  //   setShowSuccess(false);
+  //   if (newPetId) {
+  //     navigate(`/petowner/pet/${newPetId}/upload-documents`);
+  //   }
+  // };
 
   // Handler for document upload
   const handleDocumentUpload = async (

@@ -14,7 +14,7 @@ const DownloadSelectPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pet, setPet] = useState<any>(null);
-  const [actualPetId, setActualPetId] = useState<string | null>(null);
+  const [, setActualPetId] = useState<string | null>(null);
 
   // Helper function to remove duplicate vaccines based on ID
   const removeDuplicateVaccines = (vaccinesArr: any[]): any[] => {

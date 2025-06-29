@@ -46,7 +46,9 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     pet.breed_name ||
     pet.breed ||
     pet.breed_obj?.breed_name ||
-    (typeof pet.breed === "object" ? pet.breed?.breed_name : undefined);
+    (typeof pet.breed === "object" && pet.breed !== null && "breed_name" in pet.breed
+      ? (pet.breed as { breed_name?: string }).breed_name
+      : undefined);
   const species = pet.breed_species?.species_name || pet.breed_species_name;
   const petName = pet.pet_name || pet.name;
   const petImage = pet.profile_picture_url || pet.image;

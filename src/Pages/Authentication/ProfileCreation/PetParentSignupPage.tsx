@@ -10,8 +10,8 @@ const PetParentSignupPage: React.FC = () => {
 
   // Handler to upload a document (dummy for now, can be wired to autofillServices)
   const handleUpload = async (
-    file: File,
-    meta: { name: string; type: string }
+    // file: File,
+    // meta: { name: string; type: string }
   ) => {
     // You can call autofillServices.createPetFromDocuments([file]) here if needed
     // For now, just simulate upload

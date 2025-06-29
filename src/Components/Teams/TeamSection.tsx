@@ -26,7 +26,6 @@ interface TeamSectionProps {
 
 const TeamSection: React.FC<TeamSectionProps> = ({
   teams,
-  onAddTeam,
   onDeleteTeam,
   onViewAll,
 }) => {

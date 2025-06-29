@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import PetWellLogo from "../../../Assets/PetWell.png";
 import Stepper from "./Stepper";
 import type { FormData } from "./types";

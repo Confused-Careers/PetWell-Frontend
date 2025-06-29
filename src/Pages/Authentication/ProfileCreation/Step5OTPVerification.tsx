@@ -165,6 +165,7 @@ const Step5OTPVerification: React.FC<Step5OTPVerificationProps> = ({
       </div>
       {showSuccess && (
         <ProfileCreationSuccessModal
+          petId={form.pet_id}
           onClose={() => {
             setShowSuccess(false);
             onResetForm();
@@ -184,4 +185,4 @@ const Step5OTPVerification: React.FC<Step5OTPVerificationProps> = ({
   );
 };
 
-export default Step5OTPVerification; 
+export default Step5OTPVerification;

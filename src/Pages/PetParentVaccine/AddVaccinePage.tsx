@@ -8,7 +8,7 @@ import vaccineServices from "../../Services/vaccineServices";
 const AddVaccinePage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [pet, setPet] = useState<any>(null);

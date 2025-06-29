@@ -16,11 +16,11 @@ const HomePage: React.FC = () => {
   const [vaccines, setVaccines] = useState<any[]>([]);
   const [rawVaccines, setRawVaccines] = useState<any[]>([]);
   const [rawDocuments, setRawDocuments] = useState<any[]>([]);
-  const [teams, setTeams] = useState<any[]>([]);
+  const [, setTeams] = useState<any[]>([]);
   const [rawTeams, setRawTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [petName, setPetName] = useState<string>("My Pet");
+  const [, setError] = useState<string | null>(null);
+  const [, setPetName] = useState<string>("My Pet");
   const [editDocIdx, setEditDocIdx] = useState<number | null>(null);
   const [editDocName, setEditDocName] = useState<string>("");
   const [editVaccineIdx, setEditVaccineIdx] = useState<number | null>(null);

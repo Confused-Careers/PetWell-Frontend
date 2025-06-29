@@ -185,9 +185,9 @@ const DocumentPage: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [docSizes, setDocSizes] = useState<{ [id: string]: number }>({});
-  const [sizesLoading, setSizesLoading] = useState<boolean>(false);
+  const [, setSizesLoading] = useState<boolean>(false);
   const [pet, setPet] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -393,7 +393,7 @@ const DocumentPage: React.FC = () => {
               </svg>
               {showSuggestions && searchResults.length > 0 && (
                 <div className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto">
-                  {searchResults.map((doc, idx) => (
+                  {searchResults.map((doc, ) => (
                     <div
                       key={doc.id}
                       className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)]"

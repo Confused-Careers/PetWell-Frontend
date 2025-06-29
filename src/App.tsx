@@ -23,6 +23,7 @@ import BusinessSignupPage from "./Pages/Authentication/BusinessAuth/BusinessSign
 import AddCareTeamPage from "./Pages/Authentication/BusinessAuth/AddCareTeamPage";
 import CareTeamListPage from "./Pages/Authentication/BusinessAuth/CareTeamListPage";
 import BusinessHomePage from "./Pages/Business/BusinessHome/BusinessHomePage";
+import PetParentOnboardingChoice from "./Pages/Authentication/ProfileCreation/PetParentOnboardingChoice";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
         <Route path="/add-pet-profile" element={<AddPetProfile />} />
         <Route path="/verify" element={<VerificationPage />} />
         <Route path="/business/home" element={<BusinessHomePage />} />
+        <Route path="/pet-parent-onboarding-choice" element={<PetParentOnboardingChoice />} />
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

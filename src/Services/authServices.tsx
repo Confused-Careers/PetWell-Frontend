@@ -65,7 +65,7 @@ interface VerifyOTPData {
 
 interface ResendOTPData {
   email: string;
-  otp_type: "Registration" | "ForgotPassword" | "EmailVerification";
+  otp_type: "Registration" | "PasswordReset";
 }
 
 interface ForgotPasswordData {

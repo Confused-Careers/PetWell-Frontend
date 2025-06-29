@@ -6,7 +6,7 @@ import { Input } from "../../Components/ui/input";
 import { Card } from "../../Components/ui/card";
 import authServices from "../../Services/authServices";
 
-type ResetStep = "request" | "verify" | "reset";
+type ResetStep = "request" | "reset";
 
 const ForgotPasswordPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [resendTimer, setResendTimer] = useState(0);
 
   // Timer effect for resend OTP
@@ -35,7 +34,7 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
     try {
       await authServices.forgotPassword({ identifier: email });
-      setCurrentStep("verify");
+      setCurrentStep("reset");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -49,29 +48,10 @@ const ForgotPasswordPage: React.FC = () => {
     try {
       await authServices.resendOTP({
         email,
-        otp_type: "ForgotPassword",
+        otp_type: "PasswordReset",
       });
       setError("OTP resent successfully");
-      setResendTimer(10); // 60 seconds timer
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const response = await authServices.verifyOTP({
-        identifier: email,
-        otp_code: otp,
-      });
-
-      console.log("OTP verification response:", response);
-      setCurrentStep("reset");
+      setResendTimer(10); // 10 seconds timer
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -82,14 +62,10 @@ const ForgotPasswordPage: React.FC = () => {
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
     setLoading(true);
+
     try {
+      // Directly reset password with OTP and new password
       await authServices.resetPassword({
         email,
         otp_code: otp,
@@ -131,47 +107,13 @@ const ForgotPasswordPage: React.FC = () => {
     </form>
   );
 
-  const renderVerifyOTP = () => (
-    <form onSubmit={handleVerifyOTP} className="space-y-4">
-      <h2 className="text-2xl font-[Alike,serif] text-[#EBD5BD] text-center">
-        Enter OTP
-      </h2>
-      <p className="text-sm text-[#EBD5BD]/60 text-center">
-        Enter the OTP sent to {email}
-      </p>
-      <Input
-        type="text"
-        placeholder="Enter OTP"
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        required
-      />
-      <Button
-        type="submit"
-        className="w-full bg-[#FFB23E] hover:bg-[#ffb733] text-black"
-        disabled={loading}
-      >
-        {loading ? "Verifying..." : "Verify OTP"}
-      </Button>
-      <Button
-        type="button"
-        variant="ghost"
-        className="w-full"
-        onClick={handleResendOTP}
-        disabled={loading || resendTimer > 0}
-      >
-        {resendTimer > 0 ? `Resend OTP (${resendTimer}s)` : "Resend OTP"}
-      </Button>
-    </form>
-  );
-
   const renderResetPassword = () => (
     <form onSubmit={handleResetPassword} className="space-y-4">
       <h2 className="text-2xl font-[Alike,serif] text-[#EBD5BD] text-center">
         Reset Password
       </h2>
       <p className="text-sm text-[#EBD5BD]/60 text-center">
-        Enter the OTP and your new password
+        Enter the OTP sent to {email} and your new password
       </p>
       <Input
         type="text"
@@ -187,19 +129,21 @@ const ForgotPasswordPage: React.FC = () => {
         onChange={(e) => setNewPassword(e.target.value)}
         required
       />
-      <Input
-        type="password"
-        placeholder="Confirm New Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        required
-      />
       <Button
         type="submit"
         className="w-full bg-[#FFB23E] hover:bg-[#ffb733] text-black"
         disabled={loading}
       >
         {loading ? "Resetting..." : "Reset Password"}
+      </Button>
+      <Button
+        type="button"
+        variant="ghost"
+        className="w-full"
+        onClick={handleResendOTP}
+        disabled={loading || resendTimer > 0}
+      >
+        {resendTimer > 0 ? `Resend OTP (${resendTimer}s)` : "Resend OTP"}
       </Button>
     </form>
   );
@@ -230,7 +174,6 @@ const ForgotPasswordPage: React.FC = () => {
         )}
 
         {currentStep === "request" && renderRequestOTP()}
-        {currentStep === "verify" && renderVerifyOTP()}
         {currentStep === "reset" && renderResetPassword()}
 
         <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-[#EBD5BD]/60">

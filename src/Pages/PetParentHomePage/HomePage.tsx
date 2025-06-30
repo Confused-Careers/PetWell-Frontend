@@ -534,7 +534,7 @@ const HomePage: React.FC = () => {
             </button>
           </div>
           <VaccineSection
-            vaccines={vaccines}
+            vaccines={vaccines.slice(0, 3)}
             onEditVaccine={handleEditVaccine}
             onViewAll={() => navigate(`/petowner/pet/${petId}/vaccine`)}
           />
@@ -551,7 +551,7 @@ const HomePage: React.FC = () => {
             </button>
           </div>
           <DocumentSection
-            documents={rawDocuments}
+            documents={rawDocuments.slice(0, 6)}
             onEditDocument={handleEditDocument}
             onViewAll={() => navigate(`/petowner/pet/${petId}/documents`)}
           />
@@ -568,7 +568,7 @@ const HomePage: React.FC = () => {
             </button>
           </div>
           <TeamSection
-            teams={rawTeams}
+            teams={rawTeams.slice(0, 3)}
             onViewAll={() => navigate(`/petowner/pet/${petId}/team`)}
           />
         </div>

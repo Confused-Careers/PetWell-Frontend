@@ -280,10 +280,6 @@ body::-webkit-scrollbar {
   .container {
     max-width: 1280px;
   }
-
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 /* Extra large desktops (1536px+) */

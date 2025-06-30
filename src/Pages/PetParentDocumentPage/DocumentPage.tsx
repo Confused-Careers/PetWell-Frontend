@@ -1,21 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../Components/Layout/Navbar";
-import { Input } from "../../Components/ui/input";
-import { Button } from "../../Components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../../Components/ui/select";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "../../Components/ui/tabs";
 import DeleteDocumentModal from "../../Components/Document/DeleteDocumentModal";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import petServices from "../../Services/petServices";
@@ -138,6 +123,18 @@ const DocumentCard: React.FC<{
   );
 };
 
+const tabOptions = [
+  { value: "all", label: "All" },
+  { value: "user", label: "Uploaded by you" },
+  { value: "team", label: "Uploaded by your team" },
+];
+
+const sortOptions = [
+  { value: "recent", label: "Recently Uploaded" },
+  { value: "name", label: "Name" },
+  { value: "size", label: "Size" },
+];
+
 const DocumentPage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
@@ -155,6 +152,7 @@ const DocumentPage: React.FC = () => {
   const [pet, setPet] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("all");
 
   useEffect(() => {
     const fetchPetAndDocuments = async () => {
@@ -321,6 +319,19 @@ const DocumentPage: React.FC = () => {
     return filtered;
   }
 
+  function getFilteredDocs() {
+    if (activeTab === "user") {
+      return filterAndSort(
+        documents.filter((doc) => doc.staff == null && doc.business == null)
+      );
+    } else if (activeTab === "team") {
+      return filterAndSort(
+        documents.filter((doc) => doc.staff != null || doc.business != null)
+      );
+    }
+    return filterAndSort(documents);
+  }
+
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
@@ -331,116 +342,91 @@ const DocumentPage: React.FC = () => {
           </h1>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-end">
             <div className="relative w-full sm:w-72">
-              <Input
-                type="search"
-                placeholder="Search document"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setShowSuggestions(true);
-                }}
-                className="bg-[var(--color-card)] border-[var(--color-border)] rounded-lg w-full pl-10 text-sm sm:text-base"
-                autoComplete="off"
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
-                onFocus={() => search && setShowSuggestions(true)}
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-text)] opacity-60" />
-              {showSuggestions && searchResults.length > 0 && (
-                <div className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto">
-                  {searchResults.map((doc, idx) => (
-                    <div
-                      key={doc.id}
-                      className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)]"
-                      onMouseDown={() => {
-                        setSearch(doc.document_name);
-                        setShowSuggestions(false);
-                      }}
-                    >
-                      {doc.document_name}
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className="relative">
+                <input
+                  type="search"
+                  placeholder="Search document"
+                  value={search}
+                  onChange={(e) => {
+                    setSearch(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg w-full pl-10 text-sm sm:text-base py-2 pr-2 text-[var(--color-text)]"
+                  autoComplete="off"
+                  onBlur={() =>
+                    setTimeout(() => setShowSuggestions(false), 150)
+                  }
+                  onFocus={() => search && setShowSuggestions(true)}
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-text)] opacity-60" />
+                {showSuggestions && searchResults.length > 0 && (
+                  <div className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto">
+                    {searchResults.map((doc, idx) => (
+                      <div
+                        key={doc.id}
+                        className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)]"
+                        onMouseDown={() => {
+                          setSearch(doc.document_name);
+                          setShowSuggestions(false);
+                        }}
+                      >
+                        {doc.document_name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-            <Button
+            <button
               className="border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition px-6 py-2 font-semibold rounded-lg w-full sm:w-auto flex items-center gap-2"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId || petId}/upload`)
               }
             >
               <UploadCloud className="w-5 h-5" /> Upload New Document
-            </Button>
+            </button>
           </div>
         </div>
-        <Tabs defaultValue="all">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-            <div className="flex gap-2 w-full sm:w-auto">
-              <TabsList className="bg-transparent p-0 gap-2 w-full sm:w-auto">
-                <TabsTrigger
-                  value="all"
-                  className="data-[state=active]:bg-[var(--color-primary)] data-[state=active]:text-[var(--color-background)] border border-[var(--color-border)] px-4 py-2 rounded-md font-medium text-base"
-                >
-                  All
-                </TabsTrigger>
-                <TabsTrigger
-                  value="user"
-                  className="data-[state=active]:bg-[var(--color-primary)] data-[state=active]:text-[var(--color-background)] border border-[var(--color-border)] px-4 py-2 rounded-md font-medium text-base"
-                >
-                  Uploaded by you
-                </TabsTrigger>
-                <TabsTrigger
-                  value="team"
-                  className="data-[state=active]:bg-[var(--color-primary)] data-[state=active]:text-[var(--color-background)] border border-[var(--color-border)] px-4 py-2 rounded-md font-medium text-base"
-                >
-                  Uploaded by your team
-                </TabsTrigger>
-              </TabsList>
+        {/* Custom Tabs */}
+        <div className="flex gap-2 mb-8">
+          {tabOptions.map((tab) => (
+            <button
+              key={tab.value}
+              className={`px-4 py-2 rounded-md font-medium text-base border border-[var(--color-border)] transition-all ${
+                activeTab === tab.value
+                  ? "bg-[var(--color-primary)] text-[var(--color-background)]"
+                  : "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-card)]"
+              }`}
+              onClick={() => setActiveTab(tab.value)}
+            >
+              {tab.label}
+            </button>
+          ))}
+          <select 
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="w-[180px] justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg px-3 py-2 text-[var(--color-text)]"
+          >
+            {sortOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                Sort by: {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        {/* Custom Sort Dropdown */}
+        <div className="flex justify-end mb-4">
+          
+        </div>
+        {/* Document Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          {loading ? (
+            <div className="col-span-2 flex justify-center items-center h-40">
+              Loading documents...
             </div>
-            <div className="flex justify-end w-full sm:w-auto">
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-[180px] bg-[var(--color-card)] border-[var(--color-border)]">
-                  <span className="mr-2 text-gray-400">Sort by:</span>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="recent">Recently Uploaded</SelectItem>
-                  <SelectItem value="name">Name</SelectItem>
-                  <SelectItem value="size">Size</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <TabsContent value="all" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {loading ? (
-                <div className="col-span-2 flex justify-center items-center h-40">
-                  Loading documents...
-                </div>
-              ) : (
-                <>
-                  {filterAndSort(documents).map((doc, idx) => (
-                    <DocumentCard
-                      key={doc.id}
-                      document={doc}
-                      fileSize={docSizes[doc.id]}
-                      onEdit={() => {
-                        setRenameIdx(idx);
-                        setDocName(doc.document_name);
-                      }}
-                      onDelete={() => setDeleteIdx(idx)}
-                    />
-                  ))}
-                </>
-              )}
-            </div>
-          </TabsContent>
-          <TabsContent value="user" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filterAndSort(
-                documents.filter(
-                  (doc) => doc.staff == null && doc.business == null
-                )
-              ).map((doc, idx) => (
+          ) : (
+            <>
+              {getFilteredDocs().map((doc, idx) => (
                 <DocumentCard
                   key={doc.id}
                   document={doc}
@@ -452,29 +438,9 @@ const DocumentPage: React.FC = () => {
                   onDelete={() => setDeleteIdx(idx)}
                 />
               ))}
-            </div>
-          </TabsContent>
-          <TabsContent value="team" className="mt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filterAndSort(
-                documents.filter(
-                  (doc) => doc.staff != null || doc.business != null
-                )
-              ).map((doc, idx) => (
-                <DocumentCard
-                  key={doc.id}
-                  document={doc}
-                  fileSize={docSizes[doc.id]}
-                  onEdit={() => {
-                    setRenameIdx(idx);
-                    setDocName(doc.document_name);
-                  }}
-                  onDelete={() => setDeleteIdx(idx)}
-                />
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+            </>
+          )}
+        </div>
         {/* Delete Modal */}
         {deleteIdx !== null && (
           <DeleteDocumentModal
@@ -484,7 +450,6 @@ const DocumentPage: React.FC = () => {
             onDelete={async () => {
               if (deleteIdx === null) return;
               const documentId = documents[deleteIdx].id;
-              console.log("Deleting document with ID:", documentId);
               try {
                 await petServices.deleteDocument(documentId);
                 setDocuments((prevDocs) =>

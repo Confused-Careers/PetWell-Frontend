@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
 import { Syringe, UploadCloud } from "lucide-react";
-import { Checkbox } from "../ui/checkbox";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
 import vaccineServices from "../../Services/vaccineServices";
 
 interface AddVaccineProps {
@@ -109,19 +106,19 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
   };
 
   return (
-    <>
-      <div className="w-full flex flex-col items-center">
-        <div className="flex flex-col items-center w-full">
-          <Syringe className="w-12 h-12 text-[var(--color-primary)] mb-4" />
-          <h1 className="text-3xl font-serif font-bold mb-2 text-[var(--color-text)]">
-            Add Vaccine
-          </h1>
-          <p className="text-lg text-[var(--color-text)] opacity-80 mb-8 text-center">
-            Start by uploading a document or fill in the vaccine info manually.
-          </p>
-        </div>
+    <div className="w-full min-h-[70vh] flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center w-full mb-6">
+        <Syringe className="w-16 h-16 text-[var(--color-primary)] mb-4" />
+        <h1 className="text-3xl sm:text-4xl font-serif font-bold mb-2 text-[var(--color-text)]">
+          Add Vaccine
+        </h1>
+        <p className="text-base sm:text-lg text-[var(--color-text)] opacity-80 mb-6 text-center max-w-xl">
+          Start by uploading a document or fill in the vaccine info manually.
+        </p>
+      </div>
+      <div className="w-full max-w-md flex flex-col items-center">
         {/* Upload Card */}
-        <Card className="w-full max-w-md bg-[var(--color-card)] rounded-2xl shadow-xl p-8 flex flex-col items-center mb-4">
+        <div className="w-full bg-[var(--color-card)] rounded-xl shadow-lg p-6 flex flex-col items-center mb-4">
           <label
             htmlFor="vaccine-upload"
             className={`flex flex-col items-center cursor-pointer w-full ${
@@ -129,10 +126,10 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
             }`}
           >
             <UploadCloud className="w-8 h-8 mb-2 text-[var(--color-primary)]" />
-            <span className="text-lg text-[var(--color-text)] font-medium mb-1">
+            <span className="text-base text-[var(--color-text)] font-medium mb-1">
               Upload vaccine document
             </span>
-            <span className="text-sm text-[var(--color-text)] opacity-70 mb-2">
+            <span className="text-xs text-[var(--color-text)] opacity-70 mb-2">
               Supported formats: PDF, JPG, PNG, DOC.
             </span>
             <Input
@@ -149,7 +146,8 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
               </span>
             )}
           </label>
-        </Card>
+        </div>
+        {/* Divider with Or */}
         <div className="w-full flex items-center my-4">
           <div className="flex-1 h-px bg-[var(--color-card)]" />
           <span className="mx-4 text-[var(--color-text)] opacity-70">Or</span>
@@ -161,12 +159,12 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
             <label className="block text-[var(--color-text)] text-sm mb-1">
               Vaccine Name
             </label>
-            <input
+            <Input
               className="w-full rounded-lg px-4 py-2 bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] mb-2"
               type="text"
               value={vaccine}
               onChange={(e) => setVaccine(e.target.value)}
-              placeholder="Enter or select vaccine name"
+              placeholder="Enter vaccine name"
               disabled={!!file}
             />
           </div>
@@ -205,15 +203,16 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
               type="text"
               value={staffName}
               onChange={(e) => setStaffName(e.target.value)}
-              placeholder="Enter staff name"
+              placeholder="Enter doctor's name"
               disabled={!!file}
             />
           </div>
           <div className="flex items-start gap-2 mt-2">
-            <Checkbox
+            <input
               id="verify-checkbox"
+              type="checkbox"
               checked={verified}
-              onCheckedChange={(checked) => setVerified(checked === true)}
+              onChange={(e) => setVerified(e.target.checked)}
               className="mt-1 accent-[var(--color-primary)]"
             />
             <label
@@ -228,24 +227,23 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
             <div className="text-xs text-red-500 mb-2">{manualError}</div>
           )}
           <div className="flex justify-between gap-4 mt-6">
-            <Button
+            <button
               type="button"
-              variant="outline"
-              className="flex-1 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition bg-transparent"
+              className="flex-1 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-lg py-2 font-semibold hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition bg-transparent"
               onClick={onCancel}
             >
               Cancel
-            </Button>
-            <Button
+            </button>
+            <button
               type="submit"
-              className="flex-1 bg-[var(--color-primary)] text-white font-semibold text-lg hover:brightness-110 transition"
+              className="flex-1 bg-[var(--color-primary)] text-[var(--color-background)] font-semibold rounded-lg py-2 hover:brightness-110 transition"
             >
               Add Vaccine
-            </Button>
+            </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 

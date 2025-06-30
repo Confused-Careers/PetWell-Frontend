@@ -52,11 +52,27 @@ const UploadingDocAfterEnterPage: React.FC = () => {
         petId,
         uploads.map((u) => u.file)
       );
+      // Poll for documents after upload
+      setUploading(false);
+      setLoading(true);
+      let attempts = 0;
+      let docs: any[] = [];
+      while (attempts < 15) {
+        try {
+          const result = await petServices.getPetDocuments(petId);
+          docs = Array.isArray(result?.data) ? result.data : [];
+          if (docs.length > 0) break;
+        } catch (e) {
+          // ignore errors, just retry
+        }
+        await new Promise((res) => setTimeout(res, 2000));
+        attempts++;
+      }
+      setLoading(false);
       // Navigate to verification page for this pet
       navigate(`/petowner/pet/${petId}/verify`);
     } catch (err) {
       setError("Failed to upload documents. Please try again.");
-    } finally {
       setUploading(false);
     }
   };

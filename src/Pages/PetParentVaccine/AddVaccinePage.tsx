@@ -4,6 +4,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import AddVaccine from "../../Components/Vaccine/AddVaccine";
 import petServices from "../../Services/petServices";
 import vaccineServices from "../../Services/vaccineServices";
+import { Syringe } from "lucide-react";
 
 const AddVaccinePage: React.FC = () => {
   const navigate = useNavigate();
@@ -118,8 +119,9 @@ const AddVaccinePage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-8 pb-12 px-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-          <h1 className="text-4xl font-serif font-bold">
-            Add Vaccine for {pet.pet_name}
+          <h1 className="text-4xl font-serif font-bold flex items-center gap-2">
+            <Syringe className="w-8 h-8 text-[var(--color-primary)]" /> Add
+            Vaccine for {pet.pet_name}
           </h1>
         </div>
 

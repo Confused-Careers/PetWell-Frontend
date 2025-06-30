@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import RenameDocumentModal from "./RenameDocumentModal";
 import DeleteDocumentModal from "./DeleteDocumentModal";
-import { Pencil, X as LucideX } from "lucide-react";
+import {
+  Pencil,
+  X as LucideX,
+  FileText,
+  Image as LucideImage,
+} from "lucide-react";
 import { Button } from "../ui/button";
 
 interface DocumentBoxProps {
@@ -43,12 +48,12 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
           }`}
         >
           {type === "pdf" ? (
-            <span className="text-[var(--color-white)] text-xs">PDF</span>
+            <FileText className="w-4 h-4 text-[var(--color-text)]" />
           ) : (
-            <span className="text-[var(--color-white)] text-xs">IMG</span>
+            <LucideImage className="w-4 h-4 text-[var(--color-text)]" />
           )}
         </div>
-        <span className="flex-1 truncate text-sm sm:text-base font-medium text-[var(--color-white)]">
+        <span className="flex-1 truncate text-sm sm:text-base font-medium text-[var(--color-text)]">
           {docName}
         </span>
         <Button

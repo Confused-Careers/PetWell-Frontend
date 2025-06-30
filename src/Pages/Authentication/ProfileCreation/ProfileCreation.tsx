@@ -79,7 +79,7 @@ const ProfileCreation: React.FC = () => {
   // Render the appropriate step component
   switch (step) {
     case 1:
-    return (
+      return (
         <Step1BasicPetInfo
           form={form}
           setForm={setForm}
@@ -89,7 +89,7 @@ const ProfileCreation: React.FC = () => {
         />
       );
     case 2:
-    return (
+      return (
         <Step2HealthBasics
           form={form}
           setForm={setForm}
@@ -99,7 +99,7 @@ const ProfileCreation: React.FC = () => {
         />
       );
     case 3:
-    return (
+      return (
         <Step3SafetyAndID
           form={form}
           setForm={setForm}
@@ -109,7 +109,7 @@ const ProfileCreation: React.FC = () => {
         />
       );
     case 4:
-    return (
+      return (
         <Step4HumanInfo
           form={form}
           setForm={setForm}
@@ -121,7 +121,7 @@ const ProfileCreation: React.FC = () => {
         />
       );
     case 5:
-    return (
+      return (
         <Step5OTPVerification
           form={form}
           otp={otp}
@@ -140,11 +140,11 @@ const ProfileCreation: React.FC = () => {
         />
       );
     default:
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1C232E] text-red-400 text-lg">
-      Something went wrong. Please refresh the page or start again.
-    </div>
-  );
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-[#1C232E] text-red-400 text-lg">
+          Something went wrong. Please refresh the page or start again.
+        </div>
+      );
   }
 };
 

@@ -153,4 +153,4 @@ const Step2HealthBasics: React.FC<Step2HealthBasicsProps> = ({
   );
 };
 
-export default Step2HealthBasics; 
+export default Step2HealthBasics;

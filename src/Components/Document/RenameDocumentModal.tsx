@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { X } from "lucide-react";
 
 interface RenameDocumentModalProps {
   open: boolean;
@@ -25,11 +26,11 @@ const RenameDocumentModal: React.FC<RenameDocumentModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-modal)]/30 backdrop-blur-sm p-4">
       <div className="bg-[var(--color-modal)] rounded-2xl px-6 sm:px-8 md:px-10 py-6 sm:py-8 min-w-[280px] sm:min-w-[340px] max-w-[90vw] shadow-2xl relative flex flex-col items-start border border-[var(--color-modal-border)]">
         <button
-          className="absolute right-4 sm:right-6 md:right-8 top-4 sm:top-6 md:top-8 text-2xl sm:text-3xl md:text-4xl text-[var(--color-modal-foreground)] hover:text-[var(--color-danger)] font-bold"
+          className="absolute right-4 sm:right-6 md:right-8 top-4 sm:top-6 md:top-8 text-2xl sm:text-3xl md:text-4xl text-[var(--color-modal-foreground)] hover:text-[var(--color-danger)] font-bold flex items-center justify-center"
           onClick={onClose}
           aria-label="Close"
         >
-          ×
+          <X className="w-6 h-6" />
         </button>
         <h2 className="text-xl sm:text-2xl font-serif font-bold mb-6 sm:mb-8 text-[var(--color-modal-foreground)] text-center w-full">
           Rename document

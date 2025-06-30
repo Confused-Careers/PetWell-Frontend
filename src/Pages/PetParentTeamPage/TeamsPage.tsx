@@ -4,7 +4,6 @@ import Navbar from "../../Components/Layout/Navbar";
 import TeamBox from "../../Components/Teams/TeamInfo";
 import teamServices from "../../Services/teamServices";
 import petServices from "../../Services/petServices";
-
 import {
   Dialog,
   DialogContent,
@@ -13,6 +12,7 @@ import {
   DialogDescription,
   DialogClose,
 } from "../../Components/ui/dialog";
+import { Users, XCircle, PlusCircle } from "lucide-react";
 
 const TeamsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -267,7 +267,8 @@ const TeamsPage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold flex items-center gap-2">
+            <Users className="w-7 h-7 text-[var(--color-primary)]" />{" "}
             {pet.pet_name}'s Team
           </h1>
           <div className="flex gap-3 sm:gap-4">
@@ -277,7 +278,7 @@ const TeamsPage: React.FC = () => {
               }
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
             >
-              <span className="text-lg">+</span> Add New Team
+              <PlusCircle className="w-5 h-5" /> Add New Team
             </button>
           </div>
         </div>
@@ -300,7 +301,9 @@ const TeamsPage: React.FC = () => {
 
         {teams.length === 0 && !error && (
           <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">No teams found</div>
+            <div className="text-gray-400 text-base sm:text-lg mb-4">
+              No teams found
+            </div>
           </div>
         )}
 
@@ -315,15 +318,15 @@ const TeamsPage: React.FC = () => {
             </DialogHeader>
             <div className="flex justify-end gap-3">
               <DialogClose asChild>
-                <button className="px-4 py-2 text-gray-500 hover:text-gray-700">
-                  Cancel
+                <button className="px-4 py-2 text-[var(--color-text)] hover:text-[var(--color-primary)] flex items-center gap-1">
+                  <XCircle className="w-5 h-5" /> Cancel
                 </button>
               </DialogClose>
               <button
                 onClick={handleConfirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                className="px-4 py-2 bg-[var(--color-warning)] text-[var(--color-background)] rounded hover:bg-[var(--color-warning)]/80 flex items-center gap-1"
               >
-                Delete
+                <Users className="w-5 h-5" /> Delete
               </button>
             </div>
           </DialogContent>

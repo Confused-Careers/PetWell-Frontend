@@ -1,5 +1,6 @@
 import React from "react";
 import TeamBox from "./TeamInfo";
+import { ArrowRight } from "lucide-react";
 
 interface Team {
   id: string;
@@ -44,13 +45,13 @@ const TeamSection: React.FC<TeamSectionProps> = ({
       <div className="mt-2">
         <a
           href="#"
-          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base"
+          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base flex items-center gap-1"
           onClick={(e) => {
             e.preventDefault();
             onViewAll && onViewAll();
           }}
         >
-          View All Teams &gt;
+          View All Teams <ArrowRight className="w-4 h-4" />
         </a>
       </div>
     </section>

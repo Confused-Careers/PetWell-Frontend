@@ -1,4 +1,5 @@
 import React from "react";
+import { FilePlus, X } from "lucide-react";
 
 interface Upload {
   name: string;
@@ -32,13 +33,19 @@ const UploadList: React.FC<UploadListProps> = ({
               <div className="flex items-center mb-1">
                 <div
                   className={`w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center rounded-full mr-2 sm:mr-3 ${
-                    file.type === "pdf" ? "bg-red-600" : "bg-green-600"
+                    file.type === "pdf"
+                      ? "bg-[var(--color-danger)]"
+                      : "bg-[var(--color-success)]"
                   }`}
                 >
                   {file.type === "pdf" ? (
-                    <span className="text-white font-bold text-xs">PDF</span>
+                    <span className="text-[var(--color-white)] font-bold text-xs">
+                      PDF
+                    </span>
                   ) : (
-                    <span className="text-white font-bold text-xs">IMG</span>
+                    <span className="text-[var(--color-white)] font-bold text-xs">
+                      IMG
+                    </span>
                   )}
                 </div>
                 <span className="flex-1 truncate text-sm sm:text-base font-medium text-[var(--color-text)]">
@@ -49,16 +56,17 @@ const UploadList: React.FC<UploadListProps> = ({
                 </span>
                 <button
                   onClick={() => onRemove(idx)}
-                  className="ml-2 text-[var(--color-text)] hover:text-red-500 text-lg sm:text-xl transition-colors"
+                  className="ml-2 text-[var(--color-text)] hover:text-[var(--color-danger)] text-lg sm:text-xl transition-colors"
+                  aria-label="Remove file"
                 >
-                  ×
+                  <X className="w-5 h-5" />
                 </button>
               </div>
               <div className="flex items-center mb-1">
                 <span className="text-xs sm:text-sm text-[var(--color-text)] opacity-80 mr-2">
                   Uploading ({file.progress}%)
                 </span>
-                <div className="flex-1 h-1 bg-[#181f32] rounded-full overflow-hidden">
+                <div className="flex-1 h-1 bg-[var(--color-background)] rounded-full overflow-hidden">
                   <div
                     className="h-1 bg-[var(--color-primary)]"
                     style={{ width: `${file.progress}%` }}
@@ -70,8 +78,8 @@ const UploadList: React.FC<UploadListProps> = ({
         </div>
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-8 mt-4 sm:mt-6 md:mt-8 w-full max-w-sm sm:max-w-md md:max-w-2xl">
-          <label className="flex-1 py-2.5 sm:py-3 rounded-lg bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold text-sm sm:text-base md:text-lg hover:bg-[var(--color-primary)] hover:text-white transition flex items-center justify-center cursor-pointer">
-            Upload More Documents
+          <label className="flex-1 py-2.5 sm:py-3 rounded-lg bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold text-sm sm:text-base md:text-lg hover:bg-[var(--color-primary)] hover:text-white transition flex items-center justify-center cursor-pointer gap-2">
+            <FilePlus className="w-5 h-5" /> Upload More Documents
             <input
               ref={fileInputRef}
               type="file"

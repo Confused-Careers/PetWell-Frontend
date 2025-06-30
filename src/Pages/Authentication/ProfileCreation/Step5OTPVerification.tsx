@@ -184,4 +184,4 @@ const Step5OTPVerification: React.FC<Step5OTPVerificationProps> = ({
   );
 };
 
-export default Step5OTPVerification; 
+export default Step5OTPVerification;

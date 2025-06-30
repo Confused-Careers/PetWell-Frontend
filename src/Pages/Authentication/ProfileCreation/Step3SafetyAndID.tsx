@@ -102,4 +102,4 @@ const Step3SafetyAndID: React.FC<Step3SafetyAndIDProps> = ({
   );
 };
 
-export default Step3SafetyAndID; 
+export default Step3SafetyAndID;

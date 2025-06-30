@@ -13,6 +13,7 @@ import {
   DialogTitle,
 } from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
+import { ArrowLeft, Pencil, RefreshCcw } from "lucide-react";
 
 const PetProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -130,7 +131,7 @@ const PetProfile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#181e29] text-[#EBD5BD] px-0 sm:px-8 pb-10">
+    <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] px-0 sm:px-8 pb-10">
       <Navbar onSwitchProfile={handleSwitchProfile} />
       <SwitchProfileModal
         isOpen={showSwitchModal}
@@ -145,32 +146,32 @@ const PetProfile: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <button
-              className="text-[#FFB23E] text-base font-medium flex items-center gap-2 hover:underline mb-2 sm:mb-0"
+              className="text-[var(--color-primary)] text-base font-medium flex items-center gap-2 hover:underline mb-2 sm:mb-0"
               onClick={() => navigate(`/petowner/pet/${petId}/home`)}
             >
-              <span className="text-xl">&lt;</span> Go Back
+              <ArrowLeft className="w-5 h-5" /> Go Back
             </button>
             <h1 className="text-3xl font-serif font-bold">Pet Profile</h1>
           </div>
           <div className="flex flex-row gap-4">
             <button
-              className="border border-[#FFB23E] text-[#FFB23E] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[#FFB23E] hover:text-black transition text-base"
+              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-base"
               onClick={handleEditProfile}
             >
-              ✏️ Edit Profile
+              <Pencil className="w-5 h-5" /> Edit Profile
             </button>
             <button
-              className="border border-[#FFB23E] text-[#FFB23E] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[#FFB23E] hover:text-black transition text-base"
+              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-base"
               onClick={handleSwitchProfile}
             >
-              Switch to Another Pet
+              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
             </button>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left: Pet Card */}
-          <div className="bg-[#23272f] rounded-2xl p-6 flex flex-col items-center w-full max-w-xs min-w-[260px]">
-            <div className="w-48 h-48 rounded-xl overflow-hidden mb-4 bg-[#23272f] flex items-center justify-center">
+          <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col items-center w-full max-w-xs min-w-[260px]">
+            <div className="w-48 h-48 rounded-xl overflow-hidden mb-4 bg-[var(--color-card)] flex items-center justify-center">
               <img
                 src={
                   currentPet?.profile_picture ||
@@ -186,13 +187,17 @@ const PetProfile: React.FC = () => {
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Age</span>
+                  <span className="text-[var(--color-text)] opacity-70">
+                    Age
+                  </span>
                   <div className="font-bold">
                     {currentPet?.age || "Unknown"} years old
                   </div>
                 </div>
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Gender</span>
+                  <span className="text-[var(--color-text)] opacity-70">
+                    Gender
+                  </span>
                   <div className="font-bold">
                     {currentPet?.gender || "Unknown"}
                   </div>
@@ -200,13 +205,17 @@ const PetProfile: React.FC = () => {
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Breed</span>
+                  <span className="text-[var(--color-text)] opacity-70">
+                    Breed
+                  </span>
                   <div className="font-bold">
                     {currentPet?.breed?.breed_name || "Mixed Breed"}
                   </div>
                 </div>
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Colour</span>
+                  <span className="text-[var(--color-text)] opacity-70">
+                    Colour
+                  </span>
                   <div className="font-bold">
                     {currentPet?.color || "Unknown"}
                   </div>
@@ -214,7 +223,7 @@ const PetProfile: React.FC = () => {
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">
+                  <span className="text-[var(--color-text)] opacity-70">
                     Microchip Number
                   </span>
                   <div className="font-bold">
@@ -222,7 +231,9 @@ const PetProfile: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Birthdate</span>
+                  <span className="text-[var(--color-text)] opacity-70">
+                    Birthdate
+                  </span>
                   <div className="font-bold">
                     {currentPet?.dob || "Unknown"}
                   </div>
@@ -231,16 +242,16 @@ const PetProfile: React.FC = () => {
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <button className="mt-4 px-4 py-2 bg-[#FFB23E] text-black rounded-lg font-semibold hover:bg-[#e6a832] transition">
+                <button className="mt-4 px-4 py-2 bg-[var(--color-primary)] text-[var(--color-black)] rounded-lg font-semibold hover:bg-[var(--color-primary)]/90 transition">
                   Show QR Code
                 </button>
               </DialogTrigger>
-              <DialogContent className="flex flex-col items-center bg-[#23272f] rounded-2xl border border-[#FFB23E] p-8 shadow-2xl max-w-xs w-full">
-                <DialogTitle className="text-xl font-bold text-[#FFB23E] mb-2">
+              <DialogContent className="flex flex-col items-center bg-[var(--color-card)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
+                <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
                   Pet QR Code
                 </DialogTitle>
                 <div className="my-4 flex flex-col items-center">
-                  <div className="bg-white p-4 rounded-xl shadow-md border border-[#EBD5BD]">
+                  <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
                     <QRCode
                       value={`${currentPet?.id || ""}|${generatePetCode(
                         currentPet?.id || ""
@@ -249,7 +260,7 @@ const PetProfile: React.FC = () => {
                     />
                   </div>
                   <button
-                    className="mt-4 px-4 py-2 bg-[#FFB23E] text-black rounded-lg font-semibold hover:bg-[#e6a832] transition"
+                    className="mt-4 px-4 py-2 bg-[var(--color-primary)] text-[var(--color-black)] rounded-lg font-semibold hover:bg-[var(--color-primary)]/90 transition"
                     onClick={() => {
                       const svg = document.querySelector(
                         "[data-slot='dialog-content'] svg"
@@ -279,10 +290,8 @@ const PetProfile: React.FC = () => {
           </div>
           {/* Right: Main Info */}
           <div className="flex-1 flex flex-col gap-6">
-            {/* Buttons Row - move above the main card */}
-
             {/* Health Summary */}
-            <div className="bg-[#23272f] rounded-2xl p-6 flex flex-col gap-2">
+            <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col gap-2">
               <div className="text-xl font-bold mb-2">Health Summary</div>
               <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
                 <div>
@@ -320,7 +329,7 @@ const PetProfile: React.FC = () => {
             {/* Syd's Code & Your Details */}
             <div className="flex flex-col md:flex-row gap-6">
               {/* Syd's Code */}
-              <div className="bg-[#23272f] rounded-2xl p-6 flex-1 flex flex-col items-center min-w-[260px]">
+              <div className="bg-[var(--color-card)] rounded-2xl p-6 flex-1 flex flex-col items-center min-w-[260px]">
                 <div className="text-xl font-bold mb-3 w-full">
                   {currentPet?.pet_name || "Pet"}'s Code
                 </div>
@@ -330,7 +339,7 @@ const PetProfile: React.FC = () => {
                     .map((char, index) => (
                       <span
                         key={index}
-                        className="inline-flex w-10 h-10 bg-[#fff] bg-opacity-80 text-[#23272f] text-xl font-extrabold rounded-lg items-center justify-center border-2 border-[#EBD5BD] shadow-sm tracking-widest select-all text-center"
+                        className="inline-flex w-10 h-10 bg-[#fff] bg-opacity-80 text-[#23272f] text-xl font-extrabold rounded-lg items-center justify-center border-2 border-[var(--color-primary)] shadow-sm tracking-widest select-all text-center"
                         style={{
                           boxShadow: "0 2px 8px 0 rgba(44, 44, 44, 0.10)",
                         }}
@@ -339,12 +348,12 @@ const PetProfile: React.FC = () => {
                       </span>
                     ))}
                 </div>
-                <div className="text-xs text-[#EBD5BD] text-opacity-70 text-center">
+                <div className="text-xs text-[var(--color-text)] text-opacity-70 text-center">
                   Share with care providers to give access to the profile.
                 </div>
               </div>
               {/* Your Details */}
-              <div className="bg-[#23272f] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]">
+              <div className="bg-[var(--color-card)] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]">
                 <div className="text-xl font-bold mb-3 w-full">
                   Your Details
                 </div>

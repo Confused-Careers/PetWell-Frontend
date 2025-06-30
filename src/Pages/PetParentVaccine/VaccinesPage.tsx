@@ -5,6 +5,7 @@ import VaccineInfo from "../../Components/Vaccine/VaccineInfo";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
 import vaccineServices from "../../Services/vaccineServices";
 import petServices from "../../Services/petServices";
+import { Download, PlusCircle } from "lucide-react";
 
 const VaccinesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,9 +24,11 @@ const VaccinesPage: React.FC = () => {
       const key = [
         vaccine.id,
         vaccine.vaccine_name || vaccine.name,
-        vaccine.date_administered || vaccine.administered_date || vaccine.administered,
+        vaccine.date_administered ||
+          vaccine.administered_date ||
+          vaccine.administered,
         vaccine.date_due || vaccine.expiry_date || vaccine.expires,
-        vaccine.staff_id || vaccine.administered_by || ""
+        vaccine.staff_id || vaccine.administered_by || "",
       ].join("|");
       if (seen.has(key)) {
         return false;
@@ -297,7 +300,7 @@ const VaccinesPage: React.FC = () => {
               }
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
             >
-              <span className="text-lg">+</span> Download Vaccine records
+              <Download className="w-5 h-5" /> Download Vaccine records
             </button>
             <button
               onClick={() =>
@@ -305,7 +308,7 @@ const VaccinesPage: React.FC = () => {
               }
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
             >
-              <span className="text-lg">+</span> Add New Vaccine
+              <PlusCircle className="w-5 h-5" /> Add New Vaccine
             </button>
           </div>
         </div>
@@ -344,7 +347,9 @@ const VaccinesPage: React.FC = () => {
 
         {vaccines.length === 0 && !error && (
           <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">No vaccines found</div>
+            <div className="text-gray-400 text-base sm:text-lg mb-4">
+              No vaccines found
+            </div>
             <button
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)

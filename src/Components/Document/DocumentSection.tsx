@@ -1,5 +1,6 @@
 import React from "react";
 import DocumentBox from "./DocumentInfo";
+import { ArrowRight } from "lucide-react";
 
 interface Document {
   name: string;
@@ -39,13 +40,13 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
       <div className="mt-2">
         <a
           href="#"
-          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base"
+          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base flex items-center gap-1"
           onClick={(e) => {
             e.preventDefault();
             onViewAll && onViewAll();
           }}
         >
-          View All Documents &gt;
+          View All Documents <ArrowRight className="w-4 h-4" />
         </a>
       </div>
     </section>

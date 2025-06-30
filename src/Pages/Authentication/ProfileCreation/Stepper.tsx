@@ -7,13 +7,16 @@ interface StepperProps {
 
 const defaultSteps = [
   "Basic Pet Info",
-  "Health Basics", 
+  "Health Basics",
   "Safety & ID",
   "Human Info",
   "OTP Verification",
 ];
 
-const Stepper: React.FC<StepperProps> = ({ currentStep, steps = defaultSteps }) => {
+const Stepper: React.FC<StepperProps> = ({
+  currentStep,
+  steps = defaultSteps,
+}) => {
   return (
     <div className="flex items-center justify-center gap-4 sm:gap-6 md:gap-8 mt-2 mb-6 sm:mb-8 w-full max-w-2xl sm:max-w-3xl px-4">
       {steps.map((label, idx) => {
@@ -48,4 +51,4 @@ const Stepper: React.FC<StepperProps> = ({ currentStep, steps = defaultSteps }) 
   );
 };
 
-export default Stepper; 
+export default Stepper;

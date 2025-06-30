@@ -1,5 +1,5 @@
 import React from "react";
-import { Pencil, Syringe } from "lucide-react";
+import { Pencil, Syringe, AlertCircle } from "lucide-react";
 
 interface VaccineInfoProps {
   name: string;
@@ -33,9 +33,7 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
     style={{ minHeight: 160, height: "100%" }}
   >
     <div className="flex items-center mb-2">
-      <span role="img" aria-label="edit">
-        <Syringe size={18} className="sm:w-5 sm:h-5" />
-      </span>{" "}
+      <Syringe size={18} className="sm:w-5 sm:h-5 text-[var(--color-primary)] mr-2" />
       {showSelect && (
         <input
           type="checkbox"
@@ -51,9 +49,7 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
           onClick={onEdit}
           aria-label="Edit Vaccine"
         >
-          <span role="img" aria-label="edit">
-            <Pencil size={16} className="sm:w-5 sm:h-5" />
-          </span>
+          <Pencil size={16} className="sm:w-5 sm:h-5" />
         </button>
       )}
     </div>
@@ -72,19 +68,14 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
         <div className="flex items-center">
           {expires}
           {soon && (
-            <span
-              className="ml-1 text-[var(--color-warning)]"
-              title="Expiring soon"
-            >
-              ❗
-            </span>
+            <AlertCircle className="ml-1 w-4 h-4 text-[var(--color-warning)]" title="Expiring soon" />
           )}
         </div>
       </div>
     </div>
     {soon && warning && (
       <div className="mt-3 sm:mt-4 text-xs sm:text-sm text-[var(--color-warning)] flex items-center min-h-[20px] sm:min-h-[24px]">
-        <span className="mr-1 sm:mr-2">❗</span>
+        <AlertCircle className="mr-1 sm:mr-2 w-4 h-4" />
         <span>{warning}</span>
       </div>
     )}

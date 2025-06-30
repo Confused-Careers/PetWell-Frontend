@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
-import { Syringe } from "lucide-react";
+import { Syringe, UploadCloud } from "lucide-react";
 import { Checkbox } from "../ui/checkbox";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
@@ -112,9 +112,11 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
     <>
       <div className="w-full flex flex-col items-center">
         <div className="flex flex-col items-center w-full">
-          <Syringe className="w-12 h-12 text-[var(--color-text)] mb-4" />
-          <h1 className="text-3xl font-serif font-bold mb-2">Add Vaccine</h1>
-          <p className="text-lg opacity-80 mb-8 text-center">
+          <Syringe className="w-12 h-12 text-[var(--color-primary)] mb-4" />
+          <h1 className="text-3xl font-serif font-bold mb-2 text-[var(--color-text)]">
+            Add Vaccine
+          </h1>
+          <p className="text-lg text-[var(--color-text)] opacity-80 mb-8 text-center">
             Start by uploading a document or fill in the vaccine info manually.
           </p>
         </div>
@@ -126,19 +128,7 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
               isManualFilled ? "opacity-50 pointer-events-none" : ""
             }`}
           >
-            <svg
-              className="w-8 h-8 mb-2 text-[var(--color-text)]"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5-5m0 0l5 5m-5-5v12"
-              />
-            </svg>
+            <UploadCloud className="w-8 h-8 mb-2 text-[var(--color-primary)]" />
             <span className="text-lg text-[var(--color-text)] font-medium mb-1">
               Upload vaccine document
             </span>

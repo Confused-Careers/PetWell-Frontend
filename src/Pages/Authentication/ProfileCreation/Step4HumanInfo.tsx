@@ -66,9 +66,7 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
         (field) => !form[field as keyof typeof form]
       );
       if (missingFields.length > 0) {
-        throw new Error(
-          `Missing required fields: ${missingFields.join(", ")}`
-        );
+        throw new Error(`Missing required fields: ${missingFields.join(", ")}`);
       }
       const formData = new FormData();
       // Human owner data
@@ -126,28 +124,32 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
       onNext();
     } catch (err: any) {
       console.error("Registration error:", err);
-      
+
       // More detailed error handling
       let errorMessage = "Registration failed. Please try again.";
-      
+
       if (err.message) {
         errorMessage = err.message;
-        
+
         // Provide helpful suggestions for common errors
         if (errorMessage.includes("Username already exists")) {
-          errorMessage = "Username already exists. Please choose a different username or try adding numbers (e.g., " + form.owner_username + "123).";
+          errorMessage =
+            "Username already exists. Please choose a different username or try adding numbers (e.g., " +
+            form.owner_username +
+            "123).";
         } else if (errorMessage.includes("Email already exists")) {
-          errorMessage = "Email already exists. Please use a different email address or try logging in instead.";
+          errorMessage =
+            "Email already exists. Please use a different email address or try logging in instead.";
         }
       }
-      
+
       // Log additional error details for debugging
       if (err.response) {
         console.error("Response status:", err.response.status);
         console.error("Response data:", err.response.data);
         console.error("Response headers:", err.response.headers);
       }
-      
+
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -286,4 +288,4 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
   );
 };
 
-export default Step4HumanInfo; 
+export default Step4HumanInfo;

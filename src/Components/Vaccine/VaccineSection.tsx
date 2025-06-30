@@ -1,5 +1,6 @@
 import React from "react";
 import VaccineInfo from "./VaccineInfo";
+import { ArrowRight } from "lucide-react";
 
 interface Vaccine {
   name: string;
@@ -40,13 +41,13 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
       <div className="mt-2">
         <a
           href="#"
-          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base"
+          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base flex items-center gap-1"
           onClick={(e) => {
             e.preventDefault();
             onViewAll && onViewAll();
           }}
         >
-          View All Vaccines &gt;
+          View All Vaccines <ArrowRight className="w-4 h-4" />
         </a>
       </div>
     </section>

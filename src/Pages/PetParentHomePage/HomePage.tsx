@@ -9,6 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
+import { PlusCircle, FilePlus, Users } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -525,33 +526,33 @@ const HomePage: React.FC = () => {
         <div className="mb-8 sm:mb-10 md:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <h2 className="text-xl sm:text-2xl font-bold">Vaccines</h2>
-                <button
+            <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
-                >
-                  <span className="text-lg">+</span> Add New Vaccine
-                </button>
-              </div>
+            >
+              <PlusCircle className="w-5 h-5" /> Add New Vaccine
+            </button>
+          </div>
           <VaccineSection
             vaccines={vaccines}
             onEditVaccine={handleEditVaccine}
             onViewAll={() => navigate(`/petowner/pet/${petId}/vaccine`)}
           />
-            </div>
+        </div>
 
         <div className="mb-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
             <h2 className="text-2xl font-bold">Recently Uploaded Documents</h2>
-              <button
+            <button
               onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
-              >
-                <span className="text-lg">+</span> Upload New Document
-              </button>
-            </div>
-            <DocumentSection
+            >
+              <FilePlus className="w-5 h-5" /> Upload New Document
+            </button>
+          </div>
+          <DocumentSection
             documents={rawDocuments}
-              onEditDocument={handleEditDocument}
+            onEditDocument={handleEditDocument}
             onViewAll={() => navigate(`/petowner/pet/${petId}/documents`)}
           />
         </div>
@@ -563,7 +564,7 @@ const HomePage: React.FC = () => {
               onClick={() => navigate(`/petowner/pet/${petId}/add-team`)}
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
             >
-              <span className="text-lg">+</span> Add New Team
+              <Users className="w-5 h-5" /> Add New Team
             </button>
           </div>
           <TeamSection
@@ -574,14 +575,14 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Modals */}
-            {editDocIdx !== null && (
-              <RenameDocumentModal
-                open={true}
-                initialName={editDocName}
-                onClose={() => setEditDocIdx(null)}
-                onSave={handleSaveDocumentName}
-              />
-            )}
+      {editDocIdx !== null && (
+        <RenameDocumentModal
+          open={true}
+          initialName={editDocName}
+          onClose={() => setEditDocIdx(null)}
+          onSave={handleSaveDocumentName}
+        />
+      )}
       {editVaccineIdx !== null && (
         <EditVaccineModal
           open={true}

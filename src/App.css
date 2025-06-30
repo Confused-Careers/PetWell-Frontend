@@ -29,28 +29,14 @@ body::-webkit-scrollbar {
 
 @layer base {
   :root {
-    --color-primary: #ffb23e;
-    --color-primary-foreground: #232b3e;
-    --color-background: #101624;
+    /* Main Colors */
+    --color-background: #1c232e;
     --color-card: #ebd5bd1a;
-    --color-modal: #232b3e;
-    --color-modal-foreground: #ebd5bd;
-    --color-modal-border: #232b41;
     --color-text: #ebd5bd;
-    --color-warning: #ffa500;
-    --color-shadow: #232b41;
-    --color-accent: #ebd5bd1a;
-    --color-danger: #ff4d4f;
-    --color-success: #22c55e;
-    --color-link: #ffa500;
-    --color-border: #232b41;
-    --color-input: #232b3e;
-    --color-secondary: #232b3e;
-    --color-secondary-foreground: #ebd5bd;
-    --color-destructive: #ff4d4f;
-    --color-ring: #ffa500;
-    --color-accent-foreground: #ffa500;
-    --color-accent-hover: #ffb733;
+    --color-warning: #ff6174;
+    --color-primary: #ffb23e;
+
+    /* Essential System Colors */
     --color-white: #fff;
     --color-black: #000;
   }
@@ -154,7 +140,6 @@ body::-webkit-scrollbar {
 
 /* Responsive Design System */
 
-
 /* Base responsive container */
 .container {
   width: 100%;
@@ -171,37 +156,37 @@ body::-webkit-scrollbar {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
-  
+
   body {
     font-size: 14px;
   }
-  
+
   h1 {
     font-size: 1.5rem;
     line-height: 1.2;
   }
-  
+
   h2 {
     font-size: 1.25rem;
     line-height: 1.3;
   }
-  
+
   h3 {
     font-size: 1.125rem;
     line-height: 1.4;
   }
-  
+
   .btn {
     min-height: 44px;
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
   }
-  
+
   .card {
     padding: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .grid {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -215,34 +200,34 @@ body::-webkit-scrollbar {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
-  
+
   body {
     font-size: 16px;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   h3 {
     font-size: 1.25rem;
   }
-  
+
   .btn {
     min-height: 48px;
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
   }
-  
+
   .card {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
@@ -256,34 +241,34 @@ body::-webkit-scrollbar {
     padding-left: 2rem;
     padding-right: 2rem;
   }
-  
+
   body {
     font-size: 18px;
   }
-  
+
   h1 {
     font-size: 2.5rem;
   }
-  
+
   h2 {
     font-size: 2rem;
   }
-  
+
   h3 {
     font-size: 1.5rem;
   }
-  
+
   .btn {
     min-height: 52px;
     padding: 1rem 2rem;
     font-size: 1.125rem;
   }
-  
+
   .card {
     padding: 2rem;
     margin-bottom: 2rem;
   }
-  
+
   .grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
@@ -295,7 +280,7 @@ body::-webkit-scrollbar {
   .container {
     max-width: 1280px;
   }
-  
+
   .grid {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -309,7 +294,11 @@ body::-webkit-scrollbar {
 }
 
 /* Touch-friendly interactive elements */
-button, a, input, select, textarea {
+button,
+a,
+input,
+select,
+textarea {
   min-height: 44px;
   min-width: 44px;
 }
@@ -457,23 +446,23 @@ button, a, input, select, textarea {
   .p-responsive {
     padding: 0.75rem;
   }
-  
+
   .p-responsive-md {
     padding: 1rem;
   }
-  
+
   .p-responsive-lg {
     padding: 1.5rem;
   }
-  
+
   .m-responsive {
     margin: 0.75rem;
   }
-  
+
   .m-responsive-md {
     margin: 1rem;
   }
-  
+
   .m-responsive-lg {
     margin: 1.5rem;
   }
@@ -486,8 +475,8 @@ body::-webkit-scrollbar {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 input[type="password"]::-ms-reveal,

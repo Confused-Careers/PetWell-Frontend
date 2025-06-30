@@ -87,7 +87,7 @@ const SwitchProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#181e29] text-[#EBD5BD]">
+    <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)]">
       <Navbar />
       <SwitchProfileModal
         isOpen={showModal}

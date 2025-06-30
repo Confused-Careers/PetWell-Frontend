@@ -4,7 +4,11 @@ import Navbar from "../../Components/Layout/Navbar";
 import VaccineInfo from "../../Components/Vaccine/VaccineInfo";
 import vaccineServices from "../../Services/vaccineServices";
 import petServices from "../../Services/petServices";
-import { generateVaccinePDF, generateDetailedVaccinePDF } from "../../Services/pdfServices";
+import {
+  generateVaccinePDF,
+  generateDetailedVaccinePDF,
+} from "../../Services/pdfServices";
+import { FileDown, FileText } from "lucide-react";
 
 const DownloadSelectPage: React.FC = () => {
   const navigate = useNavigate();
@@ -89,7 +93,9 @@ const DownloadSelectPage: React.FC = () => {
         }
 
         // Fetch vaccines for the pet
-        const vaccinesRes = await vaccineServices.getAllPetVaccines(currentPetId);
+        const vaccinesRes = await vaccineServices.getAllPetVaccines(
+          currentPetId
+        );
         console.log("vaccinesRes (pet-specific):", vaccinesRes);
         let vaccinesArr: any[] = [];
 
@@ -125,10 +131,16 @@ const DownloadSelectPage: React.FC = () => {
         // Remove duplicates before setting state
         const uniqueVaccines = removeDuplicateVaccines(matchingVaccines);
         setVaccines(uniqueVaccines);
-        setError(uniqueVaccines.length === 0 ? "No vaccines found for this pet." : null);
+        setError(
+          uniqueVaccines.length === 0 ? "No vaccines found for this pet." : null
+        );
       } catch (err) {
         console.error("Failed to fetch vaccines:", err);
-        setError(err instanceof Error ? err.message : "Failed to fetch vaccines. Please check the server connection.");
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to fetch vaccines. Please check the server connection."
+        );
         setVaccines([]);
       } finally {
         setLoading(false);
@@ -152,31 +164,35 @@ const DownloadSelectPage: React.FC = () => {
 
   const handleDownload = () => {
     if (selected.length === 0) return;
-    
-    const selectedVaccines = selected.map(idx => vaccines[idx]);
-    
+
+    const selectedVaccines = selected.map((idx) => vaccines[idx]);
+
     try {
       // Generate PDF with selected vaccines
       const filename = generateVaccinePDF(vaccines, pet, selectedVaccines);
       alert(`PDF downloaded successfully: ${filename}`);
     } catch (error) {
-      console.error('Error generating PDF:', error);
-      alert('Error generating PDF. Please try again.');
+      console.error("Error generating PDF:", error);
+      alert("Error generating PDF. Please try again.");
     }
   };
 
   const handleDownloadDetailed = () => {
     if (selected.length === 0) return;
-    
-    const selectedVaccines = selected.map(idx => vaccines[idx]);
-    
+
+    const selectedVaccines = selected.map((idx) => vaccines[idx]);
+
     try {
       // Generate detailed PDF with selected vaccines
-      const filename = generateDetailedVaccinePDF(vaccines, pet, selectedVaccines);
+      const filename = generateDetailedVaccinePDF(
+        vaccines,
+        pet,
+        selectedVaccines
+      );
       alert(`Detailed PDF downloaded successfully: ${filename}`);
     } catch (error) {
-      console.error('Error generating detailed PDF:', error);
-      alert('Error generating detailed PDF. Please try again.');
+      console.error("Error generating detailed PDF:", error);
+      alert("Error generating detailed PDF. Please try again.");
     }
   };
 
@@ -216,14 +232,14 @@ const DownloadSelectPage: React.FC = () => {
               disabled={selected.length === 0}
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Download Summary
+              <FileDown className="w-5 h-5" /> Download Summary
             </button>
             <button
               onClick={handleDownloadDetailed}
               disabled={selected.length === 0}
               className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Download Detailed
+              <FileText className="w-5 h-5" /> Download Detailed
             </button>
           </div>
         </div>
@@ -242,7 +258,10 @@ const DownloadSelectPage: React.FC = () => {
             className="accent-[var(--color-primary)] w-4 h-4 mr-2"
             id="select-all-checkbox"
           />
-          <label htmlFor="select-all-checkbox" className="text-[var(--color-text)] font-cabin text-base cursor-pointer">
+          <label
+            htmlFor="select-all-checkbox"
+            className="text-[var(--color-text)] font-cabin text-base cursor-pointer"
+          >
             Select All
           </label>
         </div>
@@ -275,7 +294,9 @@ const DownloadSelectPage: React.FC = () => {
 
         {vaccines.length === 0 && !error && (
           <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">No vaccines found</div>
+            <div className="text-gray-400 text-base sm:text-lg mb-4">
+              No vaccines found
+            </div>
             <button
               onClick={() => navigate(-1)}
               className="bg-[var(--color-primary)] text-[var(--color-background)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[var(--color-accent-hover)] transition text-sm sm:text-base"

@@ -6,6 +6,7 @@ import DocumentSection from "../../../Components/Document/DocumentSection";
 import EditVaccineModal from "../../../Components/Vaccine/EditVaccineModal";
 import petServices from "../../../Services/petServices";
 import humanOwnerServices from "../../../Services/humanOwnerServices";
+import DetailSection from "../../../Components/Verification/DetailSection";
 
 const VerificationPage: React.FC = () => {
   const navigate = useNavigate();
@@ -213,162 +214,28 @@ const VerificationPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[#101624] text-[#EBD5BD]">
+    <div className="min-h-screen w-full font-sans flex flex-col items-center bg-[var(--color-background)] text-[var(--color-text)]">
       {/* Logo and Header */}
-      <div className="absolute left-10 top-8">
+      <div className="absolute left-4 top-4 md:left-10 md:top-8">
         <img
           src={PetWellLogo}
           alt="PetWell Logo"
-          className="w-12 h-12 object-contain"
+          className="w-10 h-10 md:w-12 md:h-12 object-contain"
         />
       </div>
-      <div className="flex flex-col items-center w-full max-w-6xl mt-10 mb-4 px-8">
-        <h1 className="text-4xl font-bold text-[#EBD5BD] mb-2">
+      <div className="flex flex-col items-center w-full max-w-6xl pt-20 md:pt-0 mb-4 mt-4 px-4 sm:px-8">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-card-heading)] mb-2 text-center">
           Here's what we know. Check it out!
         </h1>
-        <p className="text-[#EBD5BD] opacity-80 mb-8 text-lg text-center">
+        <p className="text-[var(--color-card-heading)] opacity-80 mb-6 sm:mb-8 text-base sm:text-lg text-center">
           You can review, edit, or add notes before saving it to {petName}'s
           profile.
         </p>
       </div>
-      <div className="w-full max-w-6xl px-8">
-        {/* Pet and User Details Section (inline) */}
-        <div className="flex flex-col md:flex-row gap-8 justify-start mt-8 w-full max-w-6xl mx-auto">
-          {/* Pet's Details Column */}
-          <div className="flex flex-col flex-1 min-w-[280px] max-w-md">
-            <span className="text-2xl font-serif font-semibold text-[var(--color-modal-foreground)] mb-2 block">
-              Your Pet's Details
-            </span>
-            <div className="bg-[var(--color-card)] rounded-2xl shadow-lg p-6 sm:p-8 flex-1 relative">
-              <div className="flex items-center gap-4 mb-6">
-                {petImage ? (
-                  <img
-                    src={petImage}
-                    alt={petName}
-                    className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary)]"
-                  />
-                ) : (
-                  <div className="w-14 h-14 rounded-full bg-gray-600 border-2 border-[var(--color-primary)] flex items-center justify-center">
-                    <span className="text-white text-lg font-bold">
-                      {petName?.charAt(0)?.toUpperCase() || "P"}
-                    </span>
-                  </div>
-                )}
-                <span className="text-xl font-bold text-[var(--color-text)]">
-                  {petName}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-y-6 gap-x- text-base">
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Age
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petAge}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Weight
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petWeight}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Breed
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {breed}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Species
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {species}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Colour
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petColor}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Microchip Number
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petMicrochip}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Birthdate
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petBirthdate}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* User Details Column */}
-          <div className="flex flex-col flex-1 min-w-[280px] max-w-md">
-            <span className="text-2xl font-serif font-semibold text-[var(--color-modal-foreground)] mb-2 block">
-              Your Details
-            </span>
-            <div className="bg-[var(--color-card)] rounded-2xl shadow-lg p-8 flex-1 relative">
-              <div className="grid grid-cols-2 gap-y-6 gap-x-8 text-base">
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Name
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userName}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    {/* Empty for layout */}
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]"></div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Location
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userLocation}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Phone number
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userPhone}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Email
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userEmail}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="w-full max-w-6xl px-2 sm:px-4 md:px-8">
+        <DetailSection pet={pet} user={human} />
         {/* Vaccines Section */}
-        <h2 className="text-xl font-semibold mb-4 mt-10">
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 mt-8 sm:mt-10">
           {String(petName || "")}'s Vaccines
         </h2>
         {Array.isArray(vaccines) && vaccines.length > 0 ? (
@@ -380,7 +247,9 @@ const VerificationPage: React.FC = () => {
           <p className="text-gray-400">No vaccines found</p>
         )}
         {/* Uploaded Documents Section */}
-        <h2 className="text-xl font-semibold mb-4 mt-10">Upload Documents</h2>
+        <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 mt-8 sm:mt-10">
+          Upload Documents
+        </h2>
         {Array.isArray(documents) && documents.length > 0 ? (
           <DocumentSection
             documents={documents}
@@ -392,17 +261,15 @@ const VerificationPage: React.FC = () => {
         ) : (
           <p className="text-gray-400">No documents found</p>
         )}
-        <div className="flex justify-end gap-8 mt-8 w-full">
+        <div className="flex justify-end gap-4 sm:gap-8 mt-6 sm:mt-8 w-full">
           <button
-            className="px-8 py-3 mb-4 rounded-lg bg-[#FFA500] text-white font-semibold text-lg hover:brightness-110 transition"
+            className="px-6 sm:px-8 py-2 sm:py-3 mb-4 rounded-lg bg-[var(--color-primary)] text-white font-semibold text-base sm:text-lg hover:brightness-110 transition"
             onClick={() => navigate(`/petowner/pet/${petId}/home`)}
           >
             Next
           </button>
         </div>
       </div>
-      {/* ProfileDropdown, if needed */}
-
       {/* Edit Vaccine Modal */}
       <EditVaccineModal
         open={editVaccineModal.open}

@@ -481,7 +481,21 @@ const DocumentPage: React.FC = () => {
             open={true}
             documentName={documents[deleteIdx]?.document_name}
             onClose={() => setDeleteIdx(null)}
-            onDelete={() => setDeleteIdx(null)}
+            onDelete={async () => {
+              if (deleteIdx === null) return;
+              const documentId = documents[deleteIdx].id;
+              console.log("Deleting document with ID:", documentId);
+              try {
+                await petServices.deleteDocument(documentId);
+                setDocuments((prevDocs) =>
+                  prevDocs.filter((_, i) => i !== deleteIdx)
+                );
+              } catch (err) {
+                // Optionally show error to user
+                console.error("Failed to delete document", err);
+              }
+              setDeleteIdx(null);
+            }}
           />
         )}
         {/* Rename Modal */}

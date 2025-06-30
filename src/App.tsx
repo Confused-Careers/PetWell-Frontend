@@ -24,6 +24,7 @@ import AddCareTeamPage from "./Pages/Authentication/BusinessAuth/AddCareTeamPage
 import CareTeamListPage from "./Pages/Authentication/BusinessAuth/CareTeamListPage";
 import BusinessHomePage from "./Pages/Business/BusinessHome/BusinessHomePage";
 import PetParentOnboardingChoice from "./Pages/Authentication/ProfileCreation/PetParentOnboardingChoice";
+import BusinessSignupForm from "./Pages/Authentication/BusinessAuth/businessSignupForm";
 
 function App() {
   return (
@@ -34,15 +35,17 @@ function App() {
         <Route path="/profile-creation" element={<ProfileCreation />} />
         <Route path="/signup-type" element={<SignupTypeSelectPage />} />
         <Route path="/signup/pet-parent" element={<PetParentSignupPage />} />
-        <Route path="/signup/business" element={<BusinessSignupPage />} />
-        <Route path="/signup/business/add-care-team" element={<AddCareTeamPage />} />
-        <Route path="/signup/business/care-team-list" element={<CareTeamListPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/add-pet-profile" element={<AddPetProfile />} />
         <Route path="/verify" element={<VerificationPage />} />
-        <Route path="/business/home" element={<BusinessHomePage />} />
         <Route path="/pet-parent-onboarding-choice" element={<PetParentOnboardingChoice />} />
+
+        <Route path="/business/signup" element={<BusinessSignupPage />} />
+        <Route path="/business/signup/form" element={<BusinessSignupForm />} />
+        <Route path="/business/signup/add-care-team" element={<AddCareTeamPage />} />
+        <Route path="/business/signup/care-team-list" element={<CareTeamListPage />} />
+        <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

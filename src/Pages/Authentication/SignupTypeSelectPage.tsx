@@ -38,7 +38,7 @@ const SignupTypeSelectPage: React.FC = () => {
         </button>
         <button
           className="flex-1 flex flex-col items-center gap-4 bg-[var(--color-card)] hover:bg-[var(--color-card)]/80 border-2 border-[var(--color-primary)] rounded-2xl px-8 py-10 shadow-lg transition group"
-          onClick={() => navigate("/signup/business")}
+          onClick={() => navigate("/business/signup/form")}
         >
           <Building2
             size={48}

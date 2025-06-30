@@ -7,7 +7,7 @@ const AddCareTeamPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate('/signup/business/care-team-list');
+    navigate('/business/signup/care-team-list');
   };
 
   return (

@@ -4,15 +4,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import TeamBox from "../../Components/Teams/TeamInfo";
 import teamServices from "../../Services/teamServices";
 import petServices from "../../Services/petServices";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "../../Components/ui/dialog";
-import { Users, XCircle, PlusCircle } from "lucide-react";
+import { Users, XCircle, PlusCircle, X } from "lucide-react";
 
 const TeamsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +13,7 @@ const TeamsPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pet, setPet] = useState<any>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
@@ -231,12 +224,16 @@ const TeamsPage: React.FC = () => {
   const handleConfirmDelete = async () => {
     if (!selectedTeam) return;
     try {
+      setIsDeleting(true);
       await teamServices.deleteTeam(selectedTeam.id);
       setTeams(teams.filter((team) => team.id !== selectedTeam.id));
       setOpen(false);
       setSelectedTeam(null);
     } catch (err) {
       console.error("Failed to delete team:", err);
+      setError("Failed to delete team. Please try again.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -307,30 +304,75 @@ const TeamsPage: React.FC = () => {
           </div>
         )}
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Delete Team</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to delete "{selectedTeam?.name}"? This
-                action cannot be undone.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex justify-end gap-3">
-              <DialogClose asChild>
-                <button className="px-4 py-2 text-[var(--color-text)] hover:text-[var(--color-primary)] flex items-center gap-1">
-                  <XCircle className="w-5 h-5" /> Cancel
-                </button>
-              </DialogClose>
+        {open && selectedTeam && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div
+              className="rounded-2xl px-6 sm:px-8 py-6 sm:py-8 w-full max-w-md shadow-2xl relative flex flex-col items-center border"
+              style={{
+                backgroundColor: "var(--color-background)",
+                borderColor: "var(--color-primary)",
+                color: "var(--color-text)",
+              }}
+            >
               <button
-                onClick={handleConfirmDelete}
-                className="px-4 py-2 bg-[var(--color-warning)] text-[var(--color-background)] rounded hover:bg-[var(--color-warning)]/80 flex items-center gap-1"
+                className="absolute right-4 top-4 text-gray-500 hover:text-red-500"
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+                disabled={isDeleting}
               >
-                <Users className="w-5 h-5" /> Delete
+                <X className="w-6 h-6" />
               </button>
+              <h2
+                className="text-2xl font-bold mb-4 text-center"
+                style={{ color: "var(--color-text)" }}
+              >
+                Remove Team?
+              </h2>
+              <div className="w-full text-center mb-6">
+                <p
+                  className="text-sm"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  Are you sure you want to delete the team "
+                  <span
+                    className="font-semibold"
+                    style={{ color: "var(--color-primary)" }}
+                  >
+                    {selectedTeam.business?.business_name ||
+                      selectedTeam.business_name ||
+                      "Unknown Team"}
+                  </span>
+                  "?
+                </p>
+                <p
+                  className="text-xs mt-2"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  This action cannot be undone.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
+                <button
+                  className="w-full sm:w-auto border border-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] px-6 py-2 rounded-lg font-semibold transition disabled:opacity-50"
+                  onClick={() => setOpen(false)}
+                  disabled={isDeleting}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="w-full sm:w-auto text-black px-6 py-2 rounded-lg font-semibold transition disabled:cursor-not-allowed"
+                  style={{
+                    backgroundColor: "var(--color-primary)",
+                  }}
+                  onClick={handleConfirmDelete}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? "Removing..." : "Yes, remove"}
+                </button>
+              </div>
             </div>
-          </DialogContent>
-        </Dialog>
+          </div>
+        )}
       </div>
     </div>
   );

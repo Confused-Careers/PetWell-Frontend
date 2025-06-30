@@ -39,7 +39,7 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
 
   return (
     <>
-      <div className="flex items-center bg-[var(--color-card)] rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 border border-[var(--color-border)] shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center bg-[var(--color-card)] shadow-lg rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 shadow-sm hover:shadow-md transition-shadow">
         <div
           className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full mr-2 sm:mr-3 font-bold text-xs ${
             type === "pdf"

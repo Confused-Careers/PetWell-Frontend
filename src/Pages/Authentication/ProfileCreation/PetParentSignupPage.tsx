@@ -413,13 +413,13 @@ const PetParentSignupPage: React.FC = () => {
 
         <div className="text-center mb-8">
           <h1 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-heading)] mb-4">
-            Got a vaccine card or medical record handy?
-          </h1>
+          Got a vaccine card or medical record handy?
+        </h1>
           <p className="text-lg text-[var(--color-label)] max-w-2xl">
             Just upload it — we'll use it to build your pet's profile for you.
-            <br />
-            You can edit or add more info later.
-          </p>
+          <br />
+          You can edit or add more info later.
+        </p>
         </div>
 
         {/* Upload progress indicator */}

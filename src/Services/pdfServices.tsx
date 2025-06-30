@@ -12,6 +12,7 @@ interface VaccineData {
   expires?: string;
   soon?: boolean;
   warning?: string;
+  status?: "valid" | "expiring" | "expired";
 }
 
 interface PetData {
@@ -150,13 +151,25 @@ const addModernTable = (doc: jsPDF, selectedVaccines: VaccineData[], yStart: num
     doc.text(vaccine.date_due || vaccine.expiry_date || vaccine.expires || 'Unknown', 125, yPos + 2);
     
     // Status with color coding
-    if (vaccine.soon) {
-      doc.setTextColor(239, 68, 68); // Red for expiring soon
-      doc.text('⚠️ Expiring', 155, yPos + 2);
-    } else {
-      doc.setTextColor(34, 197, 94); // Green for valid
-      doc.text('✅ Valid', 155, yPos + 2);
+    let statusText = "Valid";
+    let statusColor: [number, number, number] = [34, 197, 94]; // Green
+
+    switch (vaccine.status) {
+      case "expired":
+        statusText = "Expired";
+        statusColor = [220, 38, 38]; // Red
+        break;
+      case "expiring":
+        statusText = "Expiring";
+        statusColor = [245, 158, 11]; // Amber
+        break;
+      default:
+        // 'valid' or undefined status falls here
+        break;
     }
+
+    doc.setTextColor(statusColor[0], statusColor[1], statusColor[2]);
+    doc.text(statusText, 155, yPos + 2);
     
     yPos += 10;
   });
@@ -208,13 +221,25 @@ const addDetailedVaccineInfo = (doc: jsPDF, selectedVaccines: VaccineData[], ySt
     doc.text(`Expires: ${expiryDate || 'Unknown'}`, 25, yPos + 25);
     
     // Status indicator
-    if (vaccine.soon) {
-      doc.setTextColor(239, 68, 68);
-      doc.text('⚠️ Expiring Soon', 100, yPos + 15);
-    } else {
-      doc.setTextColor(34, 197, 94);
-      doc.text('✅ Valid', 100, yPos + 15);
+    let statusTextInfo = "Valid";
+    let statusColorInfo: [number, number, number] = [34, 197, 94]; // Green
+
+    switch (vaccine.status) {
+      case "expired":
+        statusTextInfo = "Expired";
+        statusColorInfo = [220, 38, 38]; // Red
+        break;
+      case "expiring":
+        statusTextInfo = "Expiring Soon";
+        statusColorInfo = [245, 158, 11]; // Amber
+        break;
+      default:
+        // 'valid' or undefined status falls here
+        break;
     }
+
+    doc.setTextColor(statusColorInfo[0], statusColorInfo[1], statusColorInfo[2]);
+    doc.text(statusTextInfo, 100, yPos + 15);
     
     if (vaccine.warning) {
       doc.setTextColor(245, 158, 11);

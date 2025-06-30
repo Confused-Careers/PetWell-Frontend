@@ -10,6 +10,38 @@ import {
 } from "../../Services/pdfServices";
 import { FileDown, FileText } from "lucide-react";
 
+// Helper function to determine vaccine status
+const processVaccine = (vaccine: any) => {
+  const newVaccine = { ...vaccine };
+  const expiryDateStr =
+    newVaccine.expiry_date || newVaccine.date_due || newVaccine.expires;
+
+  if (expiryDateStr) {
+    const expiryDate = new Date(expiryDateStr);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Compare dates only
+
+    const thirtyDaysFromNow = new Date();
+    thirtyDaysFromNow.setDate(today.getDate() + 30);
+
+    if (expiryDate < today) {
+      newVaccine.status = "expired";
+      newVaccine.warning = "This vaccine has expired.";
+    } else if (expiryDate <= thirtyDaysFromNow) {
+      newVaccine.status = "expiring";
+      newVaccine.warning = `This vaccine will expire in less than 30 days.`;
+    } else {
+      newVaccine.status = "valid";
+    }
+    newVaccine.soon = newVaccine.status !== "valid";
+  } else {
+    newVaccine.status = "valid";
+    newVaccine.soon = false;
+  }
+
+  return newVaccine;
+};
+
 const DownloadSelectPage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
@@ -130,9 +162,15 @@ const DownloadSelectPage: React.FC = () => {
         console.log("matchingVaccines:", matchingVaccines);
         // Remove duplicates before setting state
         const uniqueVaccines = removeDuplicateVaccines(matchingVaccines);
-        setVaccines(uniqueVaccines);
+
+        // Process vaccines to add status
+        const processedVaccines = uniqueVaccines.map(processVaccine);
+
+        setVaccines(processedVaccines);
         setError(
-          uniqueVaccines.length === 0 ? "No vaccines found for this pet." : null
+          processedVaccines.length === 0
+            ? "No vaccines found for this pet."
+            : null
         );
       } catch (err) {
         console.error("Failed to fetch vaccines:", err);

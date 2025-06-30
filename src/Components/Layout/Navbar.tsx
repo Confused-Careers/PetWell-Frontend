@@ -134,18 +134,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
         }`}
       >
         <div className="flex flex-col h-full">
-          {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-4 border-b border-[var(--color-border)]">
-            <div className="flex items-center space-x-3">
-              <img
-                src={PetWellLogo}
-                alt="PetWell Logo"
-                className="w-8 h-8 object-contain"
-              />
-              <span className="text-lg font-bold text-[var(--color-text)]">
-                PetWell
-              </span>
-            </div>
+          {/* Sidebar Header (just close button) */}
+          <div className="flex items-center justify-end p-4 border-b border-[var(--color-border)]">
             <button
               onClick={handleMobileMenuToggle}
               className="p-2 text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors"
@@ -172,39 +162,48 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               ))}
             </div>
           </nav>
+        </div>
+      </div>
 
-          {/* Sidebar Footer */}
-          <div className="p-4 border-t border-[var(--color-border)]">
-            <div className="flex items-center space-x-3 mb-4">
+      {/* Mobile Top Navbar (only visible on mobile) */}
+      <div className="lg:hidden">
+        <nav className="flex items-center justify-between px-3 py-3 bg-transparent w-full">
+          <div className="flex items-center space-x-3">
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={handleMobileMenuToggle}
+              className="p-2 text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors mobile-menu-toggle"
+            >
+              <Menu size={20} />
+            </button>
+            <img
+              src={PetWellLogo}
+              alt="PetWell Logo"
+              className="w-8 h-8 object-contain"
+            />
+          </div>
+          {/* Profile Dropdown on the right */}
+          <div className="relative flex items-center" ref={dropdownRef}>
+            <button
+              onClick={handleMobileDropdownToggle}
+              className="flex items-center space-x-1 focus:outline-none p-1"
+            >
               <img
                 src={petImage}
                 alt="Pet"
-                className="w-10 h-10 rounded-full object-cover border-2 border-[var(--color-primary)]"
+                className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-primary)]"
               />
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-[var(--color-text)]">
-                  {petName}
-                </p>
-                <button
-                  onClick={handleMobileDropdownToggle}
-                  className="flex items-center space-x-1 text-xs text-[var(--color-primary)] hover:underline"
-                >
-                  <span>Switch Profile</span>
-                  <ChevronDown
-                    size={12}
-                    className={`transition-transform ${
-                      isMobileDropdownOpen ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-              </div>
-            </div>
-
-            {/* Mobile Dropdown Menu */}
+              <ChevronDown
+                size={16}
+                className={`text-[var(--color-text)] transition-transform ${
+                  isMobileDropdownOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
             {isMobileDropdownOpen && (
-              <div className="mb-4 rounded-lg border border-[var(--color-border)] bg-[var(--color-card)]">
-                <div className="px-4 pt-4 pb-2 border-b border-[var(--color-border)]">
-                  <div className="text-xs text-[var(--color-text)] font-semibold mb-2 tracking-wide text-center">
+              <div className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border border-[#EBD5BD]/30 z-[100] px-2" style={{ background: "rgba(44, 44, 44, 0.98)" }}>
+                <div className="px-4 pt-4 pb-2 border-b border-[#EBD5BD]/30">
+                  <div className="text-xs text-[#EBD5BD] font-semibold mb-2 tracking-wide text-center">
                     {petName}'s Code
                   </div>
                   <div className="flex gap-2 mb-2 justify-center items-center">
@@ -219,31 +218,28 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                         </span>
                       ))}
                   </div>
-                  <div className="text-xs text-[var(--color-text)] text-opacity-70 mb-1 text-center">
+                  <div className="text-xs text-[#EBD5BD] text-opacity-70 mb-1 text-center">
                     Share with care providers to give access to the profile.
                   </div>
                 </div>
                 <div className="flex flex-col py-1">
                   <button
-                    className="text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-accent-hover)] transition font-medium"
+                    className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium"
                     onClick={() => {
                       navigate(`/petowner/pet/${petId}/profile`);
-                      setIsMobileMenuOpen(false);
                       setIsMobileDropdownOpen(false);
                     }}
                   >
                     View Profile
                   </button>
                   <button
-                    className="text-left px-4 py-2 text-sm text-[var(--color-text)] font-semibold hover:bg-[var(--color-accent-hover)] transition"
+                    className="text-left px-4 py-2 text-sm text-[#EBD5BD] font-semibold hover:bg-[#EBD5BD]/10 transition"
                     onClick={() => {
                       if (typeof onSwitchProfile === "function") {
                         onSwitchProfile();
-                        setIsMobileMenuOpen(false);
                         setIsMobileDropdownOpen(false);
                       } else {
                         navigate("/switch-profile");
-                        setIsMobileMenuOpen(false);
                         setIsMobileDropdownOpen(false);
                       }
                     }}
@@ -251,17 +247,17 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     Not {petName}?{" "}
                     <span className="text-[#FFB23E]">Switch Profile</span>
                   </button>
-                  <button className="text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-accent-hover)] transition font-medium">
+                  <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
                     Help Center
                   </button>
-                  <button className="text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-accent-hover)] transition font-medium">
+                  <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
                     Billing Information
                   </button>
-                  <button className="text-left px-4 py-2 text-sm text-[var(--color-text)] hover:bg-[var(--color-accent-hover)] transition font-medium">
+                  <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
                     Settings
                   </button>
                   <button
-                    className="text-left px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition font-medium border-t border-[var(--color-border)]"
+                    className="text-left px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition font-medium border-t border-[#EBD5BD]/30"
                     onClick={() => {
                       handleLogout();
                       setIsMobileDropdownOpen(false);
@@ -272,19 +268,12 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                 </div>
               </div>
             )}
-
-            <button
-              onClick={handleLogout}
-              className="w-full px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition rounded-lg"
-            >
-              Logout
-            </button>
           </div>
-        </div>
+        </nav>
       </div>
 
       {/* Desktop Navbar */}
-      <nav className="flex flex-col sm:flex-row items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 bg-transparent w-full">
+      <div className="hidden lg:flex flex-col sm:flex-row items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 bg-transparent w-full">
         <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-4 md:mb-0">
           {/* Mobile Menu Toggle */}
           <button
@@ -418,7 +407,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             )}
           </div>
         </div>
-      </nav>
+      </div>
     </>
   );
 };

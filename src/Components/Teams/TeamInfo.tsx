@@ -31,7 +31,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
 
   return (
     <div
-      className="bg-[var(--color-card)] rounded-2xl px-4 sm:px-6 md:px-7 py-4 sm:py-5 border border-[var(--color-border)] flex flex-col gap-2 relative min-w-0 max-w-full"
+      className="bg-[var(--color-card)] rounded-2xl px-4 sm:px-6 md:px-7 py-4 sm:py-5  flex flex-col gap-2 relative min-w-0 max-w-full"
       style={{ minHeight: 180 }}
     >
       <div className="flex items-center gap-2 sm:gap-3 mb-2">

@@ -58,7 +58,7 @@ const DocumentCard: React.FC<{
   const displaySize = fileSize ?? document.size;
 
   return (
-    <div className="flex flex-col sm:flex-row items-center bg-[var(--color-card)] rounded-2xl px-5 py-4 border border-[var(--color-border)] shadow-md gap-3 sm:gap-0">
+    <div className="flex flex-col sm:flex-row items-center bg-[var(--color-card)] rounded-2xl px-5 py-4 shadow-md gap-3 sm:gap-0">
       <div
         className={`w-10 h-10 flex items-center justify-center rounded-xl mr-4 font-bold text-xs shrink-0 ${
           type === "pdf"
@@ -79,7 +79,10 @@ const DocumentCard: React.FC<{
         )}
       </div>
       <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-        <span className="truncate text-lg font-semibold text-[var(--color-text)]">
+        <span
+          className="truncate text-lg font-semibold text-[var(--color-text)]"
+          style={{ maxWidth: "180px", display: "inline-block" }}
+        >
           {document.document_name}
           <span className="ml-2 text-xs text-[var(--color-text)] opacity-70 font-normal align-middle">
             {formatSize(displaySize)}

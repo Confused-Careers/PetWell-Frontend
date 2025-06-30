@@ -366,32 +366,60 @@ const PetParentSignupPage: React.FC = () => {
   // Render based on current step
   if (currentStep === "step4") {
     return (
-      <Step4HumanInfoUpload
-        form={form}
-        setForm={setForm}
-        error={step4Error}
-        setError={setStep4Error}
-        loading={step4Loading}
-        setLoading={setStep4Loading}
-        onNext={handleStep4Complete}
-      />
+      <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+        <img
+          src={PetWellLogo}
+          alt="PetWell Logo"
+          className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+        />
+        <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+            Create Your Profile
+          </h1>
+        </div>
+        <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
+          <Step4HumanInfoUpload
+            form={form}
+            setForm={setForm}
+            error={step4Error}
+            setError={setStep4Error}
+            loading={step4Loading}
+            setLoading={setStep4Loading}
+            onNext={handleStep4Complete}
+          />
+        </div>
+      </div>
     );
   }
 
   if (currentStep === "step5") {
     return (
-      <Step5OTPVerificationUpload
-        form={form}
-        otp={otp}
-        setOtp={setOtp}
-        otpLoading={otpLoading}
-        setOtpLoading={setOtpLoading}
-        otpError={otpError}
-        setOtpError={setOtpError}
-        resentMessage={resentMessage}
-        setResentMessage={setResentMessage}
-        onNext={handleStep5Complete}
-      />
+      <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+        <img
+          src={PetWellLogo}
+          alt="PetWell Logo"
+          className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+        />
+        <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+            Create Your Profile
+          </h1>
+        </div>
+        <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
+          <Step5OTPVerificationUpload
+            form={form}
+            otp={otp}
+            setOtp={setOtp}
+            otpLoading={otpLoading}
+            setOtpLoading={setOtpLoading}
+            otpError={otpError}
+            setOtpError={setOtpError}
+            resentMessage={resentMessage}
+            setResentMessage={setResentMessage}
+            onNext={handleStep5Complete}
+          />
+        </div>
+      </div>
     );
   }
 

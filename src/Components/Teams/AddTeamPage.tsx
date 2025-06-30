@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Layout/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "../ui/dialog";
+import { X } from "lucide-react";
 import TeamAddedModal from "./TeamAddedModal";
 import teamServices from "../../Services/teamServices";
 import petServices from "../../Services/petServices";
@@ -214,55 +207,90 @@ const AddTeamPage: React.FC = () => {
                     })}
                   </div>
                 )}
-                <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-                  <DialogContent className="bg-[#1C232E] border-[var(--color-modal-border)] max-w-md rounded-2xl p-8">
-                    <DialogHeader>
-                      <DialogTitle className="text-[var(--color-text)] text-3xl font-serif font-bold mb-2">
-                        Add to team?
-                      </DialogTitle>
-                    </DialogHeader>
-                    <DialogDescription className="text-[var(--color-text)] text-base mb-6">
-                      Once added, you can view and manage this provider from
-                      your Team list.
-                    </DialogDescription>
-                    {selectedTeam && (
-                      <div className="flex items-center gap-4 bg-[var(--color-card)] rounded-lg px-4 py-3 mb-6">
-                        <img
-                          src={selectedTeam.avatar}
-                          alt={selectedTeam.name}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                        <div>
-                          <div className="font-semibold text-lg text-[var(--color-text)]">
-                            {selectedTeam.name}
-                          </div>
-                          <div className="text-sm text-[var(--color-text)] opacity-60">
-                            {selectedTeam.address}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    <div className="flex gap-4 justify-end mt-2">
-                      <DialogClose asChild>
-                        <button className="px-8 py-2 rounded-lg border border-[var(--color-primary)] text-[var(--color-primary)] bg-transparent font-medium text-lg hover:bg-[var(--color-primary)] hover:text-black transition-all duration-150">
-                          Cancel
-                        </button>
-                      </DialogClose>
-                      <button
-                        className="px-8 py-2 rounded-lg bg-[var(--color-primary)] text-[var(--color-primary-foreground)] font-medium text-lg hover:opacity-90 transition-all duration-150"
-                        onClick={handleAddTeam}
-                        disabled={loading}
-                      >
-                        {loading ? "Adding..." : "Yes, Add to Team"}
-                      </button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {modalOpen && selectedTeam && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div
+            className="rounded-2xl px-6 sm:px-8 py-6 sm:py-8 w-full max-w-md shadow-2xl relative flex flex-col items-center border"
+            style={{
+              backgroundColor: "var(--color-background)",
+              borderColor: "var(--color-primary)",
+              color: "var(--color-text)",
+            }}
+          >
+            <button
+              className="absolute right-4 top-4 text-[var(--color-text)] hover:text-[var(--color-primary)]"
+              onClick={() => setModalOpen(false)}
+              aria-label="Close"
+              disabled={loading}
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <h2
+              className="text-2xl font-bold mb-4 text-center"
+              style={{ color: "var(--color-text)" }}
+            >
+              Add to team?
+            </h2>
+            <div
+              className="flex items-center gap-4 rounded-lg px-4 py-3 mb-6 w-full"
+              style={{ backgroundColor: "var(--color-card)" }}
+            >
+              <img
+                src={selectedTeam.avatar}
+                alt={selectedTeam.name}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div>
+                <div
+                  className="font-semibold text-lg"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {selectedTeam.name}
+                </div>
+                <div
+                  className="text-sm opacity-60"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {selectedTeam.address ||
+                    selectedTeam.description ||
+                    selectedTeam.email}
+                </div>
+              </div>
+            </div>
+            <p
+              className="text-sm text-center mb-6"
+              style={{ color: "var(--color-text)" }}
+            >
+              Once added, you can view and manage this provider from your Team
+              list.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
+              <button
+                className="w-full sm:w-auto border border-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] px-6 py-2 rounded-lg font-semibold transition disabled:opacity-50"
+                onClick={() => setModalOpen(false)}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                className="w-full sm:w-auto text-[var(--color-background)] px-6 py-2 rounded-lg font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
+                style={{ backgroundColor: "var(--color-primary)" }}
+                onClick={handleAddTeam}
+                disabled={loading}
+              >
+                {loading ? "Adding..." : "Yes, Add"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Team Added Modal */}
       {showTeamAdded && (
         <TeamAddedModal

@@ -39,40 +39,43 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
 
   return (
     <>
-      <div className="flex items-center bg-[var(--color-card)] shadow-lg rounded-lg sm:rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 shadow-sm hover:shadow-md transition-shadow">
+      <div className="flex items-center bg-[var(--color-card)] rounded-2xl px-5 py-4 shadow-md gap-3">
         <div
-          className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full mr-2 sm:mr-3 font-bold text-xs ${
+          className={`w-10 h-10 flex items-center justify-center rounded-xl mr-4 font-bold text-xs shrink-0 ${
             type === "pdf"
               ? "bg-[var(--color-danger)]"
               : "bg-[var(--color-success)]"
           }`}
         >
           {type === "pdf" ? (
-            <FileText className="w-4 h-4 text-[var(--color-text)]" />
+            <FileText className="w-5 h-5 text-[var(--color-white)]" />
           ) : (
-            <LucideImage className="w-4 h-4 text-[var(--color-text)]" />
+            <LucideImage className="w-5 h-5 text-[var(--color-white)]" />
           )}
         </div>
-        <span className="flex-1 truncate text-sm sm:text-base font-medium text-[var(--color-text)]">
+        <span
+          className="truncate text-base font-semibold text-[var(--color-text)]"
+          style={{ maxWidth: "180px", display: "inline-block" }}
+        >
           {docName}
         </span>
         <Button
           variant="ghost"
           size="icon"
-          className="ml-1 sm:ml-2 text-[var(--color-primary)] hover:text-[var(--color-accent-hover)] h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 p-1"
+          className="ml-2 text-[var(--color-primary)] hover:text-[var(--color-accent-hover)] h-8 w-8 md:h-10 md:w-10 p-1"
           onClick={() => setShowRename(true)}
           aria-label="Edit Document"
         >
-          <Pencil size={14} className="sm:w-4 sm:h-4 md:w-[18px] md:h-[18px]" />
+          <Pencil size={16} className="md:w-[18px] md:h-[18px]" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="ml-1 sm:ml-2 text-gray-400 hover:text-[var(--color-danger)] h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10 p-1"
+          className="ml-2 text-gray-400 hover:text-[var(--color-danger)] h-8 w-8 md:h-10 md:w-10 p-1"
           onClick={() => setShowDelete(true)}
           aria-label="Delete Document"
         >
-          <LucideX size={14} className="sm:w-4 sm:h-4 md:w-5 md:h-5" />
+          <LucideX size={16} className="md:w-5 md:h-5" />
         </Button>
       </div>
       <RenameDocumentModal

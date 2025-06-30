@@ -7,6 +7,7 @@ import Step3SafetyAndID from "./Step3SafetyAndID";
 import petServices from "../../../Services/petServices";
 import ProfileCreationSuccessModal from "./ProfileCreationSuccessModal";
 import UploadDocument from "../../../Components/UploadDocument/UploadDocuments";
+import PetWellLogo from "../../../Assets/PetWell.png";
 
 const AddPetProfile: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -224,7 +225,17 @@ const AddPetProfile: React.FC = () => {
   // UI for post-profile-creation upload
   if (showUploadUI && newPet) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#101624] px-4 py-10">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-[#101624] px-4 sm:px-6 md:px-8 py-8 sm:py-10 relative">
+        <img
+          src={PetWellLogo}
+          alt="PetWell Logo"
+          className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+        />
+        <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+            Create Pet Profile
+          </h1>
+        </div>
         <div className="w-full max-w-2xl mx-auto flex flex-col items-center">
           <div className="w-full flex items-center justify-start mb-4">
             <button
@@ -239,7 +250,7 @@ const AddPetProfile: React.FC = () => {
               <img
                 src={newPet.profile_picture_url || "/default-avatar.png"}
                 alt="Pet Avatar"
-                className="w-28 h-28 rounded-full object-cover border-4 border-[#FFB23E] mb-4"
+                className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-[#FFB23E] mb-4"
               />
               <h2 className="text-3xl font-[Alike,serif] text-[#F6E7D8] mb-2 text-center">
                 Upload documents for {newPet.pet_name}
@@ -269,59 +280,99 @@ const AddPetProfile: React.FC = () => {
   switch (step) {
     case 1:
       return (
-        <Step1BasicPetInfo
-          form={form}
-          setForm={setForm}
-          error={error}
-          setError={setError}
-          onNext={() => goToStep(2)}
-          steps={petSteps}
-        />
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Pet Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
+            <Step1BasicPetInfo
+              form={form}
+              setForm={setForm}
+              error={error}
+              setError={setError}
+              onNext={() => goToStep(2)}
+              steps={petSteps}
+            />
+          </div>
+        </div>
       );
     case 2:
       return (
-        <Step2HealthBasics
-          form={form}
-          setForm={setForm}
-          error={error}
-          setError={setError}
-          onNext={() => goToStep(3)}
-          steps={petSteps}
-        />
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Pet Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
+            <Step2HealthBasics
+              form={form}
+              setForm={setForm}
+              error={error}
+              setError={setError}
+              onNext={() => goToStep(3)}
+              steps={petSteps}
+            />
+          </div>
+        </div>
       );
     case 3:
       return (
-        <>
-          <Step3SafetyAndID
-            form={form}
-            setForm={setForm}
-            error={error}
-            setError={setError}
-            onNext={handleCreatePet}
-            steps={petSteps}
-            loading={loading}
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
           />
-          {/* Success Modal */}
-          {showSuccess &&
-            (() => {
-              console.log("[Modal Render] newPetId:", newPetId);
-              return null;
-            })()}
-          {showSuccess && (
-            <ProfileCreationSuccessModal
-              petId={newPetId || ""}
-              onClose={() => setShowSuccess(false)}
-              onGoHome={() => {
-                if (newPetId) navigate(`/petowner/pet/${newPetId}/home`);
-              }}
-              onUploadRecords={(id) => {
-                console.log("[Modal onUploadRecords] id:", id);
-                setShowSuccess(false);
-                navigate(`/petowner/pet/${newPetId}/upload-documents`);
-              }}
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Pet Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
+            <Step3SafetyAndID
+              form={form}
+              setForm={setForm}
+              error={error}
+              setError={setError}
+              onNext={handleCreatePet}
+              steps={petSteps}
+              loading={loading}
             />
-          )}
-        </>
+            {/* Success Modal */}
+            {showSuccess &&
+              (() => {
+                console.log("[Modal Render] newPetId:", newPetId);
+                return null;
+              })()}
+            {showSuccess && (
+              <ProfileCreationSuccessModal
+                petId={newPetId || ""}
+                onClose={() => setShowSuccess(false)}
+                onGoHome={() => {
+                  if (newPetId) navigate(`/petowner/pet/${newPetId}/home`);
+                }}
+                onUploadRecords={(id) => {
+                  console.log("[Modal onUploadRecords] id:", id);
+                  setShowSuccess(false);
+                  navigate(`/petowner/pet/${newPetId}/upload-documents`);
+                }}
+              />
+            )}
+          </div>
+        </div>
       );
     default:
       return (

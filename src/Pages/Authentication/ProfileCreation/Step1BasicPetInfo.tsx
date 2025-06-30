@@ -209,21 +209,11 @@ const Step1BasicPetInfo: React.FC<Step1BasicPetInfoProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative">
-      <img
-        src={PetWellLogo}
-        alt="PetWell Logo"
-        className="w-16 h-16 object-contain absolute left-20 top-10"
-        style={{ left: 80, top: 40 }}
-      />
-      <div className="flex justify-center w-full max-w-5xl mt-12 mb-6">
-        <h1 className="text-[40px] font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
-          Welcome to your pet's new digital home.
-        </h1>
-      </div>
+    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+      
       <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Stepper currentStep={1} steps={steps} />
-        <h2 className="text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-8 mt-2">
+        <h2 className="text-xl sm:text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-8 mt-2 text-center">
           Let's start with your pet's details
         </h2>
         <form

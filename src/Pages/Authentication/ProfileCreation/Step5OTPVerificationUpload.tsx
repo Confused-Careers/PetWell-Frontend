@@ -97,24 +97,18 @@ const Step5OTPVerificationUpload: React.FC<Step5OTPVerificationUploadProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative">
-      <img
-        src={PetWellLogo}
-        alt="PetWell Logo"
-        className="w-16 h-16 object-contain absolute left-20 top-10"
-        style={{ left: 80, top: 40 }}
-      />
-      <div className="flex justify-center w-full max-w-5xl mt-12 mb-6">
-        <h1 className="text-[40px] font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+      <div className="flex justify-center w-full max-w-5xl mt-8 sm:mt-12 mb-6 px-2">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
           Almost ready to upload your pet's records
         </h1>
       </div>
       <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <UploadStepper currentStep="step5" />
-        <h2 className="text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-2 mt-2">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-2 mt-2 text-center">
           Verify your email to continue
         </h2>
-        <div className="bg-[#23272f] rounded-xl p-8 w-full max-w-md flex flex-col items-center mt-4">
+        <div className="bg-[#23272f] rounded-xl p-4 sm:p-8 w-full max-w-md flex flex-col items-center mt-4">
           <p className="text-[#EBD5BD] mb-4 text-center">
             Enter the OTP sent to{" "}
             <span className="font-semibold">{form.owner_email}</span>

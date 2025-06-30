@@ -519,9 +519,105 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold mb-6 sm:mb-8">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold mb-6 sm:mb-8">
           Welcome {pet.pet_name}!
         </h1>
+        {/* Pet Profile and Health Summary Cards */}
+        {pet && (
+          <div className="flex flex-col md:flex-row gap-6 mb-8 mx-auto w-full">
+            {/* Pet Profile Card - image left, details right */}
+            <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col md:flex-row items-center md:items-stretch w-full max-w-3xl min-w-[260px]">
+              {/* Image */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-xl overflow-hidden mb-4 md:mb-0 bg-[var(--color-card)] flex items-center justify-center flex-shrink-0">
+                <img
+                  src={
+                    pet.profile_picture ||
+                    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                  }
+                  alt={pet.pet_name || "Pet"}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              {/* Details */}
+              <div className="flex-1 flex flex-col justify-center md:pl-8 w-full">
+                <div className="text-2xl font-bold mb-2">{pet.pet_name || "Pet"}</div>
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div>
+                    <span className="text-[var(--color-text)] opacity-70">Age</span>
+                    <div className="font-bold">{pet.age || "Unknown"} years old</div>
+                  </div>
+                  <div>
+                    <span className="text-[var(--color-text)] opacity-70">Gender</span>
+                    <div className="font-bold">{pet.gender || "Unknown"}</div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div>
+                    <span className="text-[var(--color-text)] opacity-70">Breed</span>
+                    <div className="font-bold">{pet.breed?.breed_name || "Mixed Breed"}</div>
+                  </div>
+                  <div>
+                    <span className="text-[var(--color-text)] opacity-70">Colour</span>
+                    <div className="font-bold">{pet.color || "Unknown"}</div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div>
+                    <span className="text-[var(--color-text)] opacity-70">Microchip Number</span>
+                    <div className="font-bold">{pet.microchip || "Unknown"}</div>
+                  </div>
+                  <div>
+                    <span className="text-[var(--color-text)] opacity-70">Birthdate</span>
+                    <div className="font-bold">{pet.dob || "Unknown"}</div>
+                  </div>
+                </div>
+                {/* Pet Code Example (if available) */}
+                {pet.code && (
+                  <div className="flex gap-2 mt-2">
+                    {pet.code.split("").map((char: string, idx: number) => (
+                      <span key={idx} className="bg-[var(--color-background)] border border-[var(--color-primary)] rounded-lg px-3 py-1 text-lg font-mono font-bold text-[var(--color-primary)]">
+                        {char}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Health Summary Card */}
+            <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col gap-2 flex-1 min-w-[260px]">
+              <div className="text-xl font-bold mb-2">Health Summary</div>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
+                <div>
+                  <span className="opacity-70">Spay/Neuter Status</span>
+                  <span className="font-bold ml-2">
+                    {pet.spay_neuter ? "Spayed/Neutered" : "Not Spayed/Neutered"}
+                  </span>
+                </div>
+                <div>
+                  <span className="opacity-70">Weight</span>
+                  <span className="font-bold ml-2">
+                    {pet.weight ? `${pet.weight} lbs` : "Unknown"}
+                  </span>
+                </div>
+                <div>
+                  <span className="opacity-70">Special Notes</span>
+                  <span className="font-bold ml-2">
+                    {pet.notes || "No special notes"}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
+                <div>
+                  <span className="opacity-70">Location</span>
+                  <span className="font-bold ml-2">
+                    {pet.location || "Unknown"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
 
         <div className="mb-8 sm:mb-10 md:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">

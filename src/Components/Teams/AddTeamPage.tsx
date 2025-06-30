@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Layout/Navbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Dialog,
   DialogContent,
@@ -15,6 +15,7 @@ import petServices from "../../Services/petServices";
 
 const AddTeamPage: React.FC = () => {
   const navigate = useNavigate();
+  const { petId } = useParams<{ petId: string }>();
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<any>(null);
@@ -53,15 +54,12 @@ const AddTeamPage: React.FC = () => {
     setLoading(true);
     try {
       // Get user's pets (assume first pet)
-      const petsRes = await petServices.getPetsByOwner();
-      let petsArr = Array.isArray(petsRes) ? petsRes : petsRes.data;
-      if (!petsArr) petsArr = [];
-      if (!Array.isArray(petsArr)) petsArr = [petsArr];
-      if (petsArr.length === 0) throw new Error("No pet found");
-      const petId = petsArr[0].id;
       // Add team (business) for this pet
+      if (!petId) {
+        throw new Error("No pet selected.");
+      }
       await teamServices.createTeam({
-        pet_id: petId,
+        pet_id: petId as string,
         business_id: selectedTeam.id,
       });
       setShowTeamAdded(true);
@@ -270,7 +268,7 @@ const AddTeamPage: React.FC = () => {
         <TeamAddedModal
           teamName={addedTeamName}
           onClose={() => setShowTeamAdded(false)}
-          onGoHome={() => navigate("/home")}
+          onGoHome={() => navigate(`/petowner/pet/${petId}/home`)}
           onAddMore={() => {
             setShowTeamAdded(false);
             setSearch("");

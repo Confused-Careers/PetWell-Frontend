@@ -9,7 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
-import { PlusCircle, FilePlus, Users } from "lucide-react";
+import { PlusCircle, FilePlus, Users, Syringe, FileText } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -519,16 +519,55 @@ const HomePage: React.FC = () => {
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold mb-6 sm:mb-8">
-          Welcome {pet.pet_name}!
-        </h1>
+        <div className="flex items-center gap-4 mb-6 sm:mb-8">
+          <span className="inline-block">
+            <svg
+              className="w-12 h-12 sm:w-4 sm:h-4 md:w-12 md:h-12"
+              viewBox="0 0 64 65"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M29.0012 14.5001C32.3149 14.5001 35.0012 11.8138 35.0012 8.50012C35.0012 5.18641 32.3149 2.50012 29.0012 2.50012C25.6875 2.50012 23.0012 5.18641 23.0012 8.50012C23.0012 11.8138 25.6875 14.5001 29.0012 14.5001Z"
+                stroke="#1C232E"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M50.0012 26.5001C53.3149 26.5001 56.0012 23.8138 56.0012 20.5001C56.0012 17.1864 53.3149 14.5001 50.0012 14.5001C46.6875 14.5001 44.0012 17.1864 44.0012 20.5001C44.0012 23.8138 46.6875 26.5001 50.0012 26.5001Z"
+                stroke="#1C232E"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M56.0012 50.5001C59.3149 50.5001 62.0012 47.8138 62.0012 44.5001C62.0012 41.1864 59.3149 38.5001 56.0012 38.5001C52.6875 38.5001 50.0012 41.1864 50.0012 44.5001C50.0012 47.8138 52.6875 50.5001 56.0012 50.5001Z"
+                stroke="#1C232E"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M23.0012 26.5001C24.971 26.5001 26.9216 26.8881 28.7415 27.6419C30.5613 28.3957 32.2149 29.5006 33.6078 30.8935C35.0007 32.2864 36.1056 33.94 36.8594 35.7599C37.6132 37.5798 38.0012 39.5303 38.0012 41.5001V52.0001C38.0004 54.5095 37.1009 56.9356 35.4657 58.839C33.8304 60.7425 31.5676 61.9973 29.087 62.3763C26.6064 62.7553 24.0721 62.2333 21.9431 60.905C19.8141 59.5767 18.2312 57.5298 17.4812 55.1351C16.2012 51.0051 13.5012 48.3001 9.3812 47.0201C6.98775 46.2705 4.9417 44.6888 3.61328 42.5614C2.28487 40.434 1.76185 37.9014 2.13886 35.4218C2.51588 32.9421 3.76802 30.6794 5.66872 29.043C7.56942 27.4065 9.9931 26.5045 12.5012 26.5001H23.0012Z"
+                stroke="#1C232E"
+                strokeWidth="4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
+            Welcome {pet.pet_name}!
+          </h1>
+        </div>
         {/* Pet Profile and Health Summary Cards */}
         {pet && (
           <div className="flex flex-col md:flex-row gap-6 mb-8 mx-auto w-full">
             {/* Pet Profile Card - image left, details right */}
-            <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col md:flex-row items-center md:items-stretch w-full max-w-3xl min-w-[260px]">
+            <div className="bg-[var(--color-card-profile)] rounded-2xl p-6 flex flex-col md:flex-row items-center md:items-stretch w-full max-w-3xl min-w-[260px] text-[var(--color-white)]">
               {/* Image */}
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-xl overflow-hidden mb-4 md:mb-0 bg-[var(--color-card)] flex items-center justify-center flex-shrink-0">
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-xl overflow-hidden mb-4 md:mb-0 bg-[var(--color-card-profile)] flex items-center justify-center flex-shrink-0">
                 <img
                   src={
                     pet.profile_picture ||
@@ -540,34 +579,54 @@ const HomePage: React.FC = () => {
               </div>
               {/* Details */}
               <div className="flex-1 flex flex-col justify-center md:pl-8 w-full">
-                <div className="text-2xl font-bold mb-2">{pet.pet_name || "Pet"}</div>
+                <div className="text-2xl font-bold mb-2">
+                  {pet.pet_name || "Pet"}
+                </div>
                 <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
                   <div>
-                    <span className="text-[var(--color-text)] opacity-70">Age</span>
-                    <div className="font-bold">{pet.age || "Unknown"} years old</div>
+                    <span className="text-[var(--color-text)] opacity-70">
+                      Age
+                    </span>
+                    <div className="font-bold">
+                      {pet.age || "Unknown"} years old
+                    </div>
                   </div>
                   <div>
-                    <span className="text-[var(--color-text)] opacity-70">Gender</span>
+                    <span className="text-[var(--color-text)] opacity-70">
+                      Gender
+                    </span>
                     <div className="font-bold">{pet.gender || "Unknown"}</div>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
                   <div>
-                    <span className="text-[var(--color-text)] opacity-70">Breed</span>
-                    <div className="font-bold">{pet.breed?.breed_name || "Mixed Breed"}</div>
+                    <span className="text-[var(--color-text)] opacity-70">
+                      Breed
+                    </span>
+                    <div className="font-bold">
+                      {pet.breed?.breed_name || "Mixed Breed"}
+                    </div>
                   </div>
                   <div>
-                    <span className="text-[var(--color-text)] opacity-70">Colour</span>
+                    <span className="text-[var(--color-text)] opacity-70">
+                      Colour
+                    </span>
                     <div className="font-bold">{pet.color || "Unknown"}</div>
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
                   <div>
-                    <span className="text-[var(--color-text)] opacity-70">Microchip Number</span>
-                    <div className="font-bold">{pet.microchip || "Unknown"}</div>
+                    <span className="text-[var(--color-text)] opacity-70">
+                      Microchip Number
+                    </span>
+                    <div className="font-bold">
+                      {pet.microchip || "Unknown"}
+                    </div>
                   </div>
                   <div>
-                    <span className="text-[var(--color-text)] opacity-70">Birthdate</span>
+                    <span className="text-[var(--color-text)] opacity-70">
+                      Birthdate
+                    </span>
                     <div className="font-bold">{pet.dob || "Unknown"}</div>
                   </div>
                 </div>
@@ -575,7 +634,10 @@ const HomePage: React.FC = () => {
                 {pet.code && (
                   <div className="flex gap-2 mt-2">
                     {pet.code.split("").map((char: string, idx: number) => (
-                      <span key={idx} className="bg-[var(--color-background)] border border-[var(--color-primary)] rounded-lg px-3 py-1 text-lg font-mono font-bold text-[var(--color-primary)]">
+                      <span
+                        key={idx}
+                        className="bg-[var(--color-background)] border border-[var(--color-primary)] rounded-lg px-3 py-1 text-lg font-mono font-bold text-[var(--color-primary)]"
+                      >
                         {char}
                       </span>
                     ))}
@@ -584,13 +646,15 @@ const HomePage: React.FC = () => {
               </div>
             </div>
             {/* Health Summary Card */}
-            <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col gap-2 flex-1 min-w-[260px]">
+            <div className="bg-[var(--color-card-health-card)] rounded-2xl p-6 flex flex-col gap-2 flex-1 min-w-[260px] text-[var(--color-text)]">
               <div className="text-xl font-bold mb-2">Health Summary</div>
               <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
                 <div>
                   <span className="opacity-70">Spay/Neuter Status</span>
                   <span className="font-bold ml-2">
-                    {pet.spay_neuter ? "Spayed/Neutered" : "Not Spayed/Neutered"}
+                    {pet.spay_neuter
+                      ? "Spayed/Neutered"
+                      : "Not Spayed/Neutered"}
                   </span>
                 </div>
                 <div>
@@ -617,14 +681,18 @@ const HomePage: React.FC = () => {
             </div>
           </div>
         )}
-        
 
         <div className="mb-8 sm:mb-10 md:mb-12">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold">Vaccines</h2>
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3">
+              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-logo)]">
+                <Syringe className="w-7 h-7 text-[var(--color-white)]" />
+              </span>
+              Vaccines
+            </h2>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
+              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center justify-center hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
             >
               <PlusCircle className="w-5 h-5" /> Add New Vaccine
             </button>
@@ -638,10 +706,15 @@ const HomePage: React.FC = () => {
 
         <div className="mb-12">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-            <h2 className="text-2xl font-bold">Recently Uploaded Documents</h2>
+            <h2 className="text-2xl font-bold flex items-center gap-3">
+              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-logo)]">
+                <FileText className="w-7 h-7 text-[var(--color-white)]" />
+              </span>
+              Recently Uploaded Documents
+            </h2>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
+              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
             >
               <FilePlus className="w-5 h-5" /> Upload New Document
             </button>
@@ -655,10 +728,15 @@ const HomePage: React.FC = () => {
 
         <div className="mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-            <h2 className="text-2xl font-bold">Your Teams</h2>
+            <h2 className="text-2xl font-bold flex items-center gap-3">
+              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-logo)]">
+                <Users className="w-7 h-7 text-[var(--color-white)]" />
+              </span>
+              Your Teams
+            </h2>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-team`)}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
+              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
             >
               <Users className="w-5 h-5" /> Add New Team
             </button>

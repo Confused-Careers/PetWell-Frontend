@@ -298,7 +298,7 @@ const VaccinesPage: React.FC = () => {
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/download-select`)
               }
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
+              className="btn-wide-rounded flex items-center justify-center gap-2 text-base"
             >
               <Download className="w-5 h-5" /> Download Vaccine records
             </button>
@@ -306,7 +306,7 @@ const VaccinesPage: React.FC = () => {
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)
               }
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
+              className="btn-wide-rounded flex items-center justify-center gap-2 text-base"
             >
               <PlusCircle className="w-5 h-5" /> Add New Vaccine
             </button>

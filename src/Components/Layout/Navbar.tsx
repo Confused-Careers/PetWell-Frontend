@@ -201,7 +201,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               />
             </button>
             {isMobileDropdownOpen && (
-              <div className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border border-[#EBD5BD]/30 z-[100] px-2" style={{ background: "rgba(44, 44, 44, 0.98)" }}>
+              <div
+                className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border border-[#EBD5BD]/30 z-[100] px-2"
+                style={{ background: "rgba(44, 44, 44, 0.98)" }}
+              >
                 <div className="px-4 pt-4 pb-2 border-b border-[#EBD5BD]/30">
                   <div className="text-xs text-[#EBD5BD] font-semibold mb-2 tracking-wide text-center">
                     {petName}'s Code
@@ -273,139 +276,152 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       </div>
 
       {/* Desktop Navbar */}
-      <div className="hidden lg:flex flex-col sm:flex-row items-center justify-between px-3 sm:px-4 md:px-6 lg:px-8 py-3 sm:py-4 md:py-6 bg-transparent w-full">
-        <div className="flex items-center space-x-3 sm:space-x-4 mb-3 sm:mb-4 md:mb-0">
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={handleMobileMenuToggle}
-            className="lg:hidden p-2 text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors mobile-menu-toggle"
-          >
-            <Menu size={20} />
-          </button>
-
+      <div
+        className="hidden lg:flex items-center justify-between w-full px-8 py-3"
+        style={{
+          background: "var(--color-background)",
+          border: "1.5px solid var(--color-card-button)",
+          borderRadius: "40px",
+          boxShadow: "0 2px 8px 0 rgba(0,0,0,0.02)",
+        }}
+      >
+        {/* Left: Logo */}
+        <div className="flex items-center gap-3">
           <img
             src={PetWellLogo}
             alt="PetWell Logo"
-            className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 object-contain"
+            className="w-8 h-8 object-contain"
           />
         </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden lg:flex flex-row space-x-8 md:space-x-12 lg:space-x-16 text-sm sm:text-base md:text-lg font-medium items-center mb-3 sm:mb-4 md:mb-0">
+        {/* Center: Navigation */}
+        <div className="flex items-center gap-2 xl:gap-6">
           {navigationItems.map((item) => (
-            <a
+            <button
               key={item.name}
-              href={item.path}
-              className={`hover:text-[var(--color-primary)] transition px-2 py-1 sm:px-3 sm:py-2 ${
+              onClick={() => navigate(item.path)}
+              className={`px-7 py-2 rounded-full transition font-medium text-base ${
                 location.pathname === item.path
-                  ? "text-[var(--color-primary)] font-bold underline underline-offset-4 sm:underline-offset-8"
-                  : "text-[var(--color-text)]"
+                  ? "bg-[var(--color-card-button)] text-[var(--color-text)] font-bold"
+                  : "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-card-button)]/70"
               }`}
+              style={{ minWidth: 100 }}
             >
               {item.name}
-            </a>
+            </button>
           ))}
         </div>
-
-        {/* Desktop Profile Section */}
-        <div
-          className="hidden lg:flex relative items-center space-x-2 sm:space-x-3"
-          ref={dropdownRef}
-        >
-          <span className="text-[var(--color-text)] font-semibold text-sm sm:text-base">
-            {petName}
-          </span>
-          <div className="relative">
-            <button
-              onClick={handleDropdownToggle}
-              className="flex items-center space-x-1 sm:space-x-2 focus:outline-none p-1"
+        {/* Right: Notification + Profile */}
+        <div className="flex items-center gap-4">
+          {/* Bell Icon */}
+          <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent">
+            <svg
+              width="22"
+              height="22"
+              fill="none"
+              stroke="var(--color-card-button)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
             >
-              <img
-                src={petImage}
-                alt="Pet"
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-[var(--color-primary)]"
+              <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 01-3.46 0" />
+            </svg>
+          </div>
+          {/* Profile */}
+          <div
+            className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition"
+            onClick={handleDropdownToggle}
+          >
+            <img
+              src={petImage}
+              alt="Pet"
+              className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-card-button)]"
+            />
+            <span className="text-[var(--color-text)] font-semibold text-base">
+              {petName}
+            </span>
+            <svg
+              className={`w-4 h-4 text-[var(--color-text)] transition-transform ${
+                isDropdownOpen ? "rotate-180" : ""
+              }`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 9l-7 7-7-7"
               />
-              <svg
-                className={`w-3 h-3 sm:w-4 sm:h-4 text-[var(--color-text)] transition-transform ${
-                  isDropdownOpen ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-            {isDropdownOpen && (
-              <div
-                className="absolute right-0 mt-2 w-56 sm:w-64 rounded-xl shadow-2xl border border-[#EBD5BD]/30 z-50"
-                style={{ background: "rgba(44, 44, 44, 0.98)" }}
-              >
-                <div className="px-4 pt-4 pb-2 border-b border-[#EBD5BD]/30">
-                  <div className="text-xs text-[#EBD5BD] font-semibold mb-2 tracking-wide text-center">
-                    {petName}'s Code
-                  </div>
-                  <div className="flex gap-2 mb-2 justify-center items-center">
-                    {generatePetCode(petId || "")
-                      .split("")
-                      .map((char: string, index: number) => (
-                        <span
-                          key={index}
-                          className="inline-flex w-8 h-8 bg-[#fff] bg-opacity-80 text-[#23272f] text-lg font-extrabold rounded-lg items-center justify-center border-2 border-[#EBD5BD] shadow-sm tracking-widest select-all transition-all duration-150 hover:scale-105 text-center"
-                        >
-                          {char}
-                        </span>
-                      ))}
-                  </div>
-                  <div className="text-xs text-[#EBD5BD] text-opacity-70 mb-1 text-center">
-                    Share with care providers to give access to the profile.
-                  </div>
+            </svg>
+          </div>
+          {/* Dropdown (unchanged) */}
+          {isDropdownOpen && (
+            <div
+              className="absolute right-0 mt-16 w-56 sm:w-64 rounded-xl shadow-2xl border border-[#EBD5BD]/30 z-50"
+              style={{ background: "rgba(44, 44, 44, 0.98)" }}
+            >
+              <div className="px-4 pt-4 pb-2 border-b border-[#EBD5BD]/30">
+                <div className="text-xs text-[#EBD5BD] font-semibold mb-2 tracking-wide text-center">
+                  {petName}'s Code
                 </div>
-                <div className="flex flex-col py-1">
-                  <button
-                    className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium"
-                    onClick={() => navigate(`/petowner/pet/${petId}/profile`)}
-                  >
-                    View Profile
-                  </button>
-                  <button
-                    className="text-left px-4 py-2 text-sm text-[#EBD5BD] font-semibold hover:bg-[#EBD5BD]/10 transition"
-                    onClick={() => {
-                      if (typeof onSwitchProfile === "function") {
-                        onSwitchProfile();
-                        setIsDropdownOpen(false);
-                      } else {
-                        navigate("/switch-profile");
-                      }
-                    }}
-                  >
-                    Not {petName}?{" "}
-                    <span className="text-[#FFB23E]">Switch Profile</span>
-                  </button>
-                  <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
-                    Help Center
-                  </button>
-                  <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
-                    Billing Information
-                  </button>
-                  <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
-                    Settings
-                  </button>
-                  <button
-                    className="text-left px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition font-medium border-t border-[#EBD5BD]/20"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
+                <div className="flex gap-2 mb-2 justify-center items-center">
+                  {generatePetCode(petId || "")
+                    .split("")
+                    .map((char: string, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex w-8 h-8 bg-[#fff] bg-opacity-80 text-[#23272f] text-lg font-extrabold rounded-lg items-center justify-center border-2 border-[#EBD5BD] shadow-sm tracking-widest select-all transition-all duration-150 hover:scale-105 text-center"
+                      >
+                        {char}
+                      </span>
+                    ))}
+                </div>
+                <div className="text-xs text-[#EBD5BD] text-opacity-70 mb-1 text-center">
+                  Share with care providers to give access to the profile.
                 </div>
               </div>
-            )}
-          </div>
+              <div className="flex flex-col py-1">
+                <button
+                  className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium"
+                  onClick={() => navigate(`/petowner/pet/${petId}/profile`)}
+                >
+                  View Profile
+                </button>
+                <button
+                  className="text-left px-4 py-2 text-sm text-[#EBD5BD] font-semibold hover:bg-[#EBD5BD]/10 transition"
+                  onClick={() => {
+                    if (typeof onSwitchProfile === "function") {
+                      onSwitchProfile();
+                      setIsDropdownOpen(false);
+                    } else {
+                      navigate("/switch-profile");
+                    }
+                  }}
+                >
+                  Not {petName}?{" "}
+                  <span className="text-[#FFB23E]">Switch Profile</span>
+                </button>
+                <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
+                  Help Center
+                </button>
+                <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
+                  Billing Information
+                </button>
+                <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
+                  Settings
+                </button>
+                <button
+                  className="text-left px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition font-medium border-t border-[#EBD5BD]/20"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

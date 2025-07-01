@@ -1,6 +1,7 @@
 import React from "react";
 import TeamBox from "./TeamInfo";
 import { ArrowRight } from "lucide-react";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 interface Team {
   id: string;
@@ -45,13 +46,13 @@ const TeamSection: React.FC<TeamSectionProps> = ({
       <div className="mt-2">
         <a
           href="#"
-          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base flex items-center gap-1"
+          className="text-[var(--color-primary)] font-medium  text-sm sm:text-base flex items-center gap-1"
           onClick={(e) => {
             e.preventDefault();
             onViewAll && onViewAll();
           }}
         >
-          View All Teams <ArrowRight className="w-4 h-4" />
+          View All Teams <IoIosArrowDroprightCircle />
         </a>
       </div>
     </section>

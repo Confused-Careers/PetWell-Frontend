@@ -31,7 +31,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
 
   return (
     <div
-      className="bg-[var(--color-card)] rounded-2xl px-4 sm:px-6 md:px-7 py-4 sm:py-5  flex flex-col gap-2 relative min-w-0 max-w-full"
+      className="bg-[var(--color-card-team)] rounded-2xl px-4 sm:px-6 md:px-7 py-4 sm:py-5  flex flex-col gap-2 relative min-w-0 max-w-full"
       style={{ minHeight: 180 }}
     >
       <div className="flex items-center gap-2 sm:gap-3 mb-2">
@@ -41,12 +41,10 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
           className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
         />
         <div className="flex flex-col flex-1 min-w-0">
-          <span className="font-semibold text-base sm:text-lg text-[var(--color-text)] leading-tight truncate flex items-center gap-1">
-           {name}
+          <span className="font-semibold text-base sm:text-lg text-[var(--color-black)] leading-tight truncate flex items-center gap-1">
+            {name}
           </span>
-          <span
-            className="text-xs px-2 py-0.5 rounded bg-[var(--color-secondary)] text-[var(--color-secondary-foreground)] mt-1 w-fit"
-          >
+          <span className="text-xs px-2 py-0.5 rounded bg-[var(--color-secondary)] text-[var(--color-black)] mt-1 w-fit">
             {type}
           </span>
         </div>
@@ -62,26 +60,26 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
       </div>
       <div className="flex flex-col gap-2 mt-2">
         <div className="text-xs sm:text-sm mb-1 flex flex-col">
-          <span className="font-semibold text-[var(--color-text)]/60 flex items-center gap-1">
+          <span className="font-semibold text-[var(--color-black)]/60 flex items-center gap-1">
             <Phone className="w-3 h-3" /> Phone
           </span>
-          <span className="text-[var(--color-text)] font-bold mt-0.5 truncate">
+          <span className="text-[var(--color-black)] font-bold mt-0.5 truncate">
             {phone}
           </span>
         </div>
         <div className="text-xs sm:text-sm mb-1 flex flex-col">
-          <span className="font-semibold text-[var(--color-text)]/60 flex items-center gap-1">
+          <span className="font-semibold text-[var(--color-black)]/60 flex items-center gap-1">
             <Mail className="w-3 h-3" /> Email
           </span>
-          <span className="text-[var(--color-text)] font-bold mt-0.5 truncate">
+          <span className="text-[var(--color-black)] font-bold mt-0.5 truncate">
             {email}
           </span>
         </div>
         <div className="text-xs sm:text-sm mt-1 flex flex-col">
-          <span className="font-semibold text-[var(--color-text)]/60 flex items-center gap-1">
+          <span className="font-semibold text-[var(--color-black)]/60 flex items-center gap-1">
             <MapPin className="w-3 h-3" /> Address
           </span>
-          <span className="text-[var(--color-text)] font-bold mt-0.5 line-clamp-2">
+          <span className="text-[var(--color-black)] font-bold mt-0.5 line-clamp-2">
             {address}
           </span>
         </div>

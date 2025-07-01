@@ -405,7 +405,7 @@ const DocumentPage: React.FC = () => {
               {tab.label}
             </button>
           ))}
-          <select 
+          <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
             className="w-[180px] justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg px-3 py-2 text-[var(--color-text)]"
@@ -418,9 +418,7 @@ const DocumentPage: React.FC = () => {
           </select>
         </div>
         {/* Custom Sort Dropdown */}
-        <div className="flex justify-end mb-4">
-          
-        </div>
+        <div className="flex justify-end mb-4"></div>
         {/* Document Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
           {loading ? (

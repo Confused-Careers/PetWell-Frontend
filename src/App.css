@@ -30,11 +30,21 @@ body::-webkit-scrollbar {
 @layer base {
   :root {
     /* Main Colors */
-    --color-background: #1c232e;
+    --color-background: #fff8e5;
     --color-card: #ebd5bd1a;
-    --color-text: #ebd5bd;
-    --color-warning: #ff6174;
-    --color-primary: #ffb23e;
+    --color-card-vaccine-green: #aba75c80;
+    --color-card-vaccine-red: #dc9a6b80;
+    --color-card-document: #edcc7980;
+    --color-card-team: #6a829380;
+    --color-card-profile: #6a8293;
+    --color-card-health-card: #edcc79;
+    --color-card-button: #ffb23e;
+    --color-card-yellow: #edcc79;
+    --color-card-red: #dc9a6b80;
+    --color-text: #1c232e;
+    --color-warning: #990d0d;
+    --color-logo: #3c2a17;
+    --color-opacity: #1C232E80;
 
     /* Essential System Colors */
     --color-white: #fff;
@@ -482,4 +492,30 @@ input[type="password"]::-webkit-input-decoration,
 input[type="password"]::-webkit-input-clear-button,
 input[type="password"]::-webkit-input-password-toggle-button {
   display: none !important;
+}
+
+/* Wide rounded button utility */
+.btn-wide-rounded {
+  width: 350px;
+  height: 64px;
+  gap: 10px;
+  border: none;
+  border-radius: 80px;
+  padding-top: 16px;
+  padding-right: 32px;
+  padding-bottom: 16px;
+  padding-left: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  background: var(--color-card-button);
+  color: var(--color-text);
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.btn-wide-rounded:hover {
+  filter: brightness(0.95);
 }

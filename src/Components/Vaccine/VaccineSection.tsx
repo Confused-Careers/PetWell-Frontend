@@ -1,6 +1,6 @@
 import React from "react";
 import VaccineInfo from "./VaccineInfo";
-import { ArrowRight } from "lucide-react";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 interface Vaccine {
   name: string;
@@ -23,9 +23,9 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
 }) => {
   return (
     <section className="mb-6 sm:mb-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 w-full">
         {vaccines.map((vaccine, idx) => (
-          <div key={idx}>
+          <div key={idx} className="w-full">
             <VaccineInfo
               name={vaccine.name}
               administered={vaccine.administered}
@@ -41,13 +41,14 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
       <div className="mt-2">
         <a
           href="#"
-          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base flex items-center gap-1"
+          className="text-[var(--color-primary)] font-medium  text-sm sm:text-base flex items-center gap-1"
           onClick={(e) => {
             e.preventDefault();
             onViewAll && onViewAll();
           }}
         >
-          View All Vaccines <ArrowRight className="w-4 h-4" />
+          View All Vaccines
+          <IoIosArrowDroprightCircle />
         </a>
       </div>
     </section>

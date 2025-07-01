@@ -1,13 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../../../Assets/PetWell.png";
 import { useNavigate } from "react-router-dom";
 
 const BusinessSignupForm: React.FC = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/business/signup");
+    setError(null);
+    if (!email || !password || !confirmPassword) {
+      setError("Please fill all fields.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    // Only pass credentials to next page, do not register here
+    console.log("[BusinessSignupForm] Passing credentials to next page:", {
+      email,
+      password,
+    });
+    navigate("/business/signup", { state: { email, password } });
   };
 
   return (
@@ -34,6 +53,9 @@ const BusinessSignupForm: React.FC = () => {
               type="email"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] focus:outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -44,6 +66,9 @@ const BusinessSignupForm: React.FC = () => {
               type="password"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] focus:outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -54,21 +79,27 @@ const BusinessSignupForm: React.FC = () => {
               type="password"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] focus:outline-none"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
             />
           </div>
+          {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
           <div className="flex gap-2 mt-2">
             <button
               type="button"
               className="flex-1 border border-[var(--color-primary)] text-[var(--color-primary)] rounded-md py-2 font-semibold hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition bg-transparent"
               onClick={() => navigate(-1)}
+              disabled={loading}
             >
               Go Back
             </button>
             <button
               type="submit"
               className="flex-1 bg-[var(--color-primary)] text-[var(--color-background)] font-semibold rounded-md py-2 hover:brightness-110 transition"
+              disabled={loading}
             >
-              Continue
+              {loading ? "Registering..." : "Continue"}
             </button>
           </div>
           <div className="text-center mt-2 text-[var(--color-text)] text-sm">

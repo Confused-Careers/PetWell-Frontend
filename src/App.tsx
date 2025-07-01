@@ -25,6 +25,7 @@ import CareTeamListPage from "./Pages/Authentication/BusinessAuth/CareTeamListPa
 import BusinessHomePage from "./Pages/Business/BusinessHome/BusinessHomePage";
 import PetParentOnboardingChoice from "./Pages/Authentication/ProfileCreation/PetParentOnboardingChoice";
 import BusinessSignupForm from "./Pages/Authentication/BusinessAuth/businessSignupForm";
+import BusinessOTPVerificationPage from "./Pages/Authentication/BusinessAuth/BusinessOTPVerificationPage";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/business/signup/add-care-team" element={<AddCareTeamPage />} />
         <Route path="/business/signup/care-team-list" element={<CareTeamListPage />} />
         <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
+        <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

@@ -1,26 +1,78 @@
 import React, { useRef, useState } from "react";
 import { Upload, Instagram, Facebook, X } from "lucide-react";
 import Logo from "../../../Assets/PetWell.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import authServices from "../../../Services/authServices";
 
 const BusinessSignupPage: React.FC = () => {
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [profileImage, setProfileImage] = useState<File | null>(null);
+  const [profileImagePreview, setProfileImagePreview] = useState<string | null>(
+    null
+  );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get email and password from previous step
+  const { email = "", password = "" } = (location.state as any) || {};
+
+  // Controlled fields for the rest of the business details
+  const [businessName, setBusinessName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [description, setDescription] = useState("");
+  const [website, setWebsite] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [facebook, setFacebook] = useState("");
+  const [x, setX] = useState("");
+  const [contactPreference, setContactPreference] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setProfileImage(ev.target?.result as string);
-      };
-      reader.readAsDataURL(e.target.files[0]);
+      setProfileImage(e.target.files[0]);
+      setProfileImagePreview(URL.createObjectURL(e.target.files[0]));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleContactPrefChange = (pref: string) => {
+    setContactPreference((prev) =>
+      prev.includes(pref) ? prev.filter((p) => p !== pref) : [...prev, pref]
+    );
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    navigate("/business/signup/add-care-team");
+    setError(null);
+    if (!businessName || !phone || !description) {
+      setError("Please fill all required fields.");
+      return;
+    }
+    setLoading(true);
+    try {
+      const businessData = {
+        business_name: businessName,
+        email,
+        phone,
+        password,
+        description,
+        website,
+        instagram,
+        facebook,
+        x,
+        contact_preference: contactPreference.join(","),
+        profile_picture: profileImage || undefined,
+      };
+      console.log("[BusinessSignupPage] Submitting:", businessData);
+      const res = await authServices.signupBusiness(businessData);
+      console.log("[BusinessSignupPage] API response:", res);
+      navigate("/business/signup/otp", { state: { email } });
+    } catch (err: any) {
+      console.error("[BusinessSignupPage] Registration error:", err);
+      setError(err.message || "Registration failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,6 +96,9 @@ const BusinessSignupPage: React.FC = () => {
               type="text"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+              value={businessName}
+              onChange={(e) => setBusinessName(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -67,9 +122,9 @@ const BusinessSignupPage: React.FC = () => {
                 className="hidden"
               />
             </div>
-            {profileImage && (
+            {profileImagePreview && (
               <img
-                src={profileImage}
+                src={profileImagePreview}
                 alt="Profile Preview"
                 className="mt-2 h-16 w-16 rounded-full object-cover border border-[#F6E7C0] mx-auto"
               />
@@ -83,16 +138,9 @@ const BusinessSignupPage: React.FC = () => {
               type="text"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
-            />
-          </div>
-          <div>
-            <label className="block text-[#EBD5BD] text-base mb-2">
-              What is your business email?
-            </label>
-            <input
-              type="email"
-              placeholder="Type here"
-              className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -101,11 +149,21 @@ const BusinessSignupPage: React.FC = () => {
             </label>
             <div className="flex gap-6 mt-1">
               <label className="flex items-center gap-2 text-[#EBD5BD] font-cabin">
-                <input type="checkbox" className="accent-[#F6E7C0] w-3 h-3" />
+                <input
+                  type="checkbox"
+                  className="accent-[#F6E7C0] w-3 h-3"
+                  checked={contactPreference.includes("Email")}
+                  onChange={() => handleContactPrefChange("Email")}
+                />
                 Email
               </label>
               <label className="flex items-center gap-2 text-[#EBD5BD] font-cabin">
-                <input type="checkbox" className="accent-[#F6E7C0] w-3 h-3" />
+                <input
+                  type="checkbox"
+                  className="accent-[#F6E7C0] w-3 h-3"
+                  checked={contactPreference.includes("Phone Call")}
+                  onChange={() => handleContactPrefChange("Phone Call")}
+                />
                 Phone Call
               </label>
             </div>
@@ -118,6 +176,9 @@ const BusinessSignupPage: React.FC = () => {
               type="text"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
             />
           </div>
           <div>
@@ -128,6 +189,8 @@ const BusinessSignupPage: React.FC = () => {
               type="text"
               placeholder="Type here"
               className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+              value={website}
+              onChange={(e) => setWebsite(e.target.value)}
             />
           </div>
           <div>
@@ -141,6 +204,8 @@ const BusinessSignupPage: React.FC = () => {
                   type="text"
                   placeholder="Paste Link Here"
                   className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -149,6 +214,8 @@ const BusinessSignupPage: React.FC = () => {
                   type="text"
                   placeholder="Paste Link Here"
                   className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+                  value={facebook}
+                  onChange={(e) => setFacebook(e.target.value)}
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -157,15 +224,19 @@ const BusinessSignupPage: React.FC = () => {
                   type="text"
                   placeholder="Paste Link Here"
                   className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none"
+                  value={x}
+                  onChange={(e) => setX(e.target.value)}
                 />
               </div>
             </div>
           </div>
+          {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
           <button
             type="submit"
             className="mt-4 w-full bg-[#FDBA3B] text-[#23272F] font-cabin font-medium py-2 rounded-md hover:bg-[#e6a832] transition"
+            disabled={loading}
           >
-            Next
+            {loading ? "Registering..." : "Next"}
           </button>
         </form>
       </div>

@@ -30,9 +30,14 @@ interface BusinessSignupData {
   password: string;
   description: string;
   website?: string;
+  address?: string;
   instagram?: string;
   facebook?: string;
   x?: string;
+  contact_preference?: string;
+  document_name?: string;
+  file_type?: string;
+  profile_picture?: File;
 }
 
 // Human Owner with Pet
@@ -315,14 +320,35 @@ const authServices = {
     }
   },
 
-  async signupBusiness(data: BusinessSignupData): Promise<AuthResponse> {
+  async signupBusiness(
+    data: BusinessSignupData
+  ): Promise<AuthResponse> {
     try {
+      const formData = new FormData();
+      formData.append("business_name", data.business_name);
+      formData.append("email", data.email);
+      formData.append("phone", data.phone);
+      formData.append("password", data.password);
+      formData.append("description", data.description);
+      if (data.website) formData.append("website", data.website);
+      if (data.address) formData.append("address", data.address);
+      if (data.instagram) formData.append("instagram", data.instagram);
+      if (data.facebook) formData.append("facebook", data.facebook);
+      if (data.x) formData.append("x", data.x);
+      if (data.contact_preference)
+        formData.append("contact_preference", data.contact_preference);
+      if (data.document_name)
+        formData.append("document_name", data.document_name);
+      if (data.file_type) formData.append("file_type", data.file_type);
+      if (data.profile_picture)
+        formData.append("profile_picture", data.profile_picture);
+
       const response = await axios.post(
         `${SERVER_BASE_URL}/api/v1/auth/register/business`,
-        data,
+        formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            // Do not set Content-Type, browser will set it with boundary
           },
         }
       );

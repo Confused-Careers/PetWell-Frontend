@@ -50,7 +50,7 @@ function App() {
         <Route path="/business/signup/care-team-list" element={<CareTeamListPage />} />
         <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
         <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
-         <Route path="/business-home" element={<BusinessHomePage />} />
+        <Route path="/business-home" element={<BusinessHomePage />} />
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

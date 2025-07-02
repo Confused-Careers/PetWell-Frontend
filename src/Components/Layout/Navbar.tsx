@@ -277,8 +277,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
 
       {/* Desktop Navbar */}
       <div
-        className="hidden lg:flex items-center justify-between w-full px-8 py-3"
+        className="hidden lg:flex items-center justify-between mx-auto mt-6 mb-0 px-8 py-3"
         style={{
+          maxWidth: '1450px', // or '72rem' for max-w-6xl
+          width: 'calc(100% - 3rem)', // leave space on left/right
           background: "var(--color-background)",
           border: "1.5px solid var(--color-card-button)",
           borderRadius: "40px",
@@ -290,7 +292,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
           <img
             src={PetWellLogo}
             alt="PetWell Logo"
-            className="w-8 h-8 object-contain"
+            className="object-contain"
           />
         </div>
         {/* Center: Navigation */}
@@ -329,99 +331,102 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             </svg>
           </div>
           {/* Profile */}
-          <div
-            className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition"
-            onClick={handleDropdownToggle}
-          >
-            <img
-              src={petImage}
-              alt="Pet"
-              className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-card-button)]"
-            />
-            <span className="text-[var(--color-text)] font-semibold text-base">
-              {petName}
-            </span>
-            <svg
-              className={`w-4 h-4 text-[var(--color-text)] transition-transform ${
-                isDropdownOpen ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-          {/* Dropdown (unchanged) */}
-          {isDropdownOpen && (
+          <div className="relative">
             <div
-              className="absolute right-0 mt-16 w-56 sm:w-64 rounded-xl shadow-2xl border border-[#EBD5BD]/30 z-50"
-              style={{ background: "rgba(44, 44, 44, 0.98)" }}
+              className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition"
+              onClick={handleDropdownToggle}
             >
-              <div className="px-4 pt-4 pb-2 border-b border-[#EBD5BD]/30">
-                <div className="text-xs text-[#EBD5BD] font-semibold mb-2 tracking-wide text-center">
-                  {petName}'s Code
-                </div>
-                <div className="flex gap-2 mb-2 justify-center items-center">
-                  {generatePetCode(petId || "")
-                    .split("")
-                    .map((char: string, index: number) => (
-                      <span
-                        key={index}
-                        className="inline-flex w-8 h-8 bg-[#fff] bg-opacity-80 text-[#23272f] text-lg font-extrabold rounded-lg items-center justify-center border-2 border-[#EBD5BD] shadow-sm tracking-widest select-all transition-all duration-150 hover:scale-105 text-center"
-                      >
-                        {char}
-                      </span>
-                    ))}
-                </div>
-                <div className="text-xs text-[#EBD5BD] text-opacity-70 mb-1 text-center">
-                  Share with care providers to give access to the profile.
-                </div>
-              </div>
-              <div className="flex flex-col py-1">
-                <button
-                  className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium"
-                  onClick={() => navigate(`/petowner/pet/${petId}/profile`)}
-                >
-                  View Profile
-                </button>
-                <button
-                  className="text-left px-4 py-2 text-sm text-[#EBD5BD] font-semibold hover:bg-[#EBD5BD]/10 transition"
-                  onClick={() => {
-                    if (typeof onSwitchProfile === "function") {
-                      onSwitchProfile();
-                      setIsDropdownOpen(false);
-                    } else {
-                      navigate("/switch-profile");
-                    }
-                  }}
-                >
-                  Not {petName}?{" "}
-                  <span className="text-[#FFB23E]">Switch Profile</span>
-                </button>
-                <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
-                  Help Center
-                </button>
-                <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
-                  Billing Information
-                </button>
-                <button className="text-left px-4 py-2 text-sm text-[#EBD5BD] hover:bg-[#EBD5BD]/10 transition font-medium">
-                  Settings
-                </button>
-                <button
-                  className="text-left px-4 py-2 text-sm text-red-400 hover:bg-red-400/10 transition font-medium border-t border-[#EBD5BD]/20"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </div>
+              <img
+                src={petImage}
+                alt="Pet"
+                className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-card-button)]"
+              />
+              <span className="text-[var(--color-text)] font-semibold text-base">
+                {petName}
+              </span>
+              <svg
+                className={`w-4 h-4 text-[var(--color-text)] transition-transform ${
+                  isDropdownOpen ? "rotate-180" : ""
+                }`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
             </div>
-          )}
+            {/* Dropdown (improved position) */}
+            {isDropdownOpen && (
+              <div
+                className="absolute right-0 top-full w-72 rounded-2xl shadow-2xl border border-[#EBD5BD]/40 z-50 animate-fadeIn"
+                style={{ background: "#fff8e5", minWidth: 280, marginTop: 12 }}
+                ref={dropdownRef}
+              >
+                <div className="px-5 pt-5 pb-3 border-b border-[#EBD5BD]/40">
+                  <div className="text-xs text-[#b48a4a] font-semibold mb-2 tracking-wide text-center">
+                    {petName}'s Code
+                  </div>
+                  <div className="flex gap-2 mb-2 justify-center items-center">
+                    {generatePetCode(petId || "")
+                      .split("")
+                      .map((char: string, index: number) => (
+                        <span
+                          key={index}
+                          className="inline-flex w-8 h-8 bg-[#fff] bg-opacity-90 text-[#23272f] text-lg font-extrabold rounded-lg items-center justify-center border-2 border-[#EBD5BD] shadow-sm tracking-widest select-all transition-all duration-150 hover:scale-105 text-center"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                  </div>
+                  <div className="text-xs text-[#b48a4a] text-opacity-80 mb-1 text-center">
+                    Share with care providers to give access to the profile.
+                  </div>
+                </div>
+                <div className="flex flex-col py-2">
+                  <button
+                    className="text-left px-5 py-3 text-base text-[#23272f] hover:bg-[#ffe3b8] rounded-xl transition font-medium"
+                    onClick={() => { navigate(`/petowner/pet/${petId}/profile`); setIsDropdownOpen(false); }}
+                  >
+                    View Profile
+                  </button>
+                  <button
+                    className="text-left px-5 py-3 text-base text-[#23272f] font-semibold hover:bg-[#ffe3b8] rounded-xl transition"
+                    onClick={() => {
+                      if (typeof onSwitchProfile === "function") {
+                        onSwitchProfile();
+                        setIsDropdownOpen(false);
+                      } else {
+                        navigate("/switch-profile");
+                        setIsDropdownOpen(false);
+                      }
+                    }}
+                  >
+                    Not {petName}? <span className="text-[#FFB23E]">Switch Profile</span>
+                  </button>
+                  <button className="text-left px-5 py-3 text-base text-[#23272f] hover:bg-[#ffe3b8] rounded-xl transition font-medium">
+                    Help Center
+                  </button>
+                  <button className="text-left px-5 py-3 text-base text-[#23272f] hover:bg-[#ffe3b8] rounded-xl transition font-medium">
+                    Billing Information
+                  </button>
+                  <button className="text-left px-5 py-3 text-base text-[#23272f] hover:bg-[#ffe3b8] rounded-xl transition font-medium">
+                    Settings
+                  </button>
+                  <button
+                    className="text-left px-5 py-3 text-base text-red-500 hover:bg-red-100 rounded-xl transition font-medium border-t border-[#EBD5BD]/30 mt-2"
+                    onClick={() => { handleLogout(); setIsDropdownOpen(false); }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

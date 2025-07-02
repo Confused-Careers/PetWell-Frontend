@@ -42,7 +42,7 @@ const SignupTypeSelectPage: React.FC = () => {
             </div>
           </button>
           <button
-            onClick={() => navigate("/business/signup")}
+            onClick={() => navigate("/business/signup/form")}
             className="flex flex-1 cursor-pointer items-center gap-3 bg-[#6A8293] border border-black rounded-2xl p-4 sm:p-5 hover:opacity-90 transition-all duration-200 max-w-sm"
           >
             <FaBriefcase className="h-14 w-auto 0 text-[#1C232E] mr-3 flex-shrink-0" />

@@ -292,14 +292,14 @@ const AddPetProfile: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step1BasicPetInfo
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              onNext={() => goToStep(2)}
-              steps={petSteps}
-            />
+        <Step1BasicPetInfo
+          form={form}
+          setForm={setForm}
+          error={error}
+          setError={setError}
+          onNext={() => goToStep(2)}
+          steps={petSteps}
+        />
           </div>
         </div>
       );
@@ -317,14 +317,14 @@ const AddPetProfile: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step2HealthBasics
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              onNext={() => goToStep(3)}
-              steps={petSteps}
-            />
+        <Step2HealthBasics
+          form={form}
+          setForm={setForm}
+          error={error}
+          setError={setError}
+          onNext={() => goToStep(3)}
+          steps={petSteps}
+        />
           </div>
         </div>
       );
@@ -342,35 +342,35 @@ const AddPetProfile: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step3SafetyAndID
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              onNext={handleCreatePet}
-              steps={petSteps}
-              loading={loading}
+          <Step3SafetyAndID
+            form={form}
+            setForm={setForm}
+            error={error}
+            setError={setError}
+            onNext={handleCreatePet}
+            steps={petSteps}
+            loading={loading}
+          />
+          {/* Success Modal */}
+          {showSuccess &&
+            (() => {
+              console.log("[Modal Render] newPetId:", newPetId);
+              return null;
+            })()}
+          {showSuccess && (
+            <ProfileCreationSuccessModal
+              petId={newPetId || ""}
+              onClose={() => setShowSuccess(false)}
+              onGoHome={() => {
+                if (newPetId) navigate(`/petowner/pet/${newPetId}/home`);
+              }}
+              onUploadRecords={(id) => {
+                console.log("[Modal onUploadRecords] id:", id);
+                setShowSuccess(false);
+                navigate(`/petowner/pet/${newPetId}/upload-documents`);
+              }}
             />
-            {/* Success Modal */}
-            {showSuccess &&
-              (() => {
-                console.log("[Modal Render] newPetId:", newPetId);
-                return null;
-              })()}
-            {showSuccess && (
-              <ProfileCreationSuccessModal
-                petId={newPetId || ""}
-                onClose={() => setShowSuccess(false)}
-                onGoHome={() => {
-                  if (newPetId) navigate(`/petowner/pet/${newPetId}/home`);
-                }}
-                onUploadRecords={(id) => {
-                  console.log("[Modal onUploadRecords] id:", id);
-                  setShowSuccess(false);
-                  navigate(`/petowner/pet/${newPetId}/upload-documents`);
-                }}
-              />
-            )}
+          )}
           </div>
         </div>
       );

@@ -34,28 +34,27 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
             onDelete={
               onDeleteDocument ? () => onDeleteDocument(idx) : undefined
             }
-            onDownload={
-              ()=>{
-                console.log(doc)
-              }
-            }
+            onDownload={() => {
+              console.log(doc);
+            }}
           />
         ))}
-                {documents.length==0 && <div>No Document Added</div>}
-
+        {documents.length == 0 && <div>No Document Added</div>}
       </div>
-      {documents.length!=0 && <div className="mt-2">
-        <a
-          href="#"
-          className="text-[var(--color-primary)] font-medium text-sm sm:text-base flex items-center gap-1"
-          onClick={(e) => {
-            e.preventDefault();
-            onViewAll && onViewAll();
-          }}
-        >
-          View All Documents <IoIosArrowDroprightCircle />
-        </a>
-      </div>}
+      {documents.length != 0 && (
+        <div className="mt-2">
+          <a
+            href="#"
+            className="text-[var(--color-primary)] font-medium text-sm sm:text-base flex items-center gap-1"
+            onClick={(e) => {
+              e.preventDefault();
+              onViewAll && onViewAll();
+            }}
+          >
+            View All Documents <IoIosArrowDroprightCircle />
+          </a>
+        </div>
+      )}
     </section>
   );
 };

@@ -5,6 +5,7 @@ import DeleteDocumentModal from "../../Components/Document/DeleteDocumentModal";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import petServices from "../../Services/petServices";
 import { Download, Pencil, X, Search, UploadCloud } from "lucide-react";
+import DocumentInfo from "../../Components/Document/DocumentInfo";
 
 // Helper to format file size
 function formatSize(bytes: number | undefined) {
@@ -156,6 +157,10 @@ const DocumentPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("all");
+  const [editDocIdx, setEditDocIdx] = useState<number | null>(null);
+  const [editDocName, setEditDocName] = useState<string>("");
+  const [deleteDocIdx, setDeleteDocIdx] = useState<number | null>(null);
+  const [deleteDocName, setDeleteDocName] = useState<string>("");
 
   useEffect(() => {
     const fetchPetAndDocuments = async () => {
@@ -335,6 +340,64 @@ const DocumentPage: React.FC = () => {
     return filterAndSort(documents);
   }
 
+  const handleEditDocument = (idx: number) => {
+    setEditDocIdx(idx);
+    setEditDocName(documents[idx]?.document_name || documents[idx]?.name || "");
+  };
+
+  const handleSaveDocumentName = async (newName: string) => {
+    if (editDocIdx === null) return;
+    try {
+      const doc = documents[editDocIdx];
+      if (!doc.id) throw new Error("No document id");
+      await petServices.updateDocumentName(doc.id, newName);
+      setDocuments((prevDocs: any[]) =>
+        prevDocs.map((d, i) =>
+          i === editDocIdx ? { ...d, document_name: newName, name: newName } : d
+        )
+      );
+      setEditDocIdx(null);
+    } catch (err) {
+      setEditDocIdx(null);
+    }
+  };
+
+  const handleDeleteDocument = (docId: string) => {
+    const idx = documents.findIndex((d) => d.id === docId);
+    setDeleteDocIdx(idx);
+    setDeleteDocName(
+      documents[idx]?.document_name || documents[idx]?.name || ""
+    );
+  };
+
+  const handleConfirmDeleteDocument = async () => {
+    if (deleteDocIdx === null) return;
+    try {
+      const doc = documents[deleteDocIdx];
+      if (!doc.id) throw new Error("No document id");
+      await petServices.deleteDocument(doc.id);
+      setDocuments((prevDocs: any[]) =>
+        prevDocs.filter((_, i) => i !== deleteDocIdx)
+      );
+      setDeleteDocIdx(null);
+    } catch (err) {
+      setDeleteDocIdx(null);
+    }
+  };
+
+  // Download handler for a document
+  const handleDownloadDocument = (doc: any) => {
+    const url = doc.document_url || doc.url;
+    const name = doc.document_name || doc.name || "document";
+    if (!url) return;
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = name;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
@@ -367,7 +430,7 @@ const DocumentPage: React.FC = () => {
                     {searchResults.map((doc, idx) => (
                       <div
                         key={doc.id}
-                        className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)]"
+                        className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)] rounded-full"
                         onMouseDown={() => {
                           setSearch(doc.document_name);
                           setShowSuggestions(false);
@@ -381,7 +444,7 @@ const DocumentPage: React.FC = () => {
               </div>
             </div>
             <button
-              className="bg-[var(--color-card-button)] text-[var(--color-text)]  transition px-6 py-2 font-semibold rounded-lg w-full sm:w-auto flex items-center gap-2"
+              className="bg-[var(--color-card-button)] text-[var(--color-text)] transition px-6 py-2 font-semibold rounded-full w-full sm:w-auto flex items-center gap-2"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId || petId}/upload`)
               }
@@ -390,104 +453,83 @@ const DocumentPage: React.FC = () => {
             </button>
           </div>
         </div>
-        {/* Custom Tabs */}
-        <div className="flex gap-3 mb-8">
-          {tabOptions.map((tab) => (
-            <button
-              key={tab.value}
-              className={`px-6 py-2 rounded-full font-medium text-base border transition-all
-                ${
-                  activeTab === tab.value
-                    ? "bg-[var(--color-text)] text-[var(--color-background)] border-[var(--color-text)]"
-                    : "bg-transparent text-[var(--color-text)] border-[var(--color-text)]"
-                }
-              `}
-              onClick={() => setActiveTab(tab.value)}
-            >
-              {tab.label}
-            </button>
-          ))}
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="w-[180px] justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg px-3 py-2 text-[var(--color-text)]"
-          >
-            {sortOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                Sort by: {opt.label}
-              </option>
+        {/* Custom Tabs and Sort Row */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8 w-full">
+          <div className="flex gap-3 mb-2 sm:mb-0">
+            {tabOptions.map((tab) => (
+              <button
+                key={tab.value}
+                className={`px-6 py-2 rounded-full font-medium text-base border transition-all
+                  ${
+                    activeTab === tab.value
+                      ? "bg-[var(--color-text)] text-[var(--color-background)] border-[var(--color-text)]"
+                      : "bg-transparent text-[var(--color-text)] border-[var(--color-text)]"
+                  }
+                `}
+                onClick={() => setActiveTab(tab.value)}
+              >
+                {tab.label}
+              </button>
             ))}
-          </select>
-        </div>
-        {/* Custom Sort Dropdown */}
-        <div className="flex justify-end mb-4"></div>
-        {/* Document Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          {loading ? (
-            <div className="col-span-2 flex justify-center items-center h-40">
-              Loading documents...
-            </div>
-          ) : (
-            <>
-              {getFilteredDocs().map((doc, idx) => (
-                <DocumentCard
-                  key={doc.id}
-                  document={doc}
-                  fileSize={docSizes[doc.id]}
-                  onEdit={() => {
-                    setRenameIdx(idx);
-                    setDocName(doc.document_name);
-                  }}
-                  onDelete={() => setDeleteIdx(idx)}
-                />
+          </div>
+          <div className="flex justify-end w-full sm:w-auto">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-[180px] justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)]"
+            >
+              {sortOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  Sort by: {opt.label}
+                </option>
               ))}
-            </>
-          )}
+            </select>
+          </div>
         </div>
-        {/* Delete Modal */}
-        {deleteIdx !== null && (
-          <DeleteDocumentModal
-            open={true}
-            documentName={documents[deleteIdx]?.document_name}
-            onClose={() => setDeleteIdx(null)}
-            onDelete={async () => {
-              if (deleteIdx === null) return;
-              const documentId = documents[deleteIdx].id;
-              try {
-                await petServices.deleteDocument(documentId);
-                setDocuments((prevDocs) =>
-                  prevDocs.filter((_, i) => i !== deleteIdx)
-                );
-              } catch (err) {
-                // Optionally show error to user
-                console.error("Failed to delete document", err);
-              }
-              setDeleteIdx(null);
-            }}
-          />
+        {/* Document Grid */}
+        {getFilteredDocs().length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4">
+            {getFilteredDocs().map((doc) => {
+              let ext =
+                doc.document_name?.split(".").pop()?.toLowerCase() ||
+                doc.name?.split(".").pop()?.toLowerCase() ||
+                "";
+              let type: "pdf" | "img" = ext === "pdf" ? "pdf" : "img";
+              return (
+                <DocumentInfo
+                  key={doc.id}
+                  name={doc.document_name || doc.name || ""}
+                  type={type}
+                  onEdit={() =>
+                    handleEditDocument(
+                      documents.findIndex((d) => d.id === doc.id)
+                    )
+                  }
+                  onDelete={() => handleDeleteDocument(doc.id)}
+                  onDownload={() => handleDownloadDocument(doc)}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-16 text-lg text-[var(--color-text)] opacity-70">
+            No documents uploaded yet.
+          </div>
         )}
-        {/* Rename Modal */}
-        {renameIdx !== null && (
+        {editDocIdx !== null && (
           <RenameDocumentModal
             open={true}
-            initialName={docName}
-            onClose={() => setRenameIdx(null)}
-            onSave={async (newName: string) => {
-              if (renameIdx === null) return;
-              const doc = documents[renameIdx];
-              try {
-                await petServices.updateDocumentName(doc.id, newName);
-                setDocuments((prevDocs) =>
-                  prevDocs.map((d, i) =>
-                    i === renameIdx ? { ...d, document_name: newName } : d
-                  )
-                );
-              } catch (err) {
-                // Optionally show error to user
-                console.error("Failed to rename document", err);
-              }
-              setRenameIdx(null);
-            }}
+            initialName={editDocName}
+            onClose={() => setEditDocIdx(null)}
+            onSave={handleSaveDocumentName}
+          />
+        )}
+        {deleteDocIdx !== null && (
+          <DeleteDocumentModal
+            open={true}
+            documentName={deleteDocName}
+            onClose={() => setDeleteDocIdx(null)}
+            onDelete={handleConfirmDeleteDocument}
           />
         )}
       </div>

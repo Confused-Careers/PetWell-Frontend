@@ -16,7 +16,7 @@ const CareTeamMemberCard: React.FC<CareTeamMemberCardProps> = ({
   access,
   onEdit,
   onDelete,
-  onShare,
+
 }) => {
   return (
     <div className="bg-[#EDCC79] rounded-xl p-4 w-full max-w-xl shadow flex flex-col gap-2 relative min-h-[160px] justify-between py-6">

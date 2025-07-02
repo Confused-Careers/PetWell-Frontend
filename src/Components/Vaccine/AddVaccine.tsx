@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "../ui/input";
-import { Syringe, UploadCloud, UploadIcon } from "lucide-react";
+import {  UploadIcon } from "lucide-react";
 import vaccineServices from "../../Services/vaccineServices";
 
 interface AddVaccineProps {

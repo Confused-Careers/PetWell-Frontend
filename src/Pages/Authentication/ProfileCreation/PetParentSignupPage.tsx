@@ -5,16 +5,9 @@ import PetWellLogo from "../../../Assets/PetWell.png";
 import Step4HumanInfoUpload from "./Step4HumanInfoUpload";
 import Step5OTPVerificationUpload from "./Step5OTPVerificationUpload";
 import type { FormData } from "./types";
-import UploadStepper from "./UploadStepper";
 import UploadList from "../../../Components/UploadDocument/UploadList";
 import autofillServices from "../../../Services/autofillServices";
 import {
-  UploadCloud,
-  FileText,
-  Image,
-  AlertCircle,
-  CheckCircle,
-  X,
   UploadIcon,
 } from "lucide-react";
 

@@ -199,12 +199,6 @@ const AddPetProfile: React.FC = () => {
   };
 
   // Handler for Upload Records button in modal
-  const handleShowUploadUI = () => {
-    setShowSuccess(false);
-    if (newPetId) {
-      navigate(`/petowner/pet/${newPetId}/upload-documents`);
-    }
-  };
 
   // Handler for document upload
   const handleDocumentUpload = async (

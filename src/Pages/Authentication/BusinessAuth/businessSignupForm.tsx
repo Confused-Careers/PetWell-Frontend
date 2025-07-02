@@ -8,7 +8,7 @@ const BusinessSignupForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, ] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

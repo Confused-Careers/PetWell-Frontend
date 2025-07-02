@@ -116,38 +116,9 @@ const VerificationPage: React.FC = () => {
   }, [petId]);
 
   // Robust property access for pet
-  const breed =
-    (typeof pet?.breed_name === "string" ? pet.breed_name : "") ||
-    (typeof pet?.breed === "string" ? pet.breed : "") ||
-    (typeof pet?.breed_obj?.breed_name === "string"
-      ? pet.breed_obj.breed_name
-      : "") ||
-    (typeof pet?.breed === "object" && pet?.breed?.breed_name
-      ? String(pet.breed.breed_name)
-      : "") ||
-    "";
-  const species =
-    (typeof pet?.breed_species?.species_name === "string"
-      ? pet.breed_species.species_name
-      : "") ||
-    (typeof pet?.breed_species_name === "string"
-      ? pet.breed_species_name
-      : "") ||
-    (typeof pet?.breed_species === "string" ? pet.breed_species : "") ||
-    "";
   const petName = pet?.pet_name || pet?.name || "";
-  const petImage = pet?.profile_picture_url || pet?.image || null;
-  const petAge = pet?.age || "";
-  const petWeight = pet?.weight || "";
-  const petColor = pet?.color || "";
-  const petMicrochip = pet?.microchip || "";
-  const petBirthdate = pet?.dob || pet?.birthdate || "";
 
   // Robust property access for user
-  const userName = human?.human_owner_name || human?.name || "";
-  const userLocation = human?.location || "";
-  const userPhone = human?.phone || "";
-  const userEmail = human?.email || "";
 
   // Handlers for editing
   const handleEditVaccine = (index: number) => {

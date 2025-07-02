@@ -40,22 +40,6 @@ const ForgotPasswordPage: React.FC = () => {
     }
   };
 
-  const handleResendOTP = async () => {
-    setError("");
-    setLoading(true);
-    try {
-      await authServices.resendOTP({
-        email,
-        otp_type: "PasswordReset",
-      });
-      setError("OTP resent successfully");
-      setResendTimer(10); // 10 seconds timer
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();

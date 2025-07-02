@@ -268,14 +268,14 @@ const DownloadSelectPage: React.FC = () => {
             <button
               onClick={handleDownload}
               disabled={selected.length === 0}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-wide-rounded flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FileDown className="w-5 h-5" /> Download Summary
             </button>
             <button
               onClick={handleDownloadDetailed}
               disabled={selected.length === 0}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-wide-rounded flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <FileText className="w-5 h-5" /> Download Detailed
             </button>

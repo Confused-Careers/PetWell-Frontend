@@ -381,7 +381,7 @@ const DocumentPage: React.FC = () => {
               </div>
             </div>
             <button
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition px-6 py-2 font-semibold rounded-lg w-full sm:w-auto flex items-center gap-2"
+              className="bg-[var(--color-card-button)] text-[var(--color-text)]  transition px-6 py-2 font-semibold rounded-lg w-full sm:w-auto flex items-center gap-2"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId || petId}/upload`)
               }
@@ -391,15 +391,17 @@ const DocumentPage: React.FC = () => {
           </div>
         </div>
         {/* Custom Tabs */}
-        <div className="flex gap-2 mb-8">
+        <div className="flex gap-3 mb-8">
           {tabOptions.map((tab) => (
             <button
               key={tab.value}
-              className={`px-4 py-2 rounded-md font-medium text-base border border-[var(--color-border)] transition-all ${
-                activeTab === tab.value
-                  ? "bg-[var(--color-primary)] text-[var(--color-background)]"
-                  : "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-card)]"
-              }`}
+              className={`px-6 py-2 rounded-full font-medium text-base border transition-all
+                ${
+                  activeTab === tab.value
+                    ? "bg-[var(--color-text)] text-[var(--color-background)] border-[var(--color-text)]"
+                    : "bg-transparent text-[var(--color-text)] border-[var(--color-text)]"
+                }
+              `}
               onClick={() => setActiveTab(tab.value)}
             >
               {tab.label}

@@ -45,6 +45,7 @@ body::-webkit-scrollbar {
     --color-warning: #990d0d;
     --color-logo: #3c2a17;
     --color-opacity: #1C232E80;
+    --color-border: #000
 
     /* Essential System Colors */
     --color-white: #fff;

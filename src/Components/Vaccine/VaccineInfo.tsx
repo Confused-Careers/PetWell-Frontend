@@ -10,6 +10,9 @@ interface VaccineInfoProps {
   warning?: string;
   showEdit?: boolean;
   onEdit?: () => void;
+  showSelect?: boolean;
+  selected?: boolean;
+  onSelect?: () => void;
 }
 
 const VaccineInfo: React.FC<VaccineInfoProps> = ({
@@ -20,6 +23,9 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
   warning,
   showEdit = false,
   onEdit,
+  showSelect = false,
+  selected = false,
+  onSelect,
 }) => (
   <div
     className={`border border-[#23272F] rounded-2xl p-4 sm:p-5 flex flex-col min-h-[180px] relative w-full transition-colors ${
@@ -27,7 +33,17 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
     }`}
     style={{ minHeight: 180 }}
   >
-    {showEdit && (
+    {/* Checkbox for selection */}
+    {showSelect && (
+      <input
+        type="checkbox"
+        checked={selected}
+        onChange={onSelect}
+        className="absolute top-3 right-3 accent-[var(--color-primary)] w-5 h-5 cursor-pointer"
+        aria-label="Select vaccine"
+      />
+    )}
+    {showEdit && !showSelect && (
       <button
         className="absolute top-3 right-3 text-[#23272F] p-1.5 rounded-full transition"
         onClick={onEdit}

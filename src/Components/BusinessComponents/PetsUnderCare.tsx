@@ -33,8 +33,7 @@ const PetsUnderCare: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
-      console.log("Pets Under Care Response:", response);
-      const petsData = response as Pet[];
+      const petsData = response as unknown as Pet[];
       setPets(petsData);
     } catch (error: any) {
       toast.error(error.message || "Failed to fetch pets under care.");

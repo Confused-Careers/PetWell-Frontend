@@ -50,6 +50,16 @@ body::-webkit-scrollbar {
     /* Essential System Colors */
     --color-white: #fff;
     --color-black: #000;
+
+    /* Business Colors */
+    --color-business-card-bg: #F6E7C0;
+    --color-business-card-shadow: rgba(60,42,23,0.08);
+    --color-business-section-bg: #fff8e5;
+    --color-business-heading: #3c2a17;
+    --color-business-subheading: #6a8293;
+    --color-business-accent: #ffb23e;
+    --color-business-blue: #6A8293;
+    --color-business-green: #ABA75C;
   }
   body {
     background-color: var(--color-background);

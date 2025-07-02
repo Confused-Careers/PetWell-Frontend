@@ -97,32 +97,36 @@ const Step5OTPVerificationUpload: React.FC<Step5OTPVerificationUploadProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
-      <div className="flex justify-center w-full max-w-5xl mt-8 sm:mt-12 mb-6 px-2">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
-          Almost ready to upload your pet's records
-        </h1>
-      </div>
-      <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
+   <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <UploadStepper currentStep="step5" />
-        <h2 className="text-lg sm:text-xl md:text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-2 mt-2 text-center">
+    
+         <p className="mb-6 text-xl font-[Cabin] items-center flex justify-center text-center px-2">
           Verify your email to continue
-        </h2>
-        <div className="bg-[#23272f] rounded-xl p-4 sm:p-8 w-full max-w-md flex flex-col items-center mt-4">
-          <p className="text-[#EBD5BD] mb-4 text-center">
+                </p>
+        <div className="rounded-xl p-4 sm:p-8 w-full max-w-md flex flex-col items-center">
+          <p className="text-[#1C232E] mb-4 text-center">
             Enter the OTP sent to{" "}
             <span className="font-semibold">{form.owner_email}</span>
             <br />
             <span className="text-sm opacity-80">After verification, you'll be able to upload your pet's documents</span>
           </p>
+           {otpError && (
+          <div className="w-full max-w-md mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+            {otpError}
+          </div>
+        )}{resentMessage && (
+          <div className="w-full max-w-md mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+            {resentMessage}
+          </div>
+        )}
           <form
-            className="w-full flex flex-col gap-4"
+            className="w-full flex flex-col gap-4 mt-2"
             onSubmit={handleOTPSubmit}
           >
             <input
               type="text"
               placeholder="Enter 6-digit OTP"
-              className="w-full rounded-md px-4 py-3 text-base bg-white text-black focus:outline-none text-center tracking-widest"
+              className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
               value={otp}
               onChange={(e) => {
                 const value = e.target.value.replace(/\D/g, ""); // Only digits
@@ -133,26 +137,17 @@ const Step5OTPVerificationUpload: React.FC<Step5OTPVerificationUploadProps> = ({
               maxLength={6}
               disabled={otpLoading}
             />
-            {otpError && (
-              <div className="text-red-400 text-sm mb-2 text-center">
-                {otpError}
-              </div>
-            )}
-            {resentMessage && (
-              <div className="text-green-400 text-sm mb-2 text-center">
-                {resentMessage}
-              </div>
-            )}
+           
             <button
               type="submit"
-              className="w-full py-3 rounded-md bg-[#FFB23E] text-black text-lg font-semibold font-[Cabin,sans-serif] hover:bg-[#ffb733] transition-colors"
+                                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E] mt-4"
               disabled={otpLoading}
             >
               {otpLoading ? "Verifying..." : "Verify & Continue to Upload"}
             </button>
           </form>
           <button
-            className="mt-4 text-[#FFB23E] hover:underline text-sm"
+            className="mt-4 cursor-pointer text-[#FFB23E] hover:underline text-sm"
             onClick={handleResendOTP}
             disabled={otpLoading}
           >
@@ -160,7 +155,6 @@ const Step5OTPVerificationUpload: React.FC<Step5OTPVerificationUploadProps> = ({
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

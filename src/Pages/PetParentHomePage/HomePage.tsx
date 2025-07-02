@@ -516,7 +516,7 @@ const HomePage: React.FC = () => {
   console.log("[HomePage] RawTeams array length:", rawTeams.length);
 
   return (
-    <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
+    <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-6 sm:pt-10 md:pt-14 pb-10 sm:pb-14 md:pb-20 px-4 sm:px-6 md:px-8">
         {/* Profile & Health Summary */}

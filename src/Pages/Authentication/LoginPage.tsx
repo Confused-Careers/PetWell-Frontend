@@ -68,50 +68,54 @@ const LoginPage: React.FC = () => {
     }
   };
 
+    const handleSignUp = () => {
+    navigate("/signup-type");
+  };
+
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-background)] w-full px-2 sm:px-4 md:px-6  justify-center">
-      <div className="mb-3 sm:mb-3 flex justify-center sm:justify-start">
+    <div className="h-screen w-screen flex flex-col bg-[var(--color-background)] w-full px-2 pt-24 sm:p-4 md:p-8">
+      <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
         <img
           src={PetWellLogo}
           alt="PetWell Logo"
-          className="w-[140px] h-[36px] sm:w-[180px] sm:h-[48px] object-contain mb-2 ml-0 sm:ml-[32px] mt-[20px] sm:mt-[30px]"
+          className="object-contain h-full w-auto"
         />
       </div>
       <div className="bg-[var(--color-background)] rounded-2xl px-2 sm:px-5 md:px-7 py-4 sm:py-7 flex flex-col items-center w-full max-w-[700px] justify-center mx-auto">
-        <h2 className="text-[28px] sm:text-[48px] md:text-2xl font-[Alike,serif] text-[#1C232E] sm:mb-2 mb-2 text-center font-[400] leading-tight">
+        <p className=" font-[Alike,serif] text-3xl text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
           Log In to Your Account
-        </h2>
-        <h3 className="mb-3 text-[18px] sm:text-[32px] md:text-base font-[Cabin] items-center flex justify-center text-center px-2">
+        </p>
+        <p className="mb-3 text-lg font-[Cabin] items-center flex justify-center text-center px-2">
           Access pet profiles, health records, and more.
-        </h3>
+        </p>
         {successMessage && (
-          <div className="w-full mb-4 text-center text-[var(--color-success)] bg-[var(--color-success)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+          <div className="w-full max-w-md mb-4 text-center text-[var(--color-success)] bg-[var(--color-success)]/10 rounded py-2 px-3 text-sm animate-fade-in">
             {successMessage}
           </div>
         )}
         {error && (
-          <div className="w-full mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+          <div className="w-full max-w-md mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
             {error}
           </div>
         )}
         <form
-          className="w-full flex flex-col gap-4 sm:gap-5 max-w-[620px]"
+          className="w-full flex flex-col gap-4 sm:gap-5 max-w-sm mt-4"
           onSubmit={handleSubmit}
           autoComplete="on"
         >
-          <div className="w-full">
+          <div className="w-full  flex flex-col gap-2">
             <label
-              className="block text-[#1C232E] text-[18px] sm:text-[24px] md:text-base mb-1 font-[Cabin,sans-serif] font-[400]"
+              className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
               htmlFor="email"
             >
-              Username/Email
+              Username / Email
             </label>
             <input
               id="email"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-md px-3 sm:px-4 py-3 sm:py-3 text-base sm:text-base bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+              onChange={(e) => {setEmail(e.target.value);setError('');}}
+              className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
               placeholder="Type here"
               required
               autoFocus
@@ -119,7 +123,7 @@ const LoginPage: React.FC = () => {
           </div>
           <div className="relative w-full">
             <label
-              className="block text-[#1C232E] text-[18px] sm:text-[24px] md:text-base mb-1 font-[Cabin,sans-serif] font-[400]"
+              className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
               htmlFor="password"
             >
               Password
@@ -129,20 +133,20 @@ const LoginPage: React.FC = () => {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-md px-3 sm:px-4 py-3 sm:py-3 text-base sm:text-base bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition pr-12"
+                onChange={(e) => {setPassword(e.target.value);setError('');}}
+              className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
                 placeholder="Type here"
                 required
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text)]/70 hover:text-[var(--color-text)] transition"
+                className="absolute cursor-pointer right-0 top-1/2 -translate-y-1/2 text-[var(--color-text)]/70 hover:text-[var(--color-text)] transition"
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
-            <div className="w-full mt-3 ml-1">
+            <div className="w-full mt-2">
               <button
                 type="button"
                 className="text-[#1C232E] text-[18px] sm:text-[24px] md:text-base font-[Cabin,sans-serif] font-[400] hover:underline cursor-pointer"
@@ -155,13 +159,14 @@ const LoginPage: React.FC = () => {
               <button 
                 type="button"
                 onClick={() => navigate("/")} 
-                className="w-full py-3 sm:py-3 rounded-[60px] bg-[var(--color-secondary)] text-[var(--color-black)] text-base sm:text-lg font-[500] font-[Cabin,sans-serif] hover:opacity-90 transition-colors flex items-center justify-center gap-2 border border-[#FFB23E]"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
               >
                 Go Back
               </button>
               <button
                 type="submit"
-                className="w-full py-3 sm:py-3 rounded-[60px] text-[var(--color-black)] text-base sm:text-lg font-[500] font-[Cabin,sans-serif] hover:opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed bg-[#FFB23E]"
+                                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+
                 disabled={loading}
               >
                 {loading && <Loader2 className="w-5 h-5 animate-spin" />}
@@ -171,7 +176,7 @@ const LoginPage: React.FC = () => {
             <div className="w-full mt-7 text-center">
               <p className="font-[400] font-[Cabin,sans-serif] text-[#1C232E] text-sm sm:text-base">
                 Don't have an account? 
-                <span className="font-[700] font-[Cabin,sans-serif] text-[#FFB23E] ml-1">Sign Up</span>
+                <span onClick={()=>handleSignUp()} className="font-[700] font-[Cabin,sans-serif] text-[#FFB23E] ml-2 cursor-pointer">Sign Up</span>
               </p>
             </div>
           </div>

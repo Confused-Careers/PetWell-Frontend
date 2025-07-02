@@ -30,7 +30,7 @@ import { Toaster } from "sonner";
 
 function App() {
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-gray-50">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden">
       <Toaster />
       <Routes>
         {/* Authentication Routes */}

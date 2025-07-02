@@ -8,48 +8,47 @@ import { FaPaw } from "react-icons/fa";
 const SignupTypeSelectPage: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-background)] w-full px-2 sm:px-4 md:px-6  justify-center">
+    <div className="min-h-screen flex flex-col bg-[var(--color-background)] w-full px-2 pt-24 sm:p-4 md:p-8">
       <div className="mb-3 sm:mb-3 flex justify-center sm:justify-start flex-col">
-        <div className="flex items-center">
-          <img
-            src={PetWellLogo}
-            alt="PetWell Logo"
-            className="w-[140px] h-[36px] sm:w-[180px] sm:h-[48px] object-contain mb-2 ml-0 sm:ml-[32px] mt-[20px] sm:mt-[30px]"
-          />
-        </div>
-        <div className="flex flex-row items-center gap-2 mt-2 ml-0 sm:ml-[32px]">
+      <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+        <img
+          src={PetWellLogo}
+          alt="PetWell Logo"
+          className="object-contain h-full w-auto"
+        />
+      </div>
+        <div className="flex font-semibold flex-row items-center gap-2 mt-4 ml-4 sm:ml-0">
           <IoIosArrowDropleftCircle height={24} width={24} onClick={() => navigate("/")} className="cursor-pointer h-[24px] w-[24px]" />Go Back
         </div>
       </div>
       
       <div className="flex-1 bg-[var(--color-background)] rounded-2xl px-2 sm:px-5 md:px-7 py-4 sm:py-7 flex flex-col items-center w-full max-w-[1054px] justify-center mx-auto mb-40">
-        <h2 className="text-[28px] sm:text-[48px] md:text-2xl font-[Alike,serif] text-[#1C232E] sm:mb-2 mb-2 text-center font-[400] leading-tight">
+     
+         <p className=" font-[Alike,serif] text-3xl text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
           Let's get you started
-        </h2>
-        <h3 className="mb-8 text-[18px] sm:text-[32px] md:text-base font-[Cabin] items-center flex justify-center text-center px-2">
+        </p>
+        <p className="mb-3 text-lg font-[Cabin] items-center flex justify-center text-center px-2">
           Tell us who you are so we can tailor your experience.
-        </h3>
-        <div className="w-full flex flex-col md:flex-row gap-4 sm:gap-5 max-w-[1054px] items-center justify-center">
+        </p>
+        <div className="w-full flex flex-col md:flex-row gap-4 sm:gap-5 items-center justify-center mt-4">
           <button
             onClick={() => navigate("/signup/pet-parent")}
-            className="flex w-full md:w-[48%] items-center gap-3 bg-[#6A8293] border border-black rounded-lg p-4 sm:p-5 hover:opacity-90 transition-colors min-h-[120px] sm:h-[159px] max-w-full md:max-w-[497px] mb-4 md:mb-0"
+            className="flex flex-1 cursor-pointer items-center gap-3 bg-[#6A8293] border border-black rounded-2xl p-4 sm:p-5 hover:opacity-90 transition-all duration-200 max-w-sm"
           >
-            <FaPaw className="h-14 w-14 sm:h-20 sm:w-20 text-[#1C232E] mr-3 flex-shrink-0" />
+            <FaPaw className="h-14 w-auto 0 text-[#1C232E] mr-3 flex-shrink-0" />
             <div className="flex flex-col justify-around items-start">
-              <span className="text-[22px] sm:text-[32px] font-[700] font-[Cabin,sans-serif] text-[#FFF8E5] ">I’m a Pet Parent</span>
-              <span className="text-[15px] sm:text-[20px] text-[#FFF8E5] font-[Cabin,sans-serif] font-[400] flex justify-start text-left">Manage your pet’s health, records, and care team - all in one place.</span>
+              <span className="text-xl font-semibold font-[Cabin,sans-serif] text-[#FFF8E5] ">I’m a Pet Parent</span>
+              <span className="text-sm text-[#FFF8E5] font-[Cabin,sans-serif] text-left">Manage your pet’s health, records, and care team - all in one place.</span>
             </div>
           </button>
           <button
             onClick={() => navigate("/business/signup")}
-            className="flex w-full md:w-[48%] items-center gap-3 bg-[#6A8293] border border-black rounded-lg p-4 sm:p-5 hover:opacity-90 transition-colors min-h-[120px] sm:h-[159px] max-w-full md:max-w-[497px]"
+            className="flex flex-1 cursor-pointer items-center gap-3 bg-[#6A8293] border border-black rounded-2xl p-4 sm:p-5 hover:opacity-90 transition-all duration-200 max-w-sm"
           >
-            <FaBriefcase className="h-14 w-14 sm:h-20 sm:w-20 text-[#1C232E] mr-3 flex-shrink-0" />
+            <FaBriefcase className="h-14 w-auto 0 text-[#1C232E] mr-3 flex-shrink-0" />
             <div className="flex flex-col justify-around items-start">
-              <span className="text-[22px] sm:text-[32px] font-[700] font-[Cabin,sans-serif] text-[#FFF8E5] ">I’m a Business</span>
-              <span className="text-[15px] sm:text-[20px] text-[#FFF8E5] font-[Cabin,sans-serif] font-[400] flex justify-start text-left">
-                Connect with pet parents, upload records, and manage your care team.
-              </span>
+              <span className="text-xl font-semibold font-[Cabin,sans-serif] text-[#FFF8E5] ">I’m a Business</span>
+              <span className="text-sm text-[#FFF8E5] font-[Cabin,sans-serif] text-left">Connect with pet parents, upload records, and manage your care team.</span>
             </div>
           </button>
         </div>

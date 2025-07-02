@@ -93,13 +93,13 @@ const ProfileCreation: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step1BasicPetInfo
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              onNext={() => goToStep(2)}
-            />
+        <Step1BasicPetInfo
+          form={form}
+          setForm={setForm}
+          error={error}
+          setError={setError}
+          onNext={() => goToStep(2)}
+        />
           </div>
         </div>
       );
@@ -117,13 +117,13 @@ const ProfileCreation: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step2HealthBasics
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              onNext={() => goToStep(3)}
-            />
+        <Step2HealthBasics
+          form={form}
+          setForm={setForm}
+          error={error}
+          setError={setError}
+          onNext={() => goToStep(3)}
+        />
           </div>
         </div>
       );
@@ -141,13 +141,13 @@ const ProfileCreation: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step3SafetyAndID
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              onNext={() => goToStep(4)}
-            />
+        <Step3SafetyAndID
+          form={form}
+          setForm={setForm}
+          error={error}
+          setError={setError}
+          onNext={() => goToStep(4)}
+        />
           </div>
         </div>
       );
@@ -165,15 +165,15 @@ const ProfileCreation: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step4HumanInfo
-              form={form}
-              setForm={setForm}
-              error={error}
-              setError={setError}
-              loading={loading}
-              setLoading={setLoading}
-              onNext={() => goToStep(5)}
-            />
+        <Step4HumanInfo
+          form={form}
+          setForm={setForm}
+          error={error}
+          setError={setError}
+          loading={loading}
+          setLoading={setLoading}
+          onNext={() => goToStep(5)}
+        />
           </div>
         </div>
       );
@@ -191,22 +191,22 @@ const ProfileCreation: React.FC = () => {
             </h1>
           </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
-            <Step5OTPVerification
-              form={form}
-              otp={otp}
-              setOtp={setOtp}
-              otpLoading={otpLoading}
-              setOtpLoading={setOtpLoading}
-              otpError={otpError}
-              setOtpError={setOtpError}
-              resentMessage={resentMessage}
-              setResentMessage={setResentMessage}
-              showSuccess={showSuccess}
-              setShowSuccess={setShowSuccess}
-              onResetForm={resetForm}
-              onNavigateHome={handleNavigateHome}
-              onNavigateUpload={handleNavigateUpload}
-            />
+        <Step5OTPVerification
+          form={form}
+          otp={otp}
+          setOtp={setOtp}
+          otpLoading={otpLoading}
+          setOtpLoading={setOtpLoading}
+          otpError={otpError}
+          setOtpError={setOtpError}
+          resentMessage={resentMessage}
+          setResentMessage={setResentMessage}
+          showSuccess={showSuccess}
+          setShowSuccess={setShowSuccess}
+          onResetForm={resetForm}
+          onNavigateHome={handleNavigateHome}
+          onNavigateUpload={handleNavigateUpload}
+        />
           </div>
         </div>
       );

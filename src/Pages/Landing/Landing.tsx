@@ -24,9 +24,9 @@ const Landing: React.FC = () => {
 
       {/* Login Card */}
       <div className="relative z-10 w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl mx-4 px-4 sm:px-6 lg:px-8">
-        <div className="rounded-2xl p-6 sm:p-8 md:p-12 lg:p-16 shadow-2xl flex flex-col items-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px] lg:min-h-[520px] justify-center gap-6 sm:gap-8 md:gap-10 bg-[var(--color-card)]/90 backdrop-blur-lg">
+        <div className="rounded-2xl p-6 sm:p-8 md:p-12 lg:p-16 shadow-2xl flex flex-col items-center min-h-[400px] sm:min-h-[450px] md:min-h-[500px] lg:min-h-[520px] justify-center gap-6 sm:gap-8 md:gap-10 bg-[var(--color-background)]">
           {/* Logo */}
-          <div className="flex justify-center mb-4 sm:mb-6">
+          <div className="flex justify-center mb-4 sm:mb-6 h-12">
             <img
               src={PetWellLogo}
               alt="PetWell Logo"
@@ -48,7 +48,7 @@ const Landing: React.FC = () => {
             <button
               type="button"
               onClick={handleLogin}
-              className="w-full h-12 sm:h-14 md:h-16 lg:h-[66px] py-3 sm:py-4 font-[Cabin,sans-serif] text-[var(--color-black)] rounded-lg transition-all font-medium text-base sm:text-lg md:text-xl lg:text-[20px] shadow-lg bg-[var(--color-primary)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 flex items-center justify-center gap-2"
+              className="w-full h-12 sm:h-14 md:h-16 lg:h-[66px] py-3 sm:py-4 font-[Cabin,sans-serif] text-[var(--color-black)] rounded-full transition-all font-medium text-base sm:text-lg md:text-xl lg:text-[20px] shadow-lg bg-[var(--color-card-button)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 flex items-center justify-center gap-2"
             >
               <LogIn className="w-6 h-6" />
               <span>Log In</span>
@@ -56,7 +56,7 @@ const Landing: React.FC = () => {
             <button
               type="button"
               onClick={handleSignUp}
-              className="w-full h-12 sm:h-14 md:h-16 lg:h-[66px] py-3 sm:py-4 font-[Cabin,sans-serif] text-[var(--color-black)] rounded-lg transition-all font-medium text-base sm:text-lg md:text-xl lg:text-[20px] shadow-lg bg-[var(--color-primary)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 flex items-center justify-center gap-2"
+              className="w-full h-12 sm:h-14 md:h-16 lg:h-[66px] py-3 sm:py-4 font-[Cabin,sans-serif] text-[var(--color-black)]  rounded-full transition-all font-medium text-base sm:text-lg md:text-xl lg:text-[20px] shadow-lg bg-[var(--color-card-button)] hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 flex items-center justify-center gap-2"
             >
               <UserPlus className="w-6 h-6" />
               <span>Sign Up</span>

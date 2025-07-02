@@ -124,13 +124,13 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
       onNext();
     } catch (err: any) {
       console.error("Registration error:", err);
-
+      
       // More detailed error handling
       let errorMessage = "Registration failed. Please try again.";
-
+      
       if (err.message) {
         errorMessage = err.message;
-
+        
         // Provide helpful suggestions for common errors
         if (errorMessage.includes("Username already exists")) {
           errorMessage =
@@ -142,14 +142,14 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
             "Email already exists. Please use a different email address or try logging in instead.";
         }
       }
-
+      
       // Log additional error details for debugging
       if (err.response) {
         console.error("Response status:", err.response.status);
         console.error("Response data:", err.response.data);
         console.error("Response headers:", err.response.headers);
       }
-
+      
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -277,4 +277,4 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
   );
 };
 
-export default Step4HumanInfo;
+export default Step4HumanInfo; 

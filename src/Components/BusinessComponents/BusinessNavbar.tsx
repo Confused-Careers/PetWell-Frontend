@@ -16,7 +16,7 @@ const BusinessNavbar: React.FC = () => {
   const navLinks = [
     { name: "Home", path: "/business-home" },
     { name: "Pet Records", path: "/business/pet-records" },
-    { name: "Team Management", path: "/business/team-management" },
+    { name: "Team Management", path: "/business/signup/add-care-team" },
   ];
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const BusinessNavbar: React.FC = () => {
       style={{ boxShadow: "0 2px 12px 0 var(--color-business-card-shadow)" }}
     >
       <div className="flex items-center gap-3">
-        <img src={PetWellLogo} alt="PetWell Logo" className="h-8 w-[120px] object-contain" />
+        <img src={PetWellLogo} alt="PetWell Logo" className="h-8 w-[120px] object-contain" onClick={()=>navigate('/business-home')}/>
       </div>
       <div className="flex-1 flex justify-center gap-2 sm:gap-6">
         {navLinks.map((link, idx) => (

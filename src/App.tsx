@@ -49,7 +49,6 @@ function App() {
         <Route path="/business/signup" element={<BusinessSignupPage />} />
         <Route path="/business/signup/form" element={<BusinessSignupForm />} />
         <Route path="/business/signup/add-care-team" element={<AddCareTeamPage />} />
-        <Route path="/business/signup/care-team-list" element={<CareTeamListPage />} />
         <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
         <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
         <Route path="/business-home" element={<BusinessHomePage />} />

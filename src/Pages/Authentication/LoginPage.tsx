@@ -69,24 +69,21 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-background)] w-full px-4 sm:px-6">
-      <div className="flex flex-col items-center mb-6 sm:mb-8">
+    <div className="min-h-screen flex flex-col bg-[var(--color-background)] w-full px-2 sm:px-4 md:px-6  justify-center">
+      <div className="mb-3 sm:mb-3 flex justify-center sm:justify-start">
         <img
           src={PetWellLogo}
           alt="PetWell Logo"
-          className="w-16 h-16 sm:w-20 sm:h-20 object-contain mb-2 drop-shadow-lg"
+          className="w-[140px] h-[36px] sm:w-[180px] sm:h-[48px] object-contain mb-2 ml-0 sm:ml-[32px] mt-[20px] sm:mt-[30px]"
         />
-        <h1 className="text-3xl sm:text-4xl font-[Alike,serif] text-[var(--color-text)] font-bold tracking-tight">
-          PetWell
-        </h1>
-        <p className="text-[var(--color-text)] opacity-70 text-sm sm:text-base mt-1 font-[Cabin,sans-serif]">
-          We love you for loving your pets
-        </p>
       </div>
-      <div className="bg-[var(--color-card)] rounded-2xl shadow-2xl px-6 sm:px-8 md:px-10 py-8 sm:py-10 flex flex-col items-center w-full max-w-sm sm:max-w-md border border-[var(--color-text)]/20">
-        <h2 className="text-xl sm:text-2xl font-[Alike,serif] text-[var(--color-text)] mb-4 sm:mb-6 text-center font-semibold">
-          Sign in to your account
+      <div className="bg-[var(--color-background)] rounded-2xl px-2 sm:px-5 md:px-7 py-4 sm:py-7 flex flex-col items-center w-full max-w-[700px] justify-center mx-auto">
+        <h2 className="text-[28px] sm:text-[48px] md:text-2xl font-[Alike,serif] text-[#1C232E] sm:mb-2 mb-2 text-center font-[400] leading-tight">
+          Log In to Your Account
         </h2>
+        <h3 className="mb-3 text-[18px] sm:text-[32px] md:text-base font-[Cabin] items-center flex justify-center text-center px-2">
+          Access pet profiles, health records, and more.
+        </h3>
         {successMessage && (
           <div className="w-full mb-4 text-center text-[var(--color-success)] bg-[var(--color-success)]/10 rounded py-2 px-3 text-sm animate-fade-in">
             {successMessage}
@@ -98,31 +95,31 @@ const LoginPage: React.FC = () => {
           </div>
         )}
         <form
-          className="w-full flex flex-col gap-4 sm:gap-5"
+          className="w-full flex flex-col gap-4 sm:gap-5 max-w-[620px]"
           onSubmit={handleSubmit}
           autoComplete="on"
         >
-          <div>
+          <div className="w-full">
             <label
-              className="block text-[var(--color-text)] text-sm sm:text-base mb-2 font-medium"
+              className="block text-[#1C232E] text-[18px] sm:text-[24px] md:text-base mb-1 font-[Cabin,sans-serif] font-[400]"
               htmlFor="email"
             >
-              Email
+              Username/Email
             </label>
             <input
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-md px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
-              placeholder="Enter your email"
+              className="w-full rounded-md px-3 sm:px-4 py-3 sm:py-3 text-base sm:text-base bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+              placeholder="Type here"
               required
               autoFocus
             />
           </div>
-          <div className="relative">
+          <div className="relative w-full">
             <label
-              className="block text-[var(--color-text)] text-sm sm:text-base mb-2 font-medium"
+              className="block text-[#1C232E] text-[18px] sm:text-[24px] md:text-base mb-1 font-[Cabin,sans-serif] font-[400]"
               htmlFor="password"
             >
               Password
@@ -133,8 +130,8 @@ const LoginPage: React.FC = () => {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-md px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
-                placeholder="Enter your password"
+                className="w-full rounded-md px-3 sm:px-4 py-3 sm:py-3 text-base sm:text-base bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition pr-12"
+                placeholder="Type here"
                 required
               />
               <button
@@ -145,32 +142,40 @@ const LoginPage: React.FC = () => {
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
+            <div className="w-full mt-3 ml-1">
+              <button
+                type="button"
+                className="text-[#1C232E] text-[18px] sm:text-[24px] md:text-base font-[Cabin,sans-serif] font-[400] hover:underline cursor-pointer"
+                onClick={() => navigate("/forgot-password")}
+              >
+                Forget password?
+              </button>
+            </div>
+            <div className="w-full mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
+              <button 
+                type="button"
+                onClick={() => navigate("/")} 
+                className="w-full py-3 sm:py-3 rounded-[60px] bg-[var(--color-secondary)] text-[var(--color-black)] text-base sm:text-lg font-[500] font-[Cabin,sans-serif] hover:opacity-90 transition-colors flex items-center justify-center gap-2 border border-[#FFB23E]"
+              >
+                Go Back
+              </button>
+              <button
+                type="submit"
+                className="w-full py-3 sm:py-3 rounded-[60px] text-[var(--color-black)] text-base sm:text-lg font-[500] font-[Cabin,sans-serif] hover:opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed bg-[#FFB23E]"
+                disabled={loading}
+              >
+                {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+                {loading ? "Signing in..." : "Log In"}
+              </button>
+            </div>
+            <div className="w-full mt-7 text-center">
+              <p className="font-[400] font-[Cabin,sans-serif] text-[#1C232E] text-sm sm:text-base">
+                Don't have an account? 
+                <span className="font-[700] font-[Cabin,sans-serif] text-[#FFB23E] ml-1">Sign Up</span>
+              </p>
+            </div>
           </div>
-          <button
-            type="submit"
-            className="w-full mt-2 py-2 sm:py-3 rounded-md bg-[var(--color-primary)] text-[var(--color-black)] text-base sm:text-lg font-semibold font-[Cabin,sans-serif] hover:opacity-90 transition-colors flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-            disabled={loading}
-          >
-            {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-            {loading ? "Signing in..." : "Sign in"}
-          </button>
         </form>
-        <div className="w-full flex flex-col sm:flex-row sm:justify-between gap-2 sm:gap-0 mt-4 sm:mt-6 text-xs sm:text-sm text-[var(--color-text)] opacity-70">
-          <button
-            className="hover:text-[var(--color-primary)] transition-colors text-center"
-            type="button"
-            onClick={() => navigate("/forgot-password")}
-          >
-            Forgot password?
-          </button>
-          <button
-            className="hover:text-[var(--color-primary)] transition-colors text-center"
-            type="button"
-            onClick={() => navigate("/signup-type")}
-          >
-            Create account
-          </button>
-        </div>
       </div>
     </div>
   );

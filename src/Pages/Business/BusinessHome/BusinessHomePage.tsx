@@ -5,6 +5,9 @@ import PetsUnderCare from '../../../Components/BusinessComponents/PetsUnderCare'
 import BusinessNavbar from '../../../Components/BusinessComponents/BusinessNavbar';
 
 const BusinessHomePage: React.FC = () => {
+
+
+ 
   return (
     <div className="min-h-screen bg-[var(--color-background,#181F29)] px-8 py-6">
       <BusinessNavbar />

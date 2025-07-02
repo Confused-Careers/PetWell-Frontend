@@ -50,7 +50,7 @@ const LoginPage: React.FC = () => {
         entityType = (res.user as any).role;
       }
       if (entityType && typeof entityType === "string") {
-        if (entityType.toLowerCase().includes("staff")) {
+        if (entityType.toLowerCase().includes("staff") || entityType.toLowerCase().includes("business")) {
           navigate("/business-home");
         } else if (entityType.toLowerCase().includes("human")) {
           // Get last used petId and redirect to that pet's home page

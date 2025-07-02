@@ -54,10 +54,11 @@ interface UpdateStaffData {
 }
 
 interface CreatePetMappingData {
-  pet_id: string;
-  staff_id: string;
-  title: string;
-  note: string;
+  pet_id?: string;
+  qr_code_id?:string;
+  staff_id?: string;
+  title?: string;
+  note?: string;
 }
 
 interface BusinessResponse {
@@ -71,8 +72,7 @@ interface StaffResponse {
 }
 
 interface PetMappingResponse {
-  message: string;
-  data?: PetMapping | PetMapping[];
+  pet_name: string;
 }
 
 interface PaginatedRequest {

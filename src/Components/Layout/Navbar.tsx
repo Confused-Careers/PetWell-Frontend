@@ -145,13 +145,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
           </div>
 
           {/* Navigation Items */}
-          <nav className="flex-1 px-4 py-6">
+          <nav className="flex-1 px-4 py-3">
             <div className="space-y-2">
               {navigationItems.map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavigation(item.path)}
-                  className={`w-full text-left px-4 py-3 rounded-lg font-medium transition-colors ${
+                  className={`w-full text-[4px] px-4 py-2 rounded-lg font-medium transition-colors ${
                     location.pathname === item.path
                       ? "bg-[var(--color-primary)] text-[var(--color-background)]"
                       : "text-[var(--color-text)] hover:bg-[var(--color-accent-hover)]"
@@ -277,31 +277,28 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
 
       {/* Desktop Navbar */}
       <div
-        className="hidden lg:flex items-center justify-between mx-auto mt-6 mb-0 px-8 py-3"
+        className="hidden lg:flex max-w-7xl bg-white items-center justify-between mx-auto mt-6 mb-0 px-8 py-2"
         style={{
-          maxWidth: '1450px', // or '72rem' for max-w-6xl
-          width: 'calc(100% - 3rem)', // leave space on left/right
-          background: "var(--color-background)",
           border: "1.5px solid var(--color-card-button)",
           borderRadius: "40px",
           boxShadow: "0 2px 8px 0 rgba(0,0,0,0.02)",
         }}
       >
         {/* Left: Logo */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 h-6">
           <img
             src={PetWellLogo}
             alt="PetWell Logo"
-            className="object-contain"
+            className="object-contain h-full w-auto"
           />
         </div>
         {/* Center: Navigation */}
-        <div className="flex items-center gap-2 xl:gap-6">
+        <div className="flex items-center gap-2 xl:gap-4">
           {navigationItems.map((item) => (
             <button
               key={item.name}
               onClick={() => navigate(item.path)}
-              className={`px-7 py-2 rounded-full transition font-medium text-base ${
+              className={`px-7 py-2 text-sm rounded-full cursor-pointer transition font-medium text-base ${
                 location.pathname === item.path
                   ? "bg-[var(--color-card-button)] text-[var(--color-text)] font-bold"
                   : "bg-transparent text-[var(--color-text)] hover:bg-[var(--color-card-button)]/70"

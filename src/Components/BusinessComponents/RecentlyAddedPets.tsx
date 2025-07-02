@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import businessServices from '../../Services/businessServices';
+import { toast } from 'sonner';
 
 const pets = [
   {
@@ -28,6 +30,24 @@ const pets = [
 ];
 
 const RecentlyAddedPets: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+
+  const getRecentlyAddedPet = async () => {
+    if (loading) return;
+
+    setLoading(true);
+    try {
+      const response:any = await businessServices.getPetMappings({limit:5,page:1});
+console.log(response);
+    } catch (error:any) {
+      toast.error(error?.message || 'Some error occured. Please try again.')
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(()=>{
+    getRecentlyAddedPet();
+  },[]);
   return (
     <div className="w-full">
       <div className="flex justify-between items-center mb-2">

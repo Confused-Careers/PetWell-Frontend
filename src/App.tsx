@@ -26,10 +26,12 @@ import BusinessHomePage from "./Pages/Business/BusinessHome/BusinessHomePage";
 import PetParentOnboardingChoice from "./Pages/Authentication/ProfileCreation/PetParentOnboardingChoice";
 import BusinessSignupForm from "./Pages/Authentication/BusinessAuth/businessSignupForm";
 import BusinessOTPVerificationPage from "./Pages/Authentication/BusinessAuth/BusinessOTPVerificationPage";
+import { Toaster } from "sonner";
 
 function App() {
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-gray-50">
+      <Toaster />
       <Routes>
         {/* Authentication Routes */}
         <Route path="/" element={<Landing />} />
@@ -48,6 +50,7 @@ function App() {
         <Route path="/business/signup/care-team-list" element={<CareTeamListPage />} />
         <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
         <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
+         <Route path="/business-home" element={<BusinessHomePage />} />
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

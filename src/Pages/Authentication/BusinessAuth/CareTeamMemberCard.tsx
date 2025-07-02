@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pencil, X, Share2 } from 'lucide-react';
+import React from "react";
+import { Pencil, X, Share2 } from "lucide-react";
 
 interface CareTeamMemberCardProps {
   name: string;
@@ -19,33 +19,44 @@ const CareTeamMemberCard: React.FC<CareTeamMemberCardProps> = ({
   onShare,
 }) => {
   return (
-    <div className="bg-[#2A2F36] rounded-xl p-6 w-full max-w-xl shadow flex flex-col gap-2 relative">
+    <div className="bg-[var(--color-card-team),#F6E7C0] rounded-xl p-4 w-full max-w-xl shadow flex flex-col gap-2 relative">
       <div className="flex items-start justify-between">
         <div>
-          <div className="text-lg font-cabin text-white font-semibold">{name}</div>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="bg-[#23272F] text-[#FDBA3B] text-xs px-2 py-1 rounded font-cabin">{role}</span>
-            <span className="text-xs text-[#EBD5BD] font-cabin italic">{access}</span>
+          <div className="text-base font-semibold text-[var(--color-logo)]">
+            {name}
+          </div>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-xs text-[var(--color-logo)] font-normal">
+              {role}
+            </span>
+            <span className="text-xs text-[var(--color-logo)] font-normal">
+              · {access}
+            </span>
           </div>
         </div>
-        <div className="flex gap-2">
-          <button onClick={onEdit} className="p-1 rounded hover:bg-[#23272F]">
-            <Pencil className="w-4 h-4 text-[#FDBA3B]" />
+        <div className="flex gap-1">
+          <button
+            onClick={onEdit}
+            className="p-1 rounded hover:bg-[var(--color-border)]"
+          >
+            <Pencil className="w-4 h-4 text-[var(--color-logo)]" />
           </button>
-          <button onClick={onDelete} className="p-1 rounded hover:bg-[#23272F]">
-            <X className="w-4 h-4 text-[#A0A0A0]" />
+          <button
+            onClick={onDelete}
+            className="p-1 rounded hover:bg-[var(--color-border)]"
+          >
+            <X className="w-4 h-4 text-[var(--color-logo)] opacity-60" />
           </button>
         </div>
       </div>
-      <hr className="my-3 border-[#393E46]" />
-      <button
-        onClick={onShare}
-        className="flex items-center gap-2 text-[#FDBA3B] font-cabin font-medium text-base hover:underline"
-      >
-        <Share2 className="w-5 h-5" /> Share Username & Password
-      </button>
+      <div className="flex items-center gap-2 mt-2">
+        <Share2 className="w-4 h-4 text-[var(--color-logo)]" />
+        <span className="text-sm text-[var(--color-logo)] font-medium">
+          Share Username & Password
+        </span>
+      </div>
     </div>
   );
 };
 
-export default CareTeamMemberCard; 
+export default CareTeamMemberCard;

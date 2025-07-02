@@ -22,6 +22,7 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
   const [file, setFile] = useState<File | null>(null);
   const [manualError, setManualError] = useState<string | null>(null);
   const [fileLoading, setFileLoading] = useState(false);
+  const [warning, setWarning] = useState<string | null>(null);
 
   // Helper: check if any manual field is filled
   const isManualFilled = Boolean(
@@ -43,6 +44,8 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
         setVaccine(details.vaccine_name || "");
         setAdministered(details.date_administered || "");
         setExpiry(details.expiry_date || "");
+        setWarning(details.warning || null)
+
         // Optionally set staff name if details.administered_by is available
         if (details.administered_by) {
           setStaffName(details.administered_by);
@@ -155,6 +158,12 @@ const AddVaccine: React.FC<AddVaccineProps> = ({
         </div>
         {/* Form */}
         <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+
+          {warning && (
+            <div className="bg-white border border-right-300 text-red-600 px-4 py-2 rounded mb-4">
+              ! {warning}
+            </div>
+          )}
           <div>
             <label className="block text-[var(--color-text)] text-sm mb-1">
               Vaccine Name

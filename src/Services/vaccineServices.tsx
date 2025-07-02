@@ -46,6 +46,7 @@ interface DoctorResponse {
 }
 
 interface GetVaccineDetailsResponse {
+  warning: null;
   document_id: string;
   vaccine_name: string;
   date_administered: string;

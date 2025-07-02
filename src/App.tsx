@@ -26,7 +26,9 @@ import BusinessHomePage from "./Pages/Business/BusinessHome/BusinessHomePage";
 import PetParentOnboardingChoice from "./Pages/Authentication/ProfileCreation/PetParentOnboardingChoice";
 import BusinessSignupForm from "./Pages/Authentication/BusinessAuth/businessSignupForm";
 import BusinessOTPVerificationPage from "./Pages/Authentication/BusinessAuth/BusinessOTPVerificationPage";
+import BusinessProfile from "./Components/BusinessComponents/BusinessProfile";
 import { Toaster } from "sonner";
+ import PetBusinessHomePage from "./Pages/Business/Pet/BusinessPetPage";
 
 function App() {
   return (
@@ -51,6 +53,11 @@ function App() {
         <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
         <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
         <Route path="/business-home" element={<BusinessHomePage />} />
+        <Route path="/business/profile" element={<BusinessProfile />} />
+        <Route path="/business/pet/:petId/home" element={<PetBusinessHomePage />} />
+        <Route path="/business/pet/:petId/add-vaccine" element={<AddVaccinePage />} />
+        <Route path="/business/pet/:petId/upload" element={<UploadDocuments />} />
+
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

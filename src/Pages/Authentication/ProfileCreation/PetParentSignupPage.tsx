@@ -436,15 +436,15 @@ const PetParentSignupPage: React.FC = () => {
   // Document upload step
   return (
    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
-       {showLoader && <Loader />}
+      {showLoader && <Loader />}
         <div className="flex flex-col sm:flex-row w-full">
           <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
-            <img
-              src={PetWellLogo}
-              alt="PetWell Logo"
+        <img
+          src={PetWellLogo}
+          alt="PetWell Logo"
               className="object-contain h-full w-auto"
-            />
-          </div>
+        />
+      </div>
           <div className="flex flex-1 justify-center sm:pr-16">
            
           </div>
@@ -454,13 +454,13 @@ const PetParentSignupPage: React.FC = () => {
 
         <div className="text-center my-8 mt-10">
             <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
-            Got a vaccine card or medical record handy?
+          Got a vaccine card or medical record handy?
           </p>
           <p className="text-lg text-[var(--color-label)] max-w-2xl">
             Just upload it — we'll use it to build your pet's profile for you.
-            <br />
-            You can edit or add more info later.
-          </p>
+          <br />
+          You can edit or add more info later.
+        </p>
         </div>
 
           {uploadError && (

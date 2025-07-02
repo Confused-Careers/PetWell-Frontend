@@ -151,7 +151,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                 <button
                   key={item.name}
                   onClick={() => handleNavigation(item.path)}
-                  className={`w-full text-[4px] px-4 py-2 rounded-lg font-medium transition-colors ${
+                  className={`w-full text-sm px-4 py-2 rounded-lg font-medium transition-colors ${
                     location.pathname === item.path
                       ? "bg-[var(--color-primary)] text-[var(--color-background)]"
                       : "text-[var(--color-text)] hover:bg-[var(--color-accent-hover)]"
@@ -166,7 +166,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       </div>
 
       {/* Mobile Top Navbar (only visible on mobile) */}
-      <div className="lg:hidden">
+      <div className="lg:hidden bg-[#fffaed]">
         <nav className="flex items-center justify-between px-3 py-3 bg-transparent w-full">
           <div className="flex items-center space-x-3">
             {/* Mobile Menu Toggle */}
@@ -277,7 +277,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
 
       {/* Desktop Navbar */}
       <div
-        className="hidden lg:flex max-w-7xl bg-white items-center justify-between mx-auto mt-6 mb-0 px-8 py-2"
+        className="hidden shadow-md lg:flex max-w-7xl bg-[#fffaed] items-center justify-between mx-10 mt-6 mb-0 px-8 py-2"
         style={{
           border: "1.5px solid var(--color-card-button)",
           borderRadius: "40px",

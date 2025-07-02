@@ -20,22 +20,29 @@ const BusinessNavbar: React.FC = () => {
   const businessAvatar = "https://randomuser.me/api/portraits/men/32.jpg";
 
   return (
-    <nav className="w-full bg-[var(--color-background,#181F29)] px-8 py-3 flex items-center justify-between z-50">
+    <nav
+      className="w-full bg-[var(--color-white)] rounded-full border border-[var(--color-business-card-shadow)] shadow-sm px-4 sm:px-8 py-2 flex items-center justify-between mt-4 mb-8 mx-auto max-w-6xl sticky top-2 z-50"
+      style={{ boxShadow: "0 2px 12px 0 var(--color-business-card-shadow)" }}
+    >
       {/* Logo */}
       <div className="flex items-center gap-3">
         <img
           src={PetWellLogo}
           alt="PetWell Logo"
-          className="h-10 w-10 object-contain"
+          className="h-8 w-8 object-contain"
         />
       </div>
       {/* Centered Nav Links */}
-      <div className="flex-1 flex justify-center gap-8">
-        {navLinks.map((link) => (
+      <div className="flex-1 flex justify-center gap-2 sm:gap-6">
+        {navLinks.map((link, idx) => (
           <Link
             key={link.name}
             to={link.path}
-            className="text-[var(--color-text,#ebd5bd)] font-cabin text-lg px-2 py-1 rounded hover:text-[var(--color-primary,#FDBA3B)] transition-colors"
+            className={`font-cabin text-base sm:text-lg px-4 py-1.5 rounded-full transition-colors ${
+              idx === 0
+                ? "bg-[var(--color-business-accent)] text-[var(--color-white)] font-bold"
+                : "text-[var(--color-business-heading)] hover:bg-[var(--color-business-accent)] hover:text-[var(--color-white)]"
+            }`}
           >
             {link.name}
           </Link>
@@ -43,13 +50,13 @@ const BusinessNavbar: React.FC = () => {
       </div>
       {/* Business Profile */}
       <div className="flex items-center gap-3">
-        <span className="text-[var(--color-text,#ebd5bd)] font-cabin text-base font-medium text-right mr-2">
+        <span className="text-[var(--color-business-heading)] font-cabin text-base font-medium text-right mr-2">
           {businessName}
         </span>
         <img
           src={businessAvatar}
           alt="Business Avatar"
-          className="h-10 w-10 rounded-full object-cover border-2 border-[var(--color-primary,#FDBA3B)]"
+          className="h-9 w-9 rounded-full object-cover border-2 border-[var(--color-business-accent)]"
         />
       </div>
     </nav>

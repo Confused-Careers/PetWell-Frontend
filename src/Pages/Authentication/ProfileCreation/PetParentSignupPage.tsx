@@ -15,6 +15,7 @@ import {
   AlertCircle,
   CheckCircle,
   X,
+  UploadIcon,
 } from "lucide-react";
 
 const PetParentSignupPage: React.FC = () => {
@@ -180,10 +181,10 @@ const PetParentSignupPage: React.FC = () => {
             prev.map((item, i) =>
               i === index
                 ? {
-                    ...item,
-                    progress: Math.floor(progress),
-                    status: "uploading",
-                  }
+                  ...item,
+                  progress: Math.floor(progress),
+                  status: "uploading",
+                }
                 : item
             )
           );
@@ -366,17 +367,22 @@ const PetParentSignupPage: React.FC = () => {
   // Render based on current step
   if (currentStep === "step4") {
     return (
-      <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
-        <img
-          src={PetWellLogo}
-          alt="PetWell Logo"
-          className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
-        />
-        <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
-            Create Your Profile
-          </h1>
+      <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center justify-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
+        <div className="flex flex-col sm:flex-row w-full">
+          <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+            <img
+              src={PetWellLogo}
+              alt="PetWell Logo"
+              className="object-contain h-full w-auto"
+            />
+          </div>
+          <div className="flex flex-1 justify-center sm:pr-16">
+            <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+              Create Your Profile
+            </p>
+          </div>
         </div>
+
         <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
           <Step4HumanInfoUpload
             form={form}
@@ -394,16 +400,20 @@ const PetParentSignupPage: React.FC = () => {
 
   if (currentStep === "step5") {
     return (
-      <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
-        <img
-          src={PetWellLogo}
-          alt="PetWell Logo"
-          className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
-        />
-        <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
-            Create Your Profile
-          </h1>
+      <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center justify-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
+        <div className="flex flex-col sm:flex-row w-full">
+          <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+            <img
+              src={PetWellLogo}
+              alt="PetWell Logo"
+              className="object-contain h-full w-auto"
+            />
+          </div>
+          <div className="flex flex-1 justify-center sm:pr-16">
+            <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+              Create Your Profile
+            </p>
+          </div>
         </div>
         <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
           <Step5OTPVerificationUpload
@@ -425,30 +435,47 @@ const PetParentSignupPage: React.FC = () => {
 
   // Document upload step
   return (
-    <div className="min-h-screen w-full bg-[#181f27] text-[var(--color-text)] font-sans flex flex-col items-center justify-center relative">
-      {showLoader && <Loader />}
+   <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
+       {showLoader && <Loader />}
+        <div className="flex flex-col sm:flex-row w-full">
+          <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+            <img
+              src={PetWellLogo}
+              alt="PetWell Logo"
+              className="object-contain h-full w-auto"
+            />
+          </div>
+          <div className="flex flex-1 justify-center sm:pr-16">
+           
+          </div>
+        </div>
       {/* Logo */}
-      <div className="absolute left-10 top-8">
-        <img
-          src={PetWellLogo}
-          alt="PetWell Logo"
-          className="w-16 h-16 object-contain"
-        />
-      </div>
-
       <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6">
-        <UploadStepper currentStep="upload" />
 
-        <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold text-[var(--color-heading)] mb-4">
-          Got a vaccine card or medical record handy?
-        </h1>
+        <div className="text-center my-8 mt-10">
+            <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+            Got a vaccine card or medical record handy?
+          </p>
           <p className="text-lg text-[var(--color-label)] max-w-2xl">
             Just upload it — we'll use it to build your pet's profile for you.
-          <br />
-          You can edit or add more info later.
-        </p>
+            <br />
+            You can edit or add more info later.
+          </p>
         </div>
+
+          {uploadError && (
+          <div className="w-full max-w-md mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+            {uploadError}
+            {uploadError?.includes("Authentication") && (
+                  <button
+                    onClick={() => setCurrentStep("step5")}
+                    className="text-sm text-[#FFB23E] ml-2 hover:text-[#ffb733] underline"
+                  >
+                    ← Go back to OTP verification
+                  </button>
+                )}
+          </div>
+        )}
 
         {/* Upload progress indicator */}
         {uploading && (
@@ -467,42 +494,39 @@ const PetParentSignupPage: React.FC = () => {
         )}
 
         {/* Upload area */}
-        <div className="w-full max-w-2xl">
+        <div className="w-full max-w-xl">
           {uploads.length === 0 ? (
-            <div
+           <> <div
               ref={dropZoneRef}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
-              className={`w-full bg-[var(--color-card)] rounded-2xl shadow-xl p-12 flex flex-col items-center cursor-pointer transition-all duration-200 border-2 border-dashed ${
-                isDragOver
-                  ? "border-[#FFB23E] border-opacity-80 bg-[#2d3340]"
-                  : "border-[#FFB23E] border-opacity-30 hover:border-opacity-60 hover:bg-[#2d3340]"
-              }`}
+              className={`w-full bg-[var(--color-card)] rounded-2xl shadow-xl p-12 flex flex-col items-center cursor-pointer transition-all duration-200 border ${isDragOver
+                ? "border-text-[var(--color-text)] border-opacity-80"
+                : "border-text-[var(--color-text)] border-opacity-30 hover:border-opacity-60"
+                }`}
               style={{ minHeight: 200 }}
             >
               <label
                 htmlFor="file-upload"
-                className="flex flex-col items-center cursor-pointer"
+                className="flex flex-row gap-3 items-center cursor-pointer"
               >
-                <UploadCloud
-                  className={`w-12 h-12 mb-4 transition-colors ${
-                    isDragOver ? "text-[#FFB23E]" : "text-[#FFB23E]"
-                  }`}
+                <UploadIcon
+                  className={`w-7 h-7 mb-1 text-light transition-colors text-[var(--color-text)]`}
                 />
                 <span className="text-xl font-semibold text-[var(--color-text)] mb-2">
-                  {isDragOver ? "Drop files here" : "Upload documents"}
+                  {isDragOver ? "Drop files here" : "Upload a document"}
                 </span>
-                <span className="text-sm text-[var(--color-text)] opacity-70 text-center">
-                  {isDragOver
-                    ? "Release to upload"
-                    : "Drag and drop files here, or click to browse"}
-                </span>
-                <span className="mt-2 text-xs text-[var(--color-text)] opacity-50">
-                  Supported: PDF, JPG, PNG, DOC (Max 10MB each)
-                </span>
+                
               </label>
+              <label className="mt-2 text-sm text-[var(--color-text)]">
+                  Supported formats: PDF, JPG, PNG, DOC (Max 10MB each)
+                </label>
             </div>
+             <p className="text-lg text-[var(--color-label)] max-w-2xl mt-12 text-center">
+            Prefer to enter details yourself? <span className="text-[#FFB23E] text-bold cursor-pointer">Enter Manually </span>
+          </p>
+            </>
           ) : (
             <UploadList
               uploads={uploads.map((upload) => ({
@@ -530,38 +554,6 @@ const PetParentSignupPage: React.FC = () => {
             disabled={uploading}
           />
 
-          {/* Error message */}
-          {uploadError && (
-            <div className="mt-4 p-4 bg-red-900 bg-opacity-20 border border-red-500 rounded-lg">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-2 text-red-400">
-                  <AlertCircle className="w-5 h-5" />
-                  <span className="text-sm">{uploadError}</span>
-                </div>
-                {uploadError.includes("Authentication") && (
-                  <button
-                    onClick={() => setCurrentStep("step5")}
-                    className="text-sm text-[#FFB23E] hover:text-[#ffb733] underline"
-                  >
-                    ← Go back to OTP verification
-                  </button>
-                )}
-              </div>
-            </div>
-          )}
-
-          {/* Manual entry option */}
-          {/* <div className="mt-8 text-center">
-            <span className="text-[var(--color-label)] text-lg">
-              Prefer to enter details yourself?{" "}
-            </span>
-            <button
-              className="text-[var(--color-primary)] font-semibold hover:underline text-lg bg-transparent border-none p-0 m-0 align-baseline"
-              onClick={() => navigate("/profile-creation")}
-            >
-              Enter Manually
-            </button>
-          </div> */}
         </div>
       </div>
     </div>

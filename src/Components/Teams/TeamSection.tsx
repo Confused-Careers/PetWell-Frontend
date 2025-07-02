@@ -41,8 +41,10 @@ const TeamSection: React.FC<TeamSectionProps> = ({
             onDelete={onDeleteTeam ? () => onDeleteTeam(idx) : undefined}
           />
         ))}
+                        {teams.length==0 && <div>No Teams Added</div>}
+
       </div>
-      <div className="mt-2">
+      {teams.length!=0 && <div className="mt-2">
         <a
           href="#"
           className="text-[var(--color-primary)] font-medium  text-sm sm:text-base flex items-center gap-1"
@@ -53,7 +55,7 @@ const TeamSection: React.FC<TeamSectionProps> = ({
         >
           View All Teams <IoIosArrowDroprightCircle />
         </a>
-      </div>
+      </div>}
     </section>
   );
 };

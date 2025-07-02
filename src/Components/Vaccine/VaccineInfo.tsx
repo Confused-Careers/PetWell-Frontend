@@ -1,6 +1,6 @@
 import React from "react";
 import { BiSolidPencil } from "react-icons/bi";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, AlertCircleIcon, LucideAlertCircle } from "lucide-react";
 
 interface VaccineInfoProps {
   name: string;
@@ -40,27 +40,27 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
         <BiSolidPencil size={20} />
       </button>
     )}
-    <div className="text-[1.25rem] sm:text-[1.35rem] md:text-[1.5rem] font-bold text-[var(--color-text)] mb-2 pr-8">
+    <div className="text-2xl font-semibold text-[var(--color-text)] mb-2 pr-8">
       {name}
     </div>
     <div className="flex flex-row gap-8 mb-2">
       <div>
-        <div className="text-[#8a8a8a] text-base sm:text-lg font-normal">
+        <div className="text-[#70655f] text-normal font-normal">
           Administered
         </div>
-        <div className="text-[var(--color-text)] font-bold text-lg sm:text-xl">
+        <div className="text-[var(--color-text)] font-semibold text-lg sm:text-xl">
           {administered}
         </div>
       </div>
       <div>
-        <div className="text-[#8a8a8a] text-base sm:text-lg font-normal">
+        <div className="text-[#70655f] text-normal font-normal">
           Expires
         </div>
-        <div className="flex items-center text-lg sm:text-xl font-bold">
+        <div className="flex items-center text-lg sm:text-xl font-semibold">
           {soon ? (
-            <span className="text-[var(--color-warning)] flex items-center font-bold">
+            <span className="text-[var(--color-warning)] flex items-center font-semibold">
               {expires}
-              <AlertCircle className="ml-1 w-5 h-5 text-[var(--color-warning)]" />
+              <LucideAlertCircle fill="currentColor"  className="ml-1 w-5 h-5 text-[var(--color-text)]" />
             </span>
           ) : (
             <span className="text-[var(--color-text)]">{expires}</span>
@@ -69,7 +69,7 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
       </div>
     </div>
     <hr className="my-2 border-[#cbb292]" />
-    <div className="flex items-center min-h-[28px] text-base sm:text-lg mt-1">
+    <div className="flex items-center min-h-[28px] text-normal mt-1">
       {soon && warning ? (
         <>
           <AlertCircle className="mr-2 w-5 h-5 text-[var(--color-warning)]" />

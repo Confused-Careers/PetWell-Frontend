@@ -42,6 +42,8 @@ body::-webkit-scrollbar {
     --color-card-yellow: #edcc79;
     --color-card-red: #dc9a6b80;
     --color-text: #1c232e;
+    --color-text-faded: #c3c9c4;
+    --color-text-bright: #fff8e5;
     --color-warning: #990d0d;
     --color-logo: #3c2a17;
     --color-opacity: #1C232E80;

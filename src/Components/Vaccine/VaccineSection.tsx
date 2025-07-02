@@ -37,8 +37,9 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
             />
           </div>
         ))}
+        {vaccines.length==0 && <div>No Vaccine Added</div>}
       </div>
-      <div className="mt-4 flex justify-start">
+      {vaccines.length!=0 && <div className="mt-4 flex justify-start">
         <a
           href="#"
           className="text-[var(--color-primary)] font-medium text-base flex items-center gap-1 hover:underline"
@@ -50,6 +51,7 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
           View All Vaccines <IoIosArrowDroprightCircle />
         </a>
       </div>
+}
     </section>
   );
 };

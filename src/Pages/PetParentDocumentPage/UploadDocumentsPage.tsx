@@ -132,7 +132,7 @@ const UploadDocuments: React.FC = () => {
         <button
           className="absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent hover:border-[var(--color-primary)] z-10"
           onClick={() =>
-            navigate(`/petowner/pet/${actualPetId || petId}/documents`)
+            navigate(-1)
           }
           aria-label="Back"
         >
@@ -163,7 +163,7 @@ const UploadDocuments: React.FC = () => {
           setShowLoader(true);
           setTimeout(() => {
             setShowLoader(false);
-            navigate(`/petowner/pet/${actualPetId || petId}/documents`);
+            navigate(-1);
           }, 2000);
         }}
       />

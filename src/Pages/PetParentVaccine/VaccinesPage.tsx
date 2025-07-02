@@ -289,24 +289,24 @@ const VaccinesPage: React.FC = () => {
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
-            {pet?.pet_name || "Pet"}'s Vaccines
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold mb-0 text-left">
+            {pet?.pet_name ? `${pet.pet_name}'s Vaccines` : "Vaccines"}
           </h1>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+          <div className="flex flex-row gap-4">
             <button
+              className="border border-[var(--color-text)] rounded-full px-8 py-3 flex items-center gap-2 font-semibold bg-transparent text-[var(--color-text)] hover:bg-[var(--color-card)] transition"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/download-select`)
               }
-              className="btn-wide-rounded flex items-center justify-center gap-2 text-base"
             >
-              <Download className="w-5 h-5" /> Download Vaccine records
+              <Download className="w-5 h-5" /> Download Records
             </button>
             <button
+              className="rounded-full border border-[var(--color-text)]  px-8 py-3 flex items-center gap-2 font-semibold bg-[var(--color-card-button)] text-[var(--color-text)] hover:bg-[var(--color-primary)] transition"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)
               }
-              className="btn-wide-rounded flex items-center justify-center gap-2 text-base"
             >
               <PlusCircle className="w-5 h-5" /> Add New Vaccine
             </button>
@@ -319,7 +319,7 @@ const VaccinesPage: React.FC = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {vaccines.map((vaccine, index) => {
             const expiryDate =
               vaccine.date_due || vaccine.expiry_date || vaccine.expires || "";

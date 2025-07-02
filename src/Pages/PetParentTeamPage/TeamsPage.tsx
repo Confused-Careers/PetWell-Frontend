@@ -262,31 +262,29 @@ const TeamsPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold flex items-center gap-2">
-            <Users className="w-7 h-7 text-[var(--color-primary)]" />{" "}
-            {pet.pet_name}'s Team
+      <div className="container mx-auto max-w-7xl pt-8 pb-12 px-4 sm:px-6 md:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+          <h1 className="text-3xl md:text-4xl font-serif font-bold flex items-center gap-3 text-[var(--color-logo)]">
+            <Users className="w-9 h-9 text-[var(--color-logo)]" />
+            {pet.pet_name}&apos;s Teams
           </h1>
-          <div className="flex gap-3 sm:gap-4">
-            <button
-              onClick={() =>
-                navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
-              }
-              className="btn-wide-rounded flex items-center justify-center gap-2 text-base"
-            >
-              <PlusCircle className="w-5 h-5" /> Add New Team
-            </button>
-          </div>
+          <button
+            onClick={() =>
+              navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
+            }
+            className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-lg px-7 py-3 rounded-full"
+          >
+            <PlusCircle className="w-6 h-6" /> Add New Team
+          </button>
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-3 sm:px-4 py-2 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-lg mb-8 text-base">
             {error}
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {teams.map((team, index) => (
             <TeamBox
               key={team.id}
@@ -297,10 +295,18 @@ const TeamsPage: React.FC = () => {
         </div>
 
         {teams.length === 0 && !error && (
-          <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">
+          <div className="text-center py-16">
+            <div className="text-gray-400 text-lg mb-4 font-semibold">
               No teams found
             </div>
+            <button
+              onClick={() =>
+                navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
+              }
+              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-base px-6 py-2 rounded-full mx-auto"
+            >
+              <PlusCircle className="w-5 h-5" /> Add New Team
+            </button>
           </div>
         )}
 
@@ -329,7 +335,7 @@ const TeamsPage: React.FC = () => {
                 Remove Team?
               </h2>
               <div className="w-full text-center mb-6">
-                <p className="text-sm" style={{ color: "var(--color-text)" }}>
+                <p className="text-base" style={{ color: "var(--color-text)" }}>
                   Are you sure you want to delete the team "
                   <span
                     className="font-semibold"

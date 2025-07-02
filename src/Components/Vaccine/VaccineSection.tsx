@@ -22,33 +22,32 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
   onViewAll,
 }) => {
   return (
-    <section className="mb-6 sm:mb-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 w-full">
+    <section>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {vaccines.map((vaccine, idx) => (
-          <div key={idx} className="w-full">
+          <div key={idx} className="w-full flex">
             <VaccineInfo
               name={vaccine.name}
               administered={vaccine.administered}
               expires={vaccine.expires}
               soon={vaccine.soon}
               warning={vaccine.warning}
-              showEdit={true}
+              showEdit={!!onEditVaccine}
               onEdit={onEditVaccine ? () => onEditVaccine(idx) : undefined}
             />
           </div>
         ))}
       </div>
-      <div className="mt-2">
+      <div className="mt-4 flex justify-start">
         <a
           href="#"
-          className="text-[var(--color-primary)] font-medium  text-sm sm:text-base flex items-center gap-1"
+          className="text-[var(--color-primary)] font-medium text-base flex items-center gap-1 hover:underline"
           onClick={(e) => {
             e.preventDefault();
             onViewAll && onViewAll();
           }}
         >
-          View All Vaccines
-          <IoIosArrowDroprightCircle />
+          View All Vaccines <IoIosArrowDroprightCircle />
         </a>
       </div>
     </section>

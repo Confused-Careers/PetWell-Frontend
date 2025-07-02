@@ -47,7 +47,6 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
           }}
         >
           View All Documents <IoIosArrowDroprightCircle />
-
         </a>
       </div>
     </section>

@@ -260,34 +260,26 @@ const DownloadSelectPage: React.FC = () => {
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
-            Download Vaccine Records
-          </h1>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div className="flex flex-col gap-2">
             <button
-              onClick={handleDownload}
-              disabled={selected.length === 0}
-              className="btn-wide-rounded flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => navigate(-1)}
+              className="flex items-center gap-2 text-[var(--color-text)] text-base font-medium hover:underline w-fit mb-2"
             >
-              <FileDown className="w-5 h-5" /> Download Summary
+              <span className="text-lg">&#8592;</span> Go Back
             </button>
-            <button
-              onClick={handleDownloadDetailed}
-              disabled={selected.length === 0}
-              className="btn-wide-rounded flex items-center justify-center gap-2 text-base disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <FileText className="w-5 h-5" /> Download Detailed
-            </button>
+            <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2">
+              Select the records you want to download
+            </h1>
           </div>
+          <button
+            onClick={handleDownload}
+            disabled={selected.length === 0}
+            className="btn-wide-rounded bg-[var(--color-card-button)] text-[var(--color-text)] font-semibold flex items-center justify-center gap-2 text-base sticky top-6 self-start disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Download Selected Records ({selected.length})
+          </button>
         </div>
-
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-3 sm:px-4 py-2 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
-            {error}
-          </div>
-        )}
-
         <div className="flex items-center mb-4">
           <input
             type="checkbox"
@@ -300,34 +292,46 @@ const DownloadSelectPage: React.FC = () => {
             htmlFor="select-all-checkbox"
             className="text-[var(--color-text)] font-cabin text-base cursor-pointer"
           >
-            Select All
+            Select All Records
           </label>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-          {vaccines.map((vaccine, idx) => (
-            <VaccineInfo
-              key={vaccine.id || idx}
-              name={vaccine.vaccine_name || vaccine.name || "Unknown Vaccine"}
-              administered={
-                vaccine.date_administered ||
-                vaccine.administered_date ||
-                vaccine.administered ||
-                "Unknown"
-              }
-              expires={
-                vaccine.date_due ||
-                vaccine.expiry_date ||
-                vaccine.expires ||
-                "Unknown"
-              }
-              soon={vaccine.soon || false}
-              warning={vaccine.warning || ""}
-              showSelect={true}
-              selected={selected.includes(idx)}
-              onSelect={() => toggleSelect(idx)}
-            />
-          ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {vaccines.map((vaccine, idx) => {
+            const isSelected = selected.includes(idx);
+            return (
+              <div key={vaccine.id || idx} className="relative">
+                {/* Checkbox at top-right */}
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => toggleSelect(idx)}
+                  className="accent-[var(--color-primary)] w-5 h-5 absolute top-4 right-4 z-10 border border-[var(--color-primary)] shadow bg-transparent"
+                  aria-label={`Select vaccine ${
+                    vaccine.vaccine_name || vaccine.name || idx
+                  }`}
+                />
+                <VaccineInfo
+                  name={
+                    vaccine.vaccine_name || vaccine.name || "Unknown Vaccine"
+                  }
+                  administered={
+                    vaccine.date_administered ||
+                    vaccine.administered_date ||
+                    vaccine.administered ||
+                    "Unknown"
+                  }
+                  expires={
+                    vaccine.date_due ||
+                    vaccine.expiry_date ||
+                    vaccine.expires ||
+                    "Unknown"
+                  }
+                  soon={vaccine.soon || false}
+                  warning={vaccine.warning || ""}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {vaccines.length === 0 && !error && (

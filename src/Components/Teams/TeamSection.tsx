@@ -1,6 +1,5 @@
 import React from "react";
 import TeamBox from "./TeamInfo";
-import { ArrowRight } from "lucide-react";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 interface Team {

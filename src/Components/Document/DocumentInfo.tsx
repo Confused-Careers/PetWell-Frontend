@@ -45,7 +45,7 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
   return (
     <>
       <div
-        className="flex items-center bg-[#f6e7c0] border border-[#e5d6a7] rounded-2xl px-5 py-3 gap-3 shadow-sm w-full max-w-lg"
+        className="flex items-center bg-[#f6e7c0] border border-[var(--color-primary)] rounded-2xl px-5 py-3 gap-3 shadow-sm w-full max-w-lg"
         style={{ minHeight: 56 }}
       >
         <div

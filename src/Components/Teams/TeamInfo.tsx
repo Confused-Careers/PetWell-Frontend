@@ -12,7 +12,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
 
   if (!team || !team.business) {
     return (
-      <div className="bg-[var(--color-card)] rounded-2xl px-4 sm:px-6 md:px-7 py-4 sm:py-5 border border-[var(--color-border)] flex flex-col gap-2 relative min-w-0 max-w-full text-center text-red-400">
+      <div className="bg-[var(--color-card)] rounded-2xl px-6 py-5 border border-[var(--color-border)] flex flex-col gap-2 relative min-w-0 max-w-full text-center text-red-400">
         No business info found for this team.
       </div>
     );
@@ -31,58 +31,61 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
 
   return (
     <div
-      className="bg-[var(--color-card-team)] rounded-2xl px-4 sm:px-6 md:px-7 py-4 sm:py-5  flex flex-col gap-2 relative min-w-0 max-w-full"
+      className="bg-[var(--color-card-team)] border border-[var(--color-border)] rounded-2xl px-6 py-5 flex flex-col gap-3 relative min-w-0 max-w-full w-full overflow-hidden"
       style={{ minHeight: 180 }}
     >
-      <div className="flex items-center gap-2 sm:gap-3 mb-2">
+      {/* Delete button */}
+      {onDelete && (
+        <button
+          className="absolute top-4 right-4 text-2xl text-[var(--color-logo)] hover:text-[var(--color-warning)] bg-transparent border-none cursor-pointer p-0 m-0"
+          onClick={onDelete}
+          aria-label="Remove Team"
+        >
+          <X className="w-7 h-7" />
+        </button>
+      )}
+      {/* Header: Avatar + Name + Type */}
+      <div className="flex items-center gap-4 mb-2 min-w-0 max-w-full">
         <img
           src={avatar}
           alt={name}
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover"
+          className="w-14 h-14 rounded-full object-cover flex-shrink-0"
         />
-        <div className="flex flex-col flex-1 min-w-0">
-          <span className="font-semibold text-base sm:text-lg text-[var(--color-black)] leading-tight truncate flex items-center gap-1">
+        <div className="flex flex-col flex-1 min-w-0 max-w-full">
+          <span className="font-bold text-2xl text-[var(--color-logo)] leading-tight whitespace-nowrap w-fit">
             {name}
           </span>
-          <span className="text-xs px-2 py-0.5 rounded bg-[var(--color-secondary)] text-[var(--color-black)] mt-1 w-fit">
+          <span className="flex px-2 py-1 justify-start items-center gap-2 bg-[#6A8293] text-white font-semibold mt-2 rounded w-fit text-sm">
             {type}
           </span>
         </div>
-        {onDelete && (
-          <button
-            className="text-gray-400 hover:text-[var(--color-danger)] text-2xl sm:text-3xl absolute right-3 sm:right-4 top-3 sm:top-4 p-0 m-0 bg-transparent border-none cursor-pointer flex items-center justify-center"
-            onClick={onDelete}
-            aria-label="Remove Team"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        )}
       </div>
-      <div className="flex flex-col gap-2 mt-2">
-        <div className="text-xs sm:text-sm mb-1 flex flex-col">
-          <span className="font-semibold text-[var(--color-black)]/60 flex items-center gap-1">
-            <Phone className="w-3 h-3" /> Phone
+      {/* Details: Two-column for phone/email, address below */}
+      <div className="flex flex-row gap-8 mb-2 min-w-0 max-w-full">
+        <div className="flex flex-col min-w-0 max-w-full">
+          <span className="text-[var(--color-logo)]/70 text-base font-normal">
+            Phone
           </span>
-          <span className="text-[var(--color-black)] font-bold mt-0.5 truncate">
+          <span className="text-[var(--color-logo)] text-xl font-bold whitespace-nowrap overflow-x-auto block max-w-full">
             {phone}
           </span>
         </div>
-        <div className="text-xs sm:text-sm mb-1 flex flex-col">
-          <span className="font-semibold text-[var(--color-black)]/60 flex items-center gap-1">
-            <Mail className="w-3 h-3" /> Email
+        <div className="flex flex-col min-w-0 max-w-full">
+          <span className="text-[var(--color-logo)]/70 text-base font-normal">
+            Email
           </span>
-          <span className="text-[var(--color-black)] font-bold mt-0.5 truncate">
+          <span className="text-[var(--color-logo)] text-base font-bold whitespace-nowrap overflow-x-auto block max-w-full">
             {email}
           </span>
         </div>
-        <div className="text-xs sm:text-sm mt-1 flex flex-col">
-          <span className="font-semibold text-[var(--color-black)]/60 flex items-center gap-1">
-            <MapPin className="w-3 h-3" /> Address
-          </span>
-          <span className="text-[var(--color-black)] font-bold mt-0.5 line-clamp-2">
-            {address}
-          </span>
-        </div>
+      </div>
+      <div className="flex flex-col mt-1 min-w-0 max-w-full">
+        <span className="text-[var(--color-logo)]/70 text-base font-normal">
+          Address
+        </span>
+        <span className="text-[var(--color-logo)] text-base font-bold whitespace-nowrap overflow-x-auto block max-w-full">
+          {address}
+        </span>
       </div>
     </div>
   );

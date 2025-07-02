@@ -24,7 +24,7 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
 }) => {
   return (
     <section className="mb-6 sm:mb-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4">
+      <div className="flex flex-wrap gap-4 sm:gap-6 mb-4">
         {documents.map((doc, idx) => (
           <DocumentBox
             key={idx}
@@ -34,10 +34,17 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
             onDelete={
               onDeleteDocument ? () => onDeleteDocument(idx) : undefined
             }
+            onDownload={
+              ()=>{
+                console.log(doc)
+              }
+            }
           />
         ))}
+                {documents.length==0 && <div>No Document Added</div>}
+
       </div>
-      <div className="mt-2">
+      {documents.length!=0 && <div className="mt-2">
         <a
           href="#"
           className="text-[var(--color-primary)] font-medium text-sm sm:text-base flex items-center gap-1"
@@ -48,7 +55,7 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
         >
           View All Documents <IoIosArrowDroprightCircle />
         </a>
-      </div>
+      </div>}
     </section>
   );
 };

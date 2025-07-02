@@ -5,6 +5,7 @@ import AddVaccine from "../../Components/Vaccine/AddVaccine";
 import petServices from "../../Services/petServices";
 import vaccineServices from "../../Services/vaccineServices";
 import { Syringe } from "lucide-react";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 const AddVaccinePage: React.FC = () => {
   const navigate = useNavigate();
@@ -118,11 +119,8 @@ const AddVaccinePage: React.FC = () => {
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-8 pb-12 px-8">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
-          <h1 className="text-4xl font-serif font-bold flex items-center gap-2">
-            <Syringe className="w-8 h-8 text-[var(--color-primary)]" /> Add
-            Vaccine for {pet.pet_name}
-          </h1>
+        <div className="flex font-semibold flex-row items-center gap-2">
+          <IoIosArrowDropleftCircle height={24} width={24} onClick={() => handleCancel()} className="cursor-pointer h-[24px] w-[24px]" />Go Back
         </div>
 
         {error && (

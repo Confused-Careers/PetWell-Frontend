@@ -9,7 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
-import { PlusCircle, FilePlus, Users, Syringe, FileText } from "lucide-react";
+import { PlusCircle, FilePlus, Users, Syringe, FileText, PawPrint, UploadIcon } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -71,20 +71,17 @@ const HomePage: React.FC = () => {
         // Already expired
         return {
           soon: true,
-          warning: `${
-            petName || "Your pet"
-          }'s vaccine has expired. Please renew as soon as possible!`,
-          relativeExpiry: `Expired ${Math.abs(diffDays)} day${
-            Math.abs(diffDays) === 1 ? "" : "s"
-          } ago`,
+          warning: `${petName || "Your pet"
+            }'s vaccine has expired. Please renew as soon as possible!`,
+          relativeExpiry: `Expired ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? "" : "s"
+            } ago`,
         };
       } else if (diffDays <= 7) {
         // Expiring within 7 days
         return {
           soon: true,
-          warning: `${
-            petName || "Your pet"
-          } is due for the vaccine soon. Schedule now!`,
+          warning: `${petName || "Your pet"
+            } is due for the vaccine soon. Schedule now!`,
           relativeExpiry: `In ${diffDays} day${diffDays === 1 ? "" : "s"}`,
         };
       } else {
@@ -275,8 +272,8 @@ const HomePage: React.FC = () => {
         let docsArr = Array.isArray(docsRes)
           ? docsRes
           : docsRes
-          ? [docsRes]
-          : [];
+            ? [docsRes]
+            : [];
         // Map to DocumentSection shape
         const mappedDocs = docsArr.map((d: any) => {
           let ext = d.document_name?.split(".").pop()?.toLowerCase() || "";
@@ -386,9 +383,8 @@ const HomePage: React.FC = () => {
               address: b.address || "",
               avatar: b.profile_picture_document_id
                 ? `/api/v1/documents/${b.profile_picture_document_id}`
-                : `https://randomuser.me/api/portraits/men/${
-                    Math.floor(Math.random() * 100) + 1
-                  }.jpg`,
+                : `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100) + 1
+                }.jpg`,
             };
           });
           console.log("[HomePage] mappedTeams", mappedTeams);
@@ -518,14 +514,33 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-6 sm:pt-10 md:pt-14 pb-10 sm:pb-14 md:pb-20 px-4 sm:px-6 md:px-8">
+      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
         {/* Profile & Health Summary */}
+       {pet && <section className="mb-6 mt-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
+                <PawPrint className="w-full h-full text-[var(--color-logo)]" />
+              </span>
+              Welcome {pet.pet_name}!
+            </p>
+            <div>
+              <button
+              onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+            >
+              Switch to Another Pet
+            </button>
+            </div>
+          </div>
+        </section>}
+
         {pet && (
           <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full">
             {/* Pet Profile Card */}
-            <div className="border border-[var(--color-primary)] bg-[var(--color-card-profile)] rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-stretch w-full max-w-3xl min-w-[260px] text-[var(--color-white)] shadow-lg">
+            <div className="border  border-black bg-[var(--color-card-profile)] rounded-3xl p-6 flex flex-col md:flex-row items-center flex-2/3 text-[var(--color-white)] shadow-lg">
               {/* Image */}
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-2xl overflow-hidden mb-4 md:mb-0 bg-[var(--color-card-profile)] flex items-center justify-center flex-shrink-0">
+              <div className="w-56 h-56 rounded-2xl overflow-hidden bg-[var(--color-card-profile)] flex items-center justify-center">
                 <img
                   src={
                     pet.profile_picture ||
@@ -537,57 +552,77 @@ const HomePage: React.FC = () => {
               </div>
               {/* Details */}
               <div className="flex-1 flex flex-col justify-center md:pl-8 w-full">
-                <div className="text-2xl md:text-3xl font-bold mb-2 font-serif">
+                <div className="text-2xl font-medium mb-2 text-[var(--color-text-bright)]">
                   {pet.pet_name || "Pet"}
                 </div>
-                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
-                  <div>
-                    <span className="text-[var(--color-text)] opacity-70">
+                <div className="flex flex-wrap gap-x-4 text-base mb-2">
+                  <div  className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
                       Age
                     </span>
-                    <div className="font-bold">
+                    <div className="text-[var(--color-text-bright)]">
                       {pet.age || "Unknown"} years old
                     </div>
                   </div>
-                  <div>
-                    <span className="text-[var(--color-text)] opacity-70">
+                  <div  className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
                       Gender
                     </span>
-                    <div className="font-bold">{pet.gender || "Unknown"}</div>
+                    <div className="text-[var(--color-text-bright)]">{pet.gender || "Unknown"}</div>
                   </div>
-                </div>
-                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
-                  <div>
-                    <span className="text-[var(--color-text)] opacity-70">
-                      Breed
-                    </span>
-                    <div className="font-bold">
-                      {pet.breed?.breed_name || "Mixed Breed"}
-                    </div>
-                  </div>
-                  <div>
-                    <span className="text-[var(--color-text)] opacity-70">
-                      Colour
-                    </span>
-                    <div className="font-bold">{pet.color || "Unknown"}</div>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
-                  <div>
-                    <span className="text-[var(--color-text)] opacity-70">
+                  <div  className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
                       Microchip Number
                     </span>
-                    <div className="font-bold">
+                    <div className="text-[var(--color-text-bright)]">
                       {pet.microchip || "Unknown"}
                     </div>
                   </div>
-                  <div>
-                    <span className="text-[var(--color-text)] opacity-70">
+                </div>
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Breed
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">
+                      {pet.breed?.breed_name || "Mixed Breed"}
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Colour
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">{pet.color || "Unknown"}</div>
+                  </div>
+                   <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
                       Birthdate
                     </span>
-                    <div className="font-bold">{pet.dob || "Unknown"}</div>
+                    <div className="text-[var(--color-text-bright)]">{pet.dob || "Unknown"}</div>
                   </div>
                 </div>
+                
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div className="flex gap-2 mb-2 justify-center items-center">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[var(--color-text-faded)] opacity-70">
+                        {pet?.pet_name}'s Code
+                      </span>
+                      <div className="flex gap-1">
+                        {pet?.qr_code_id?.split("")
+                          .map((char: string, index: number) => (
+                            <span
+                              key={index}
+                              className="inline-flex w-6 h-8 font-medium bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-sm rounded-lg items-center justify-center shadow-sm select-all transition-all duration-150 hover:scale-105 text-center"
+                            >
+                              {char}
+                            </span>
+                          ))}
+                      </div>
+                    </div>
+
+                  </div>
+                  </div>
                 {/* Pet Code Example (if available) */}
                 {pet.code && (
                   <div className="flex gap-2 mt-2">
@@ -604,14 +639,14 @@ const HomePage: React.FC = () => {
               </div>
             </div>
             {/* Health Summary Card */}
-            <div className=" border border-[var(--color-primary)] bg-[var(--color-card-health-card)] rounded-3xl p-6 md:p-8 flex flex-col gap-2 flex-1 min-w-[260px] text-[var(--color-text)] shadow-lg">
-              <div className="text-xl md:text-2xl font-bold mb-2 font-serif">
+            <div className="flex-1/3 border border-[var(--color-primary)] bg-[var(--color-card-health-card)] rounded-3xl p-6 md:p-8 flex flex-col gap-2 flex-1 text-[var(--color-text)] shadow-lg">
+              <div className="text-2xl font-semibold mb-2">
                 Health Summary
               </div>
               <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
                 <div>
-                  <span className="opacity-70">Spay/Neuter Status</span>
-                  <span className="font-bold ml-2">
+                  <span className="opacity-70">Spay/Neuter Status:</span>
+                  <span className="font-semibold ml-2">
                     {pet.spay_neuter
                       ? "Spayed/Neutered"
                       : "Not Spayed/Neutered"}
@@ -619,13 +654,13 @@ const HomePage: React.FC = () => {
                 </div>
                 <div>
                   <span className="opacity-70">Weight</span>
-                  <span className="font-bold ml-2">
+                  <span className="font-semibold ml-2">
                     {pet.weight ? `${pet.weight} lbs` : "Unknown"}
                   </span>
                 </div>
                 <div>
                   <span className="opacity-70">Special Notes</span>
-                  <span className="font-bold ml-2">
+                  <span className="font-semibold ml-2">
                     {pet.notes || "No special notes"}
                   </span>
                 </div>
@@ -633,7 +668,7 @@ const HomePage: React.FC = () => {
               <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
                 <div>
                   <span className="opacity-70">Location</span>
-                  <span className="font-bold ml-2">
+                  <span className="font-semibold ml-2">
                     {pet.location || "Unknown"}
                   </span>
                 </div>
@@ -643,17 +678,17 @@ const HomePage: React.FC = () => {
         )}
 
         {/* Vaccine Section */}
-        <section className="mb-12 md:mb-16">
+        <section className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold flex items-center gap-3 font-serif">
-              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-logo)]">
-                <Syringe className="w-7 h-7 text-[var(--color-white)]" />
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+                <Syringe className="w-5 h-5 text-[var(--color-white)]" />
               </span>
               Vaccines
-            </h2>
+            </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
-              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center justify-center hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
               <PlusCircle className="w-5 h-5 " /> Add New Vaccine
             </button>
@@ -666,19 +701,19 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Document Section */}
-        <section className="mb-12 md:mb-16">
+        <section className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold flex items-center gap-3 font-serif">
-              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-logo)]">
-                <FileText className="w-7 h-7 text-[var(--color-white)]" />
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+                <FileText className="w-5 h-5 text-[var(--color-white)]" />
               </span>
               Recently Uploaded Documents
-            </h2>
+            </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
-              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
+                                className="w-auto px-5 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
-              <FilePlus className="w-5 h-5" /> Upload New Document
+              <UploadIcon className="w-5 h-5" /> Upload New Document
             </button>
           </div>
           <DocumentSection
@@ -689,17 +724,17 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Team Section */}
-        <section className="mb-8 md:mb-12">
+        <section className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <h2 className="text-2xl md:text-3xl font-bold flex items-center gap-3 font-serif">
-              <span className="flex items-center justify-center w-12 h-12 rounded-full bg-[var(--color-logo)]">
-                <Users className="w-7 h-7 text-[var(--color-white)]" />
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+                <Users className="w-5 h-5 text-[var(--color-white)]" />
               </span>
               Your Teams
-            </h2>
+            </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-team`)}
-              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
+                                className="w-auto px-12 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
               <Users className="w-5 h-5" /> Add New Team
             </button>

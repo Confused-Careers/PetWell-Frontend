@@ -17,41 +17,46 @@ const DeleteDocumentModal: React.FC<DeleteDocumentModalProps> = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-modal)]/30 backdrop-blur-sm p-4">
-      <div className="bg-[var(--color-modal)] rounded-2xl px-6 sm:px-8 md:px-10 py-6 sm:py-8 min-w-[280px] sm:min-w-[340px] max-w-[90vw] shadow-2xl relative flex flex-col items-start border border-[var(--color-modal-border)]">
+   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+      <div className="bg-[var(--color-background)] rounded-2xl px-6 sm:px-8 md:px-10 py-6 sm:py-8 min-w-lg shadow-2xl relative flex flex-col items-start border border-[var(--color-modal-border)]">
         <button
-          className="absolute right-4 sm:right-6 md:right-8 top-4 sm:top-6 md:top-8 text-2xl sm:text-3xl md:text-4xl text-[var(--color-modal-foreground)] hover:text-[var(--color-danger)] font-bold flex items-center justify-center"
+          className="absolute cursor-pointer right-4 sm:right-6 md:right-8 top-4 sm:top-6 md:top-8 text-2xl sm:text-3xl md:text-4xl text-[var(--color-modal-foreground)] hover:text-[var(--color-danger)] font-bold flex items-center justify-center"
           onClick={onClose}
           aria-label="Close"
         >
           <X className="w-6 h-6" />
         </button>
-        <h2 className="text-xl sm:text-2xl font-serif font-bold mb-6 sm:mb-8 text-[var(--color-modal-foreground)] text-center w-full">
+            <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
           Remove document?
-        </h2>
-        <div className="w-full text-center mb-6 sm:mb-8">
-          <p className="text-sm sm:text-base text-[var(--color-modal-foreground)] mb-1">
+        </p>
+        <div className="w-full text-left mb-6 sm:mb-8 mt-6">
+          <p className="block text-[var(--color-modal-foreground)] mb-2 font-medium text-sm sm:text-base">
             Are you sure you want to delete
           </p>
-          <span className="font-semibold text-[var(--color-modal-foreground)]">
+          <p className="font-semibold text-left text-[var(--color-modal-foreground)]">
             {documentName}
-          </span>
+          </p>
           ?
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end w-full mt-2">
-          <button
-            className="flex-1 sm:flex-none border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
+         <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
+                      <button 
+                        type="button"
             onClick={onClose}
-          >
-            Cancel
-          </button>
-          <button
-            className="flex-1 sm:flex-none bg-[var(--color-primary)] text-[var(--color-background)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold hover:bg-[var(--color-primary-foreground)] hover:text-[var(--color-primary)] transition text-sm sm:text-base"
+                        className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="button"
             onClick={onDelete}
-          >
-            Yes, remove
-          </button>
-        </div>
+
+                                        className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+        
+                      >
+                      Yes, remove
+                      </button>
+                    </div>
+       
       </div>
     </div>
   );

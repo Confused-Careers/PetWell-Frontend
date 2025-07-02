@@ -288,14 +288,14 @@ const VaccinesPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
+      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold mb-0 text-left">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             {pet?.pet_name ? `${pet.pet_name}'s Vaccines` : "Vaccines"}
-          </h1>
+          </p>
           <div className="flex flex-row gap-4">
             <button
-              className="border border-[var(--color-text)] rounded-full px-8 py-3 flex items-center gap-2 font-semibold bg-transparent text-[var(--color-text)] hover:bg-[var(--color-card)] transition"
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E]"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/download-select`)
               }
@@ -303,7 +303,7 @@ const VaccinesPage: React.FC = () => {
               <Download className="w-5 h-5" /> Download Records
             </button>
             <button
-              className="rounded-full border border-[var(--color-text)]  px-8 py-3 flex items-center gap-2 font-semibold bg-[var(--color-card-button)] text-[var(--color-text)] hover:bg-[var(--color-primary)] transition"
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)
               }

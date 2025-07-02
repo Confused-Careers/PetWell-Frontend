@@ -13,7 +13,9 @@ import {
   DialogTitle,
 } from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
-import { ArrowLeft, Pencil, RefreshCcw } from "lucide-react";
+import { Pencil, RefreshCcw } from "lucide-react";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+
 
 const PetProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -146,22 +148,16 @@ const PetProfile: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <button
-              className="text-[var(--color-primary)] text-base font-medium flex items-center gap-2 hover:underline mb-2 sm:mb-0"
+              className="text-[var(--color-primary)] cursor-pointer text-base font-medium flex items-center gap-2 hover:underline mb-2 sm:mb-0"
               onClick={() => navigate(`/petowner/pet/${petId}/home`)}
             >
-              <ArrowLeft className="w-5 h-5" /> Go Back
+              <IoIosArrowDropleftCircle /> Go Back
             </button>
             <h1 className="text-3xl font-serif font-bold">Pet Profile</h1>
           </div>
           <div className="flex flex-row gap-4">
             <button
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-base"
-              onClick={handleEditProfile}
-            >
-              <Pencil className="w-5 h-5" /> Edit Profile
-            </button>
-            <button
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-base"
+              className="border  border-[var(--color-primary)] cursor-pointer bg-[var(--color-card-button)] text-[var(--color-primary)] px-6 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-[var(--color-background)] hover:text-[var(--color-primary)] transition text-base"
               onClick={handleSwitchProfile}
             >
               <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
@@ -170,7 +166,7 @@ const PetProfile: React.FC = () => {
         </div>
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left: Pet Card */}
-          <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col items-center w-full max-w-xs min-w-[260px]">
+          <div className="bg-[var(--color-card-profile)] border border-[var(--color-text)] rounded-2xl p-6 flex flex-col items-center w-full max-w-xs min-w-[260px]">
             <div className="w-48 h-48 rounded-xl overflow-hidden mb-4 bg-[var(--color-card)] flex items-center justify-center">
               <img
                 src={
@@ -182,71 +178,47 @@ const PetProfile: React.FC = () => {
               />
             </div>
             <div className="w-full">
-              <div className="text-2xl font-bold mb-2">
+              <div className="font-[Cabin,sans-serif] text-[2rem] md:text-[2.2rem] font-bold mb-2 text-[var(--color-text)]">
                 {currentPet?.pet_name || "Pet"}
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <span className="text-[var(--color-text)] opacity-70">
-                    Age
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.age || "Unknown"} years old
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Age</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.age || "Unknown"} years old</div>
                 </div>
                 <div>
-                  <span className="text-[var(--color-text)] opacity-70">
-                    Gender
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.gender || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Gender</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.gender || "Unknown"}</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <span className="text-[var(--color-text)] opacity-70">
-                    Breed
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.breed?.breed_name || "Mixed Breed"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Breed</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.breed?.breed_name || "Mixed Breed"}</div>
                 </div>
                 <div>
-                  <span className="text-[var(--color-text)] opacity-70">
-                    Colour
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.color || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Colour</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.color || "Unknown"}</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <span className="text-[var(--color-text)] opacity-70">
-                    Microchip Number
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.microchip || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Microchip Number</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.microchip || "Unknown"}</div>
                 </div>
                 <div>
-                  <span className="text-[var(--color-text)] opacity-70">
-                    Birthdate
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.dob || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Birthdate</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.dob || "Unknown"}</div>
                 </div>
               </div>
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <button className="mt-4 px-4 py-2 bg-[var(--color-primary)] text-[var(--color-black)] rounded-lg font-semibold hover:bg-[var(--color-primary)]/90 transition">
+                <button className="mt-4 px-4 py-2 cursor-pointer bg-[var(--color-card-button)] border border-[var(--color-text)] rounded-full text-[var(--color-black)] font-semibold hover:bg-[var(--color-primary)]/90 transition">
                   Show QR Code
                 </button>
               </DialogTrigger>
-              <DialogContent className="flex flex-col items-center bg-[var(--color-card)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
+              <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
                 <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
                   Pet QR Code
                 </DialogTitle>
@@ -260,7 +232,7 @@ const PetProfile: React.FC = () => {
                     />
                   </div>
                   <button
-                    className="mt-4 px-4 py-2 bg-[var(--color-primary)] text-[var(--color-black)] rounded-lg font-semibold hover:bg-[var(--color-primary)]/90 transition"
+                    className="mt-4 px-4 py-2 cursor-pointer bg-[var(--color-card-button)] border border-[var(--color-text)] rounded-full text-[var(--color-black)] font-semibold hover:bg-[var(--color-primary)]/90 transition"
                     onClick={() => {
                       const svg = document.querySelector(
                         "[data-slot='dialog-content'] svg"
@@ -291,96 +263,69 @@ const PetProfile: React.FC = () => {
           {/* Right: Main Info */}
           <div className="flex-1 flex flex-col gap-6">
             {/* Health Summary */}
-            <div className="bg-[var(--color-card)] rounded-2xl p-6 flex flex-col gap-2">
-              <div className="text-xl font-bold mb-2">Health Summary</div>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
+            <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-health-card)] p-6 md:p-8 w-full max-w-full" style={{marginBottom: 24}}>
+              <div className="font-[Cabin,sans-serif] text-[2rem] md:text-[2.2rem] font-bold mb-4 text-[var(--color-text)]">Health Summary</div>
+              {/* 3-column grid */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-2 mb-4">
                 <div>
-                  <span className="opacity-70">Spay/Neuter Status</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.spay_neuter
-                      ? "Spayed/Neutered"
-                      : "Not Spayed/Neutered"}
-                  </span>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Spay/Neuter Status</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.spay_neuter ? "Neutered" : "Not Neutered"}</div>
                 </div>
                 <div>
-                  <span className="opacity-70">Weight</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.weight
-                      ? `${currentPet.weight} lbs`
-                      : "Unknown"}
-                  </span>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Weight</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.weight ? `${currentPet.weight}lbs` : "Unknown"}</div>
                 </div>
                 <div>
-                  <span className="opacity-70">Special Notes</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.notes || "No special notes"}
-                  </span>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Special Notes</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.notes || "-"}</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
-                <div>
-                  <span className="opacity-70">Location</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.location || "Unknown"}
-                  </span>
-                </div>
-              </div>
+    
+
             </div>
             {/* Syd's Code & Your Details */}
             <div className="flex flex-col md:flex-row gap-6">
               {/* Syd's Code */}
-              <div className="bg-[var(--color-card)] rounded-2xl p-6 flex-1 flex flex-col items-center min-w-[260px]">
-                <div className="text-xl font-bold mb-3 w-full">
+              <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-document)] p-6 md:p-8 w-full max-w-full flex flex-col items-start" style={{marginBottom: 24}}>
+                <div className="font-[Cabin,sans-serif] text-[1.5rem] md:text-[2rem] font-bold mb-4 text-[var(--color-text)]">
                   {currentPet?.pet_name || "Pet"}'s Code
                 </div>
-                <div className="flex gap-2 mb-2 justify-center items-center">
+                <div className="flex flex-row gap-3 mb-4">
                   {generatePetCode(currentPet?.id || "")
                     .split("")
                     .map((char, index) => (
                       <span
                         key={index}
-                        className="inline-flex w-10 h-10 bg-[#fff] bg-opacity-80 text-[#23272f] text-xl font-extrabold rounded-lg items-center justify-center border-2 border-[var(--color-primary)] shadow-sm tracking-widest select-all text-center"
-                        style={{
-                          boxShadow: "0 2px 8px 0 rgba(44, 44, 44, 0.10)",
-                        }}
+                        className="inline-flex w-12 h-12 md:w-14 md:h-14 bg-[var(--color-text)] text-[var(--color-background)] text-2xl md:text-3xl font-[Cabin,sans-serif] font-bold rounded-[10px] items-center justify-center select-all text-center"
+                        style={{ boxShadow: "0 2px 8px 0 rgba(44,44,44,0.10)" }}
                       >
                         {char}
                       </span>
                     ))}
                 </div>
-                <div className="text-xs text-[var(--color-text)] text-opacity-70 text-center">
+                <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-base md:text-lg text-left">
                   Share with care providers to give access to the profile.
                 </div>
               </div>
               {/* Your Details */}
-              <div className="bg-[var(--color-card)] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]">
-                <div className="text-xl font-bold mb-3 w-full">
-                  Your Details
-                </div>
+              <div className="rounded-[16px] bg-[var(--color-card-yellow)] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]l" style={{marginBottom: 24}}>
+                <div className="font-[Cabin,sans-serif] text-[2rem] md:text-[2.2rem] font-bold mb-4 text-[var(--color-text)]">Your Details</div>
                 <div className="flex flex-col gap-2 text-base">
                   <div>
-                    <span className="opacity-70">Name</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.human_owner_name || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Name</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.human_owner_name || "Unknown"}</div>
                   </div>
                   <div>
-                    <span className="opacity-70">Location</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.location || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Location</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.location || "Unknown"}</div>
                   </div>
                   <div>
-                    <span className="opacity-70">Phone number</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.phone || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Phone number</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.phone || "Unknown"}</div>
                   </div>
                   <div>
-                    <span className="opacity-70">Email</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.email || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Email</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.email || "Unknown"}</div>
                   </div>
                 </div>
               </div>

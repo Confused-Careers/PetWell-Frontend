@@ -299,14 +299,7 @@ const TeamsPage: React.FC = () => {
             <div className="text-gray-400 text-lg mb-4 font-semibold">
               No teams found
             </div>
-            <button
-              onClick={() =>
-                navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
-              }
-              className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-base px-6 py-2 rounded-full mx-auto"
-            >
-              <PlusCircle className="w-5 h-5" /> Add New Team
-            </button>
+          
           </div>
         )}
 

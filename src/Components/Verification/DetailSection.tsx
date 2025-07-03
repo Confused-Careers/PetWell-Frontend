@@ -41,7 +41,6 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   onEditPet,
   onEditUser,
 }) => {
-  // Safely get breed and species
   const breed =
     pet.breed_name ||
     (typeof pet.breed === "string"
@@ -65,134 +64,119 @@ const DetailSection: React.FC<DetailSectionProps> = ({
   const userEmail = user.email || "";
 
   return (
-    <div className="flex flex-col md:flex-row gap-6 md:gap-8 justify-start mt-6 sm:mt-8 w-full max-w-6xl mx-auto px-2 sm:px-4 md:px-0">
-      {/* Pet's Details Column */}
-      <div className="flex flex-col flex-1 min-w-0 max-w-full md:max-w-md">
-        <span className="text-2xl font-serif font-semibold text-[var(--color-modal-foreground)] mb-2 block">
-          Your Pet's Details
-        </span>
-        <div className="bg-[var(--color-card)] rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 flex-1 relative w-full">
-          <button
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 rounded-full p-2"
-            onClick={onEditPet}
-          >
-            <Pencil size={20} />
-          </button>
-          <div className="flex items-center gap-4 mb-6">
-            <img
-              src={petImage}
-              alt={petName}
-              className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary)]"
-            />
-            <span className="text-xl font-bold text-[var(--color-text)] break-words max-w-full">
-              {petName}
-            </span>
+    <div className="grid grid-cols-2 gap-4">
+      {/* Pet's Details Card */}
+      <div className="bg-[var(--color-card-profile)] rounded-2xl shadow-md p-2 sm:p-4 md:p-6 flex flex-col relative min-w-[200px]">
+        <button
+          className="absolute top-2 sm:top-3 right-2 sm:right-3 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 rounded-full p-1 sm:p-2"
+          onClick={onEditPet}
+          aria-label="Edit pet details"
+        >
+          <Pencil size={14} sm:size-16 md:size-20 />
+        </button>
+        <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-4">
+          <img
+            src={petImage}
+            alt={petName}
+            className="w-12 sm:w-16 md:w-20 h-12 sm:h-16 md:h-20 rounded-full object-cover border-2 border-[var(--color-primary)]"
+          />
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--color-text)] break-words max-w-full">
+            {petName}
+          </span>
+        </div>
+        <div className="grid grid-cols-2 gap-y-2 sm:gap-y-3 gap-x-2 sm:gap-x-4 text-sm sm:text-base md:text-lg">
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Age
+            </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {petAge}
+            </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6 text-base w-full">
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Age
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {petAge}
-              </div>
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Weight
             </div>
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Weight
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {petWeight}
-              </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {petWeight}
             </div>
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Breed
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {breed}
-              </div>
+          </div>
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Breed
             </div>
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Species
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {species}
-              </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {breed}
             </div>
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Colour
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {petColor}
-              </div>
+          </div>
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Colour
             </div>
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Microchip Number
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {petMicrochip}
-              </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {petColor}
             </div>
-            <div>
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Birthdate
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {petBirthdate}
-              </div>
+          </div>
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Microchip Number
+            </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {petMicrochip}
+            </div>
+          </div>
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Birthdate
+            </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {petBirthdate}
             </div>
           </div>
         </div>
       </div>
-      {/* User Details Column */}
-      <div className="flex flex-col flex-1 min-w-0 max-w-full md:max-w-md mt-8 md:mt-0">
-        <span className="text-2xl font-serif font-semibold text-[var(--color-modal-foreground)] mb-2 block">
-          Your Details
-        </span>
-        <div className="bg-[var(--color-card)] rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 flex-1 relative w-full">
-          <button
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 rounded-full p-2"
-            onClick={onEditUser}
-            aria-label="Edit user details"
-          >
-            <Pencil size={20} />
-          </button>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-6 text-base w-full">
-            <div className="col-span-4">
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Name
+      {/* User Details Card */}
+      <div className="bg-[var(--color-card-vaccine-green)] rounded-2xl shadow-md p-2 sm:p-4 md:p-6 flex flex-col relative min-w-[200px]">
+        <button
+          className="absolute top-2 sm:top-3 right-2 sm:right-3 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 rounded-full p-1 sm:p-2"
+          onClick={onEditUser}
+          aria-label="Edit user details"
+        >
+          <Pencil size={14} sm:size-16 md:size-20 />
+        </button>
+        <div className="flex flex-col gap-2 sm:gap-3">
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Name
+            </div>
+            <div className="font-bold text-xl sm:text-2xl md:text-3xl text-[var(--color-text)] mb-2">
+              {userName}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 sm:gap-x-4">
+            <div>
+              <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+                Phone number
               </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {userName}
+              <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)] mb-2">
+                {userPhone}
               </div>
             </div>
-            <div className="col-span-2">
-                <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                  Phone number
-                </div>
-                <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                  {userPhone}
-                </div>
-            </div>
-            <div className="col-span-2">
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
+            <div>
+              <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
                 Location
               </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
+              <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)] mb-2">
                 {userLocation}
               </div>
             </div>
-            <div className="col-span-4">
-              <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                Email
-              </div>
-              <div className="font-bold text-lg text-[var(--color-text)] break-words max-w-full">
-                {userEmail}
-              </div>
+          </div>
+          <div>
+            <div className="text-[var(--color-modal-foreground)] text-xs sm:text-sm mb-1">
+              Email
+            </div>
+            <div className="font-bold text-base sm:text-lg md:text-xl text-[var(--color-text)]">
+              {userEmail}
             </div>
           </div>
         </div>

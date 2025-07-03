@@ -92,7 +92,13 @@ const UploadingDocAfterEnterPage: React.FC = () => {
       while (attempts < 15) {
         try {
           const result = await petServices.getPetDocuments(petId);
-          docs = Array.isArray(result?.data) ? result.data : [];
+          console.log("Polling result:", result);
+          // Accept both { data: [...] } and [...] directly
+          docs = Array.isArray(result?.data)
+            ? result.data
+            : Array.isArray(result)
+            ? result
+            : [];
           if (docs.length > 0) break;
         } catch (e) {
           // ignore errors, just retry

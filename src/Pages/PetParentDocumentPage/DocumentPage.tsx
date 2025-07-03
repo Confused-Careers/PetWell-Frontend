@@ -298,9 +298,9 @@ const DocumentPage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl font-lighter flex items-center gap-3 font-serif">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             {pet ? `${pet.pet_name}'s Documents` : "Pet Documents"}
-          </h1>
+          </p>
           <div className="flex flex-col  sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-end">
             <div className="relative w-full sm:w-72">
               <div className="relative">

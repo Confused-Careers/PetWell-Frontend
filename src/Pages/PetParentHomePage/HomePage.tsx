@@ -9,7 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
-import { PlusCircle, FilePlus, Users, Syringe, FileText, PawPrint, UploadIcon } from "lucide-react";
+import { PlusCircle, FilePlus, Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -526,10 +526,10 @@ const HomePage: React.FC = () => {
             </p>
             <div>
               <button
-              onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
+              onClick={() => navigate(`/switch-profile`)}
                                 className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
-              Switch to Another Pet
+              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
             </button>
             </div>
           </div>

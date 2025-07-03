@@ -126,8 +126,8 @@ const AddVaccinePage: React.FC = () => {
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <NavComponent />
       <div className="container mx-auto max-w-7xl pt-8 pb-12 px-8">
-        <div className="flex font-semibold flex-row items-center gap-2">
-          <IoIosArrowDropleftCircle height={24} width={24} onClick={() => handleCancel()} className="cursor-pointer h-[24px] w-[24px]" />Go Back
+        <div className="flex font-semibold flex-row items-center gap-2 cursor-pointer " onClick={() => handleCancel()}>
+          <IoIosArrowDropleftCircle height={24} width={24} className=" h-[24px] w-[24px]" />Go Back
         </div>
 
         {error && (

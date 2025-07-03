@@ -120,26 +120,26 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
           >
             <MdDownload className="size-5" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
+        <Button
+          variant="ghost"
+          size="icon"
             className="text-[#23272F] cursor-pointer hover:text-[#23272F]"
-            onClick={() => setShowRename(true)}
-            aria-label="Edit Document"
+          onClick={() => setShowRename(true)}
+          aria-label="Edit Document"
             tabIndex={0}
-          >
+        >
             <BiSolidPencil className="size-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon"
             className="text-[#23272F] cursor-pointer hover:text-[#990d0d]"
-            onClick={() => setShowDelete(true)}
-            aria-label="Delete Document"
+          onClick={() => setShowDelete(true)}
+          aria-label="Delete Document"
             tabIndex={0}
-          >
+        >
             <LucideX className="size-5" />
-          </Button>
+        </Button>
         </div>
       </div>
       <RenameDocumentModal

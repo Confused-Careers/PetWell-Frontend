@@ -262,9 +262,7 @@ const PetProfile: React.FC = () => {
                       <div className="my-4 flex flex-col items-center">
                         <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
                           <QRCode
-                            value={`${currentPet?.id || ""}|${generatePetCode(
-                              currentPet?.id || ""
-                            )}`}
+                            value={currentPet?.qr_code_id || ""}
                             size={180}
                           />
                         </div>
@@ -298,9 +296,9 @@ const PetProfile: React.FC = () => {
                   </Dialog>
                 </div>
                 <div className="flex flex-row gap-3 mb-4">
-                  {generatePetCode(currentPet?.id || "")
+                  {(currentPet?.qr_code_id || "")
                     .split("")
-                    .map((char, index) => (
+                    .map((char: string, index: number) => (
                       <span
                         key={index}
                         className="inline-flex w-12 h-12 md:w-14 md:h-14 bg-[var(--color-text)] text-[var(--color-background)] text-2xl md:text-3xl font-[Cabin,sans-serif] font-bold rounded-[10px] items-center justify-center select-all text-center"

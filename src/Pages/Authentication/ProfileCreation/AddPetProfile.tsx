@@ -210,19 +210,19 @@ const AddPetProfile: React.FC = () => {
       return (
         <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
           <div className="flex flex-col sm:flex-row w-full">
-          <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
-            <img
-              src={PetWellLogo}
-              alt="PetWell Logo"
-              className="object-contain h-full w-auto"
-            />
+            <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+              <img
+                src={PetWellLogo}
+                alt="PetWell Logo"
+                className="object-contain h-full w-auto"
+              />
+            </div>
+            <div className="flex flex-1 justify-center sm:pr-16">
+              <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+                Create Your Profile
+              </p>
+            </div>
           </div>
-          <div className="flex flex-1 justify-center sm:pr-16">
-            <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
-              Create Your Profile
-            </p>
-          </div>
-        </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
             <Step1BasicPetInfo
               form={form}
@@ -237,21 +237,21 @@ const AddPetProfile: React.FC = () => {
       );
     case 2:
       return (
-        <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
+        <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative sm:p-4 md:p-8">
           <div className="flex flex-col sm:flex-row w-full">
-          <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
-            <img
-              src={PetWellLogo}
-              alt="PetWell Logo"
-              className="object-contain h-full w-auto"
-            />
+            <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+              <img
+                src={PetWellLogo}
+                alt="PetWell Logo"
+                className="object-contain h-full w-auto"
+              />
+            </div>
+            <div className="flex flex-1 justify-center sm:pr-16">
+              <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+                Create Your Profile
+              </p>
+            </div>
           </div>
-          <div className="flex flex-1 justify-center sm:pr-16">
-            <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
-              Create Your Profile
-            </p>
-          </div>
-        </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
             <Step2HealthBasics
               form={form}
@@ -268,19 +268,19 @@ const AddPetProfile: React.FC = () => {
       return (
         <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
           <div className="flex flex-col sm:flex-row w-full">
-          <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
-            <img
-              src={PetWellLogo}
-              alt="PetWell Logo"
-              className="object-contain h-full w-auto"
-            />
+            <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+              <img
+                src={PetWellLogo}
+                alt="PetWell Logo"
+                className="object-contain h-full w-auto"
+              />
+            </div>
+            <div className="flex flex-1 justify-center sm:pr-16">
+              <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+                Create Your Profile
+              </p>
+            </div>
           </div>
-          <div className="flex flex-1 justify-center sm:pr-16">
-            <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
-              Create Your Profile
-            </p>
-          </div>
-        </div>
           <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
             <Step3SafetyAndID
               form={form}

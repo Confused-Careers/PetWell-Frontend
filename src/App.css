@@ -43,6 +43,7 @@ body::-webkit-scrollbar {
     --color-card-red: #dc9a6b80;
     --color-text: #1c232e;
     --color-text-faded: #c3c9c4;
+    --color-text-faded-verify: #1C232E99;
     --color-text-bright: #fff8e5;
     --color-warning: #990d0d;
     --color-logo: #3c2a17;

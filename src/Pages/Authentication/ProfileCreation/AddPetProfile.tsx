@@ -13,11 +13,12 @@ const AddPetProfile: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showUploadUI, setShowUploadUI] = useState(false);
+  const [showUploadUI, ] = useState(false);
   const [newPetId, setNewPetId] = useState<string | null>(null);
-  const [newPet, setNewPet] = useState<any>(null);
+  const [, setNewPet] = useState<any>(null);
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>({
+    pet_id: "",
     pet_name: "",
     pet_age: "",
     pet_species: "",
@@ -187,20 +188,6 @@ const AddPetProfile: React.FC = () => {
     }
   };
 
-  const handleDocumentUpload = async (
-    file: File,
-    meta: { name: string; type: string }
-  ) => {
-    if (!newPetId) return;
-    await petServices.createDocument(newPetId, {
-      document_name: meta.name,
-      document_type: "Other",
-      file_type: meta.type,
-      description: "Uploaded via profile creation flow",
-      file,
-    });
-    navigate(`/petowner/pet/${newPetId}/verify`);
-  };
 
   const petSteps = ["Basic Pet Info", "Health Basics", "Safety & ID"];
 
@@ -298,7 +285,7 @@ const AddPetProfile: React.FC = () => {
                 onGoHome={() => {
                   if (newPetId) navigate(`/petowner/pet/${newPetId}/home`);
                 }}
-                onUploadRecords={(id) => {
+                onUploadRecords={() => {
                   setShowSuccess(false);
                   navigate(`/petowner/pet/${newPetId}/upload-documents`);
                 }}

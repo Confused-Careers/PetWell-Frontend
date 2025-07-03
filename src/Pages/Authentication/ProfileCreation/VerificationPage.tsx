@@ -18,15 +18,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
 } from "../../../Components/ui/dropdown-menu";
-import QRCode from "react-qr-code";
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-} from "../../../Components/ui/dialog";
+
 
 const VerificationPage: React.FC = () => {
   const navigate = useNavigate();
@@ -45,7 +38,7 @@ const VerificationPage: React.FC = () => {
     vaccine: any;
   }>({ open: false, vaccine: null });
 
-  const [showQRModal, setShowQRModal] = useState(false);
+  const [, ] = useState(false);
 
   useEffect(() => {
     if (!petId) return;

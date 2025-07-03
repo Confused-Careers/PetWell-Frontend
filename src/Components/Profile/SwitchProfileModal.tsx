@@ -83,10 +83,10 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
         >
           ×
         </button>
-        <div className="text-2xl font-serif font-bold text-[var(--color-text)] mb-2">
+        <div className="text-2xl font-lighter flex items-center gap-3 font-serif">
           Switch profile?
         </div>
-        <div className="text-sm text-[var(--color-card-yellow)] mb-6">
+        <div className="text-sm text-[var(--color-text)] mb-6">
           Choose a pet to view or manage their profile.
         </div>
 
@@ -96,7 +96,7 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
           </div>
         ) : pets.length === 0 ? (
           <div className="text-center py-8">
-            <div className="text-[var(--color-card-yellow)] mb-4">No pets found</div>
+            <div className="text-[var(--color-text)] mb-4">No pets found</div>
             <div className="text-sm text-[var(--color-card-yellow)]/70 mb-6">
               Add your first pet to get started
             </div>
@@ -106,7 +106,7 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
             {pets.map((pet) => (
               <button
                 key={pet.id}
-                className="flex items-center justify-between cursor-pointer  w-full bg-[var(--color-background)] hover:bg-[var(--color-card)] border border-[var(--color-card-yellow)]/20 rounded-xl px-4 py-3 transition group"
+                className="flex items-center justify-between cursor-pointer  w-full bg-[var(--color-background)] hover:opacity-80 border border-[var(--color-card-yellow)]/20 rounded-xl px-4 py-3 transition group"
                 onClick={() => handleSwitch(pet.id)}
               >
                 <div className="flex items-center gap-3">
@@ -149,13 +149,13 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
 
         <div className="flex gap-3 justify-end">
           <button
-            className="px-6 py-2 rounded-full cursor-pointer border border-[var(--color-card-button)] text-[var(--color-card-button)] font-medium bg-transparent hover:bg-[var(--color-card-button)] hover:text-[var(--color-black)] transition"
+            className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base"
             onClick={handleClose}
           >
             Cancel
           </button>
           <button
-            className="px-6 py-2 rounded-full cursor-pointer bg-[var(--color-card-button)] text-[var(--color-card-profile)] font-semibold hover:bg-[var(--color-card-yellow)] transition shadow"
+            className="flex-[1.5] min-w-[180px] cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-4 py-2 rounded-3xl font-semibold transition text-base"
             onClick={onAddNew}
           >
             Add new pet profile

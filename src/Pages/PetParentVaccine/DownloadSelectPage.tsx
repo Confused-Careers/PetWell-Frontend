@@ -4,6 +4,8 @@ import Navbar from "../../Components/Layout/Navbar";
 import VaccineInfo from "../../Components/Vaccine/VaccineInfo";
 import vaccineServices from "../../Services/vaccineServices";
 import petServices from "../../Services/petServices";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+
 import {
   generateVaccinePDF,
   generateDetailedVaccinePDF,
@@ -264,18 +266,18 @@ const DownloadSelectPage: React.FC = () => {
           <div className="flex flex-col gap-2">
             <button
               onClick={() => navigate(-1)}
-              className="flex items-center gap-2 text-[var(--color-text)] text-base font-medium hover:underline w-fit mb-2"
+              className="flex items-center gap-2 text-[var(--color-text)] text-base font-medium cursor-pointer w-fit mb-2"
             >
-              <span className="text-lg">&#8592;</span> Go Back
+              <IoIosArrowDropleftCircle /> Go Back
             </button>
-            <h1 className="text-3xl md:text-4xl font-serif font-bold mb-2">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               Select the records you want to download
-            </h1>
+            </p>
           </div>
           <button
             onClick={handleDownload}
             disabled={selected.length === 0}
-            className="btn-wide-rounded bg-[var(--color-card-button)] text-[var(--color-text)] font-semibold flex items-center justify-center gap-2 text-base sticky top-6 self-start disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E] disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Download Selected Records ({selected.length})
           </button>

@@ -5,6 +5,7 @@ import Loader from "../../Components/ui/Loader";
 import Navbar from "../../Components/Layout/Navbar";
 import petServices from "../../Services/petServices";
 import { ArrowLeft } from "lucide-react";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 const UploadDocuments: React.FC = () => {
   const navigate = useNavigate();
@@ -130,13 +131,13 @@ const UploadDocuments: React.FC = () => {
       {/* Profile Image and Back Button */}
       <div className="mt-16 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
         <button
-          className="absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent hover:border-[var(--color-primary)] z-10"
+          className="cursor-pointer absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent z-10"
           onClick={() =>
             navigate(-1)
           }
           aria-label="Back"
         >
-          <ArrowLeft className="w-5 h-5" /> Back
+          <IoIosArrowDropleftCircle /> Go Back
         </button>
         <img
           src={
@@ -147,16 +148,14 @@ const UploadDocuments: React.FC = () => {
           alt="Profile"
           className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-[var(--color-text)] shadow-lg mt-4"
         />
-        <h1 className="mt-4 sm:mt-6 text-2xl sm:text-3xl md:text-4xl font-bold text-[var(--color-text)] text-center">
+        <h1 className="mt-4 sm:mt-6 text-2xl font-lighter flex items-center gap-3 font-serif">
           Upload documents for {pet.pet_name}
         </h1>
-        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center px-4">
-          Keep your pet's records safe and accessible — from vaccine
-          certificates to vet bills.
+        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center ">
+          Keep your pet's records safe and accessible — from vaccine certificates to vet bills.
         </p>
       </div>
       {/* UploadDocument component handles upload logic and UI */}
-      {showLoader && <Loader />}
       <UploadDocument
         onUpload={handleUpload}
         onNext={() => {

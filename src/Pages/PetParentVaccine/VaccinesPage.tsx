@@ -242,9 +242,7 @@ const VaccinesPage: React.FC = () => {
         // Remove duplicates before setting state
         const uniqueVaccines = removeDuplicateVaccines(matchingVaccines);
         setVaccines(uniqueVaccines);
-        setError(
-          uniqueVaccines.length === 0 ? "No vaccines found for this pet." : null
-        );
+       
       } catch (err) {
         console.error("Failed to fetch vaccines:", err);
         setError(
@@ -347,9 +345,7 @@ const VaccinesPage: React.FC = () => {
 
         {vaccines.length === 0 && !error && (
           <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">
-              No vaccines found
-            </div>
+            {vaccines.length==0 && <div>No Vaccine Added</div>}
             <button
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)

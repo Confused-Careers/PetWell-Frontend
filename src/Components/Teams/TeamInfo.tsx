@@ -37,7 +37,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
       {/* Delete button */}
       {onDelete && (
         <button
-          className="absolute top-4 right-4 text-2xl text-[var(--color-logo)] hover:text-[var(--color-warning)] bg-transparent border-none cursor-pointer p-0 m-0"
+          className="absolute top-4 right-4 text-2xl text-[var(--color-text)] hover:text-[var(--color-warning)] bg-transparent border-none cursor-pointer p-0 m-0"
           onClick={onDelete}
           aria-label="Remove Team"
         >
@@ -52,7 +52,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
           className="w-14 h-14 rounded-full object-cover flex-shrink-0"
         />
         <div className="flex flex-col flex-1 min-w-0 max-w-full">
-          <span className="font-bold text-2xl text-[var(--color-logo)] leading-tight whitespace-nowrap w-fit">
+          <span className="font-bold text-2xl text-[var(--color-text)] leading-tight whitespace-nowrap w-fit">
             {name}
           </span>
           <span className="flex px-2 py-1 justify-start items-center gap-2 bg-[#6A8293] text-white font-semibold mt-2 rounded w-fit text-sm">
@@ -63,27 +63,27 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
       {/* Details: Two-column for phone/email, address below */}
       <div className="flex flex-row gap-8 mb-2 min-w-0 max-w-full">
         <div className="flex flex-col min-w-0 max-w-full">
-          <span className="text-[var(--color-logo)]/70 text-base font-normal">
+          <span className="text-[var(--color-text)]/70 text-base font-normal">
             Phone
           </span>
-          <span className="text-[var(--color-logo)] text-xl font-bold whitespace-nowrap overflow-x-auto block max-w-full">
+          <span className="text-[var(--color-text)] text-xl font-bold max-w-full">
             {phone}
           </span>
         </div>
         <div className="flex flex-col min-w-0 max-w-full">
-          <span className="text-[var(--color-logo)]/70 text-base font-normal">
+          <span className="text-[var(--color-text)]/70 text-base font-normal">
             Email
           </span>
-          <span className="text-[var(--color-logo)] text-base font-bold whitespace-nowrap overflow-x-auto block max-w-full">
+          <span className="text-[var(--color-text)] text-base font-bold max-w-full">
             {email}
           </span>
         </div>
       </div>
       <div className="flex flex-col mt-1 min-w-0 max-w-full">
-        <span className="text-[var(--color-logo)]/70 text-base font-normal">
+        <span className="text-[var(--color-text)]/70 text-base font-normal">
           Address
         </span>
-        <span className="text-[var(--color-logo)] text-base font-bold whitespace-nowrap overflow-x-auto block max-w-full">
+        <span className="text-[var(--color-text)] text-base font-bold max-w-full">
           {address}
         </span>
       </div>

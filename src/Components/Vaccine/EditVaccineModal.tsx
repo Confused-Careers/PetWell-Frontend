@@ -108,10 +108,10 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-modal)]/60 backdrop-blur-sm">
-      <div className="relative bg-[var(--color-card)] rounded-2xl shadow-2xl px-10 py-8 w-full max-w-md flex flex-col items-center border border-[var(--color-border)]">
+      <div className="relative bg-[var(--color-background)] rounded-2xl shadow-2xl px-10 py-8 w-full max-w-md flex flex-col items-center border border-[var(--color-border)]">
         {/* Close button */}
         <button
-          className="absolute top-4 right-4 text-2xl text-[var(--color-text)] hover:text-[var(--color-primary)]"
+          className="absolute top-4 right-4 cursor-pointer text-2xl text-[var(--color-text)] hover:text-[var(--color-primary)]"
           onClick={onClose}
           disabled={loading}
           aria-label="Close"
@@ -143,7 +143,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
               Vaccine Name *
             </label>
             <input
-              className="w-full rounded-lg px-4 py-2 bg-[var(--color-background)] text-[var(--color-text)] font-semibold text-base border border-[var(--color-border)] mb-2"
+              className="w-full rounded-lg px-4 py-2 bg-white text-[var(--color-text)] font-semibold text-base border border-[var(--color-border)] mb-2"
               value={vaccineName}
               onChange={(e) => setVaccineName(e.target.value)}
               disabled={loading}
@@ -156,7 +156,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
               Date Administered *
             </label>
             <input
-              className="w-full rounded-lg px-4 py-2 bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] mb-2"
+              className="w-full rounded-lg px-4 py-2 bg-white text-[var(--color-text)] border border-[var(--color-border)] mb-2"
               type="date"
               value={dateAdministered}
               onChange={(e) => setDateAdministered(e.target.value)}
@@ -170,7 +170,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
               Expiry Date *
             </label>
             <input
-              className="w-full rounded-lg px-4 py-2 bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] mb-2"
+              className="w-full rounded-lg px-4 py-2 bg-white text-[var(--color-text)] border border-[var(--color-border)] mb-2"
               type="date"
               value={dateDue}
               onChange={(e) => setDateDue(e.target.value)}
@@ -184,7 +184,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
               Administered By *
             </label>
             <input
-              className="w-full rounded-lg px-4 py-2 bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] mb-2"
+              className="w-full rounded-lg px-4 py-2 bg-white text-[var(--color-text)] border border-[var(--color-border)] mb-2"
               type="text"
               value={administeredBy}
               onChange={(e) => setAdministeredBy(e.target.value)}
@@ -211,10 +211,10 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
             </label>
           </div>
 
-          <div className="flex justify-between gap-4 mt-6">
+          <div className="flex gap-4 mt-6">
             <button
               type="button"
-              className="flex-1 py-3 rounded-lg bg-transparent border border-[var(--color-warning)] text-[var(--color-warning)] font-semibold text-lg hover:bg-[var(--color-warning)] hover:text-[var(--color-background)] transition disabled:opacity-50"
+              className="w-1/2 cursor-pointer py-2 px-6 bg-transparent rounded-full border border-[var(--color-warning)] text-[var(--color-warning)] font-semibold text-lg hover:bg-[var(--color-warning)] hover:text-[var(--color-background)] transition disabled:opacity-50"
               onClick={handleDelete}
               disabled={loading}
             >
@@ -222,7 +222,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
             </button>
             <button
               type="submit"
-              className="flex-1 py-3 rounded-lg bg-[var(--color-primary)] text-[var(--color-background)] font-semibold text-lg hover:brightness-110 transition disabled:opacity-50"
+              className="w-1/2 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
               disabled={loading}
             >
               {loading ? "Saving..." : "Save Changes"}

@@ -4,6 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { X } from "lucide-react";
 import TeamAddedModal from "./TeamAddedModal";
 import teamServices from "../../Services/teamServices";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { IoIosPeople } from "react-icons/io";
+
 
 const AddTeamPage: React.FC = () => {
   const navigate = useNavigate();
@@ -72,40 +75,29 @@ const AddTeamPage: React.FC = () => {
       <Navbar />
       <div className="container pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 pr-4 sm:pr-6 md:pr-8 pl-4 sm:pl-6 md:pl-8 mx-auto max-w-8xl flex flex-col items-center">
         <button
-          className="text-[var(--color-primary)] text-sm sm:text-base font-medium mb-6 sm:mb-8 self-start flex items-center gap-2 hover:underline"
+          className="text-[var(--color-primary)] text-sm sm:text-base font-medium mb-6 sm:mb-8 self-start flex items-center gap-2 cursor-pointer"
           onClick={() => navigate(-1)}
         >
-          <span className="text-lg sm:text-xl">&lt;</span> Go Back
+         <IoIosArrowDropleftCircle /> Go Back
         </button>
         <div className="flex flex-col items-center w-full">
-          <div className="mb-4 sm:mb-6">
-            {/* Team SVG Icon */}
-            <svg
-              width="60"
-              height="60"
-              className="sm:w-20 sm:h-20"
-              viewBox="0 0 80 80"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="mb-4 sm:mb-6 flex justify-center items-center">
+            {/* Team SVG Icon with visible circular background */}
+            <span
+              style={{
+                backgroundColor: "var(--color-logo)",
+                borderRadius: "9999px",
+                width: "80px",
+                height: "80px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              <circle
-                cx="40"
-                cy="40"
-                r="40"
-                fill="#EBD5BD"
-                fillOpacity="0.15"
-              />
-              <path
-                d="M40 46c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10Z"
-                fill="#EBD5BD"
-              />
-              <path
-                d="M24 60c0-8.837 7.163-16 16-16s16 7.163 16 16v2c0 1.105-.895 2-2 2H26c-1.105 0-2-.895-2-2v-2Z"
-                fill="#EBD5BD"
-              />
-            </svg>
+              <IoIosPeople size={64} className="text-[var(--color-background)]" />
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--color-text)] mb-2 text-center">
+          <h1 className="text-2xl sm:text-3xl font-serif text-[var(--color-text)] mb-2 text-center">
             Add A Team
           </h1>
           <p className="text-sm sm:text-base text-[var(--color-text)] mb-6 sm:mb-8 opacity-80 text-center px-4">
@@ -113,7 +105,7 @@ const AddTeamPage: React.FC = () => {
           </p>
           <div className="w-full max-w-md mt-2 flex flex-col items-center">
             <label
-              className="block text-[var(--color-text)] opacity-60 font-semibold mb-2 ml-1 self-start"
+              className="block text-[var(--color-text)] opacity-60 mb-2 ml-1 self-start"
               htmlFor="search"
             >
               Search for a care provider
@@ -228,17 +220,20 @@ const AddTeamPage: React.FC = () => {
               aria-label="Close"
               disabled={loading}
             >
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6 cursor-pointer" />
             </button>
             <h2
-              className="text-2xl font-bold mb-4 text-center"
+              className="text-2xl flex justify-start items-start text-left mb-4 w-full"
               style={{ color: "var(--color-text)" }}
             >
               Add to team?
             </h2>
             <div
-              className="flex items-center gap-4 rounded-lg px-4 py-3 mb-6 w-full"
-              style={{ backgroundColor: "var(--color-card)" }}
+              className="flex items-center gap-4 rounded-lg px-4 py-3 mb-6 w-full border"
+              style={{
+                backgroundColor: "color-mix(in srgb, var(--color-card-profile) 60%, transparent)",
+                borderColor: "var(--color-text)",
+              }}
             >
               <img
                 src={selectedTeam.avatar}
@@ -263,7 +258,7 @@ const AddTeamPage: React.FC = () => {
               </div>
             </div>
             <p
-              className="text-sm text-center mb-6"
+              className="text-sm flex justify-star text-left mb-6"
               style={{ color: "var(--color-text)" }}
             >
               Once added, you can view and manage this provider from your Team
@@ -271,19 +266,18 @@ const AddTeamPage: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
               <button
-                className="w-full sm:w-auto border border-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] px-6 py-2 rounded-lg font-semibold transition disabled:opacity-50"
+                className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base"
                 onClick={() => setModalOpen(false)}
                 disabled={loading}
               >
                 Cancel
               </button>
               <button
-                className="w-full sm:w-auto text-[var(--color-background)] px-6 py-2 rounded-lg font-semibold transition disabled:cursor-not-allowed disabled:opacity-50"
-                style={{ backgroundColor: "var(--color-primary)" }}
+                className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
                 onClick={handleAddTeam}
                 disabled={loading}
               >
-                {loading ? "Adding..." : "Yes, Add"}
+                {loading ? "Adding..." : "Yes, Add to team"}
               </button>
             </div>
           </div>

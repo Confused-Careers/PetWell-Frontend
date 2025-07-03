@@ -23,6 +23,7 @@ const UploadList: React.FC<UploadListProps> = ({
   onFileChange,
   onNext,
   fileInputRef,
+  showLoader,
 }) => {
   return (
     <>
@@ -41,8 +42,8 @@ const UploadList: React.FC<UploadListProps> = ({
                   {file.type === "pdf" ? (
                     <span className="text-[var(--color-white)] font-bold text-xs">
                       <svg width="31" height="40" viewBox="0 0 31 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M5.74839 0H19.1217L30.456 11.8141V34.7926C30.456 37.6712 28.1272 40 25.2586 40H5.74839C2.86984 40 0.541016 37.6712 0.541016 34.7926V5.20738C0.540965 2.32883 2.86979 0 5.74839 0Z" fill="#E5252A"/>
-<path opacity="0.302" fill-rule="evenodd" clip-rule="evenodd" d="M19.1118 0V11.7241H30.4562L19.1118 0Z" fill="white"/>
+<path fillRule="evenodd" clipRule="evenodd" d="M5.74839 0H19.1217L30.456 11.8141V34.7926C30.456 37.6712 28.1272 40 25.2586 40H5.74839C2.86984 40 0.541016 37.6712 0.541016 34.7926V5.20738C0.540965 2.32883 2.86979 0 5.74839 0Z" fill="#E5252A"/>
+<path opacity="0.302" fillRule="evenodd" clipRule="evenodd" d="M19.1118 0V11.7241H30.4562L19.1118 0Z" fill="white"/>
 <path d="M6.32861 29.8454V22.5391H9.43707C10.2067 22.5391 10.8164 22.749 11.2762 23.1787C11.7359 23.5985 11.9658 24.1683 11.9658 24.8779C11.9658 25.5875 11.7359 26.1573 11.2762 26.577C10.8164 27.0068 10.2067 27.2167 9.43707 27.2167H8.19768V29.8454H6.32861ZM8.19768 25.6276H9.22718C9.50702 25.6276 9.72691 25.5676 9.87687 25.4277C10.0268 25.2977 10.1068 25.1178 10.1068 24.8779C10.1068 24.6381 10.0268 24.4582 9.87687 24.3282C9.72697 24.1883 9.50707 24.1283 9.22718 24.1283H8.19768V25.6276ZM12.7354 29.8454V22.5391H15.3241C15.8339 22.5391 16.3136 22.609 16.7634 22.759C17.2131 22.9089 17.623 23.1188 17.9828 23.4087C18.3426 23.6885 18.6324 24.0683 18.8423 24.5481C19.0422 25.0278 19.1522 25.5776 19.1522 26.1972C19.1522 26.807 19.0423 27.3567 18.8423 27.8364C18.6324 28.3162 18.3426 28.696 17.9828 28.9758C17.6229 29.2657 17.2131 29.4756 16.7634 29.6255C16.3136 29.7754 15.8339 29.8454 15.3241 29.8454H12.7354ZM14.5645 28.2562H15.1042C15.3941 28.2562 15.6639 28.2263 15.9138 28.1563C16.1537 28.0863 16.3836 27.9763 16.6035 27.8264C16.8134 27.6765 16.9833 27.4666 17.1032 27.1868C17.2231 26.9069 17.2831 26.577 17.2831 26.1972C17.2831 25.8074 17.2231 25.4776 17.1032 25.1978C16.9833 24.9179 16.8134 24.708 16.6035 24.5581C16.3836 24.4082 16.1537 24.2982 15.9138 24.2283C15.6639 24.1583 15.3941 24.1283 15.1042 24.1283H14.5645V28.2562ZM20.0917 29.8454V22.5391H25.2892V24.1283H21.9608V25.2977H24.6195V26.8769H21.9608V29.8454H20.0917Z" fill="white"/>
 </svg>
 
@@ -90,8 +91,9 @@ const UploadList: React.FC<UploadListProps> = ({
         </div>
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 md:gap-8 mt-4 sm:mt-6 md:mt-8 w-full max-w-sm sm:max-w-md md:max-w-2xl">
-          <label className="flex-1 py-2.5 sm:py-3 rounded-lg bg-transparent border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold text-sm sm:text-base md:text-lg hover:bg-[var(--color-primary)] hover:text-white transition flex items-center justify-center cursor-pointer gap-2">
-            <FilePlus className="w-5 h-5" /> Upload More Documents
+          <label className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base flex items-center justify-center gap-2">
+            <FilePlus className="w-5 h-5" />
+            <span>Upload More Documents</span>
             <input
               ref={fileInputRef}
               type="file"
@@ -102,10 +104,37 @@ const UploadList: React.FC<UploadListProps> = ({
             />
           </label>
           <button
-            className="flex-1 py-2.5 sm:py-3 rounded-lg bg-[var(--color-primary)] text-white font-semibold text-sm sm:text-base md:text-lg hover:brightness-110 transition"
+            className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base flex items-center justify-center gap-2"
             onClick={onNext}
+            disabled={showLoader}
           >
-            Next
+            {showLoader ? (
+              <span className="flex items-center justify-center">
+                <svg
+                  className="animate-spin mr-2 h-5 w-5 text-[var(--color-primary)]"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                  ></path>
+                </svg>
+                Loading...
+              </span>
+            ) : (
+              "Next"
+            )}
           </button>
         </div>
       </div>

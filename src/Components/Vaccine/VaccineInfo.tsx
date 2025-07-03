@@ -32,7 +32,7 @@ const VaccineInfo: React.FC<VaccineInfoProps> = ({
     {/* Edit icon */}
     {showEdit && (
       <button
-        className="absolute top-4 right-4 text-[var(--color-text)] p-1.5 rounded-full transition hover:bg-[var(--color-card)]"
+        className="cursor-pointer absolute top-4 right-4 text-[var(--color-text)] p-1.5 rounded-full transition hover:bg-[var(--color-card)]"
         aria-label="Edit Vaccine"
         tabIndex={0}
         onClick={onEdit}

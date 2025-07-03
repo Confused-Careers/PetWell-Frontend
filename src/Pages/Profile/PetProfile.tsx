@@ -148,7 +148,7 @@ const PetProfile: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <button
-              className="text-[var(--color-primary)] cursor-pointer text-base font-medium flex items-center gap-2 hover:underline mb-2 sm:mb-0"
+              className="text-[var(--color-primary)] cursor-pointer text-base font-medium flex items-center gap-2 mb-2 sm:mb-0"
               onClick={() => navigate(`/petowner/pet/${petId}/home`)}
             >
               <IoIosArrowDropleftCircle /> Go Back
@@ -157,7 +157,7 @@ const PetProfile: React.FC = () => {
           </div>
           <div className="flex flex-row gap-4">
             <button
-              className="border  border-[var(--color-primary)] cursor-pointer bg-[var(--color-card-button)] text-[var(--color-primary)] px-6 py-2 rounded-full font-medium flex items-center gap-2 hover:bg-[var(--color-background)] hover:text-[var(--color-primary)] transition text-base"
+              className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-6 py-2 rounded-3xl font-semibold transition text-base flex items-center gap-2"
               onClick={handleSwitchProfile}
             >
               <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
@@ -212,53 +212,6 @@ const PetProfile: React.FC = () => {
                 </div>
               </div>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="mt-4 px-4 py-2 cursor-pointer bg-[var(--color-card-button)] border border-[var(--color-text)] rounded-full text-[var(--color-black)] font-semibold hover:bg-[var(--color-primary)]/90 transition">
-                  Show QR Code
-                </button>
-              </DialogTrigger>
-              <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
-                <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
-                  Pet QR Code
-                </DialogTitle>
-                <div className="my-4 flex flex-col items-center">
-                  <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
-                    <QRCode
-                      value={`${currentPet?.id || ""}|${generatePetCode(
-                        currentPet?.id || ""
-                      )}`}
-                      size={180}
-                    />
-                  </div>
-                  <button
-                    className="mt-4 px-4 py-2 cursor-pointer bg-[var(--color-card-button)] border border-[var(--color-text)] rounded-full text-[var(--color-black)] font-semibold hover:bg-[var(--color-primary)]/90 transition"
-                    onClick={() => {
-                      const svg = document.querySelector(
-                        "[data-slot='dialog-content'] svg"
-                      );
-                      if (!svg) return;
-                      const serializer = new XMLSerializer();
-                      const source = serializer.serializeToString(svg);
-                      const url =
-                        "data:image/svg+xml;charset=utf-8," +
-                        encodeURIComponent(source);
-                      const link = document.createElement("a");
-                      link.href = url;
-                      link.download = `${currentPet?.pet_name || "pet"}-qr.svg`;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
-                  >
-                    Download QR
-                  </button>
-                </div>
-                <div className="text-center text-sm text-[var(--color-text)] mt-2">
-                  Scan this QR code to add this pet to a business
-                </div>
-              </DialogContent>
-            </Dialog>
           </div>
           {/* Right: Main Info */}
           <div className="flex-1 flex flex-col gap-6">
@@ -283,9 +236,66 @@ const PetProfile: React.FC = () => {
             {/* Syd's Code & Your Details */}
             <div className="flex flex-col md:flex-row gap-6">
               {/* Syd's Code */}
-              <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-document)] p-6 md:p-8 w-full max-w-full flex flex-col items-start" style={{marginBottom: 24}}>
-                <div className="font-[Cabin,sans-serif] text-lg font-bold mb-4 text-[var(--color-text)]">
+              <div
+                className="rounded-[16px] border border-black p-6 md:p-8 w-full max-w-full flex flex-col items-start"
+                style={{
+                  marginBottom: 24,
+                  background: "rgba(220, 154, 107, 0.50)",
+                }}
+              >
+                <div className="font-[Cabin,sans-serif] text-lg font-bold mb-4 text-[var(--color-text)] flex items-center gap-2">
                   {currentPet?.pet_name || "Pet"}'s Code
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-xs px-4"
+                        title="Show QR Code"
+                        type="button"
+                      >
+                        View QR Code
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
+                      <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
+                        Pet QR Code
+                      </DialogTitle>
+                      <div className="my-4 flex flex-col items-center">
+                        <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
+                          <QRCode
+                            value={`${currentPet?.id || ""}|${generatePetCode(
+                              currentPet?.id || ""
+                            )}`}
+                            size={180}
+                          />
+                        </div>
+                        <button
+                          className="mt-4 px-3 flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
+                          onClick={() => {
+                            const svg = document.querySelector(
+                              "[data-slot='dialog-content'] svg"
+                            );
+                            if (!svg) return;
+                            const serializer = new XMLSerializer();
+                            const source = serializer.serializeToString(svg);
+                            const url =
+                              "data:image/svg+xml;charset=utf-8," +
+                              encodeURIComponent(source);
+                            const link = document.createElement("a");
+                            link.href = url;
+                            link.download = `${currentPet?.pet_name || "pet"}-qr.svg`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                          }}
+                        >
+                          Download QR
+                        </button>
+                      </div>
+                      <div className="text-center text-sm text-[var(--color-text)] mt-2">
+                        Scan this QR code to add this pet to a business
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
                 <div className="flex flex-row gap-3 mb-4">
                   {generatePetCode(currentPet?.id || "")
@@ -305,7 +315,7 @@ const PetProfile: React.FC = () => {
                 </div>
               </div>
               {/* Your Details */}
-              <div className="rounded-[16px] bg-[var(--color-card-yellow)] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]l" style={{marginBottom: 24}}>
+              <div className="rounded-[16px] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px] border border-[var(--color-text)]" style={{ backgroundColor: "rgba(171, 167, 92, 0.20)", marginBottom: 24 }}>
                 <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Your Details</div>
                 <div className="flex flex-col gap-2 text-sm">
                   <div>

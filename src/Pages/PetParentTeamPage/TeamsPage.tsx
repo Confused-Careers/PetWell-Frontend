@@ -264,15 +264,15 @@ const TeamsPage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-8 pb-12 px-4 sm:px-6 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
-          <h1 className="text-3xl md:text-4xl font-serif font-bold flex items-center gap-3 text-[var(--color-logo)]">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             <Users className="w-9 h-9 text-[var(--color-logo)]" />
             {pet.pet_name}&apos;s Teams
-          </h1>
+          </p>
           <button
             onClick={() =>
               navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
             }
-            className="btn-wide-rounded border border-[var(--color-primary)] text-[var(--color-primary)] font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-lg px-7 py-3 rounded-full"
+            className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
           >
             <PlusCircle className="w-6 h-6" /> Add New Team
           </button>
@@ -294,72 +294,69 @@ const TeamsPage: React.FC = () => {
           ))}
         </div>
 
-        {teams.length === 0 && !error && (
-          <div className="text-center py-16">
-            <div className="text-gray-400 text-lg mb-4 font-semibold">
-              No teams found
-            </div>
-          
-          </div>
-        )}
+        {teams.length==0 && <div className="flex justify-center">No Teams Added</div>}
 
         {open && selectedTeam && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
             <div
-              className="rounded-2xl px-6 sm:px-8 py-6 sm:py-8 w-full max-w-md shadow-2xl relative flex flex-col items-center border"
+              className="rounded-2xl px-6 py-7 w-full max-w-sm shadow-2xl relative flex flex-col items-center border"
               style={{
                 backgroundColor: "var(--color-background)",
-                borderColor: "var(--color-primary)",
+                borderColor: "var(--color-border)",
                 color: "var(--color-text)",
+                fontFamily: 'Cabin, sans-serif',
               }}
             >
               <button
-                className="absolute right-4 top-4 text-gray-500 hover:text-red-500"
+                className="absolute right-4 top-4 text-[var(--color-text)] hover:text-[var(--color-primary)] text-2xl"
                 onClick={() => setOpen(false)}
                 aria-label="Close"
                 disabled={isDeleting}
+                style={{ background: 'none', border: 'none' }}
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 cursor-pointer" />
               </button>
-              <h2
-                className="text-2xl font-bold mb-4 text-center"
-                style={{ color: "var(--color-text)" }}
-              >
-                Remove Team?
-              </h2>
-              <div className="w-full text-center mb-6">
-                <p className="text-base" style={{ color: "var(--color-text)" }}>
-                  Are you sure you want to delete the team "
-                  <span
-                    className="font-semibold"
-                    style={{ color: "var(--color-primary)" }}
-                  >
-                    {selectedTeam.business?.business_name ||
-                      selectedTeam.business_name ||
-                      "Unknown Team"}
-                  </span>
-                  "?
-                </p>
-                <p
-                  className="text-xs mt-2"
-                  style={{ color: "var(--color-text)" }}
+              <div className="w-full flex">
+                <h2
+                  className="text-2xl mb-2 text-left"
+                  style={{ color: "var(--color-text)", fontFamily: 'Cabin, sans-serif' }}
                 >
-                  This action cannot be undone.
-                </p>
+                  Remove team?
+                </h2>
               </div>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
+              <p className="text-base flex text-left mb-5" style={{ color: "var(--color-text)", fontFamily: 'Cabin, sans-serif' }}>
+                Are you sure you want to remove the following team from your profile?
+              </p>
+              {/* Team Card */}
+              <div className="flex items-center gap-4 w-full bg-[var(--color-card-team)] rounded-lg px-4 py-3 mb-7 border border-[var(--color-border)]">
+                <img
+                  src={selectedTeam.business?.profile_picture_document_id
+                    ? `/api/v1/documents/${selectedTeam.business.profile_picture_document_id}`
+                    : `https://randomuser.me/api/portraits/men/32.jpg`}
+                  alt={selectedTeam.business?.business_name || 'Team'}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div className="flex flex-col">
+                  <span className="font-bold text-lg text-[var(--color-text)]" style={{ fontFamily: 'Cabin, sans-serif' }}>
+                    {selectedTeam.business?.business_name || selectedTeam.business_name || 'Unknown Team'}
+                  </span>
+                  <span className="text-sm text-[var(--color-text)]/60 mt-1" style={{ fontFamily: 'Cabin, sans-serif' }}>
+                    {selectedTeam.business?.address || 'No address provided'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-row gap-4 justify-center w-full mt-2">
                 <button
-                  className="w-full sm:w-auto border border-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] px-6 py-2 rounded-lg font-semibold transition disabled:opacity-50"
+                  className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base"
+                  style={{ fontFamily: 'Cabin, sans-serif', height: 44 }}
                   onClick={() => setOpen(false)}
                   disabled={isDeleting}
                 >
                   Cancel
                 </button>
                 <button
-                  className="w-full sm:w-auto text-black px-6 py-2 rounded-lg font-semibold transition disabled:cursor-not-allowed"
-                  style={{
-                    backgroundColor: "var(--color-primary)",
-                  }}
+                  className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
+                  style={{ fontFamily: 'Cabin, sans-serif', height: 44 }}
                   onClick={handleConfirmDelete}
                   disabled={isDeleting}
                 >

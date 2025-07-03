@@ -298,10 +298,10 @@ const DocumentPage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
+          <h1 className="text-2xl font-lighter flex items-center gap-3 font-serif">
             {pet ? `${pet.pet_name}'s Documents` : "Pet Documents"}
           </h1>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-end">
+          <div className="flex flex-col  sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto justify-end">
             <div className="relative w-full sm:w-72">
               <div className="relative">
                 <input
@@ -312,7 +312,7 @@ const DocumentPage: React.FC = () => {
                     setSearch(e.target.value);
                     setShowSuggestions(true);
                   }}
-                  className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg w-full pl-10 text-sm sm:text-base py-2 pr-2 text-[var(--color-text)]"
+                  className="bg-[var(--color-card)] border border-[var(--color-border)] rounded-full w-full pl-10 text-sm sm:text-base py-2 pr-2 text-[var(--color-text)]"
                   autoComplete="off"
                   onBlur={() =>
                     setTimeout(() => setShowSuggestions(false), 150)
@@ -339,7 +339,7 @@ const DocumentPage: React.FC = () => {
               </div>
             </div>
             <button
-              className="bg-[var(--color-card-button)] text-[var(--color-text)] transition px-6 py-2 font-semibold rounded-full w-full sm:w-auto flex items-center gap-2"
+              className="bg-[var(--color-card-button)] cursor-pointer text-[var(--color-text)] hover:opacity-90 transition px-6 py-2 font-semibold rounded-full w-full sm:w-auto flex items-center gap-2"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId || petId}/upload`)
               }
@@ -354,7 +354,7 @@ const DocumentPage: React.FC = () => {
             {tabOptions.map((tab) => (
               <button
                 key={tab.value}
-                className={`px-6 py-2 rounded-full font-medium text-base border transition-all
+                className={`px-6 py-2 rounded-full font-medium text-base border transition-all cursor-pointer
                   ${
                     activeTab === tab.value
                       ? "bg-[var(--color-text)] text-[var(--color-background)] border-[var(--color-text)]"
@@ -371,7 +371,7 @@ const DocumentPage: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-[180px] justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)]"
+              className="w-[180px] cursor-pointer justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)]"
             >
               {sortOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>

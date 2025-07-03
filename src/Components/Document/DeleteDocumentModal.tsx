@@ -34,9 +34,9 @@ const DeleteDocumentModal: React.FC<DeleteDocumentModalProps> = ({
             Are you sure you want to delete
           </p>
           <p className="font-semibold text-left text-[var(--color-modal-foreground)]">
-            {documentName}
+            {documentName}?
           </p>
-          ?
+          
         </div>
          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
                       <button 

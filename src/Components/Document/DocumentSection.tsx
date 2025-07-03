@@ -1,6 +1,7 @@
 import React from "react";
 import DocumentBox from "./DocumentInfo";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Document {
   name: string;
@@ -14,15 +15,16 @@ interface DocumentSectionProps {
   onAddDocument?: () => void;
   onEditDocument?: (index: number, newName: string) => void;
   onDeleteDocument?: (index: number) => void;
-  onViewAll?: () => void;
+  // Remove onViewAll
 }
 
 const DocumentSection: React.FC<DocumentSectionProps> = ({
   documents,
   onEditDocument,
   onDeleteDocument,
-  onViewAll,
 }) => {
+  const navigate = useNavigate();
+  const { petId } = useParams<{ petId: string }>(); // Move useParams inside the component
   return (
     <section className="mb-6 sm:mb-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
@@ -32,8 +34,14 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
             idx={idx}
             name={doc.name}
             type={doc.type}
-            onEdit={onEditDocument ? (idx: number, newName: string) => onEditDocument(idx, newName) : undefined}
-            onDelete={onDeleteDocument ? () => onDeleteDocument(idx) : undefined}
+            onEdit={
+              onEditDocument
+                ? (idx: number, newName: string) => onEditDocument(idx, newName)
+                : undefined
+            }
+            onDelete={
+              onDeleteDocument ? () => onDeleteDocument(idx) : undefined
+            }
             onDownload={() => {
               console.log(doc);
             }}
@@ -48,7 +56,7 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
             className="text-[var(--color-primary)] font-medium text-sm sm:text-base flex items-center gap-1"
             onClick={(e) => {
               e.preventDefault();
-              onViewAll && onViewAll();
+              navigate(`/petowner/pet/${petId}/documents`);
             }}
           >
             View All Documents <IoIosArrowDroprightCircle />

@@ -322,7 +322,6 @@ const VerificationPage: React.FC = () => {
           <DocumentSection
             documents={documents}
             onEditDocument={(index) => {
-              // This will be handled by DocumentBox's internal modal
               console.log("Edit document at index:", index);
             }}
           />

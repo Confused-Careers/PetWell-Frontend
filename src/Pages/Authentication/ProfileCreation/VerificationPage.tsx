@@ -207,10 +207,10 @@ const VerificationPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen w-full px-2 flex flex-col items-center bg-[var(--color-background)] text-[var(--color-text)]">
+    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2  sm:p-4 md:p-8">
       {/* Logo and header */}
-      <div className="flex flex-row items-center w-full mt-6 mb-4 gap-2 justify-between">
-        <div className="flex items-center h-8">
+      <div className="flex flex-col sm:flex-row w-full">
+        <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
           <img
             src={PetWellLogo}
             alt="PetWell Logo"
@@ -226,7 +226,7 @@ const VerificationPage: React.FC = () => {
             profile.
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex justify-center sm:justify-end h-8 mb-8 md:mb-0">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-[var(--color-card)] transition">
@@ -281,7 +281,7 @@ const VerificationPage: React.FC = () => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="w-full max-w-7xl sm:px-2 md:px-4">
+      <div className="max-w-7xl mx-auto w-full sm:px-4">
         <DetailSection pet={pet} user={human} />
         {/* Vaccines Section */}
         <div className="flex items-center justify-between gap-4 mb-3 sm:mb-4 mt-8 sm:mt-10">

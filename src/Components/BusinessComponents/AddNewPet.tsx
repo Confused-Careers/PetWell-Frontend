@@ -1,10 +1,14 @@
 import React, { useRef, useState } from "react";
 import { toast } from "sonner";
 import businessServices from "../../Services/businessServices";
+import { RiQrScan2Line } from "react-icons/ri";
+import { Scanner } from '@yudiel/react-qr-scanner';
+import { MdCancel } from "react-icons/md";
 
 const AddNewPet: React.FC = () => {
   const [code, setCode] = useState<string[]>(["", "", "", "", ""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleChange = (value: string, index: number) => {
@@ -25,6 +29,27 @@ const AddNewPet: React.FC = () => {
     } else if (e.key === "Enter" && code.every((char) => char !== "")) {
       submitCode();
     }
+  };
+
+  const handleScan = (result: any) => {
+    if (result && result[0]?.rawValue) {
+      const scannedCode = result[0].rawValue;
+      // Validate that the scanned code is exactly 5 digits
+      if (/^[a-zA-Z0-9]{5}$/.test(scannedCode)) {
+        const newCode = scannedCode.toUpperCase().split("");
+        setCode(newCode);
+        setIsScannerOpen(false);
+        toast.success("QR code scanned successfully!");
+        inputRefs.current[0]?.focus();
+      } else {
+        toast.error("Invalid QR code. Please scan a 5-character code.");
+      }
+    }
+  };
+
+  const handleScanError = (err: any) => {
+    console.error(err);
+    toast.error("Error accessing camera. Please ensure permissions are granted.");
   };
 
   const submitCode = async () => {
@@ -51,9 +76,17 @@ const AddNewPet: React.FC = () => {
 
   return (
     <div className="bg-[#6A8293] rounded-2xl p-6 flex flex-col items-center w-full max-w-md min-w-[430px] h-[230px] justify-center">
-      <p className="text-[#1C232E] text-[20px] font-cabin font-[400] text-center mb-4">
-        Enter the 5-character code shared by the pet parent to view their profile.
-      </p>
+      <div className="flex flex-row items-center mb-4 w-full">
+        <p className="text-[#FFF8E5] text-[20px] font-cabin font-[400] text-start ml-4.5 flex-1">
+          Enter the code shared by the pet parent.
+        </p>
+        <button
+          className="w-[30%] bg-[#FFB23E] text-black flex items-center justify-center ml-4 text-[16px] font-[500] px-2 rounded-[80px]"
+          onClick={() => setIsScannerOpen(true)}
+        >
+          <RiQrScan2Line className="mr-2" /> Scan QR
+        </button>
+      </div>
       <div className="flex gap-1">
         {[...Array(5)].map((_, i) => (
           <input
@@ -69,6 +102,46 @@ const AddNewPet: React.FC = () => {
           />
         ))}
       </div>
+
+      {isScannerOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 ">
+          <div className="bg-[#FFF8E5] rounded-lg p-4 w-[90%] max-w-[400px] relative">
+            <button
+              type="button"
+              className="absolute top-2 right-2 text-black text-xl font-bold h-5 w-5 z-10"
+              onClick={() => setIsScannerOpen(false)}
+              tabIndex={0}
+              aria-label="Close scanner"
+            >
+              <MdCancel />
+            </button>
+            <div className="w-full h-[300px] relative p-6">
+              <Scanner
+                onScan={handleScan}
+                onError={handleScanError}
+                constraints={{ facingMode: "environment" }}
+                formats={["qr_code"]}
+                styles={{
+                  container: { width: "100%", height: "100%" },
+                  video: { width: "100%", height: "100%", objectFit: "cover" },
+                }}
+              />
+              <div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                style={{
+                  border: "2px solid #FFB23E",
+                  width: "200px",
+                  height: "200px",
+                  margin: "auto",
+                }}
+              />
+            </div>
+            <p className="text-center text-black mt-2">
+              Center the QR code within the square
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

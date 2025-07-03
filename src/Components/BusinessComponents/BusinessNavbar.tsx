@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ const BusinessNavbar: React.FC = () => {
   });
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
     { name: "Home", path: "/business-home" },
@@ -38,26 +39,29 @@ const BusinessNavbar: React.FC = () => {
 
   return (
     <nav
-      className="w-full bg-[var(--color-white)] rounded-full border border-[var(--color-business-card-shadow)] shadow-sm px-4 sm:px-8 py-2 flex items-center justify-between mt-4 mb-8 mx-auto max-w-6xl sticky top-2 z-50"
+      className="w-full bg-[var(--color-white)] rounded-full border border-[#FFB23E] shadow-sm px-4 sm:px-8 py-2 flex items-center justify-between mt-4 mb-8 mx-auto max-w-6xl sticky top-2 z-50"
       style={{ boxShadow: "0 2px 12px 0 var(--color-business-card-shadow)" }}
     >
       <div className="flex items-center gap-3">
-        <img src={PetWellLogo} alt="PetWell Logo" className="h-8 w-[120px] object-contain" onClick={()=>navigate('/business-home')}/>
+        <img src={PetWellLogo} alt="PetWell Logo" className=" w-[100px] object-contain" onClick={()=>navigate('/business-home')}/>
       </div>
       <div className="flex-1 flex justify-center gap-2 sm:gap-6">
-        {navLinks.map((link, idx) => (
-          <Link
-            key={link.name}
-            to={link.path}
-            className={`font-cabin text-base sm:text-lg px-4 py-1.5 rounded-full transition-colors ${
-              idx === 0
-                ? "bg-[#FFB23E] text-[#000000] font-bold"
-                : "text-gray-400 hover:bg-[var(--color-business-accent)] hover:text-[var(--color-white)]"
-            }`}
-          >
-            {link.name}
-          </Link>
-        ))}
+        {navLinks.map((link) => {
+          const isActive = location.pathname === link.path;
+          return (
+            <Link
+              key={link.name}
+              to={link.path}
+              className={`font-cabin text-base sm:text-lg px-4 py-1.5 rounded-full transition-colors ${
+                isActive
+                  ? "bg-[#FFB23E] text-[#000000] font-bold"
+                  : "text-gray-400 hover:bg-[var(--color-business-accent)] hover:text-[var(--color-white)]"
+              }`}
+            >
+              {link.name}
+            </Link>
+          );
+        })}
       </div>
       <div className="flex items-center gap-3">
         <img

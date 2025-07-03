@@ -21,14 +21,14 @@ import AddPetProfile from "./Pages/Authentication/ProfileCreation/AddPetProfile"
 import UploadingDocAfterEnterPage from "./Pages/PetParentDocumentPage/UploadingDocAfterEnterPage";
 import BusinessSignupPage from "./Pages/Authentication/BusinessAuth/BusinessSignupPage";
 import AddCareTeamPage from "./Pages/Authentication/BusinessAuth/AddCareTeamPage";
-import CareTeamListPage from "./Pages/Authentication/BusinessAuth/CareTeamListPage";
 import BusinessHomePage from "./Pages/Business/BusinessHome/BusinessHomePage";
 import PetParentOnboardingChoice from "./Pages/Authentication/ProfileCreation/PetParentOnboardingChoice";
 import BusinessSignupForm from "./Pages/Authentication/BusinessAuth/businessSignupForm";
 import BusinessOTPVerificationPage from "./Pages/Authentication/BusinessAuth/BusinessOTPVerificationPage";
 import BusinessProfile from "./Components/BusinessComponents/BusinessProfile";
 import { Toaster } from "sonner";
- import PetBusinessHomePage from "./Pages/Business/Pet/BusinessPetPage";
+import PetBusinessHomePage from "./Pages/Business/Pet/BusinessPetPage";
+import PetRecords from "./Pages/Business/Records/PetRecords";
 
 function App() {
   return (
@@ -56,7 +56,7 @@ function App() {
         <Route path="/business/pet/:petId/home" element={<PetBusinessHomePage />} />
         <Route path="/business/pet/:petId/add-vaccine" element={<AddVaccinePage />} />
         <Route path="/business/pet/:petId/upload" element={<UploadDocuments />} />
-
+        <Route path="/business/pet-records" element={<PetRecords />} />
 
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />

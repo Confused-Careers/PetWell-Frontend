@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
+import { IoIosArrowForward } from "react-icons/io";
 
 interface Pet {
+  document_url: string;
   doctor_name: string;
   record_note: string;
   pet_id: any;
@@ -35,7 +37,6 @@ const PetsUnderCare: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
-      console.log("Pets Under Care Response:", response);
       const petsData = response as unknown as Pet[];
       setPets(petsData);
     } catch (error: any) {
@@ -89,7 +90,7 @@ const PetsUnderCare: React.FC = () => {
                 >
                   <td className="py-3 px-4 flex items-center gap-3">
                     <img
-                      src={pet.image || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
+                      src={pet.document_url || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
                       alt={pet.pet_name}
                       className="w-8 h-8 rounded-full object-cover border border-[var(--color-business-accent)]"
                     />
@@ -133,7 +134,7 @@ const PetsUnderCare: React.FC = () => {
                       href={`/business/pet/${pet.pet_id}/home`}
                       className="text-[var(--color-business-heading)] hover:text-[var(--color-business-accent)]"
                       title="View Pet Details"
-                    >→</a>
+                    ><IoIosArrowForward /></a>
                   </td>
                 </tr>
               ))

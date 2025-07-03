@@ -243,7 +243,7 @@ className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var
               type="checkbox"
               checked={verified}
               onChange={(e) => setVerified(e.target.checked)}
-              className="mt-1 p-1 accent-[var(--color-primary)]"
+              className="accent-[var(--color-card-button)] w-2 h-2 cursor-pointer"
             />
             <label
               htmlFor="verify-checkbox"

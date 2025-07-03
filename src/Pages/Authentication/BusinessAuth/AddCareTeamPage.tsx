@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Logo from "../../../Assets/PetWell.png";
+import PetWellLogo from "../../../Assets/PetWell.png";
 import { useNavigate } from "react-router-dom";
 import CareTeamMemberForm from "../../../Components/BusinessComponents/CareTeamMemberForm";
 import CareTeamMemberCard from "./CareTeamMemberCard";
 import staffServices from "../../../Services/staffservice";
+import { PlusIcon } from "lucide-react";
+import { toast } from "sonner";
 
 interface Staff {
   id: string;
@@ -27,7 +29,7 @@ const AddCareTeamPage: React.FC = () => {
     const fetchStaffList = async () => {
       setIsLoading(true);
       try {
-        const response = await staffServices.getStaffList(1, 10);
+        const response: any = await staffServices.getStaffList(1, 10);
         setStaffList(response.data);
       } catch (err: any) {
         setError(err.message || "Failed to fetch staff list");
@@ -57,94 +59,113 @@ const AddCareTeamPage: React.FC = () => {
 
   // Handle delete staff
   const handleDelete = async (staffId: string) => {
-    if (window.confirm("Are you sure you want to delete this staff member?")) {
-      try {
-        await staffServices.removeStaff(staffId);
-        setStaffList(staffList.filter((staff) => staff.id !== staffId));
-      } catch (err: any) {
-        setError(err.message || "Failed to delete staff member");
-      }
-    }
+    toast('Are you sure you want to delete this staff member?', {
+      cancel: {
+        label: 'Cancel',
+        onClick: () => { },
+      },
+      action: {
+        label: 'Yes Delete',
+        onClick: async () => {
+          try {
+            await staffServices.removeStaff(staffId);
+            setStaffList(staffList.filter((staff) => staff.id !== staffId));
+          } catch (err: any) {
+            setError(err.message || "Failed to delete staff member");
+          }
+        },
+      },
+    });
   };
 
   // Handle share (placeholder)
   const handleShare = (staff: Staff) => {
-    alert(`Share username: ${staff.username} (Password sharing not implemented)`);
+    toast.message(`Share username: ${staff.username} (Password sharing not implemented)`);
   };
 
   return (
-    <div className="min-h-screen max-h-screen overflow-y-auto bg-[var(--color-background)] flex flex-col items-center px-2 py-2 relative">
-      <div className="absolute left-4 top-4 sm:left-8 sm:top-6">
+    <div className="h-screen w-screen flex flex-col bg-[var(--color-background)] w-full px-2 pt-24 sm:p-4 md:p-8">
+      <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
         <img
-          src={Logo}
+          src={PetWellLogo}
           alt="PetWell Logo"
-          className="h-6 sm:h-8 md:h-12 w-auto max-w-[140px] object-contain transition-all mb-2 sm:mb-0"
+          className="object-contain h-full w-auto"
         />
       </div>
       <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
-        <h1 className="text-xl sm:text-[48px]  font-serif font-[400] text-[#1C232E] text-center mb-1 mt-6 break-words">
+        <p className=" font-[Alike,serif] text-3xl text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
           Add your care team
-        </h1>
-        <p className="text-md sm:text-[24px] text-[#1C232E] font-[400] opacity-80 text-center mb-4">
+        </p>
+        <p className="mb-3 text-lg font-[Cabin] items-center flex justify-center text-center px-2">
           Let your staff log in, upload records, and support pet parents directly.
         </p>
 
         {/* Staff List */}
         {staffList?.length !== 0 && !isLoading && (
-        <div className="w-full max-w-[620px] mb-6">
-          <h2 className="text-[28px] font-[400] text-[#1C232E] mb-2 text-center">
-            Your team
-          </h2>
-          {isLoading && <p>Loading staff list...</p>}
-          {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
-          {staffList?.length === 0 && !isLoading && (
-            <p className="text-[#1C232E] opacity-70">
-              No staff members found.
-            </p>
-          )}
-          <div className="flex flex-col gap-4">
-            {staffList?.map((staff) => (
-              <CareTeamMemberCard
-                key={staff.id}
-                name={staff.staff_name}
-                role={staff.role_name}
-                access={staff.access_level}
-                onEdit={() => handleEdit(staff)}
-                onDelete={() => handleDelete(staff.id)}
-                onShare={() => handleShare(staff)}
-              />
-            ))}
+          <div className="w-full max-w-sm mb-4">
+            <h2 className="text-[28px] font-[400] text-[#1C232E] mb-2 text-center">
+              Your team
+            </h2>
+            {isLoading && <p>Loading staff list...</p>}
+            {error && (
+              <div className="w-full max-w-md my-2 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+                {error}
+              </div>
+            )}
+            {staffList?.length === 0 && !isLoading && (
+              <p className="text-[#1C232E] opacity-70">
+                No staff members found.
+              </p>
+            )}
+            <div className="flex flex-col gap-4">
+              {staffList?.map((staff) => (
+                <CareTeamMemberCard
+                  key={staff.id}
+                  name={staff.staff_name}
+                  role={staff.role_name}
+                  access={staff.access_level}
+                  onEdit={() => handleEdit(staff)}
+                  onDelete={() => handleDelete(staff.id)}
+                  onShare={() => handleShare(staff)}
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
         )}
 
         {/* Form Section with open/close logic */}
-        <div className="w-full max-w-[620px]">
+        <div className="w-full  flex justify-center center">
           {showForm || editingStaff ? (
             <>
               <CareTeamMemberForm
-                staff={editingStaff}
+                staff={editingStaff ? editingStaff : undefined}
                 onSuccess={handleSuccess}
                 onCancel={editingStaff ? () => { setEditingStaff(null); setShowForm(false); } : undefined}
               />
             </>
           ) : (
-            <div className="flex flex-row gap-4">
+            <div className="w-full max-w-sm mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
               <button
                 type="button"
-                className="w-full flex items-center justify-center gap-2 border border-[var(--color-card-button)] text-[var(--color-card-button)] rounded-full py-2 font-[400] hover:bg-[var(--color-card-button)] hover:text-[var(--color-background)] transition bg-transparent"
-                onClick={() => { setShowForm(true); setEditingStaff(null); } }
+                onClick={() => { setShowForm(true); setEditingStaff(null); }}
+
+
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
               >
-                <span className="text-xl font-bold">+</span> Add New Staff
+                <span className="text-xl font-bold"><PlusIcon className="size-4" /></span> Add Member
               </button>
               <button
                 type="button"
-                className="w-full flex items-center justify-center gap-2 border border-[var(--color-card-button)] text-[#1C232E] rounded-full py-2 font-[400] hover:bg-transparent hover:text-[#FFB23E] transition bg-[#FFB23E]"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+
                 onClick={() => navigate("/business-home")}
               >
-                  <span className="text-xl font-[400]">Next</span>
-                </button></div>
+                <span className="text-xl font-[400]">Next</span>
+
+              </button>
+            </div>
+
           )}
         </div>
       </div>

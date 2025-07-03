@@ -285,7 +285,7 @@ const DownloadSelectPage: React.FC = () => {
             type="checkbox"
             checked={allSelected}
             onChange={selectAll}
-            className="accent-[var(--color-primary)] w-4 h-4 mr-2"
+            className="accent-[var(--color-card-button)] w-2 h-2 cursor-pointer"
             id="select-all-checkbox"
           />
           <label
@@ -305,7 +305,7 @@ const DownloadSelectPage: React.FC = () => {
                   type="checkbox"
                   checked={isSelected}
                   onChange={() => toggleSelect(idx)}
-                  className="accent-[var(--color-primary)] w-5 h-5 absolute top-4 right-4 z-10 border border-[var(--color-primary)] shadow bg-transparent"
+                  className="accent-[var(--color-primary)] w-5 h-5 absolute top-4 right-4 z-10 border border-[var(--color-primary)] cursor-pointer shadow bg-transparent"
                   aria-label={`Select vaccine ${
                     vaccine.vaccine_name || vaccine.name || idx
                   }`}

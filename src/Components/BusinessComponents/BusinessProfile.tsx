@@ -40,7 +40,10 @@ const BusinessProfile: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      await businessServices.updateProfile(formData);
+      await businessServices.updateProfile({
+        ...formData,
+        profile_picture: formData.profile_picture ?? undefined,
+      });
       toast.success("Profile updated successfully!");
       setFormData({
         business_name: "",

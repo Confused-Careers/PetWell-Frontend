@@ -65,7 +65,7 @@ const AddNewPet: React.FC = () => {
             value={code[i]}
             onChange={(e) => handleChange(e.target.value, i)}
             onKeyDown={(e) => handleKeyDown(e, i)}
-            ref={(el) => (inputRefs.current[i] = el)}
+            ref={(el) => { inputRefs.current[i] = el; }}
           />
         ))}
       </div>

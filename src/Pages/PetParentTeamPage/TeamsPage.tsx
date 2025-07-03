@@ -4,7 +4,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import TeamBox from "../../Components/Teams/TeamInfo";
 import teamServices from "../../Services/teamServices";
 import petServices from "../../Services/petServices";
-import { Users, XCircle, PlusCircle, X } from "lucide-react";
+import { Users, PlusCircle, X } from "lucide-react";
 
 const TeamsPage: React.FC = () => {
   const navigate = useNavigate();

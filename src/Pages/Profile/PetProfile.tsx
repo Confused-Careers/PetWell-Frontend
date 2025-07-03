@@ -5,7 +5,6 @@ import SwitchProfileModal from "../../Components/Profile/SwitchProfileModal";
 import petServices from "../../Services/petServices";
 import humanOwnerServices from "../../Services/humanOwnerServices";
 import { storeLastPetId } from "../../utils/petNavigation";
-import { generatePetCode } from "../../utils/petCodeGenerator";
 import {
   Dialog,
   DialogTrigger,
@@ -13,7 +12,7 @@ import {
   DialogTitle,
 } from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
-import { Pencil, RefreshCcw } from "lucide-react";
+import { RefreshCcw } from "lucide-react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 
@@ -119,8 +118,6 @@ const PetProfile: React.FC = () => {
   }, []);
 
   // Navigation handlers
-  const handleEditProfile = () =>
-    navigate(`/petowner/pet/${petId}/edit-profile`);
   const handleSwitchProfile = () => setShowSwitchModal(true);
   const handleModalSwitch = (selectedPetId: string) => {
     setShowSwitchModal(false);

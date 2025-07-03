@@ -1,4 +1,5 @@
 export interface FormData {
+  pet_id: string;
   pet_name: string;
   pet_age: string;
   pet_species: string;

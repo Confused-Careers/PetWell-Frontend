@@ -18,6 +18,7 @@ const PetParentSignupPage: React.FC = () => {
 
   // Form state for Step 4 and Step 5
   const [form, setForm] = useState<FormData>({
+    pet_id: "", // Add this line to satisfy FormData type
     pet_name: "",
     pet_age: "",
     pet_species: "",

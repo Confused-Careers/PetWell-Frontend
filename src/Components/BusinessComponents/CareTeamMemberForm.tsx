@@ -24,9 +24,9 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
   onSuccess,
   onCancel,
 }) => {
-  const gapClass = compact ? "gap-2" : "gap-3";
+
   const suggestionClass = compact ? "mt-0.5" : "mt-1";
-  const buttonClass = compact ? "py-1.5" : "py-2";
+
 
   // Form state
   const [formData, setFormData] = useState({

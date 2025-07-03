@@ -284,7 +284,7 @@ const addModernFooter = (doc: jsPDF) => {
 
 // Generate summary PDF
 export const generateVaccinePDF = (
-  vaccines: VaccineData[],
+  _vaccines: VaccineData[],
   pet: PetData,
   selectedVaccines: VaccineData[]
 ) => {
@@ -314,7 +314,7 @@ export const generateVaccinePDF = (
 
 // Generate detailed PDF
 export const generateDetailedVaccinePDF = (
-  vaccines: VaccineData[],
+  _vaccines: VaccineData[],
   pet: PetData,
   selectedVaccines: VaccineData[]
 ) => {

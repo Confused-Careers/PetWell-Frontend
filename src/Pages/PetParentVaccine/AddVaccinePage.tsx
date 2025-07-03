@@ -5,19 +5,18 @@ import BusinessNavbar from "../../Components/BusinessComponents/BusinessNavbar";
 import AddVaccine from "../../Components/Vaccine/AddVaccine";
 import petServices from "../../Services/petServices";
 import vaccineServices from "../../Services/vaccineServices";
-import { Syringe } from "lucide-react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 const AddVaccinePage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
   const location = useLocation(); // Added to check the current route
-  const [loading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [pet, setPet] = useState<any>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
-  const [warning, setWarning] = useState<string | null>(null);
+  const [,] = useState<string | null>(null);
 
   // Determine which Navbar to use based on the route
   const isBusinessRoute = location.pathname.startsWith("/business");

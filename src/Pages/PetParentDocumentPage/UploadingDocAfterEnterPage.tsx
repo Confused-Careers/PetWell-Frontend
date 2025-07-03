@@ -18,7 +18,8 @@ const UploadingDocAfterEnterPage: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const uploadTimers = useRef<{ [key: number]: NodeJS.Timeout }>({});
+  // Use 'ReturnType<typeof setTimeout>' instead of NodeJS.Timeout for browser compatibility
+  const uploadTimers = useRef<{ [key: number]: ReturnType<typeof setInterval> }>({});
 
   useEffect(() => {
     if (petId) {

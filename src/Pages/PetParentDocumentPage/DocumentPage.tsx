@@ -4,7 +4,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import DeleteDocumentModal from "../../Components/Document/DeleteDocumentModal";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import petServices from "../../Services/petServices";
-import { Download, Pencil, X, Search, UploadCloud } from "lucide-react";
+import { Search, UploadCloud } from "lucide-react";
 import DocumentInfo from "../../Components/Document/DocumentInfo";
 
 // Helper to format file size
@@ -37,18 +37,18 @@ const DocumentPage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
   const [documents, setDocuments] = useState<any[]>([]);
-  const [deleteIdx, setDeleteIdx] = useState<number | null>(null);
-  const [renameIdx, setRenameIdx] = useState<number | null>(null);
-  const [docName, setDocName] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(true);
+  const [, ] = useState<number | null>(null);
+  const [, ] = useState<number | null>(null);
+  const [, ] = useState<string>("");
+  const [, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("recent");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [docSizes, setDocSizes] = useState<{ [id: string]: number }>({});
-  const [sizesLoading, setSizesLoading] = useState<boolean>(false);
+  const [, setSizesLoading] = useState<boolean>(false);
   const [pet, setPet] = useState<any>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("all");
   const [editDocIdx, setEditDocIdx] = useState<number | null>(null);

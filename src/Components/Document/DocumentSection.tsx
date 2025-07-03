@@ -6,12 +6,13 @@ interface Document {
   name: string;
   size: string;
   type: "img" | "pdf";
+  id: string; // Added id to match the document structure
 }
 
 interface DocumentSectionProps {
   documents: Document[];
   onAddDocument?: () => void;
-  onEditDocument?: (index: number) => void;
+  onEditDocument?: (index: number, newName: string) => void;
   onDeleteDocument?: (index: number) => void;
   onViewAll?: () => void;
 }
@@ -27,21 +28,20 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {documents.map((doc, idx) => (
           <DocumentBox
-            key={idx}
+            key={doc.id || idx} // Use doc.id as key for uniqueness
+            idx={idx}
             name={doc.name}
             type={doc.type}
-            onEdit={onEditDocument ? () => onEditDocument(idx) : undefined}
-            onDelete={
-              onDeleteDocument ? () => onDeleteDocument(idx) : undefined
-            }
+            onEdit={onEditDocument ? (idx: number, newName: string) => onEditDocument(idx, newName) : undefined}
+            onDelete={onDeleteDocument ? () => onDeleteDocument(idx) : undefined}
             onDownload={() => {
               console.log(doc);
             }}
           />
         ))}
-        {documents.length == 0 && <div>No Document Added</div>}
+        {documents.length === 0 && <div>No Document Added</div>}
       </div>
-      {documents.length != 0 && (
+      {documents.length !== 0 && (
         <div className="mt-2">
           <a
             href="#"

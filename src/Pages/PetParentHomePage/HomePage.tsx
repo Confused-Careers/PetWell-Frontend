@@ -9,7 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
-import { PlusCircle, Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw } from "lucide-react";
+import { PlusCircle, FilePlus, Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,11 +17,11 @@ const HomePage: React.FC = () => {
   const [vaccines, setVaccines] = useState<any[]>([]);
   const [rawVaccines, setRawVaccines] = useState<any[]>([]);
   const [rawDocuments, setRawDocuments] = useState<any[]>([]);
-  const [, setTeams] = useState<any[]>([]);
+  const [teams, setTeams] = useState<any[]>([]);
   const [rawTeams, setRawTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [, setError] = useState<string | null>(null);
-  const [, setPetName] = useState<string>("My Pet");
+  const [error, setError] = useState<string | null>(null);
+  const [petName, setPetName] = useState<string>("My Pet");
   const [editDocIdx, setEditDocIdx] = useState<number | null>(null);
   const [editDocName, setEditDocName] = useState<string>("");
   const [editVaccineIdx, setEditVaccineIdx] = useState<number | null>(null);
@@ -152,23 +152,14 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const fetchAll = async () => {
-      console.log("fetchAll running...");
-      console.log("[HomePage] Starting fetchAll with petId from URL:", petId);
       setLoading(true);
       setError(null);
       try {
-        console.log("[HomePage] petId:", petId);
         if (!petId) {
           setLoading(false);
           return;
         }
-
-        console.log(
-          "[HomePage] Fetching pet details with getPetById for ID:",
-          petId
-        );
         const petRes = await petServices.getPetById(petId);
-        console.log("[HomePage] getPetById response:", petRes);
         let petData: any = petRes;
         // If petRes is a PetResponse, extract .data
         if (petRes && petRes.data) petData = petRes.data;
@@ -189,16 +180,9 @@ const HomePage: React.FC = () => {
         }
         setPet(petData);
         setPetName(petData.pet_name || "My Pet");
-        console.log(
-          "[HomePage] Successfully fetched pet:",
-          petData.pet_name,
-          "with ID:",
-          petData.id
-        );
 
         // Vaccines - using the same methodology as VaccinesPage
         const vaccinesRes = await vaccineServices.getAllPetVaccines(petData.id);
-        console.log("[HomePage] vaccinesRes:", vaccinesRes);
         let vaccinesArr: any[] = [];
 
         // Handle different response structures for vaccines
@@ -214,29 +198,17 @@ const HomePage: React.FC = () => {
           }
         }
 
-        // Log full vaccine objects to debug structure
-        console.log("[HomePage] Raw vaccine objects:", vaccinesArr);
 
         // Filter vaccines by pet.id
         const matchingVaccines: any[] = vaccinesArr.filter((vaccine) => {
           const petIdMatch = vaccine.pet && vaccine.pet.id === petData.id;
-          console.log("[HomePage] Filtering vaccine:", {
-            vaccineId: vaccine.id,
-            petId: vaccine.pet?.id,
-            actualPetId: petData.id,
-            matches: petIdMatch,
-          });
           return petIdMatch;
         });
-
-        console.log("[HomePage] matchingVaccines:", matchingVaccines);
 
         // Extract vaccine IDs for detailed fetching
         const vaccineIds = matchingVaccines
           .map((vaccine) => vaccine.id)
           .filter((id) => id); // Remove any undefined/null IDs
-
-        console.log("[HomePage] Filtered vaccine IDs for pet:", vaccineIds);
 
         if (vaccineIds.length === 0) {
           setVaccines([]);
@@ -244,7 +216,6 @@ const HomePage: React.FC = () => {
         } else {
           // Fetch detailed vaccine information using vaccine IDs
           const detailedVaccines = await fetchVaccineDetails(vaccineIds);
-          console.log("[HomePage] Detailed vaccines:", detailedVaccines);
 
           // Remove duplicates and store raw data
           const uniqueVaccines = removeDuplicateVaccines(detailedVaccines);
@@ -263,7 +234,6 @@ const HomePage: React.FC = () => {
               warning,
             };
           });
-          console.log("[HomePage] mappedVaccines", mappedVaccines);
           setVaccines(mappedVaccines);
         }
 
@@ -279,17 +249,16 @@ const HomePage: React.FC = () => {
           let ext = d.document_name?.split(".").pop()?.toLowerCase() || "";
           let type: "pdf" | "img" = ext === "pdf" ? "pdf" : "img";
           return {
+            id: d.id,
             name: d.document_name || d.name || "",
             size: d.size ? `${(d.size / (1024 * 1024)).toFixed(1)} MB` : "",
             type,
           };
         });
-        console.log("[HomePage] mappedDocs", mappedDocs);
         setRawDocuments(mappedDocs);
 
         // Teams - using the same methodology as VaccinesPage
         const teamsRes = await teamServices.getAllTeams();
-        console.log("[HomePage] teamsRes:", teamsRes);
         let teamsArr: any[] = [];
 
         // Handle different response structures for teams
@@ -305,68 +274,28 @@ const HomePage: React.FC = () => {
           }
         }
 
-        // Log full team objects to debug structure
-        console.log("[HomePage] Raw team objects:", teamsArr);
-        console.log("[HomePage] All teams with their pet IDs:");
-        teamsArr.forEach((team, index) => {
-          console.log(`[HomePage] Team ${index}:`, {
-            teamId: team.id,
-            teamName: team.business?.business_name || "Unknown",
-            petId: team.pet?.id || "No pet ID",
-            petName: team.pet?.pet_name || "Unknown pet",
-          });
-        });
 
         // Filter teams by pet_id
         const matchingTeams: any[] = teamsArr.filter((team) => {
           const petIdMatch = team.pet && team.pet.id === petData.id;
-          console.log("[HomePage] Filtering team:", {
-            teamId: team.id,
-            teamName: team.business?.business_name || "Unknown",
-            petId: team.pet?.id,
-            actualPetId: petData.id,
-            matches: petIdMatch,
-          });
           return petIdMatch;
         });
-
-        // TEMPORARY DEBUG: Show all teams to verify API is working
-        console.log(
-          "[HomePage] TEMPORARY DEBUG - All teams without filtering:",
-          teamsArr
-        );
-        if (teamsArr.length > 0 && matchingTeams.length === 0) {
-          console.log(
-            "[HomePage] DEBUG: Showing all teams instead of filtered teams"
-          );
-          // Uncomment the next line to show all teams for debugging
-          // const matchingTeams = teamsArr; // This would show all teams
-        }
-
-        console.log("[HomePage] matchingTeams:", matchingTeams);
 
         // Extract team IDs for detailed fetching
         const teamIds = matchingTeams.map((team) => team.id).filter((id) => id); // Remove any undefined/null IDs
 
-        console.log("[HomePage] Filtered team IDs for pet:", teamIds);
 
         if (teamIds.length === 0) {
-          console.log(
-            "[HomePage] No teams found for current pet. Available teams:",
-            teamsArr.length
-          );
+
           setTeams([]);
           setRawTeams([]);
           if (teamsArr.length > 0) {
-            console.log(
-              "[HomePage] Teams exist but none match the current pet ID:",
-              petData.id
-            );
+            // If no matching teams but teams exist, show a message
+            console.warn("[HomePage] No matching teams found for this pet.");
           }
         } else {
           // Fetch detailed team information using team IDs
           const detailedTeams = await fetchTeamDetails(teamIds);
-          console.log("[HomePage] Detailed teams:", detailedTeams);
 
           // Remove duplicates and store raw data
           const uniqueTeams = removeDuplicateTeams(detailedTeams);
@@ -387,7 +316,6 @@ const HomePage: React.FC = () => {
                   }.jpg`,
             };
           });
-          console.log("[HomePage] mappedTeams", mappedTeams);
           setTeams(mappedTeams);
         }
       } catch (err: any) {
@@ -400,30 +328,33 @@ const HomePage: React.FC = () => {
     fetchAll();
   }, [petId]);
 
-  const handleEditDocument = (idx: number) => {
-    setEditDocIdx(idx);
-    setEditDocName(rawDocuments[idx]?.name || "");
+
+  const handleSaveDocumentName = async (idx: number, newName: string) => {
+    try {
+      const doc = rawDocuments[idx];
+      if (!doc.id) throw new Error("No document ID");
+      await petServices.updateDocumentName(doc.id, newName);
+      setEditDocIdx(null);
+      setEditDocName("");
+    } catch (err) {
+      console.error("Failed to rename document:", err);
+    }
   };
 
-  const handleSaveDocumentName = async (newName: string) => {
-    if (editDocIdx === null) return;
+  const handleDeleteDocument = async (idx: number) => {
     try {
-      const doc = rawDocuments[editDocIdx];
-      if (!doc.id) throw new Error("No document id");
-      await petServices.updateDocumentName(doc.id, newName);
+      const doc = rawDocuments[idx];
+      if (!doc.id) throw new Error("No document ID");
+      await petServices.deleteDocument(doc.id);
       setRawDocuments((prevDocs: any[]) =>
-        prevDocs.map((d, i) => (i === editDocIdx ? { ...d, name: newName } : d))
+        prevDocs.filter((_, i) => i !== idx)
       );
-      setEditDocIdx(null);
     } catch (err) {
-      setEditDocIdx(null);
+      console.error("Failed to delete document:", err);
     }
   };
 
   const handleEditVaccine = (idx: number) => {
-    console.log("[HomePage] handleEditVaccine called with idx:", idx);
-    console.log("[HomePage] rawVaccines at idx:", rawVaccines[idx]);
-    console.log("[HomePage] vaccines at idx:", vaccines[idx]);
     setEditVaccineIdx(idx);
   };
 
@@ -504,13 +435,6 @@ const HomePage: React.FC = () => {
     );
   }
 
-  // Debug logging for teams
-  console.log(
-    "[HomePage] Final rawTeams state passed to TeamSection:",
-    rawTeams
-  );
-  console.log("[HomePage] RawTeams array length:", rawTeams.length);
-
   return (
     <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <Navbar />
@@ -543,11 +467,8 @@ const HomePage: React.FC = () => {
               <div className="w-56 h-56 rounded-2xl overflow-hidden bg-[var(--color-card-profile)] flex items-center justify-center">
                 <img
                   src={
-                    pet.profile_picture
-                      ? (pet.profile_picture.startsWith('http')
-                          ? pet.profile_picture
-                          : `/api/v1/documents/${pet.profile_picture}`)
-                      : "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                    pet.profile_picture ||
+                    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
                   }
                   alt={pet.pet_name || "Pet"}
                   className="w-full h-full object-cover"
@@ -721,7 +642,8 @@ const HomePage: React.FC = () => {
           </div>
           <DocumentSection
             documents={rawDocuments.slice(0, 6)}
-            onEditDocument={handleEditDocument}
+            onEditDocument={handleSaveDocumentName}
+            onDeleteDocument={handleDeleteDocument}
             onViewAll={() => navigate(`/petowner/pet/${petId}/documents`)}
           />
         </section>

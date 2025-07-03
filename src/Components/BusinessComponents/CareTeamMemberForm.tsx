@@ -1,3 +1,4 @@
+// CareTeamMemberForm.tsx
 import React, { useState, useEffect } from "react";
 import staffServices from "../../Services/staffservice";
 
@@ -48,9 +49,9 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         role_name: staff.role_name.toLowerCase(),
         access_level:
           staff.access_level === "Full" ? "full" :
-            staff.access_level === "View Records" ? "view" :
-              staff.access_level === "Edit Records" ? "edit" :
-                "manage",
+          staff.access_level === "View Records" ? "view" :
+          staff.access_level === "Edit Records" ? "edit" :
+          "manage",
         username: staff.username,
         password: "", // Don't prefill password for security
       });
@@ -79,9 +80,9 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         role_name: formData.role_name.charAt(0).toUpperCase() + formData.role_name.slice(1),
         access_level:
           formData.access_level === "full" ? "Full" :
-            formData.access_level === "view" ? "View Records" :
-              formData.access_level === "edit" ? "Edit Records" :
-                "Manage Team",
+          formData.access_level === "view" ? "View Records" :
+          formData.access_level === "edit" ? "Edit Records" :
+          "Manage Team",
         username: formData.username,
       };
       if (formData.password && formData.password.length > 0) {
@@ -100,6 +101,8 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         await staffServices.addStaff(payload);
       }
       if (onSuccess) onSuccess();
+      // Refresh the page after successful submission
+      window.location.reload();
     } catch (err: any) {
       setError(err.message || `Failed to ${staff ? "update" : "add"} staff member`);
     } finally {
@@ -114,7 +117,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           {error}
         </div>
       )}
-      <div className="w-full  flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Name of care provider
         </label>
@@ -124,11 +127,11 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           title="Name of care provider"
           value={formData.staff_name}
           onChange={handleInputChange}
-          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
           required
         />
       </div>
-      <div className="w-full  flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Email
         </label>
@@ -139,11 +142,11 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           value={formData.email}
           onChange={handleInputChange}
           placeholder="Type here"
-          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
           required
         />
       </div>
-      <div className="w-full  flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2">
         <label htmlFor="role" className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           What is their role?
         </label>
@@ -152,7 +155,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           name="role_name"
           value={formData.role_name}
           onChange={handleInputChange}
-          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
           required
         >
           <option value="">Select a role</option>
@@ -163,7 +166,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           <option value="admin">Staff</option>
         </select>
       </div>
-      <div className="w-full  flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Permissions
         </label>
@@ -172,7 +175,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           title="Permissions"
           value={formData.access_level}
           onChange={handleInputChange}
-          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
           required
         >
           <option value="">Select permissions</option>
@@ -182,7 +185,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           <option value="manage">Manage Team</option>
         </select>
       </div>
-      <div className="w-full  flex flex-col gap-2">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Set user name
         </label>
@@ -192,7 +195,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           value={formData.username}
           onChange={handleInputChange}
           placeholder="Type here"
-          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
           required
         />
         <div
@@ -200,7 +203,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         ></div>
       </div>
       {!staff && (
-        <div className="w-full  flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-2">
           <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
             Set password
           </label>
@@ -210,7 +213,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Type here"
-            className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+            className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
             required
           />
           <div
@@ -219,34 +222,32 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         </div>
       )}
       <div className="w-full max-w-md flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
-        {staff && onCancel && (<button
-          type="button"
-          onClick={onCancel}
-          disabled={isSubmitting}
-
-
-          className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
-        >
-          Cancel              </button>)}
+        {staff && onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={isSubmitting}
+            className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
+          >
+            Cancel
+          </button>
+        )}
         <button
           type="button"
           onClick={onCancel}
           disabled={isSubmitting}
-
-
           className="w-full font-semibold cursor-pointer py-2 px-4 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
         >
-          Skip For Now              </button>
+          Skip For Now
+        </button>
         <button
           type="submit"
           className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Saving..." : staff ? "Update" : "Save"}
-
         </button>
       </div>
-
     </form>
   );
 };

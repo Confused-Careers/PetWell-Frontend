@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
+import { IoIosArrowForward } from "react-icons/io";
 
 interface Pet {
+  document_url: string;
+  doctor_name: string;
+  record_note: string;
   pet_id: any;
   breed_name: string;
   human_owner_phone: string;
@@ -33,7 +37,6 @@ const PetsUnderCare: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
-      console.log("Pets Under Care Response:", response);
       const petsData = response as unknown as Pet[];
       setPets(petsData);
     } catch (error: any) {
@@ -55,15 +58,15 @@ const PetsUnderCare: React.FC = () => {
         <table className="min-w-full text-left font-cabin mb-4">
           <thead>
             <tr className="text-[#1C232E] text-base font-bold">
-              <th className="py-3 px-4 font-bold">Pet Name</th>
-              <th className="py-3 px-4 font-bold">Breed</th>
-              <th className="py-3 px-4 font-bold">Owner Name</th>
-              <th className="py-3 px-4 font-bold">Phone</th>
-              <th className="py-3 px-4 font-bold">Added On</th>
-              <th className="py-3 px-4 font-bold">Last Visit</th>
-              <th className="py-3 px-4 font-bold">Doctor Visited</th>
-              <th className="py-3 px-4 font-bold">Notes</th>
-              <th></th>
+              <th className="py-3 px-4 font-bold text-center">Pet Name</th>
+              <th className="py-3 px-4 font-bold text-center">Breed</th>
+              <th className="py-3 px-4 font-bold text-center">Owner Name</th>
+              <th className="py-3 px-4 font-bold text-center">Phone</th>
+              <th className="py-3 px-4 font-bold text-center">Added On</th>
+              <th className="py-3 px-4 font-bold text-center">Last Visit</th>
+              <th className="py-3 px-4 font-bold text-center">Doctor Visited</th>
+              <th className="py-3 px-4 font-bold text-center">Notes</th>
+              <th className="text-center"></th>
             </tr>
           </thead>
           <tbody>
@@ -87,7 +90,7 @@ const PetsUnderCare: React.FC = () => {
                 >
                   <td className="py-3 px-4 flex items-center gap-3">
                     <img
-                      src={pet.image || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
+                      src={pet.document_url || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
                       alt={pet.pet_name}
                       className="w-8 h-8 rounded-full object-cover border border-[var(--color-business-accent)]"
                     />
@@ -131,7 +134,7 @@ const PetsUnderCare: React.FC = () => {
                       href={`/business/pet/${pet.pet_id}/home`}
                       className="text-[var(--color-business-heading)] hover:text-[var(--color-business-accent)]"
                       title="View Pet Details"
-                    >→</a>
+                    ><IoIosArrowForward /></a>
                   </td>
                 </tr>
               ))

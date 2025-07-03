@@ -19,6 +19,7 @@ const ProfileCreation: React.FC = () => {
   const [resentMessage, setResentMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const [form, setForm] = useState<FormData>({
+    pet_id: "",
     pet_name: "",
     pet_age: "",
     pet_species: "",
@@ -47,6 +48,7 @@ const ProfileCreation: React.FC = () => {
 
   const resetForm = () => {
     setForm({
+      pet_id: "",
       pet_name: "",
       pet_age: "",
       pet_species: "",

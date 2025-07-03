@@ -8,9 +8,7 @@ import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 import {
   generateVaccinePDF,
-  generateDetailedVaccinePDF,
 } from "../../Services/pdfServices";
-import { FileDown, FileText } from "lucide-react";
 
 // Helper function to determine vaccine status
 const processVaccine = (vaccine: any) => {
@@ -52,7 +50,7 @@ const DownloadSelectPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pet, setPet] = useState<any>(null);
-  const [actualPetId, setActualPetId] = useState<string | null>(null);
+  const [, setActualPetId] = useState<string | null>(null);
 
   // Helper function to remove duplicate vaccines based on ID
   const removeDuplicateVaccines = (vaccinesArr: any[]): any[] => {
@@ -217,24 +215,6 @@ const DownloadSelectPage: React.FC = () => {
     }
   };
 
-  const handleDownloadDetailed = () => {
-    if (selected.length === 0) return;
-
-    const selectedVaccines = selected.map((idx) => vaccines[idx]);
-
-    try {
-      // Generate detailed PDF with selected vaccines
-      const filename = generateDetailedVaccinePDF(
-        vaccines,
-        pet,
-        selectedVaccines
-      );
-      alert(`Detailed PDF downloaded successfully: ${filename}`);
-    } catch (error) {
-      console.error("Error generating detailed PDF:", error);
-      alert("Error generating detailed PDF. Please try again.");
-    }
-  };
 
   if (loading) {
     return (

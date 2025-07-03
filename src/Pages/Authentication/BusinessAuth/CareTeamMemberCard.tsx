@@ -1,5 +1,5 @@
 import React from "react";
-import { Pencil, X, Share2, PencilIcon, PencilOffIcon, LucidePencil, Edit, Edit2, Edit2Icon } from "lucide-react";
+import {  X, Share2,  Edit2Icon } from "lucide-react";
 
 interface CareTeamMemberCardProps {
   name: string;

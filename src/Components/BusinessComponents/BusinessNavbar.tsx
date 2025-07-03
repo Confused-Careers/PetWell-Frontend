@@ -16,7 +16,7 @@ const BusinessNavbar: React.FC = () => {
     "https://randomuser.me/api/portraits/men/32.jpg"
   );
   const [code, setCode] = useState<string[]>(["", "", "", "", ""]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, ] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);

@@ -3,10 +3,9 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
 import petServices from "../../Services/petServices";
 import { logout } from "../../utils/petNavigation";
-import { generatePetCode } from "../../utils/petCodeGenerator";
 import { Menu, X, ChevronDown } from "lucide-react";
 import QRCode from "react-qr-code";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 
 interface NavbarProps {
   onEditProfile?: () => void;
@@ -198,7 +197,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               className="flex items-center space-x-1 focus:outline-none p-1"
             >
               <img
-                src={petImage}
+                src={
+                  petImage
+                    ? (petImage.startsWith('http')
+                        ? petImage
+                        : `/api/v1/documents/${petImage}`)
+                    : "https://randomuser.me/api/portraits/men/32.jpg"
+                }
                 alt="Pet"
                 className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-primary)]"
               />
@@ -348,7 +353,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                 onClick={handleDropdownToggle}
               >
                 <img
-                  src={petImage}
+                  src={
+                    petImage
+                      ? (petImage.startsWith('http')
+                          ? petImage
+                          : `/api/v1/documents/${petImage}`)
+                      : "https://randomuser.me/api/portraits/men/32.jpg"
+                  }
                   alt="Pet"
                   className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-card-button)]"
                 />

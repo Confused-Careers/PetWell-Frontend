@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../../Components/BusinessComponents/BusinessNavbar";
 import RenameDocumentModal from "../../../Components/Document/RenameDocumentModal";
@@ -28,13 +29,13 @@ const PetBusinessHomePage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
   const [loading, setLoading] = useState(true);
-  const [error] = useState<string | null>(null);
-  const [petName] = useState<string>("My Pet");
+  const [] = useState<string | null>(null);
+  const [] = useState<string>("My Pet");
   const [editDocIdx, setEditDocIdx] = useState<number | null>(null);
   const [editDocName] = useState<string>("");
   const [editVaccineIdx, setEditVaccineIdx] = useState<number | null>(null);
   const [pet, setPet] = useState<Pet | null>(null);
-  const [activeTab, setActiveTab] = useState<'profile' | 'vaccines' | 'documents'>('profile');
+  const [, ] = useState<'profile' | 'vaccines' | 'documents'>('profile');
 
   // Handle saving document name
   const handleSaveDocumentName = (newName: string) => {
@@ -43,10 +44,6 @@ const PetBusinessHomePage: React.FC = () => {
   };
 
   // Handle saving vaccine
-  const handleSaveVaccine = (updatedVaccine: any) => {
-    console.log("Saving vaccine:", updatedVaccine);
-    setEditVaccineIdx(null);
-  };
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -262,7 +259,7 @@ const PetBusinessHomePage: React.FC = () => {
           open={true}
           vaccine={{}} // Dummy data for vaccine modal
           onClose={() => setEditVaccineIdx(null)}
-          onSuccess={handleSaveVaccine}
+          onSuccess={() => setEditVaccineIdx(null)}
         />
       )}
     </div>

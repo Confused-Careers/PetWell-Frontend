@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import type { ReactNode } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
 import { IoIosArrowForward } from "react-icons/io";

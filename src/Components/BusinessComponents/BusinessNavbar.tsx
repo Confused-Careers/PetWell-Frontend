@@ -16,7 +16,7 @@ const BusinessNavbar: React.FC = () => {
     "https://randomuser.me/api/portraits/men/32.jpg"
   );
   const [code, setCode] = useState<string[]>(["", "", "", "", ""]);
-  const [isSubmitting, ] = useState(false);
+  const [isSubmitting] = useState(false);
   const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
@@ -99,7 +99,10 @@ const BusinessNavbar: React.FC = () => {
     }
   };
 
-  const handleCodeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
+  const handleCodeKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
     if (e.key === "Backspace" && !code[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
     } else if (e.key === "Enter" && code.every((char) => char !== "")) {
@@ -119,7 +122,7 @@ const BusinessNavbar: React.FC = () => {
         className={`fixed top-0 left-0 h-full w-64 bg-[var(--color-card-profile)] shadow-2xl transform transition-transform duration-300 ease-in-out z-50 lg:hidden mobile-menu ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ borderRight: '2px solid var(--color-border)' }}
+        style={{ borderRight: "2px solid var(--color-border)" }}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header (just close button) */}
@@ -154,7 +157,7 @@ const BusinessNavbar: React.FC = () => {
       </div>
 
       {/* Mobile Top Navbar (only visible on mobile) */}
-      <div className="lg:hidden ">
+      <div className="lg:hidden">
         <nav className="flex items-center justify-between px-3 py-3 bg-transparent w-full">
           <div className="flex items-center space-x-3">
             {/* Mobile Menu Toggle */}
@@ -170,7 +173,7 @@ const BusinessNavbar: React.FC = () => {
               className="w-24 h-24 object-contain"
             />
           </div>
-          {/* Profile Dropdown on the right */}
+          {/* Profile */}
           <div className="relative flex items-center" ref={dropdownRef}>
             <button
               onClick={handleMobileDropdownToggle}
@@ -181,14 +184,14 @@ const BusinessNavbar: React.FC = () => {
                 alt="Business"
                 className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-primary)]"
               />
-              <ChevronDown
+              {/*<ChevronDown
                 size={16}
                 className={`text-[var(--color-text)] transition-transform ${
                   isMobileDropdownOpen ? "rotate-180" : ""
                 }`}
-              />
+              />*/}
             </button>
-            {isMobileDropdownOpen && (
+            {/* {isMobileDropdownOpen && (
               <div
                 className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
                 style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
@@ -208,7 +211,7 @@ const BusinessNavbar: React.FC = () => {
                         value={code[i]}
                         onChange={(e) => handleCodeChange(e.target.value, i)}
                         onKeyDown={(e) => handleCodeKeyDown(e, i)}
-                        ref={el => { inputRefs.current[i] = el; }}
+                        ref={(el) => { inputRefs.current[i] = el; }}
                       />
                     ))}
                   </div>
@@ -219,7 +222,7 @@ const BusinessNavbar: React.FC = () => {
                     className="w-full flex items-center justify-center gap-2 border border-white text-white font-semibold rounded-xl py-2 mb-2 hover:bg-white/10 transition text-base font-[Cabin,sans-serif] cursor-pointer"
                     style={{ background: "transparent" }}
                   >
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/></svg>
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7"  height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/></svg>
                     Scan QR
                   </button>
                 </div>
@@ -250,7 +253,7 @@ const BusinessNavbar: React.FC = () => {
                   </button>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </nav>
       </div>
@@ -294,7 +297,7 @@ const BusinessNavbar: React.FC = () => {
           {/* Right: Profile */}
           <div className="flex items-center gap-4">
             {/* Bell Icon */}
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent">
+            {/*<div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent">
               <svg
                 width="22"
                 height="22"
@@ -308,11 +311,11 @@ const BusinessNavbar: React.FC = () => {
                 <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 01-3.46 0" />
               </svg>
-            </div>
+            </div>*/}
             {/* Profile */}
             <div className="relative">
               <div
-                className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition"
+                className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition mr-3"
                 onClick={handleDropdownToggle}
               >
                 <img
@@ -322,8 +325,8 @@ const BusinessNavbar: React.FC = () => {
                 />
                 <span className="text-[var(--color-text)] font-semibold text-base">
                   {businessName}
-        </span>
-                <svg
+                </span>
+                {/*<svg
                   className={`w-4 h-4 text-[var(--color-text)] transition-transform ${
                     isDropdownOpen ? "rotate-180" : ""
                   }`}
@@ -337,10 +340,9 @@ const BusinessNavbar: React.FC = () => {
                     strokeWidth={2}
                     d="M19 9l-7 7-7-7"
                   />
-                </svg>
+                </svg>*/}
               </div>
-              {/* Dropdown (improved position) */}
-              {isDropdownOpen && (
+              {/* {isDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
                   style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
@@ -361,7 +363,7 @@ const BusinessNavbar: React.FC = () => {
                           value={code[i]}
                           onChange={(e) => handleCodeChange(e.target.value, i)}
                           onKeyDown={(e) => handleCodeKeyDown(e, i)}
-                          ref={el => { inputRefs.current[i] = el; }}
+                          ref={(el) => { inputRefs.current[i] = el; }}
                         />
                       ))}
                     </div>
@@ -403,7 +405,7 @@ const BusinessNavbar: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>

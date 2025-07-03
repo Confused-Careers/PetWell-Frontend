@@ -6,6 +6,7 @@ import RenameDocumentModal from "../../../Components/Document/RenameDocumentModa
 import petServices from "../../../Services/petServices";
 import { Search, UploadCloud } from "lucide-react";
 import DocumentInfo from "../../../Components/Document/DocumentInfo";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 // Helper to format file size
 
@@ -296,7 +297,14 @@ const BusinessDocumentPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 mt-2 ml-28 text-[#1C232E] hover:text-[#FFB23E] transition-colors"
+      >
+        <span className="text-lg"><IoIosArrowDropleftCircle className="h-5 w-5" /></span>
+        <span className="font-medium">Go Back</span>
+      </button>
+      <div className="container mx-auto max-w-8xl pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
           <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             {pet ? `${pet.pet_name}'s Documents` : "Pet Documents"}
@@ -371,7 +379,7 @@ const BusinessDocumentPage: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-[180px] cursor-pointer justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)]"
+              className="w-[184px] cursor-pointer bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)] items-center justify-center"
             >
               {sortOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>

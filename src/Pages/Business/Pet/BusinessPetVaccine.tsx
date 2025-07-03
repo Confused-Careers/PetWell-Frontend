@@ -6,6 +6,7 @@ import EditVaccineModal from "../../../Components/Vaccine/EditVaccineModal";
 import vaccineServices from "../../../Services/vaccineServices";
 import petServices from "../../../Services/petServices";
 import { Download, PlusCircle } from "lucide-react";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 const BusinessVaccinesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -284,16 +285,23 @@ const BusinessVaccinesPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
+    <div className="min-h-screen w-full max-w-8xl bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
+      <button
+        onClick={() => navigate(-1)}
+        className="flex items-center gap-2 mt-2 ml-28 text-[#1C232E] hover:text-[#FFB23E] transition-colors"
+      >
+        <span className="text-lg"><IoIosArrowDropleftCircle className="h-5 w-5" /></span>
+        <span className="font-medium">Go Back</span>
+      </button>
+      <div className="container mx-auto max-w-8xl pt-2 pb-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             {pet?.pet_name ? `${pet.pet_name}'s Vaccines` : "Vaccines"}
           </p>
           <div className="flex flex-row gap-4">
             <button
-                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E]"
+              className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E]"
               onClick={() =>
                 navigate(`/business/pet/${actualPetId}/download-vaccines`)
               }
@@ -301,7 +309,7 @@ const BusinessVaccinesPage: React.FC = () => {
               <Download className="w-5 h-5" /> Download Records
             </button>
             <button
-                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+              className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
               onClick={() =>
                 navigate(`/business/pet/${actualPetId}/add-vaccine`)
               }

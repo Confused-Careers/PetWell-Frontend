@@ -177,16 +177,16 @@ const PetBusinessHomePage: React.FC = () => {
                 <div className="flex flex-col gap-4 text-sm mb-2">
                   <div className="flex flex-row gap-8 items-start">
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Spay/Neuter Status</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.spay_neuter === true ? "Neutered" : "Not Neutered"}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Spay/Neuter Status</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.spay_neuter === true ? "Neutered" : "Not Neutered"}</div>
                     </div>
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Weight</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.weight ? `${pet.weight}lbs` : "12lbs"}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Weight</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.weight ? `${pet.weight}lbs` : "12lbs"}</div>
                     </div>
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Special Notes</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.notes}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Special Notes</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.notes}</div>
                     </div>
                   </div>
                 </div>
@@ -194,48 +194,48 @@ const PetBusinessHomePage: React.FC = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-[#1C232E]/60">Last Vet Visit</span>
                   </div>
-                  <div className="text-[#1C232E] font-[400] flex flex-row text-[22px]"><p className="font-[600] text-[22px]">3/4/24 &nbsp; </p> | &nbsp; Dr. Hemant Patel, Vet Office of New York &nbsp; | <p className="font-[600] text-[22px] flex flex-row">&nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
+                  <div className="text-[#1C232E] font-[400] flex flex-row text-[20px]"><p className="font-[600] text-[20px]">3/4/24 &nbsp; </p> | &nbsp; Dr. Hemant Patel, Vet Office of New York &nbsp; | <p className="font-[600] text-[20px] flex flex-row">&nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
                 </div>
                 <div className="pt-4 mb-2">
                   <div className="flex justify-between items-center">
                     <span className="text-[#1C232E]/60">Next Vaccine Due</span>
                   </div>
-                  <div className="text-red-500 font-[400] flex flex-row text-[22px]"><p className="font-[600] text-[22px] text-[#1C232E]">K9 DA2PPV 3 Year (VANGUARD) &nbsp;| </p>  &nbsp; In 3 days <FaCircleExclamation className="mt-1.5 ml-1"/>&nbsp; <p className="font-[600] text-[22px] flex flex-row text-[#1C232E]">| &nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
+                  <div className="text-red-500 font-[400] flex flex-row text-[20px]"><p className="font-[600] text-[20px] text-[#1C232E]">K9 DA2PPV 3 Year (VANGUARD) &nbsp;| </p>  &nbsp; In 3 days <FaCircleExclamation className="mt-1.5 ml-1"/>&nbsp; <p className="font-[600] text-[20px] flex flex-row text-[#1C232E]">| &nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
                 </div>
               </div>
             <div className="flex flex-row gap-6 justify-center">
-              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-[51%]">
+              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-[55%]">
                 <h2 className="text-[24px] font-[cabin, sans-serif] font-[500] mb-4 text-[#1C232E]">Parent Details</h2>
                 <div className="flex flex-col gap-4 text-sm">
                   <div className="flex flex-row gap-8 items-start">
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Name</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.human_owner_name}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Name</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.human_owner.human_owner_name}</div>
                     </div>
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Location</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.location}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Location</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.human_owner.location}</div>
                     </div>
                   </div>
                   <div className="flex flex-row gap-8 items-start">
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Phone number</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.phone}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Phone number</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.human_owner.phone}</div>
                     </div>
                     <div>
-                      <span className="text-[#1C232E] opacity-60 text-[18px]">Email</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.email}</div>
+                      <span className="text-[#1C232E] opacity-60 text-[16px]">Email</span>
+                      <div className="font-[500] text-[#1C232E] text-[20px]">{pet.human_owner.email}</div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="bg-[#3C2A17] rounded-3xl p-4 text-[#FFF8E5]">
-                <h2 className="sm:text-[6px] font-serif font-[400] mb-6">Vaccines and Documents</h2>
+                <h4 className="sm:text-[24px] font-serif font-[400] mb-6 text-center">Vaccines and Documents</h4>
                 <div className="space-y-4">
-                  <button className="w-full bg-[#FFB23E] text-black py-3 px-6 rounded-full font-medium hover:bg-[#e6a036] transition-colors cursor-pointer">
+                  <button className="w-full bg-[#FFB23E] text-black py-3 px-6 rounded-full font-medium hover:bg-[#e6a036] transition-colors cursor-pointer" onClick={()=> navigate(`/business/pet/${petId}/documents`)}>
                     View All Documents
                   </button>
-                  <button className="w-full bg-transparent border-2 border-[#FFB23E] text-[#FFB23E] py-3 px-6 rounded-full font-medium hover:bg-[#FFB23E] hover:text-black transition-colors cursor-pointer">
+                  <button className="w-full bg-transparent border-2 border-[#FFB23E] text-[#FFB23E] py-3 px-6 rounded-full font-medium hover:bg-[#FFB23E] hover:text-black transition-colors cursor-pointer" onClick={()=> navigate(`/business/pet/${petId}/vaccine`)}>
                     View All Vaccine Records
                   </button>
                 </div>

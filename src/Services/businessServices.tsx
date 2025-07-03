@@ -28,6 +28,30 @@ interface PetMapping {
   is_under_care?: boolean;
 }
 
+interface Record {
+  id: string;
+  pet_name: string;
+  owner_name: string;
+  owner_phone?: string;
+  breed_name?: string;
+  species_name?: string;
+  doctor_visited?: string;
+  pet_image?: string;
+  added_on: string;
+  last_visited: string;
+  note?: string;
+  title: string;
+}
+
+interface Vet {
+  id: string;
+  staff_name: string;
+  email: string;
+  phone?: string;
+  created_at: string;
+  updated_at: string;
+}
+
 interface UpdateBusinessProfileData {
   business_name?: string;
   email?: string;
@@ -47,6 +71,21 @@ interface CreatePetMappingData {
   note?: string;
 }
 
+interface CreateRecordData {
+  pet_id: string;
+  staff_id?: string;
+  note?: string;
+  title?: string;
+}
+
+interface FilterRecordsData {
+  species_id?: string;
+  doctor_id?: string;
+  time_period?: 'this_week' | 'this_month' | 'last_3_months';
+  page?: number;
+  limit?: number;
+}
+
 interface PaginatedRequest {
   page: number;
   limit: number;
@@ -63,6 +102,22 @@ interface PetMappingResponse {
   message: string;
   data?: PetMapping[] | PetMapping;
   pet_name?: string;
+}
+
+interface RecordsResponse {
+  message: string;
+  data: Record[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+interface VetsResponse {
+  message: string;
+  data: Vet[];
+  total: number;
+  page: number;
+  limit: number;
 }
 
 const businessServices = {
@@ -128,6 +183,67 @@ const businessServices = {
       return response.data.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.message || "Failed to fetch pet mappings");
+    }
+  },
+
+  // Create a record
+  async createRecord(data: CreateRecordData): Promise<Record> {
+    try {
+      const response = await axios.post(`${SERVER_BASE_URL}/api/v1/records/create`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Failed to create record");
+    }
+  },
+
+  // Fetch all records with filters
+  async getAllRecords(params: FilterRecordsData): Promise<RecordsResponse> {
+    try {
+      const response = await axios.get(`${SERVER_BASE_URL}/api/v1/records/getAll`, {
+        params,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+      });
+      console.log("Response from getAllRecords:", response.data);
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Failed to fetch records");
+    }
+  },
+
+  // Fetch all vets
+  async getVets(params: PaginatedRequest): Promise<VetsResponse> {
+    try {
+      const response = await axios.get(`${SERVER_BASE_URL}/api/v1/records/vets`, {
+        params,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Failed to fetch vets");
+    }
+  },
+
+  // Fetch recent records (unique pets, latest first)
+  async getRecentRecords(params: PaginatedRequest): Promise<RecordsResponse> {
+    try {
+      const response = await axios.get(`${SERVER_BASE_URL}/api/v1/records/recent`, {
+        params,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+      });
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response?.data?.message || "Failed to fetch recent records");
     }
   },
 };

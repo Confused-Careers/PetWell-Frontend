@@ -33,6 +33,7 @@ const PetsUnderCare: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
+      console.log("Pets Under Care Response:", response);
       const petsData = response as unknown as Pet[];
       setPets(petsData);
     } catch (error: any) {
@@ -59,6 +60,7 @@ const PetsUnderCare: React.FC = () => {
               <th className="py-3 px-4 font-bold">Owner Name</th>
               <th className="py-3 px-4 font-bold">Phone</th>
               <th className="py-3 px-4 font-bold">Added On</th>
+              <th className="py-3 px-4 font-bold">Last Visit</th>
               <th className="py-3 px-4 font-bold">Doctor Visited</th>
               <th className="py-3 px-4 font-bold">Notes</th>
               <th></th>
@@ -110,10 +112,19 @@ const PetsUnderCare: React.FC = () => {
                     })}
                   </td>
                   <td className="py-3 px-4 text-[var(--color-business-heading)]">
-                    {pet.staff_name || "N/A"}
+                    {pet.last_visit
+                      ? new Date(pet.last_visit as string).toLocaleDateString(undefined, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })
+                      : "N/A"}
                   </td>
                   <td className="py-3 px-4 text-[var(--color-business-heading)]">
-                    {pet.note || "N/A"}
+                    {pet.doctor_name || "N/A"}
+                  </td>
+                  <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                    {pet.record_note || "N/A"}
                   </td>
                   <td className="py-3 px-4 text-[#1C232E] cursor-pointer text-xl">
                     <a

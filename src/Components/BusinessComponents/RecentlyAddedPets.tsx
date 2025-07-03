@@ -24,7 +24,6 @@ const RecentlyAddedPets: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 5, page: 1 });
-      console.log("Recently Added Pets Response:", response);
       setPets(Array.isArray(response) ? response : []);
     } catch (error: any) {
       toast.error(error.message || "Failed to fetch recently added pets.");

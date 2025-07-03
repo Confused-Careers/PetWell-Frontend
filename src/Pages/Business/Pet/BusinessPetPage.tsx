@@ -9,6 +9,7 @@ import { FaCircleExclamation } from "react-icons/fa6";
 
 // Define TypeScript interface for Pet
 interface Pet {
+  human_owner: any;
   notes: ReactNode;
   spay_neuter: boolean;
   id: string;
@@ -205,28 +206,28 @@ const PetBusinessHomePage: React.FC = () => {
                   <div className="text-red-500 font-[400] flex flex-row text-[22px]"><p className="font-[600] text-[22px] text-[#1C232E]">K9 DA2PPV 3 Year (VANGUARD) &nbsp;| </p>  &nbsp; In 3 days <FaCircleExclamation className="mt-1.5 ml-1"/>&nbsp; <p className="font-[600] text-[22px] flex flex-row text-[#1C232E]">| &nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
                 </div>
               </div>
-            <div className="flex flex-row gap-4 justify-center">
+            <div className="flex flex-row gap-6 justify-center">
               <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-[51%]">
                 <h2 className="text-[24px] font-[cabin, sans-serif] font-[500] mb-4 text-[#1C232E]">Parent Details</h2>
                 <div className="flex flex-col gap-4 text-sm">
                   <div className="flex flex-row gap-8 items-start">
                     <div>
                       <span className="text-[#1C232E] opacity-60 text-[18px]">Name</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">Monica Lee</div>
+                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.human_owner_name}</div>
                     </div>
                     <div>
                       <span className="text-[#1C232E] opacity-60 text-[18px]">Location</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">Dallas, Texas</div>
+                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.location}</div>
                     </div>
                   </div>
                   <div className="flex flex-row gap-8 items-start">
                     <div>
                       <span className="text-[#1C232E] opacity-60 text-[18px]">Phone number</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">565-555-5562</div>
+                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.phone}</div>
                     </div>
                     <div>
                       <span className="text-[#1C232E] opacity-60 text-[18px]">Email</span>
-                      <div className="font-[500] text-[#1C232E] text-[22px]">email@website.com</div>
+                      <div className="font-[500] text-[#1C232E] text-[22px]">{pet.human_owner.email}</div>
                     </div>
                   </div>
                 </div>

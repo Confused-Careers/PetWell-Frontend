@@ -253,6 +253,7 @@ const HomePage: React.FC = () => {
             name: d.document_name || d.name || "",
             size: d.size ? `${(d.size / (1024 * 1024)).toFixed(1)} MB` : "",
             type,
+            url: d.document_url
           };
         });
         setRawDocuments(mappedDocs);

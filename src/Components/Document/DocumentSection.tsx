@@ -4,6 +4,7 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface Document {
+  url: any;
   name: string;
   size: string;
   type: "img" | "pdf";
@@ -43,7 +44,13 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
               onDeleteDocument ? () => onDeleteDocument(idx) : undefined
             }
             onDownload={() => {
-              console.log(doc);
+              const link = document.createElement('a');
+              link.href = doc.url; // Use the url from the document object
+              const filename = doc.name || doc.id; // Use name or id as filename
+              link.setAttribute('download', filename || 'file'); // Default filename if none given
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
             }}
           />
         ))}

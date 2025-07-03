@@ -42,6 +42,7 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
     if (onDelete) onDelete();
   };
 
+
   return (
     <>
       <div className="flex flex-row items-center bg-[#f6e7c0] border border-[var(--color-primary)] rounded-2xl px-3 py-2 gap-2 shadow-sm w-full flex-nowrap">

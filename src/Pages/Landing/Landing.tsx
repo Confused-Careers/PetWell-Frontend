@@ -2,7 +2,6 @@ import React from "react";
 import LoginPage from "../../Assets/LoginPage.png";
 import PetWellLogo from "../../Assets/Nose.svg";
 import { useNavigate } from "react-router-dom";
-import { LogIn, UserPlus } from "lucide-react";
 
 const Landing: React.FC = () => {
   const navigate = useNavigate();

@@ -178,37 +178,37 @@ const PetProfile: React.FC = () => {
               />
             </div>
             <div className="w-full">
-              <div className="font-[Cabin,sans-serif] text-[2rem] md:text-[2.2rem] font-bold mb-2 text-[var(--color-text)]">
+              <div className="font-[Cabin,sans-serif] text-xl font-bold mb-2 text-[var(--color-text-bright)]">
                 {currentPet?.pet_name || "Pet"}
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Age</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.age || "Unknown"} years old</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Age</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.age || "Unknown"} years old</div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Gender</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.gender || "Unknown"}</div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
-                <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Breed</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.breed?.breed_name || "Mixed Breed"}</div>
-                </div>
-                <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Colour</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.color || "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Gender</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.gender || "Unknown"}</div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Microchip Number</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.microchip || "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Breed</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.breed?.breed_name || "Mixed Breed"}</div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Birthdate</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.dob || "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Colour</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.color || "Unknown"}</div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
+                <div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Microchip Number</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.microchip || "Unknown"}</div>
+                </div>
+                <div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Birthdate</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.dob || "Unknown"}</div>
                 </div>
               </div>
             </div>
@@ -264,30 +264,27 @@ const PetProfile: React.FC = () => {
           <div className="flex-1 flex flex-col gap-6">
             {/* Health Summary */}
             <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-health-card)] p-6 md:p-8 w-full max-w-full" style={{marginBottom: 24}}>
-              <div className="font-[Cabin,sans-serif] text-[2rem] md:text-[2.2rem] font-bold mb-4 text-[var(--color-text)]">Health Summary</div>
-              {/* 3-column grid */}
+              <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Health Summary</div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-2 mb-4">
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Spay/Neuter Status</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.spay_neuter ? "Neutered" : "Not Neutered"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Spay/Neuter Status</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.spay_neuter ? "Neutered" : "Not Neutered"}</div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Weight</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.weight ? `${currentPet.weight}lbs` : "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Weight</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.weight ? `${currentPet.weight}lbs` : "Unknown"}</div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-[1.1rem] md:text-[1.2rem] font-normal">Special Notes</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{currentPet?.notes || "-"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Special Notes</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.notes || "-"}</div>
                 </div>
               </div>
-    
-
             </div>
             {/* Syd's Code & Your Details */}
             <div className="flex flex-col md:flex-row gap-6">
               {/* Syd's Code */}
               <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-document)] p-6 md:p-8 w-full max-w-full flex flex-col items-start" style={{marginBottom: 24}}>
-                <div className="font-[Cabin,sans-serif] text-[1.5rem] md:text-[2rem] font-bold mb-4 text-[var(--color-text)]">
+                <div className="font-[Cabin,sans-serif] text-lg font-bold mb-4 text-[var(--color-text)]">
                   {currentPet?.pet_name || "Pet"}'s Code
                 </div>
                 <div className="flex flex-row gap-3 mb-4">
@@ -303,29 +300,29 @@ const PetProfile: React.FC = () => {
                       </span>
                     ))}
                 </div>
-                <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-base md:text-lg text-left">
+                <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-sm text-left">
                   Share with care providers to give access to the profile.
                 </div>
               </div>
               {/* Your Details */}
               <div className="rounded-[16px] bg-[var(--color-card-yellow)] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]l" style={{marginBottom: 24}}>
-                <div className="font-[Cabin,sans-serif] text-[2rem] md:text-[2.2rem] font-bold mb-4 text-[var(--color-text)]">Your Details</div>
-                <div className="flex flex-col gap-2 text-base">
+                <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Your Details</div>
+                <div className="flex flex-col gap-2 text-sm">
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Name</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.human_owner_name || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Name</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.human_owner_name || "Unknown"}</div>
                   </div>
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Location</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.location || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Location</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.location || "Unknown"}</div>
                   </div>
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Phone number</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.phone || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Phone number</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.phone || "Unknown"}</div>
                   </div>
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-[1.1rem] md:text-[1.2rem] font-normal">Email</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-[1.2rem] md:text-[1.3rem] font-bold">{humanProfile?.email || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Email</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.email || "Unknown"}</div>
                   </div>
                 </div>
               </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import PetWellLogo from "../../../Assets/PetWell.png";
 import Stepper from "./Stepper";
 import type { FormData } from "./types";
 
@@ -16,7 +15,6 @@ interface Step3SafetyAndIDProps {
 const Step3SafetyAndID: React.FC<Step3SafetyAndIDProps> = ({
   form,
   setForm,
-  error,
   setError,
   onNext,
   steps,

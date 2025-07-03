@@ -72,16 +72,16 @@ const HomePage: React.FC = () => {
         return {
           soon: true,
           warning: `${petName || "Your pet"
-            }'s vaccine has expired. Please renew as soon as possible!`,
+          }'s vaccine has expired. Please renew as soon as possible!`,
           relativeExpiry: `Expired ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? "" : "s"
-            } ago`,
+          } ago`,
         };
       } else if (diffDays <= 7) {
         // Expiring within 7 days
         return {
           soon: true,
           warning: `${petName || "Your pet"
-            } is due for the vaccine soon. Schedule now!`,
+          } is due for the vaccine soon. Schedule now!`,
           relativeExpiry: `In ${diffDays} day${diffDays === 1 ? "" : "s"}`,
         };
       } else {
@@ -272,8 +272,8 @@ const HomePage: React.FC = () => {
         let docsArr = Array.isArray(docsRes)
           ? docsRes
           : docsRes
-            ? [docsRes]
-            : [];
+          ? [docsRes]
+          : [];
         // Map to DocumentSection shape
         const mappedDocs = docsArr.map((d: any) => {
           let ext = d.document_name?.split(".").pop()?.toLowerCase() || "";
@@ -384,7 +384,7 @@ const HomePage: React.FC = () => {
               avatar: b.profile_picture_document_id
                 ? `/api/v1/documents/${b.profile_picture_document_id}`
                 : `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100) + 1
-                }.jpg`,
+                  }.jpg`,
             };
           });
           console.log("[HomePage] mappedTeams", mappedTeams);
@@ -522,7 +522,7 @@ const HomePage: React.FC = () => {
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
                 <PawPrint className="w-full h-full text-[var(--color-logo)]" />
               </span>
-              Welcome {pet.pet_name}!
+          Welcome {pet.pet_name}!
             </p>
             <div>
               <button

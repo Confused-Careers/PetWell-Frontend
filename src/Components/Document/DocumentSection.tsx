@@ -24,7 +24,7 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
 }) => {
   return (
     <section className="mb-6 sm:mb-8">
-      <div className="flex flex-wrap gap-4 sm:gap-6 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {documents.map((doc, idx) => (
           <DocumentBox
             key={idx}
@@ -34,28 +34,27 @@ const DocumentSection: React.FC<DocumentSectionProps> = ({
             onDelete={
               onDeleteDocument ? () => onDeleteDocument(idx) : undefined
             }
-            onDownload={
-              ()=>{
-                console.log(doc)
-              }
-            }
+            onDownload={() => {
+              console.log(doc);
+            }}
           />
         ))}
-                {documents.length==0 && <div>No Document Added</div>}
-
+        {documents.length == 0 && <div>No Document Added</div>}
       </div>
-      {documents.length!=0 && <div className="mt-2">
-        <a
-          href="#"
-          className="text-[var(--color-primary)] font-medium text-sm sm:text-base flex items-center gap-1"
-          onClick={(e) => {
-            e.preventDefault();
-            onViewAll && onViewAll();
-          }}
-        >
-          View All Documents <IoIosArrowDroprightCircle />
-        </a>
-      </div>}
+      {documents.length != 0 && (
+        <div className="mt-2">
+          <a
+            href="#"
+            className="text-[var(--color-primary)] font-medium text-sm sm:text-base flex items-center gap-1"
+            onClick={(e) => {
+              e.preventDefault();
+              onViewAll && onViewAll();
+            }}
+          >
+            View All Documents <IoIosArrowDroprightCircle />
+          </a>
+        </div>
+      )}
     </section>
   );
 };

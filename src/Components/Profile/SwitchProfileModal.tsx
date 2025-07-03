@@ -30,7 +30,7 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
   destination = "profile",
 }) => {
   const { petId } = useParams();
-  const [pet, setPet] = useState<PetProfileType | null>(null);
+  const [, setPet] = useState<PetProfileType | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {

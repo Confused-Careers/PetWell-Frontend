@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Logo from "../../../Assets/PetWell.png";
+import PetWellLogo from "../../../Assets/PetWell.png";
 import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 const BusinessSignupForm: React.FC = () => {
   const navigate = useNavigate();
@@ -8,7 +9,7 @@ const BusinessSignupForm: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, ] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,80 +31,93 @@ const BusinessSignupForm: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center justify-center px-4 py-8 relative">
-      <div className="absolute left-4 top-4 sm:left-8 sm:top-8">
+    <div className="h-screen w-screen flex flex-col bg-[var(--color-background)] w-full px-2 pt-24 sm:p-4 md:p-8">
+        <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
         <img
-          src={Logo}
+          src={PetWellLogo}
           alt="PetWell Logo"
-          className="h-6 sm:h-8 md:h-12 w-auto max-w-[120px] object-contain transition-all mb-4 sm:mb-0"
+          className="object-contain h-full w-auto"
         />
       </div>
       <div className="w-full max-w-md mx-auto flex flex-col items-center justify-center">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold text-[var(--color-logo)] text-center mb-2 mt-6 break-words">
+        <p className=" font-[Alike,serif] text-3xl text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
           Create your account
-        </h1>
-        <p className="text-base sm:text-lg text-[var(--color-logo)] opacity-80 text-center mb-8">
+        </p>
+        <p className="mb-3 text-lg font-[Cabin] items-center flex justify-center text-center px-2">
           Access pet profiles, health records, and more.
         </p>
-        <form className="w-full flex flex-col gap-5" onSubmit={handleSubmit}>
-          <div>
-            <label className="block text-[var(--color-text)] text-sm mb-1 font-medium">
+         {error && (
+          <div className="w-full max-w-md mb-2 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+            {error}
+          </div>
+        )}
+        <form           className="w-full flex flex-col gap-4 sm:gap-5 max-w-sm mt-4"
+ onSubmit={handleSubmit}>
+          <div className="w-full  flex flex-col gap-2">
+            <label               className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
+>
               Business Email
             </label>
             <input
               type="email"
               placeholder="Type here"
-              className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+                            className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {setEmail(e.target.value);setError('');}}
               required
             />
           </div>
-          <div>
-            <label className="block text-[var(--color-text)] text-sm mb-1 font-medium">
+          <div className="w-full  flex flex-col gap-2">
+            <label               className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
+>
               Password
             </label>
             <input
               type="password"
               placeholder="Type here"
-              className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+                            className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {setPassword(e.target.value);setError('');}}
               required
             />
           </div>
-          <div>
-            <label className="block text-[var(--color-text)] text-sm mb-1 font-medium">
+          <div className="w-full  flex flex-col gap-2">
+            <label               className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
+>
               Confirm Password
             </label>
             <input
               type="password"
               placeholder="Type here"
-              className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+                            className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {setConfirmPassword(e.target.value);setError('');}}
               required
             />
           </div>
-          {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
-          <div className="flex flex-row gap-4 mt-2 w-full">
-            <button
-              type="button"
-              className="flex-1 border border-[var(--color-card-button)] text-[var(--color-card-button)] rounded-full py-2 font-semibold hover:bg-[var(--color-card-button)] hover:text-[var(--color-background)] transition bg-transparent"
-              onClick={() => navigate(-1)}
-              disabled={loading}
-            >
-              Go Back
-            </button>
-            <button
-              type="submit"
-              className="flex-1 bg-[var(--color-card-button)] text-[var(--color-text)] font-semibold rounded-full py-2 hover:bg-[var(--color-background)] hover:text-[var(--color-card-button)]  border hover:border-[var(--color-card-button)] transition"
-              disabled={loading}
-            >
+          <div className="w-full mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
+              <button 
+                type="button"
+                              onClick={() => navigate(-1)}
+
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
+              >
+                Go Back
+              </button>
+              <button
+                type="submit"
+                                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+
+                disabled={loading}
+              >
+                {loading && <Loader2 className="w-5 h-5 animate-spin" />}
               {loading ? "Registering..." : "Continue"}
-            </button>
-          </div>
-          <div className="text-center mt-6 text-[var(--color-text)] text-sm">
+              </button>
+            </div>
+          <div className="text-center mt-4 text-[var(--color-text)]">
             Already have an account?{" "}
             <a
               href="/login"

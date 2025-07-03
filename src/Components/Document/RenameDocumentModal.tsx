@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Loader2, X } from "lucide-react";
+import { X } from "lucide-react";
 
 interface RenameDocumentModalProps {
   open: boolean;

@@ -44,7 +44,7 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
 
   return (
     <>
-      <div className="flex items-center bg-[#f6e7c0] border border-[var(--color-primary)] rounded-2xl px-5 py-2 gap-2 shadow-sm w-full max-w-sm">
+      <div className="flex flex-row items-center bg-[#f6e7c0] border border-[var(--color-primary)] rounded-2xl px-3 py-2 gap-2 shadow-sm w-full flex-nowrap">
         <div
           className={`flex items-center justify-center rounded-lg font-bold text-xs shrink-0`}
         >
@@ -104,12 +104,12 @@ const DocumentBox: React.FC<DocumentBoxProps> = ({
           )}
         </div>
         <span
-          className="truncate text-sm font-semibold text-[#23272F] flex-1"
+          className="truncate text-sm font-semibold text-[#23272F] flex-1 min-w-0"
           style={{ maxWidth: "180px", display: "inline-block" }}
         >
           {docName}
         </span>
-        <div className="flex items-center ml-auto">
+        <div className="flex items-center ml-auto gap-1">
           <Button
             variant="ghost"
             size="icon"

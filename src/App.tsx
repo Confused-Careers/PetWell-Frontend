@@ -29,6 +29,8 @@ import BusinessProfile from "./Components/BusinessComponents/BusinessProfile";
 import { Toaster } from "sonner";
 import PetBusinessHomePage from "./Pages/Business/Pet/BusinessPetPage";
 import PetRecords from "./Pages/Business/Records/PetRecords";
+import BusinessVaccinesPage from "./Pages/Business/Pet/BusinessPetVaccine";
+import BusinessDocumentPage from "./Pages/Business/Pet/BusinessPetDocument";
 
 function App() {
   return (
@@ -56,6 +58,8 @@ function App() {
         <Route path="/business/pet/:petId/home" element={<PetBusinessHomePage />} />
         <Route path="/business/pet/:petId/add-vaccine" element={<AddVaccinePage />} />
         <Route path="/business/pet/:petId/upload" element={<UploadDocuments />} />
+        <Route path="/business/pet/:petId/vaccine" element={<BusinessVaccinesPage />} />
+        <Route path="/business/pet/:petId/documents" element={<BusinessDocumentPage />} />
         <Route path="/business/pet-records" element={<PetRecords />} />
 
         {/* Pet Owner Routes */}

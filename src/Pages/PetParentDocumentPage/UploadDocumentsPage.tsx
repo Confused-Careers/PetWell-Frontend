@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import UploadDocument from "../../Components/UploadDocument/UploadDocuments";
 import Loader from "../../Components/ui/Loader";
 import Navbar from "../../Components/Layout/Navbar";
+import BusinessNavbar from "../../Components/BusinessComponents/BusinessNavbar";
 import petServices from "../../Services/petServices";
-import { ArrowLeft } from "lucide-react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+
+// Define TypeScript interface for Pet
+interface Pet {
+  id: string;
+  pet_name: string;
+  profile_picture?: string;
+}
 
 const UploadDocuments: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
-  const [showLoader, setShowLoader] = React.useState(false);
-  const [pet, setPet] = useState<any>(null);
+  const location = useLocation(); // Added to check the current route
+  const [showLoader, setShowLoader] = useState(false);
+  const [pet, setPet] = useState<Pet | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
+
+  // Determine which Navbar to use based on the route
+  const isBusinessRoute = location.pathname.startsWith("/business");
+  const NavComponent = isBusinessRoute ? BusinessNavbar : Navbar;
 
   // Fetch pet details
   useEffect(() => {
@@ -110,7 +122,7 @@ const UploadDocuments: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[var(--color-background)] text-[var(--color-text)]">
-        <Navbar />
+        <NavComponent />
         <div className="text-center">Loading...</div>
       </div>
     );
@@ -119,7 +131,7 @@ const UploadDocuments: React.FC = () => {
   if (!pet) {
     return (
       <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[var(--color-background)] text-[var(--color-text)]">
-        <Navbar />
+        <NavComponent />
         <div className="text-center">{error || "Pet not found"}</div>
       </div>
     );
@@ -127,7 +139,7 @@ const UploadDocuments: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
-      <Navbar />
+      <NavComponent />
       {/* Profile Image and Back Button */}
       <div className="mt-16 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
         <button
@@ -149,7 +161,7 @@ const UploadDocuments: React.FC = () => {
         <h1 className="mt-4 sm:mt-6 text-2xl font-lighter flex items-center gap-3 font-serif">
           Upload documents for {pet.pet_name}
         </h1>
-        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center ">
+        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center">
           Keep your pet's records safe and accessible — from vaccine
           certificates to vet bills.
         </p>
@@ -165,6 +177,7 @@ const UploadDocuments: React.FC = () => {
           }, 2000);
         }}
       />
+      {showLoader && <Loader />}
     </div>
   );
 };

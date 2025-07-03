@@ -3,6 +3,8 @@ import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
 
 interface Pet {
+  doctor_name: string;
+  record_note: string;
   pet_id: any;
   breed_name: string;
   human_owner_phone: string;
@@ -55,15 +57,15 @@ const PetsUnderCare: React.FC = () => {
         <table className="min-w-full text-left font-cabin mb-4">
           <thead>
             <tr className="text-[#1C232E] text-base font-bold">
-              <th className="py-3 px-4 font-bold">Pet Name</th>
-              <th className="py-3 px-4 font-bold">Breed</th>
-              <th className="py-3 px-4 font-bold">Owner Name</th>
-              <th className="py-3 px-4 font-bold">Phone</th>
-              <th className="py-3 px-4 font-bold">Added On</th>
-              <th className="py-3 px-4 font-bold">Last Visit</th>
-              <th className="py-3 px-4 font-bold">Doctor Visited</th>
-              <th className="py-3 px-4 font-bold">Notes</th>
-              <th></th>
+              <th className="py-3 px-4 font-bold text-center">Pet Name</th>
+              <th className="py-3 px-4 font-bold text-center">Breed</th>
+              <th className="py-3 px-4 font-bold text-center">Owner Name</th>
+              <th className="py-3 px-4 font-bold text-center">Phone</th>
+              <th className="py-3 px-4 font-bold text-center">Added On</th>
+              <th className="py-3 px-4 font-bold text-center">Last Visit</th>
+              <th className="py-3 px-4 font-bold text-center">Doctor Visited</th>
+              <th className="py-3 px-4 font-bold text-center">Notes</th>
+              <th className="text-center"></th>
             </tr>
           </thead>
           <tbody>

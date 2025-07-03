@@ -22,11 +22,6 @@ const BusinessSignupForm: React.FC = () => {
       setError("Passwords do not match.");
       return;
     }
-    // Only pass credentials to next page, do not register here
-    console.log("[BusinessSignupForm] Passing credentials to next page:", {
-      email,
-      password,
-    });
     navigate("/business/signup", { state: { email, password } });
   };
 

@@ -28,7 +28,6 @@ const AddTeamPage: React.FC = () => {
     teamServices
       .searchBusinesses(search)
       .then((res) => {
-        console.log("Raw API response:", res);
         const businesses = Array.isArray(res) ? res : [];
         const results = businesses.map((b: any) => ({
           id: b.id,
@@ -37,7 +36,6 @@ const AddTeamPage: React.FC = () => {
           email: b.email || "",
           avatar: "https://randomuser.me/api/portraits/men/32.jpg",
         }));
-        console.log("Mapped results:", results);
         setSearchResults(results);
       })
       .finally(() => setLoading(false));

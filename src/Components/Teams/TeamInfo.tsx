@@ -8,7 +8,6 @@ interface TeamBoxProps {
 
 const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
   // Debug: log the team object to see what is being passed
-  console.log("TeamInfo received team:", team);
 
   if (!team || !team.business) {
     return (

@@ -234,25 +234,15 @@ const DocumentPage: React.FC = () => {
     return filterAndSort(documents);
   }
 
-  const handleEditDocument = (idx: number) => {
-    setEditDocIdx(idx);
-    setEditDocName(documents[idx]?.document_name || documents[idx]?.name || "");
-  };
-
-  const handleSaveDocumentName = async (newName: string) => {
-    if (editDocIdx === null) return;
+  const handleSaveDocumentName = async (idx: number, newName: string) => {
     try {
-      const doc = documents[editDocIdx];
-      if (!doc.id) throw new Error("No document id");
+      const doc = documents[idx];
+      if (!doc.id) throw new Error("No document ID");
       await petServices.updateDocumentName(doc.id, newName);
-      setDocuments((prevDocs: any[]) =>
-        prevDocs.map((d, i) =>
-          i === editDocIdx ? { ...d, document_name: newName, name: newName } : d
-        )
-      );
       setEditDocIdx(null);
+      setEditDocName("");
     } catch (err) {
-      setEditDocIdx(null);
+      console.error("Failed to rename document:", err);
     }
   };
 
@@ -383,7 +373,7 @@ const DocumentPage: React.FC = () => {
         {/* Document Grid */}
         {getFilteredDocs().length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4">
-            {getFilteredDocs().map((doc) => {
+            {getFilteredDocs().map((doc, idx) => {
               let ext =
                 doc.document_name?.split(".").pop()?.toLowerCase() ||
                 doc.name?.split(".").pop()?.toLowerCase() ||
@@ -391,13 +381,11 @@ const DocumentPage: React.FC = () => {
               let type: "pdf" | "img" = ext === "pdf" ? "pdf" : "img";
               return (
                 <DocumentInfo
+                  idx={idx}
                   key={doc.id}
                   name={doc.document_name || doc.name || ""}
                   type={type}
-                  onEdit={() =>
-                    handleEditDocument(
-                      documents.findIndex((d) => d.id === doc.id)
-                    )
+                  onEdit={handleSaveDocumentName ? (idx: number, newName: string) => handleSaveDocumentName(idx, newName) : undefined
                   }
                   onDelete={() => handleDeleteDocument(doc.id)}
                   onDownload={() => handleDownloadDocument(doc)}

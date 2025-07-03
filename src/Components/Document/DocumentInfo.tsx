@@ -2,11 +2,7 @@ import React, { useState } from "react";
 import RenameDocumentModal from "./RenameDocumentModal";
 import DeleteDocumentModal from "./DeleteDocumentModal";
 import {
-  Pencil,
   X as LucideX,
-  FileText,
-  Image as LucideImage,
-  Download,
 } from "lucide-react";
 import { Button } from "../ui/button";
 import { BiSolidPencil } from "react-icons/bi";

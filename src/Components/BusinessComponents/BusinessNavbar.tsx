@@ -2,35 +2,28 @@ import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
 import businessServices from "../../Services/businessServices";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const BusinessNavbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
+  const [, setIsMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [businessName, setBusinessName] = useState<string>("Business");
   const [businessImage, setBusinessImage] = useState<string>(
     "https://randomuser.me/api/portraits/men/32.jpg"
   );
-  const [code, setCode] = useState<string[]>(["", "", "", "", ""]);
-  const [isSubmitting] = useState(false);
-  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [, ] = useState<string[]>(["", "", "", "", ""]);
+  const [] = useState(false);
+
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
   const handleMobileDropdownToggle = () =>
     setIsMobileDropdownOpen((open) => !open);
-
-  const handleLogout = () => {
-    // TODO: Add business logout logic
-    setIsDropdownOpen(false);
-    setIsMobileMenuOpen(false);
-    navigate("/login");
-  };
-
+  
   const handleNavigation = (path: string) => {
     navigate(path);
     setIsMobileMenuOpen(false);
@@ -89,26 +82,7 @@ const BusinessNavbar: React.FC = () => {
     { name: "Team Management", path: "/business/signup/add-care-team" },
   ];
 
-  const handleCodeChange = (value: string, index: number) => {
-    if (!/^[a-zA-Z0-9]*$/.test(value)) return;
-    const newCode = [...code];
-    newCode[index] = value.toUpperCase();
-    setCode(newCode);
-    if (value && index < 4) {
-      inputRefs.current[index + 1]?.focus();
-    }
-  };
 
-  const handleCodeKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus();
-    } else if (e.key === "Enter" && code.every((char) => char !== "")) {
-      // Optionally trigger submitCode here
-    }
-  };
 
   return (
     <>

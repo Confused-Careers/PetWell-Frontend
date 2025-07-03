@@ -9,7 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
-import { PlusCircle, FilePlus, Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw } from "lucide-react";
+import { Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw, PlusCircle } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,11 +17,11 @@ const HomePage: React.FC = () => {
   const [vaccines, setVaccines] = useState<any[]>([]);
   const [rawVaccines, setRawVaccines] = useState<any[]>([]);
   const [rawDocuments, setRawDocuments] = useState<any[]>([]);
-  const [teams, setTeams] = useState<any[]>([]);
+  const [, setTeams] = useState<any[]>([]);
   const [rawTeams, setRawTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [petName, setPetName] = useState<string>("My Pet");
+  const [, setError] = useState<string | null>(null);
+  const [, setPetName] = useState<string>("My Pet");
   const [editDocIdx, setEditDocIdx] = useState<number | null>(null);
   const [editDocName, setEditDocName] = useState<string>("");
   const [editVaccineIdx, setEditVaccineIdx] = useState<number | null>(null);
@@ -329,9 +329,10 @@ const HomePage: React.FC = () => {
   }, [petId]);
 
 
-  const handleSaveDocumentName = async (idx: number, newName: string) => {
+  const handleSaveDocumentName = async (newName: string) => {
     try {
-      const doc = rawDocuments[idx];
+      if (editDocIdx === null) throw new Error("No document selected");
+      const doc = rawDocuments[editDocIdx];
       if (!doc.id) throw new Error("No document ID");
       await petServices.updateDocumentName(doc.id, newName);
       setEditDocIdx(null);
@@ -642,9 +643,11 @@ const HomePage: React.FC = () => {
           </div>
           <DocumentSection
             documents={rawDocuments.slice(0, 6)}
-            onEditDocument={handleSaveDocumentName}
+            onEditDocument={async (index: number, newName: string) => {
+              setEditDocIdx(index);
+              setEditDocName(newName);
+            }}
             onDeleteDocument={handleDeleteDocument}
-            onViewAll={() => navigate(`/petowner/pet/${petId}/documents`)}
           />
         </section>
 
@@ -671,7 +674,6 @@ const HomePage: React.FC = () => {
         </section>
       </div>
 
-      {/* Modals */}
       {editDocIdx !== null && (
         <RenameDocumentModal
           open={true}

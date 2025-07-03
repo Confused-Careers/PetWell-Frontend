@@ -403,7 +403,11 @@ const DocumentPage: React.FC = () => {
             open={true}
             initialName={editDocName}
             onClose={() => setEditDocIdx(null)}
-            onSave={handleSaveDocumentName}
+            onSave={(newName: string) => {
+              if (editDocIdx !== null) {
+                handleSaveDocumentName(editDocIdx, newName);
+              }
+            }}
           />
         )}
         {deleteDocIdx !== null && (

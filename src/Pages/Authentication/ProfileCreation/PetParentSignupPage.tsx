@@ -1,17 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Loader from "../../../Components/ui/Loader";
 import PetWellLogo from "../../../Assets/PetWell.png";
 import Step4HumanInfoUpload from "./Step4HumanInfoUpload";
 import Step5OTPVerificationUpload from "./Step5OTPVerificationUpload";
 import type { FormData } from "./types";
-import UploadList from "../../../Components/UploadDocument/UploadList";
-import autofillServices from "../../../Services/autofillServices";
-import { UploadIcon } from "lucide-react";
 
 const PetParentSignupPage: React.FC = () => {
   const navigate = useNavigate();
-  const [showLoader, setShowLoader] = useState(false);
+  const [, ] = useState(false);
   const [currentStep, setCurrentStep] = useState<"step4" | "step5" | "upload">(
     "step4"
   );
@@ -49,7 +45,7 @@ const PetParentSignupPage: React.FC = () => {
   const [resentMessage, setResentMessage] = useState<string | null>(null);
 
   // Upload state
-  const [uploads, setUploads] = useState<
+  const [, ] = useState<
     {
       name: string;
       size: string;
@@ -59,280 +55,12 @@ const PetParentSignupPage: React.FC = () => {
       file: File;
     }[]
   >([]);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [isDragOver, setIsDragOver] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const dropZoneRef = useRef<HTMLDivElement>(null);
+  const [, ] = useState(0);
+  // const [isDragOver, setIsDragOver] = useState(false);
+  const [, ] = useState<string | null>(null);
 
-  const validateFile = (file: File): string | null => {
-    const maxSize = 10 * 1024 * 1024; // 10MB
-    const allowedTypes = [
-      "application/pdf",
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "application/msword",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    ];
 
-    if (file.size > maxSize) {
-      return `File size must be less than 10MB. Current size: ${(
-        file.size /
-        (1024 * 1024)
-      ).toFixed(1)}MB`;
-    }
 
-    if (!allowedTypes.includes(file.type)) {
-      return `File type not supported. Please upload PDF, JPG, PNG, or DOC files.`;
-    }
-
-    return null;
-  };
-
-  const processFiles = (files: FileList | File[]) => {
-    const fileArray = Array.from(files);
-    const validFiles: typeof uploads = [];
-    const errors: string[] = [];
-
-    fileArray.forEach((file) => {
-      const validationError = validateFile(file);
-      if (validationError) {
-        errors.push(`${file.name}: ${validationError}`);
-      } else {
-        validFiles.push({
-          name: file.name,
-          size: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
-          type: file.name.split(".").pop()?.toUpperCase() || "OTHER",
-          progress: 0,
-          status: "pending",
-          file: file,
-        });
-      }
-    });
-
-    if (errors.length > 0) {
-      setUploadError(errors.join("\n"));
-      setTimeout(() => setUploadError(null), 5000);
-    }
-
-    if (validFiles.length > 0) {
-      setUploads((prev) => [...prev, ...validFiles]);
-    }
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (files) {
-      processFiles(files);
-    }
-    setUploadError(null);
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(true);
-  };
-
-  const handleDragLeave = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragOver(false);
-    const files = e.dataTransfer.files;
-    if (files) {
-      processFiles(files);
-    }
-  };
-
-  const handleRemove = (index: number) => {
-    setUploads((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const simulateUploadProgress = (index: number) => {
-    return new Promise<void>((resolve) => {
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += Math.random() * 15 + 5;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(interval);
-          setUploads((prev) =>
-            prev.map((item, i) =>
-              i === index ? { ...item, progress: 100, status: "success" } : item
-            )
-          );
-          resolve();
-        } else {
-          setUploads((prev) =>
-            prev.map((item, i) =>
-              i === index
-                ? {
-                    ...item,
-                    progress: Math.floor(progress),
-                    status: "uploading",
-                  }
-                : item
-            )
-          );
-        }
-      }, 200);
-    });
-  };
-
-  const handleUploadComplete = async () => {
-    if (uploads.length === 0) return;
-
-    setUploading(true);
-    setUploadError(null);
-    setUploadProgress(0);
-
-    try {
-      // Check if user is authenticated
-      const token = localStorage.getItem("token");
-      if (!token) {
-        throw new Error(
-          "Authentication required. Please complete the OTP verification step first."
-        );
-      }
-
-      // Simulate individual file uploads with progress
-      const totalFiles = uploads.length;
-      let completedFiles = 0;
-
-      for (let i = 0; i < uploads.length; i++) {
-        await simulateUploadProgress(i);
-        completedFiles++;
-        setUploadProgress((completedFiles / totalFiles) * 100);
-      }
-
-      // Create pet from documents
-      console.log("Creating pet from uploaded documents...");
-      console.log(
-        "Files to upload:",
-        uploads.map((u) => ({ name: u.name, size: u.size, type: u.type }))
-      );
-      console.log("Authentication token:", token ? "Present" : "Missing");
-
-      const response = await autofillServices.createPetFromDocuments(
-        uploads.map((u) => u.file)
-      );
-      console.log("Pet created from documents:", response);
-
-      // Get the pet ID from the response
-      const petId = response.pet?.id;
-      if (!petId) {
-        console.error("No pet ID in response:", response);
-        throw new Error(
-          "Failed to create pet from documents - no pet ID returned"
-        );
-      }
-
-      // Helper to poll for documents
-      const pollForDocuments = async (
-        petId: string,
-        maxAttempts = 15,
-        interval = 2000
-      ) => {
-        setShowLoader(true);
-        let attempts = 0;
-        let docs: any[] = [];
-        while (attempts < maxAttempts) {
-          try {
-            const docRes = await import("../../../Services/petServices");
-            const result = await docRes.default.getPetDocuments(petId);
-            docs = Array.isArray(result?.data) ? result.data : [];
-            if (docs.length > 0) break;
-          } catch (e) {
-            // ignore errors, just retry
-          }
-          await new Promise((res) => setTimeout(res, interval));
-          attempts++;
-        }
-        setShowLoader(false);
-        return docs;
-      };
-
-      // If documents are not immediately available, poll for them
-      let documents = response.documents;
-      if (!documents || !Array.isArray(documents) || documents.length === 0) {
-        documents = await pollForDocuments(petId);
-      }
-
-      // Extract document and vaccine IDs from the response or polled docs
-      const documentIds =
-        documents
-          ?.map((doc: any) => doc.document_id || doc.id)
-          .filter(Boolean) || [];
-      const vaccineIds =
-        documents
-          ?.filter((doc: any) => doc.type === "vaccine")
-          .map((doc: any) => doc.document_id || doc.id)
-          .filter(Boolean) || [];
-
-      console.log("Document IDs:", documentIds);
-      console.log("Vaccine IDs:", vaccineIds);
-      console.log("Full documents response:", documents);
-
-      // Navigate to the pet-specific verification page with document and vaccine IDs
-      const queryParams = new URLSearchParams();
-      if (documentIds.length > 0) {
-        queryParams.append("documents", documentIds.join(","));
-      }
-      if (vaccineIds.length > 0) {
-        queryParams.append("vaccines", vaccineIds.join(","));
-      }
-
-      const queryString = queryParams.toString();
-      const verificationUrl = queryString
-        ? `/petowner/pet/${petId}/verify?${queryString}`
-        : `/petowner/pet/${petId}/verify`;
-
-      navigate(verificationUrl);
-    } catch (err: any) {
-      console.error("Error creating pet from documents:", err);
-
-      // Provide more specific error messages
-      let errorMessage =
-        "Failed to create pet from documents. Please try again.";
-
-      if (err.response) {
-        // Server responded with error status
-        console.error("Server error response:", err.response);
-        if (err.response.status === 401) {
-          errorMessage =
-            "Authentication failed. Please go back and complete the OTP verification step.";
-        } else if (err.response.status === 500) {
-          errorMessage =
-            "Server error occurred. Please try again or contact support.";
-        } else if (err.response.data?.message) {
-          errorMessage = err.response.data.message;
-        }
-      } else if (err.request) {
-        // Network error
-        console.error("Network error:", err.request);
-        errorMessage =
-          "Network error. Please check your connection and try again.";
-      } else if (err.message) {
-        // Other error
-        errorMessage = err.message;
-      }
-
-      setUploadError(errorMessage);
-
-      // Mark all files as error
-      setUploads((prev) =>
-        prev.map((item) => ({ ...item, status: "error" as const }))
-      );
-    } finally {
-      setUploading(false);
-    }
-  };
 
   // Step 4 completion handler
   const handleStep4Complete = () => {

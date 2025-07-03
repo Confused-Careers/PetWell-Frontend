@@ -392,7 +392,7 @@ const BusinessDocumentPage: React.FC = () => {
         {/* Document Grid */}
         {getFilteredDocs().length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-4">
-            {getFilteredDocs().map((doc) => {
+            {getFilteredDocs().map((doc, idx) => {
               let ext =
                 doc.document_name?.split(".").pop()?.toLowerCase() ||
                 doc.name?.split(".").pop()?.toLowerCase() ||
@@ -401,6 +401,7 @@ const BusinessDocumentPage: React.FC = () => {
               return (
                 <DocumentInfo
                   key={doc.id}
+                  idx={idx}
                   name={doc.document_name || doc.name || ""}
                   type={type}
                   onEdit={() =>

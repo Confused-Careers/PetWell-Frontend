@@ -283,16 +283,28 @@ const DownloadSelectPage: React.FC = () => {
           </button>
         </div>
         <div className="flex items-center mb-4">
-          <input
-            type="checkbox"
-            checked={allSelected}
-            onChange={selectAll}
-            className="accent-[var(--color-card-button)] w-2 h-2 cursor-pointer"
-            id="select-all-checkbox"
-          />
+          <span
+            className="flex items-center justify-center mr-2 cursor-pointer"
+            style={{ width: 24, height: 24, aspectRatio: '1/1' }}
+            onClick={selectAll}
+            tabIndex={0}
+            role="checkbox"
+            aria-checked={allSelected}
+          >
+            {allSelected ? (
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 40 40" fill="none">
+                <rect x="6" y="5" width="28.75" height="30" rx="4" fill="#1C232E"/>
+                <path d="M12 20.5L18 26.5L28 15.5" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 40 40" fill="none">
+                <path d="M10.7917 35H29.9583C31.2288 34.9986 32.4468 34.4714 33.3451 33.534C34.2434 32.5966 34.7487 31.3257 34.75 30V10C34.7487 8.67434 34.2434 7.40337 33.3451 6.46599C32.4468 5.5286 31.2288 5.00138 29.9583 5H10.7917C9.52124 5.00138 8.30323 5.5286 7.4049 6.46599C6.50658 7.40337 6.00132 8.67434 6 10V30C6.00132 31.3257 6.50658 32.5966 7.4049 33.534C8.30323 34.4714 9.52124 34.9986 10.7917 35ZM7.91667 10C7.91753 9.20463 8.22071 8.44209 8.75969 7.87967C9.29867 7.31726 10.0294 7.0009 10.7917 7H29.9583C30.7206 7.0009 31.4513 7.31726 31.9903 7.87967C32.5293 8.44209 32.8325 9.20463 32.8333 10V30C32.8325 30.7954 32.5293 31.5579 31.9903 32.1203C31.4513 32.6827 30.7206 32.9991 29.9583 33H10.7917C10.0294 32.9991 9.29867 32.6827 8.75969 32.1203C8.22071 31.5579 7.91753 30.7954 7.91667 30V10Z" fill="#1C232E"/>
+              </svg>
+            )}
+          </span>
           <label
-            htmlFor="select-all-checkbox"
             className="text-[var(--color-text)] font-cabin text-base cursor-pointer"
+            onClick={selectAll}
           >
             Select All Records
           </label>
@@ -302,16 +314,26 @@ const DownloadSelectPage: React.FC = () => {
             const isSelected = selected.includes(idx);
             return (
               <div key={vaccine.id || idx} className="relative">
-                {/* Checkbox at top-right */}
-                <input
-                  type="checkbox"
-                  checked={isSelected}
-                  onChange={() => toggleSelect(idx)}
-                  className="accent-[var(--color-primary)] w-5 h-5 absolute top-4 right-4 z-10 border border-[var(--color-primary)] cursor-pointer shadow bg-transparent"
-                  aria-label={`Select vaccine ${
-                    vaccine.vaccine_name || vaccine.name || idx
-                  }`}
-                />
+                {/* Custom Checkbox at top-right */}
+                <span
+                  className="flex items-center justify-center absolute top-4 right-4 z-10 cursor-pointer"
+                  style={{ width: 40, height: 40, aspectRatio: '1/1' }}
+                  onClick={() => toggleSelect(idx)}
+                  tabIndex={0}
+                  role="checkbox"
+                  aria-checked={isSelected}
+                >
+                  {isSelected ? (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                      <rect x="6" y="5" width="28.75" height="30" rx="4" fill="#1C232E"/>
+                      <path d="M12 20.5L18 26.5L28 15.5" stroke="#fff" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+                      <path d="M10.7917 35H29.9583C31.2288 34.9986 32.4468 34.4714 33.3451 33.534C34.2434 32.5966 34.7487 31.3257 34.75 30V10C34.7487 8.67434 34.2434 7.40337 33.3451 6.46599C32.4468 5.5286 31.2288 5.00138 29.9583 5H10.7917C9.52124 5.00138 8.30323 5.5286 7.4049 6.46599C6.50658 7.40337 6.00132 8.67434 6 10V30C6.00132 31.3257 6.50658 32.5966 7.4049 33.534C8.30323 34.4714 9.52124 34.9986 10.7917 35ZM7.91667 10C7.91753 9.20463 8.22071 8.44209 8.75969 7.87967C9.29867 7.31726 10.0294 7.0009 10.7917 7H29.9583C30.7206 7.0009 31.4513 7.31726 31.9903 7.87967C32.5293 8.44209 32.8325 9.20463 32.8333 10V30C32.8325 30.7954 32.5293 31.5579 31.9903 32.1203C31.4513 32.6827 30.7206 32.9991 29.9583 33H10.7917C10.0294 32.9991 9.29867 32.6827 8.75969 32.1203C8.22071 31.5579 7.91753 30.7954 7.91667 30V10Z" fill="#1C232E"/>
+                    </svg>
+                  )}
+                </span>
                 <VaccineInfo
                   name={
                     vaccine.vaccine_name || vaccine.name || "Unknown Vaccine"

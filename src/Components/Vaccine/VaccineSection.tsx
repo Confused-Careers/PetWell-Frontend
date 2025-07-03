@@ -1,6 +1,7 @@
 import React from "react";
 import VaccineInfo from "./VaccineInfo";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Vaccine {
   name: string;
@@ -19,8 +20,9 @@ interface VaccineBoxProps {
 const VaccineSection: React.FC<VaccineBoxProps> = ({
   vaccines,
   onEditVaccine,
-  onViewAll,
 }) => {
+  const navigate = useNavigate();
+  const { petId } = useParams<{ petId: string }>(); // Add useParams inside the component
   return (
     <section>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
@@ -37,21 +39,22 @@ const VaccineSection: React.FC<VaccineBoxProps> = ({
             />
           </div>
         ))}
-        {vaccines.length==0 && <div>No Vaccine Added</div>}
+        {vaccines.length == 0 && <div>No Vaccine Added</div>}
       </div>
-      {vaccines.length!=0 && <div className="mt-4 flex justify-start">
-        <a
-          href="#"
-          className="text-[var(--color-primary)] font-medium text-base flex items-center gap-1 hover:underline"
-          onClick={(e) => {
-            e.preventDefault();
-            onViewAll && onViewAll();
-          }}
-        >
-          View All Vaccines <IoIosArrowDroprightCircle />
-        </a>
-      </div>
-}
+      {vaccines.length != 0 && (
+        <div className="mt-4 flex justify-start">
+          <a
+            href="#"
+            className="text-[var(--color-primary)] font-medium text-base flex items-center gap-1"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(`/petowner/pet/${petId}/vaccine`);
+            }}
+          >
+            View All Vaccines <IoIosArrowDroprightCircle />
+          </a>
+        </div>
+      )}
     </section>
   );
 };

@@ -1,5 +1,4 @@
 import React from "react";
-import PetWellLogo from "../../../Assets/PetWell.png";
 import UploadStepper from "./UploadStepper";
 import authServices from "../../../Services/authServices";
 import type { FormData } from "./types";

@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { X } from "lucide-react";
 import TeamAddedModal from "./TeamAddedModal";
 import teamServices from "../../Services/teamServices";
-import petServices from "../../Services/petServices";
 
 const AddTeamPage: React.FC = () => {
   const navigate = useNavigate();

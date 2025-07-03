@@ -1,6 +1,6 @@
 import React from "react";
 import { BiSolidPencil } from "react-icons/bi";
-import { AlertCircle, AlertCircleIcon, LucideAlertCircle } from "lucide-react";
+import { AlertCircle, LucideAlertCircle } from "lucide-react";
 
 interface VaccineInfoProps {
   name: string;

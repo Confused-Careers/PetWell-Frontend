@@ -48,9 +48,9 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         role_name: staff.role_name.toLowerCase(),
         access_level:
           staff.access_level === "Full" ? "full" :
-          staff.access_level === "View Records" ? "view" :
-          staff.access_level === "Edit Records" ? "edit" :
-          "manage",
+            staff.access_level === "View Records" ? "view" :
+              staff.access_level === "Edit Records" ? "edit" :
+                "manage",
         username: staff.username,
         password: "", // Don't prefill password for security
       });
@@ -79,9 +79,9 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         role_name: formData.role_name.charAt(0).toUpperCase() + formData.role_name.slice(1),
         access_level:
           formData.access_level === "full" ? "Full" :
-          formData.access_level === "view" ? "View Records" :
-          formData.access_level === "edit" ? "Edit Records" :
-          "Manage Team",
+            formData.access_level === "view" ? "View Records" :
+              formData.access_level === "edit" ? "Edit Records" :
+                "Manage Team",
         username: formData.username,
       };
       if (formData.password && formData.password.length > 0) {
@@ -108,12 +108,14 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
   };
 
   return (
-    <form className={`w-full flex flex-col ${gapClass}`} onSubmit={handleSubmit}>
+    <form className="w-full flex flex-col gap-4 sm:gap-5 max-w-sm mt-4 pb-12" onSubmit={handleSubmit}>
       {error && (
-        <div className="text-red-500 text-sm mb-2">{error}</div>
+        <div className="w-full max-w-md mb-2 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
+          {error}
+        </div>
       )}
-      <div>
-        <label className="block text-[#1C232E] text-sm mb-1 font-medium">
+      <div className="w-full  flex flex-col gap-2">
+        <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Name of care provider
         </label>
         <input
@@ -122,12 +124,12 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           title="Name of care provider"
           value={formData.staff_name}
           onChange={handleInputChange}
-          className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[#1C232E] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
           required
         />
       </div>
-      <div>
-        <label className="block text-[#1C232E] text-sm mb-1 font-medium">
+      <div className="w-full  flex flex-col gap-2">
+        <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Email
         </label>
         <input
@@ -137,12 +139,12 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           value={formData.email}
           onChange={handleInputChange}
           placeholder="Type here"
-          className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[#1C232E] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
           required
         />
       </div>
-      <div>
-        <label htmlFor="role" className="block text-[#1C232E] text-sm mb-1 font-medium">
+      <div className="w-full  flex flex-col gap-2">
+        <label htmlFor="role" className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           What is their role?
         </label>
         <select
@@ -150,18 +152,19 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           name="role_name"
           value={formData.role_name}
           onChange={handleInputChange}
-          className="w-full border border-black rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[#1C232E] focus:outline-none focus:border-[var(--color-primary)]"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
           required
         >
           <option value="">Select a role</option>
           <option value="vet">Vet</option>
-          <option value="nurse">Nurse</option>
+          <option value="nurse">Receptionist</option>
           <option value="assistant">Assistant</option>
-          <option value="admin">Admin</option>
+          <option value="admin">Manager</option>
+          <option value="admin">Staff</option>
         </select>
       </div>
-      <div>
-        <label className="block text-[#1C232E] text-sm mb-1 font-medium">
+      <div className="w-full  flex flex-col gap-2">
+        <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Permissions
         </label>
         <select
@@ -169,7 +172,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           title="Permissions"
           value={formData.access_level}
           onChange={handleInputChange}
-          className="w-full border border-black rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[#1C232E] focus:outline-none focus:border-[var(--color-primary)]"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
           required
         >
           <option value="">Select permissions</option>
@@ -179,8 +182,8 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           <option value="manage">Manage Team</option>
         </select>
       </div>
-      <div>
-        <label className="block text-[#1C232E] text-sm mb-1 font-medium">
+      <div className="w-full  flex flex-col gap-2">
+        <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
           Set user name
         </label>
         <input
@@ -189,7 +192,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           value={formData.username}
           onChange={handleInputChange}
           placeholder="Type here"
-          className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[#1C232E] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+          className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
           required
         />
         <div
@@ -197,8 +200,8 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         ></div>
       </div>
       {!staff && (
-        <div>
-          <label className="block text-[#1C232E] text-sm mb-1 font-medium">
+        <div className="w-full  flex flex-col gap-2">
+          <label className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium">
             Set password
           </label>
           <input
@@ -207,7 +210,7 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Type here"
-            className="w-full rounded-md px-4 py-2 text-base bg-[var(--color-background)] text-[#1C232E] border border-[var(--color-border)] focus:outline-none focus:border-[var(--color-primary)]"
+            className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
             required
           />
           <div
@@ -215,32 +218,35 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
           ></div>
         </div>
       )}
-      <div className={`flex gap-4 mt-2 w-full`}>
-        {staff && onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className={`flex-1 border border-[var(--color-card-button)] text-[var(--color-card-button)] rounded-full ${buttonClass} font-semibold hover:bg-[var(--color-card-button)] hover:text-[var(--color-background)] transition bg-transparent`}
-            disabled={isSubmitting}
-          >
-            Cancel
-          </button>
-        )}
+      <div className="w-full max-w-md flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
+        {staff && onCancel && (<button
+          type="button"
+          onClick={onCancel}
+          disabled={isSubmitting}
+
+
+          className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
+        >
+          Cancel              </button>)}
         <button
           type="button"
-          className={`flex-1 border border-[var(--color-card-button)] text-[var(--color-card-button)] rounded-full ${buttonClass} font-semibold hover:bg-[var(--color-card-button)] hover:text-[var(--color-background)] transition bg-transparent`}
+          onClick={onCancel}
           disabled={isSubmitting}
+
+
+          className="w-full font-semibold cursor-pointer py-2 px-4 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
         >
-          Skip For Now
-        </button>
+          Skip For Now              </button>
         <button
           type="submit"
-          className={`flex-1 bg-[var(--color-card-button)] text-[#1C232E] font-semibold rounded-full ${buttonClass} hover:bg-[var(--color-background)] hover:text-[var(--color-card-button)] border hover:border-[var(--color-card-button)] transition`}
+          className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
           disabled={isSubmitting}
         >
           {isSubmitting ? "Saving..." : staff ? "Update" : "Save"}
+
         </button>
       </div>
+
     </form>
   );
 };

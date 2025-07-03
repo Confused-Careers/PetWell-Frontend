@@ -196,7 +196,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
           <div className="flex items-start gap-2 mt-2">
             <input
               type="checkbox"
-              className="mt-1 accent-[var(--color-primary)]"
+              className="accent-[var(--color-card-button)] w-2 h-2 cursor-pointer"
               id="verify-checkbox"
               checked={verified}
               onChange={(e) => setVerified(e.target.checked)}

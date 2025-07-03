@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../../Components/BusinessComponents/BusinessNavbar";
-import DocumentSection from "../../../Components/Document/DocumentSection";
 import VaccineSection from "../../../Components/Vaccine/VaccineSection";
 import petServices from "../../../Services/petServices";
 import vaccineServices from "../../../Services/vaccineServices";
 import teamServices from "../../../Services/teamServices";
 import RenameDocumentModal from "../../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../../Components/Vaccine/EditVaccineModal";
-import { PlusCircle, FilePlus, Syringe, FileText } from "lucide-react";
+import { PlusCircle, Syringe} from "lucide-react";
 
 const PetBusinessHomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,13 +15,13 @@ const PetBusinessHomePage: React.FC = () => {
   const [vaccines, setVaccines] = useState<any[]>([]);
   const [rawVaccines, setRawVaccines] = useState<any[]>([]);
   const [rawDocuments, setRawDocuments] = useState<any[]>([]);
-  const [teams, setTeams] = useState<any[]>([]);
+  const [, setTeams] = useState<any[]>([]);
   const [rawTeams, setRawTeams] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [petName, setPetName] = useState<string>("My Pet");
+  const [, setError] = useState<string | null>(null);
+  const [, setPetName] = useState<string>("My Pet");
   const [editDocIdx, setEditDocIdx] = useState<number | null>(null);
-  const [editDocName, setEditDocName] = useState<string>("");
+  const [editDocName, ] = useState<string>("");
   const [editVaccineIdx, setEditVaccineIdx] = useState<number | null>(null);
   const [pet, setPet] = useState<any>(null);
 
@@ -403,10 +402,6 @@ const PetBusinessHomePage: React.FC = () => {
     fetchAll();
   }, [petId]);
 
-  const handleEditDocument = (idx: number) => {
-    setEditDocIdx(idx);
-    setEditDocName(rawDocuments[idx]?.name || "");
-  };
 
   const handleSaveDocumentName = async (newName: string) => {
     if (editDocIdx === null) return;

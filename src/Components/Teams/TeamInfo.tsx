@@ -1,5 +1,5 @@
 import React from "react";
-import { X, Phone, Mail, MapPin } from "lucide-react";
+import { X} from "lucide-react";
 
 interface TeamBoxProps {
   team: any; // Accepts raw backend team object

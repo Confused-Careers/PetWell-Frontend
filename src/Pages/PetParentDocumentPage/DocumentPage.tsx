@@ -8,12 +8,6 @@ import { Download, Pencil, X, Search, UploadCloud } from "lucide-react";
 import DocumentInfo from "../../Components/Document/DocumentInfo";
 
 // Helper to format file size
-function formatSize(bytes: number | undefined) {
-  if (!bytes && bytes !== 0) return "Unknown size";
-  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  if (bytes >= 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${bytes} B`;
-}
 
 // Helper to fetch file size from URL using HEAD request
 async function fetchFileSize(url: string): Promise<number | undefined> {
@@ -27,105 +21,6 @@ async function fetchFileSize(url: string): Promise<number | undefined> {
   }
 }
 
-const DocumentCard: React.FC<{
-  document: any;
-  fileSize?: number;
-  onEdit?: () => void;
-  onDelete?: () => void;
-}> = ({ document, fileSize, onEdit, onDelete }) => {
-  // Determine type for badge
-  let type = "other";
-  let ext = "";
-  if (document.document_name) {
-    const match = document.document_name.match(/\.([a-zA-Z0-9]+)$/);
-    ext = match ? match[1].toLowerCase() : "";
-  }
-  if (document.file_type && document.file_type.toLowerCase() === "pdf") {
-    type = "pdf";
-  } else if (
-    ["jpg", "jpeg", "png", "gif", "bmp", "webp", "tiff", "svg"].includes(ext)
-  ) {
-    type = "img";
-  } else if (ext) {
-    type = ext;
-  }
-
-  const uploader =
-    document.human_owner && document.human_owner.human_owner_name
-      ? document.human_owner.human_owner_name
-      : "You";
-
-  // Use the passed fileSize prop instead of document.size
-  const displaySize = fileSize ?? document.size;
-
-  return (
-    <div className="flex flex-col sm:flex-row items-center bg-[var(--color-card)] rounded-2xl px-5 py-4 shadow-md gap-3 sm:gap-0">
-      <div
-        className={`w-10 h-10 flex items-center justify-center rounded-xl mr-4 font-bold text-xs shrink-0 ${
-          type === "pdf"
-            ? "bg-[var(--color-danger)]"
-            : type === "img"
-            ? "bg-[var(--color-success)]"
-            : "bg-[var(--color-primary)]"
-        }`}
-      >
-        {type === "pdf" ? (
-          <span className="text-[var(--color-white)] text-base">PDF</span>
-        ) : type === "img" ? (
-          <span className="text-[var(--color-white)] text-base">IMG</span>
-        ) : (
-          <span className="text-[var(--color-white)] text-base">
-            {ext ? ext.toUpperCase() : "FILE"}
-          </span>
-        )}
-      </div>
-      <div className="flex-1 min-w-0 flex flex-col gap-0.5">
-        <span
-          className="truncate text-lg font-semibold text-[var(--color-text)]"
-          style={{ maxWidth: "180px", display: "inline-block" }}
-        >
-          {document.document_name}
-          <span className="ml-2 text-xs text-[var(--color-text)] opacity-70 font-normal align-middle">
-            {formatSize(displaySize)}
-          </span>
-        </span>
-        <span className="text-xs text-[var(--color-text)] opacity-60 font-normal truncate max-w-xs mt-0.5">
-          Uploaded By:{" "}
-          <span className="font-semibold text-[var(--color-text)]">
-            {uploader}
-          </span>
-        </span>
-      </div>
-      <div className="flex items-center gap-1 ml-2">
-        <a
-          href={document.document_url}
-          download
-          className="text-[var(--color-primary)] hover:text-[var(--color-accent-hover)] p-2 rounded-lg"
-          aria-label="Download Document"
-          title="Download"
-        >
-          <Download className="w-5 h-5" />
-        </a>
-        <button
-          className="text-[var(--color-primary)] hover:text-[var(--color-accent-hover)] p-2 rounded-lg"
-          aria-label="Edit Document"
-          title="Rename"
-          onClick={onEdit}
-        >
-          <Pencil className="w-4 h-4" />
-        </button>
-        <button
-          className="text-[var(--color-text)] hover:text-[var(--color-danger)] p-2 rounded-lg"
-          aria-label="Delete Document"
-          title="Delete"
-          onClick={onDelete}
-        >
-          <X className="w-5 h-5" />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const tabOptions = [
   { value: "all", label: "All" },
@@ -427,7 +322,7 @@ const DocumentPage: React.FC = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-[var(--color-text)] opacity-60" />
                 {showSuggestions && searchResults.length > 0 && (
                   <div className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto">
-                    {searchResults.map((doc, idx) => (
+                    {searchResults.map((doc) => (
                       <div
                         key={doc.id}
                         className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)] rounded-full"

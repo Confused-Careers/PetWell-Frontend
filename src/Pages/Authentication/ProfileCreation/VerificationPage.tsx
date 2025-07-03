@@ -338,7 +338,7 @@ const VerificationPage: React.FC = () => {
         )}
         <div className="flex justify-end gap-4 sm:gap-8  sm:mt-8 w-full">
           <button
-            className="px-8 py-2 mb-4 cursor-pointer rounded-full bg-[var(--color-card-button)] text-[var(--color-black)] font-semibold font-[Cabin,sans-serif] flex items-center gap-2 shadow-sm hover:brightness-105 transition-all text-base"
+            className="w-[300px] font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E] mb-8 mt-2"
             onClick={() => navigate(`/petowner/pet/${petId}/home`)}
           >
             Next

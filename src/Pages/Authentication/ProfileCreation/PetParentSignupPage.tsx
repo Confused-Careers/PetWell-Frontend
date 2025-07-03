@@ -340,7 +340,7 @@ const PetParentSignupPage: React.FC = () => {
 
   // Step 5 completion handler
   const handleStep5Complete = () => {
-    setCurrentStep("upload");
+    navigate("/upload-option");
   };
 
   // Debug authentication status when upload step is reached
@@ -423,136 +423,6 @@ const PetParentSignupPage: React.FC = () => {
       </div>
     );
   }
-
-  // Document upload step
-  return (
-    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2 pt-10 sm:p-4 md:p-8">
-      {showLoader && <Loader />}
-      <div className="flex flex-col sm:flex-row w-full">
-        <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
-        <img
-          src={PetWellLogo}
-          alt="PetWell Logo"
-            className="object-contain h-full w-auto"
-        />
-        </div>
-        <div className="flex flex-1 justify-center sm:pr-16"></div>
-      </div>
-      {/* Logo */}
-      <div className="flex flex-col items-center justify-center w-full max-w-4xl mx-auto px-6">
-        <div className="text-center my-8 mt-10">
-          <p className=" font-[Alike,serif] text-3xl sm:pr-16 text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
-          Got a vaccine card or medical record handy?
-          </p>
-          <p className="text-lg text-[var(--color-label)] max-w-2xl">
-            Just upload it — we'll use it to build your pet's profile for you.
-          <br />
-          You can edit or add more info later.
-        </p>
-        </div>
-
-        {uploadError && (
-          <div className="w-full max-w-md mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
-            {uploadError}
-            {uploadError?.includes("Authentication") && (
-              <button
-                onClick={() => setCurrentStep("step5")}
-                className="text-sm text-[#FFB23E] ml-2 hover:text-[#ffb733] underline"
-              >
-                ← Go back to OTP verification
-              </button>
-            )}
-          </div>
-        )}
-
-        {/* Upload progress indicator */}
-        {uploading && (
-          <div className="w-full max-w-xl mb-6">
-            <div className="flex justify-between text-sm mb-2">
-              <span>Creating pet from documents...</span>
-              <span>{Math.round(uploadProgress)}%</span>
-            </div>
-            <div className="w-full bg-[#23272f] rounded-full h-2">
-              <div
-                className="bg-[#FFB23E] h-2 rounded-full transition-all duration-300"
-                style={{ width: `${uploadProgress}%` }}
-              ></div>
-            </div>
-          </div>
-        )}
-
-        {/* Upload area */}
-        <div className="w-full max-w-xl">
-          {uploads.length === 0 ? (
-            <>
-              {" "}
-              <div
-                ref={dropZoneRef}
-                onDragOver={handleDragOver}
-                onDragLeave={handleDragLeave}
-                onDrop={handleDrop}
-                className={`w-full bg-[var(--color-card)] rounded-2xl shadow-xl p-12 flex flex-col items-center cursor-pointer transition-all duration-200 border ${
-                  isDragOver
-                    ? "border-text-[var(--color-text)] border-opacity-80"
-                    : "border-text-[var(--color-text)] border-opacity-30 hover:border-opacity-60"
-                }`}
-                style={{ minHeight: 200 }}
-              >
-                <label
-                  htmlFor="file-upload"
-                  className="flex flex-row gap-3 items-center cursor-pointer"
-                >
-                  <UploadIcon
-                    className={`w-7 h-7 mb-1 text-light transition-colors text-[var(--color-text)]`}
-                  />
-                  <span className="text-xl font-semibold text-[var(--color-text)] mb-2">
-                    {isDragOver ? "Drop files here" : "Upload a document"}
-                  </span>
-                </label>
-                <label className="mt-2 text-sm text-[var(--color-text)]">
-                  Supported formats: PDF, JPG, PNG, DOC (Max 10MB each)
-                </label>
-              </div>
-              <p className="text-lg text-[var(--color-label)] max-w-2xl mt-12 text-center">
-                Prefer to enter details yourself?{" "}
-                <span
-                  className="text-[#FFB23E] font-bold cursor-pointer"
-                  onClick={() => navigate("/add-pet-profile")}
-                >
-                  Enter
-                </span>
-              </p>
-            </>
-          ) : (
-            <UploadList
-              uploads={uploads.map((upload) => ({
-                name: upload.name,
-                size: upload.size,
-                type: upload.type,
-                progress: upload.progress,
-              }))}
-              onRemove={handleRemove}
-              onFileChange={handleFileChange}
-              onNext={handleUploadComplete}
-              fileInputRef={fileInputRef}
-              showLoader={uploading}
-            />
-          )}
-
-          <input
-            id="file-upload"
-            type="file"
-            className="hidden"
-            onChange={handleFileChange}
-            multiple
-            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-            ref={fileInputRef}
-            disabled={uploading}
-          />
-        </div>
-      </div>
-    </div>
-  );
 };
 
 export default PetParentSignupPage;

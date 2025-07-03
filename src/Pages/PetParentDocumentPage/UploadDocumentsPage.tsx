@@ -132,9 +132,7 @@ const UploadDocuments: React.FC = () => {
       <div className="mt-16 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
         <button
           className="cursor-pointer absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent z-10"
-          onClick={() =>
-            navigate(-1)
-          }
+          onClick={() => navigate(-1)}
           aria-label="Back"
         >
           <IoIosArrowDropleftCircle /> Go Back
@@ -152,7 +150,8 @@ const UploadDocuments: React.FC = () => {
           Upload documents for {pet.pet_name}
         </h1>
         <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center ">
-          Keep your pet's records safe and accessible — from vaccine certificates to vet bills.
+          Keep your pet's records safe and accessible — from vaccine
+          certificates to vet bills.
         </p>
       </div>
       {/* UploadDocument component handles upload logic and UI */}

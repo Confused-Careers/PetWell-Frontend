@@ -1,21 +1,20 @@
 import React from "react";
 
 interface UploadStepperProps {
-  currentStep: 'step4' | 'step5' | 'upload';
+  currentStep: "step4" | "step5" | "upload";
 }
 
-const steps = [
-  "Human Info",
-  "Verification",
-  "Upload Docs",
-];
+const steps = ["Human Info", "Verification"];
 
-const getStepNumber = (step: 'step4' | 'step5' | 'upload') => {
+const getStepNumber = (step: "step4" | "step5" | "upload") => {
   switch (step) {
-    case 'step4': return 1;
-    case 'step5': return 2;
-    case 'upload': return 3;
-    default: return 1;
+    case "step4":
+      return 1;
+    case "step5":
+      return 2;
+    // 'upload' step is not shown in the stepper anymore
+    default:
+      return 2;
   }
 };
 
@@ -55,4 +54,4 @@ const UploadStepper: React.FC<UploadStepperProps> = ({ currentStep }) => {
   );
 };
 
-export default UploadStepper; 
+export default UploadStepper;

@@ -22,7 +22,7 @@ const UploadOptionPage: React.FC = () => {
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dropZoneRef = useRef<HTMLDivElement>(null);
-  const uploadTimers = useRef<{ [key: number]: NodeJS.Timeout }>({});
+  const uploadTimers = useRef<{ [key: number]: ReturnType<typeof setInterval> }>({});
 
   useEffect(() => {
     uploads.forEach((u, idx) => {
@@ -308,7 +308,7 @@ const UploadOptionPage: React.FC = () => {
                   className="text-[#FFB23E] font-bold cursor-pointer"
                   onClick={() => navigate("/add-pet-profile")}
                 >
-                  Enter
+                  Enter Manually
                 </span>
               </p>
             </>

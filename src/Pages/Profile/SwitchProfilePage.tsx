@@ -76,7 +76,7 @@ const SwitchProfilePage: React.FC = () => {
 
   const handleAddNew = () => {
     setShowModal(false);
-    navigate("/add-pet-profile");
+    navigate("/upload-option");
   };
 
   const handleClose = async () => {

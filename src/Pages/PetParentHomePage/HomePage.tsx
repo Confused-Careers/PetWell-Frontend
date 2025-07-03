@@ -469,8 +469,11 @@ const HomePage: React.FC = () => {
               <div className="w-56 h-56 rounded-2xl overflow-hidden bg-[var(--color-card-profile)] flex items-center justify-center">
                 <img
                   src={
-                    pet.profile_picture ||
-                    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                    pet.profilePictureDocument.document_url ||
+                    `https://randomuser.me/api/portraits/men/${Math.floor(
+                      Math.random() * 100
+                    ) + 1
+                    }.jpg`
                   }
                   alt={pet.pet_name || "Pet"}
                   className="w-full h-full object-cover"

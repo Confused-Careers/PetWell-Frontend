@@ -24,7 +24,7 @@ const BusinessProfile = () => {
       try {
         setIsLoading(true);
         const response = await businessServices.getProfile();
-        const { data } = response;
+        const  data  = response;
         setFormData({
           business_name: data.business_name || "",
           email: data.email || "",
@@ -32,7 +32,7 @@ const BusinessProfile = () => {
           website: data.website || "",
           socials: {
             facebook: data.socials?.facebook || "",
-            twitter: data.socials?.twitter || "",
+            twitter: data.socials?.x || "",
             instagram: data.socials?.instagram || "",
             x: data.socials?.x || "",
           },

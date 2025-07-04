@@ -29,6 +29,7 @@ const UploadDocument: React.FC<UploadDocumentProps> = ({
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setShowLoader(true); // Start loader immediately
     const ext = file.name.split(".").pop()?.toLowerCase();
     let fileType: string = ext ? ext.toUpperCase() : "OTHER";
     const newUpload = {
@@ -49,6 +50,7 @@ const UploadDocument: React.FC<UploadDocumentProps> = ({
             idx === uploadIndex ? { ...item, progress: 100 } : item
           )
         );
+        setShowLoader(false); // Stop loader only after upload is done
         console.debug("[Upload] API call success for:", file.name);
       } catch (err) {
         setUploads((prev) =>
@@ -56,6 +58,7 @@ const UploadDocument: React.FC<UploadDocumentProps> = ({
             idx === uploadIndex ? { ...item, progress: 0 } : item
           )
         );
+        setShowLoader(false); // Stop loader on error
         console.error("[Upload] API call error for:", file.name, err);
       }
     } else {
@@ -70,7 +73,10 @@ const UploadDocument: React.FC<UploadDocumentProps> = ({
               : item
           )
         );
-        if (prog >= 100) clearInterval(interval);
+        if (prog >= 100) {
+          clearInterval(interval);
+          setShowLoader(false); // Stop loader when done
+        }
       }, 200);
     }
     if (fileInputRef.current) fileInputRef.current.value = "";
@@ -85,10 +91,10 @@ const UploadDocument: React.FC<UploadDocumentProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col items-center mt-8">
+    <div className="w-full flex flex-col items-center ">
       {/* Upload Card */}
       {uploads.length === 0 && (
-        <div className="flex flex-col items-center w-full mt-12 cursor-pointer">
+        <div className="flex flex-col items-center w-full mt-6 cursor-pointer">
           <div className="mx-auto w-full max-w-xl bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-10 flex flex-col items-center">
             <label
               htmlFor="file-upload"

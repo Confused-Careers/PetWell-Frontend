@@ -5,6 +5,7 @@ import DeleteDocumentModal from "../../Components/Document/DeleteDocumentModal";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import petServices from "../../Services/petServices";
 import { Search, UploadCloud } from "lucide-react";
+import { IoIosArrowDown } from "react-icons/io";
 import DocumentInfo from "../../Components/Document/DocumentInfo";
 
 // Helper to format file size
@@ -37,9 +38,9 @@ const DocumentPage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
   const [documents, setDocuments] = useState<any[]>([]);
-  const [, ] = useState<number | null>(null);
-  const [, ] = useState<number | null>(null);
-  const [, ] = useState<string>("");
+  const [,] = useState<number | null>(null);
+  const [,] = useState<number | null>(null);
+  const [,] = useState<string>("");
   const [, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("recent");
@@ -55,6 +56,7 @@ const DocumentPage: React.FC = () => {
   const [editDocName, setEditDocName] = useState<string>("");
   const [deleteDocIdx, setDeleteDocIdx] = useState<number | null>(null);
   const [deleteDocName, setDeleteDocName] = useState<string>("");
+  const [showSortDropdown, setShowSortDropdown] = useState(false);
 
   useEffect(() => {
     const fetchPetAndDocuments = async () => {
@@ -314,7 +316,8 @@ const DocumentPage: React.FC = () => {
                     {searchResults.map((doc) => (
                       <div
                         key={doc.id}
-                        className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)] rounded-full"
+                        className="px-4 py-2 cursor-pointer hover:bg-[var(--color-accent-hover)] text-[var(--color-text)]"
+                        style={{ background: "white", color: "var(--color-text)" }}
                         onMouseDown={() => {
                           setSearch(doc.document_name);
                           setShowSuggestions(false);
@@ -356,18 +359,40 @@ const DocumentPage: React.FC = () => {
               </button>
             ))}
           </div>
-          <div className="flex justify-end w-full sm:w-auto">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-[180px] cursor-pointer justify-end bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)]"
+          <div className="flex justify-end w-full sm:w-auto relative">
+            <button
+              type="button"
+              className="w-auto flex items-center justify-between bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)] font-medium cursor-pointer"
+              onClick={() => setShowSortDropdown((v) => !v)}
+              id="sort-by-btn"
             >
-              {sortOptions.map((opt) => (
-                <option key={opt.value} value={opt.value}>
-                  Sort by: {opt.label}
-                </option>
-              ))}
-            </select>
+              Sort By: {sortOptions.find((opt) => opt.value === sortBy)?.label}
+              <IoIosArrowDown className="ml-2" />
+            </button>
+            {showSortDropdown && (
+              <div
+                className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto"
+                style={{ top: "100%" }}
+              >
+                {sortOptions.map((opt, idx) => (
+                  <button
+                    key={opt.value}
+                    className={`block w-auto text-left px-4 py-2 hover:bg-[var(--color-accent-hover)] ${
+                      sortBy === opt.value ? "font-bold" : ""
+                    } ${idx === 0 ? "rounded-t" : ""} ${
+                      idx === sortOptions.length - 1 ? "rounded-b" : ""
+                    }`}
+                    style={{ background: "white", color: "var(--color-text)" }}
+                    onClick={() => {
+                      setSortBy(opt.value);
+                      setShowSortDropdown(false);
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
         {/* Document Grid */}
@@ -385,7 +410,11 @@ const DocumentPage: React.FC = () => {
                   key={doc.id}
                   name={doc.document_name || doc.name || ""}
                   type={type}
-                  onEdit={handleSaveDocumentName ? (idx: number, newName: string) => handleSaveDocumentName(idx, newName) : undefined
+                  onEdit={
+                    handleSaveDocumentName
+                      ? (idx: number, newName: string) =>
+                          handleSaveDocumentName(idx, newName)
+                      : undefined
                   }
                   onDelete={() => handleDeleteDocument(doc.id)}
                   onDownload={() => handleDownloadDocument(doc)}

@@ -1,8 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { Scanner } from '@yudiel/react-qr-scanner';
+import { RiQrScan2Line } from "react-icons/ri";
+import { MdCancel } from "react-icons/md";
 import PetWellLogo from "../../Assets/PetWell.png";
 import businessServices from "../../Services/businessServices";
-import notificationServices from "../../Services/notificationServices"; // Import notification services
+import notificationServices from "../../Services/notificationServices";
 import { ChevronDown, Menu, X } from "lucide-react";
 
 interface Notification {
@@ -25,23 +29,24 @@ const BusinessNavbar: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
-  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false); // State for notification dropdown
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const notificationDropdownRef = useRef<HTMLDivElement>(null); // Ref for notification dropdown
+  const notificationDropdownRef = useRef<HTMLDivElement>(null);
   const [businessName, setBusinessName] = useState<string>("Business");
   const [businessImage, setBusinessImage] = useState<string>(
     "https://randomuser.me/api/portraits/men/32.jpg"
   );
   const [code, setCode] = useState(["", "", "", "", ""]);
-  const [isSubmitting] = useState(false);
-  const [notifications, setNotifications] = useState<Notification[]>([]); // State for notifications
-  const [unreadCount, setUnreadCount] = useState<number>(0); // State for unread notification count
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
   const handleMobileDropdownToggle = () => setIsMobileDropdownOpen((open) => !open);
-  const handleNotificationDropdownToggle = () => setIsNotificationDropdownOpen((open) => !open); // Toggle notification dropdown
+  const handleNotificationDropdownToggle = () => setIsNotificationDropdownOpen((open) => !open);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -50,9 +55,9 @@ const BusinessNavbar: React.FC = () => {
 
   // Handle code input change
   const handleCodeChange = (value: string, idx: number) => {
-    if (!/^[0-9a-zA-Z]?$/.test(value)) return;
+    if (!/^[a-zA-Z0-9]?$/.test(value)) return;
     const newCode = [...code];
-    newCode[idx] = value;
+    newCode[idx] = value.toUpperCase();
     setCode(newCode);
     if (value && idx < 4) {
       inputRefs.current[idx + 1]?.focus();
@@ -63,6 +68,53 @@ const BusinessNavbar: React.FC = () => {
   const handleCodeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
     if (e.key === "Backspace" && !code[idx] && idx > 0) {
       inputRefs.current[idx - 1]?.focus();
+    } else if (e.key === "Enter" && code.every((char) => char !== "")) {
+      submitCode();
+    }
+  };
+
+  // Handle QR scan
+  const handleScan = (result: any) => {
+    if (result && result[0]?.rawValue) {
+      const scannedCode = result[0].rawValue;
+      if (/^[a-zA-Z0-9]{5}$/.test(scannedCode)) {
+        const newCode = scannedCode.toUpperCase().split("");
+        setCode(newCode);
+        setIsScannerOpen(false);
+        toast.success("QR code scanned successfully!");
+        inputRefs.current[0]?.focus();
+      } else {
+        toast.error("Invalid QR code. Please scan a 5-character code.");
+      }
+    }
+  };
+
+  // Handle QR scan error
+  const handleScanError = (err: any) => {
+    console.error(err);
+    toast.error("Error accessing camera. Please ensure permissions are granted.");
+  };
+
+  // Submit code
+  const submitCode = async () => {
+    if (isSubmitting) return;
+
+    const enteredCode = code.join("");
+    if (enteredCode.length !== 5) {
+      toast.error("Please enter a valid 5-character pet code.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await businessServices.createPetMapping({ qr_code_id: enteredCode });
+      toast.success(`Pet added successfully. Say Hi! to ${response.pet_name}`);
+      setCode(["", "", "", "", ""]);
+      inputRefs.current[0]?.focus();
+    } catch (error: any) {
+      toast.error(error.message || "Failed to add pet. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -95,7 +147,7 @@ const BusinessNavbar: React.FC = () => {
 
   // Mark notification as read
   const handleMarkAsRead = async (id: string, event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent event from bubbling up
+    event.stopPropagation();
     try {
       await notificationServices.markAsRead(id);
       setNotifications((prev) =>
@@ -111,7 +163,7 @@ const BusinessNavbar: React.FC = () => {
 
   // Dismiss notification
   const handleDismiss = async (id: string, event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent event from bubbling up
+    event.stopPropagation();
     try {
       await notificationServices.dismiss(id);
       setNotifications((prev) => prev.filter((notif) => notif.id !== id));
@@ -123,7 +175,7 @@ const BusinessNavbar: React.FC = () => {
 
   // Mark all notifications as read
   const handleMarkAllAsRead = async (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent event from bubbling up
+    event.stopPropagation();
     try {
       await notificationServices.markAllAsRead();
       setNotifications((prev) => prev.map((notif) => ({ ...notif, is_read: true })));
@@ -135,7 +187,7 @@ const BusinessNavbar: React.FC = () => {
 
   // Dismiss all notifications
   const handleDismissAll = async (event: React.MouseEvent) => {
-    event.stopPropagation(); // Prevent event from bubbling up
+    event.stopPropagation();
     try {
       await notificationServices.dismissAll();
       setNotifications([]);
@@ -247,7 +299,6 @@ const BusinessNavbar: React.FC = () => {
                       : "text-[var(--color-text)] hover:bg-[var(--color-accent-hover)]"
                   }`}
                 >
-シル
                   {item.name}
                 </button>
               ))}
@@ -289,7 +340,7 @@ const BusinessNavbar: React.FC = () => {
                   strokeLinejoin="round"
                   viewBox="0 0 24 24"
                 >
-                  <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+                  <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-1-3-9" />
                   <path d="M13.73 21a2 2 0 01-3.46 0" />
                 </svg>
                 {unreadCount > 0 && (
@@ -300,7 +351,7 @@ const BusinessNavbar: React.FC = () => {
               </button>
               {isNotificationDropdownOpen && (
                 <div
-                  className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
+                  className="fixed left-0 right-0 top-16 mx-auto w-full max-w-[200px] sm:max-w-[200px] rounded-xl shadow-2xl border z-[100] px-2"
                   style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
                   ref={notificationDropdownRef}
                 >
@@ -355,6 +406,7 @@ const BusinessNavbar: React.FC = () => {
                 <div
                   className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
                   style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
+                  ref={dropdownRef}
                 >
                   <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif] text-center">
@@ -381,8 +433,9 @@ const BusinessNavbar: React.FC = () => {
                     <button
                       className="w-full flex items-center justify-center gap-2 border border-white text-white font-semibold rounded-xl py-2 mb-2 hover:bg-white/10 transition text-base font-[Cabin,sans-serif] cursor-pointer"
                       style={{ background: "transparent" }}
+                      onClick={() => setIsScannerOpen(true)}
                     >
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/></svg>
+                      <RiQrScan2Line size={18} />
                       Scan QR
                     </button>
                   </div>
@@ -481,7 +534,7 @@ const BusinessNavbar: React.FC = () => {
               </button>
               {isNotificationDropdownOpen && (
                 <div
-                  className="absolute right-0 top-full w-60 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
+                  className="absolute right-0 top-full w-48 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
                   style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
                 >
                   <div className="px-5 pt-5 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
@@ -545,8 +598,8 @@ const BusinessNavbar: React.FC = () => {
               </div>
               {isDropdownOpen && (
                 <div
-                  className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
-                  style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
+                  className="absolute right-0 top-full w-48 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
+                  style={{ background: "var(--color-card-profile)", minWidth: 256, marginTop: 12, borderColor: "var(--color-border)" }}
                   ref={dropdownRef}
                 >
                   <div className="px-5 pt-5 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
@@ -560,7 +613,7 @@ const BusinessNavbar: React.FC = () => {
                           type="text"
                           maxLength={1}
                           disabled={isSubmitting}
-                          className="w-14 h-16 rounded-xl bg-[#FFF8E5] text-[var(--color-business-heading)] text-2xl font-cabin text-center focus:outline-none border border-[var(--color-business-blue,#6A8293)] shadow-sm mx-0.5"
+                          className="w-12 h-14 rounded-xl bg-[#FFF8E5] text-[var(--color-business-heading)] text-2xl font-cabin text-center focus:outline-none border border-[var(--color-business-blue,#6A8293)] shadow-sm"
                           value={code[i]}
                           onChange={(e) => handleCodeChange(e.target.value, i)}
                           onKeyDown={(e) => handleCodeKeyDown(e, i)}
@@ -574,8 +627,9 @@ const BusinessNavbar: React.FC = () => {
                     <button
                       className="w-full flex items-center justify-center gap-2 border border-white text-white font-semibold rounded-xl py-2 mb-2 hover:bg-white/10 transition text-base font-[Cabin,sans-serif] cursor-pointer"
                       style={{ background: "transparent" }}
+                      onClick={() => setIsScannerOpen(true)}
                     >
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/></svg>
+                      <RiQrScan2Line size={18} />
                       Scan QR
                     </button>
                   </div>
@@ -611,6 +665,47 @@ const BusinessNavbar: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* QR Scanner Modal */}
+      {isScannerOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[100]">
+          <div className="bg-[#FFF8E5] rounded-lg p-4 w-[90%] max-w-[400px] relative">
+            <button
+              type="button"
+              className="absolute top-2 right-2 text-black text-xl font-bold h-5 w-5 z-10"
+              onClick={() => setIsScannerOpen(false)}
+              tabIndex={0}
+              aria-label="Close scanner"
+            >
+              <MdCancel />
+            </button>
+            <div className="w-full h-[300px] relative p-6">
+              <Scanner
+                onScan={handleScan}
+                onError={handleScanError}
+                constraints={{ facingMode: "environment" }}
+                formats={["qr_code"]}
+                styles={{
+                  container: { width: "100%", height: "100%" },
+                  video: { width: "100%", height: "100%", objectFit: "cover" },
+                }}
+              />
+              <div
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                style={{
+                  border: "2px solid #FFB23E",
+                  width: "200px",
+                  height: "200px",
+                  margin: "auto",
+                }}
+              />
+            </div>
+            <p className="text-center text-black mt-2">
+              Center the QR code within the square
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Inline styles to hide scrollbar */}
       <style>

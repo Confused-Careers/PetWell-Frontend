@@ -255,7 +255,7 @@ const StaffPage = () => {
               </div>
               <div className="flex items-center space-x-3">
                 
-                <PencilLine className="size-6 cursor-pointer text-[var(--color-background)]" onClick={() => navigate('/business/profile/edit')} />
+                <PencilLine className="size-6 cursor-pointer text-[var(--color-background)]" onClick={() => navigate('/business/profile')} />
               </div>
             </div>
             <div className="mt-6">
@@ -541,28 +541,28 @@ const StaffPage = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4 border">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Confirm Delete</h3>
               <button
                 onClick={() => setShowDeleteModal(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-[#1C232E] hover:text-gray-600"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <p className="text-gray-700 mb-6">Are you sure you want to delete this staff member?</p>
-            <div className="flex justify-end space-x-3">
+            <p className="text-[#1C232E] mb-6">Are you sure you want to delete this staff member?</p>
+            <div className="flex justify-end space-x-3 mt-6">
               <button
                 onClick={() => setShowDeleteModal(null)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDeleteMember(showDeleteModal)}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
               >
                 Delete
               </button>

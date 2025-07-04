@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../Components/Layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import petServices from "../../Services/petServices";
-import { getLastOrFirstPetId, storeLastPetId } from "../../utils/petNavigation";
+import { storeLastPetId } from "../../utils/petNavigation";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 interface PetProfileType {
@@ -74,10 +74,10 @@ const SwitchProfilePage: React.FC = () => {
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pb-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-serif font-light mb-4 text-[var(--color-text)]">
+        <div className="text-center mb-6">
+          <p className="text-3xl font-serif font-light mb-2 text-[var(--color-text)]">
             Switch profile?
-          </h1>
+          </p>
           <p className="text-lg text-[var(--color-text)] opacity-80">
             Choose a pet to view or manage their profile.
           </p>

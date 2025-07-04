@@ -12,12 +12,12 @@ import {
   DialogTitle,
 } from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
-import { RefreshCcw } from "lucide-react";
 import {
   IoIosArrowDropleftCircle,
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
 import { FaCircleExclamation } from "react-icons/fa6";
+import { RefreshCcw } from "lucide-react";
 
 const PetProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -122,7 +122,7 @@ const PetProfile: React.FC = () => {
 
   // Navigation handlers
   const handleSwitchProfile = () => {
-    navigate("/petowner/pet/switch-profile");
+    navigate(`/petowner/pet/${petId}/switch-profile`);
   };
   const handleModalSwitch = (selectedPetId: string) => {
     setShowSwitchModal(false);
@@ -147,6 +147,27 @@ const PetProfile: React.FC = () => {
         destination="profile"
       />
       <div className="pt-8 px-2 sm:px-4 max-w-7xl mx-auto w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-4">
+          <div>
+            <button
+              className="text-[var(--color-primary)] cursor-pointer text-base font-medium flex items-center gap-2 mb-2 sm:mb-0"
+              onClick={() => navigate(`/petowner/pet/${petId}/home`)}
+            >
+              <IoIosArrowDropleftCircle /> Go Back
+            </button>
+            <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
+              Pet Profile
+            </p>
+          </div>
+          <div className="flex flex-row gap-4">
+            <button
+              className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-6 py-2 rounded-3xl font-semibold transition text-base flex items-center gap-2"
+              onClick={handleSwitchProfile}
+            >
+              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
+            </button>
+          </div>
+        </div>
         <div
           className="flex flex-responsive-row gap-6 items-stretch w-full"
           style={{ alignItems: "stretch" }}
@@ -171,46 +192,56 @@ const PetProfile: React.FC = () => {
                 />
               </div>
               <div className="w-full">
-                <div className="font-[Cabin,sans-serif] text-responsive-3xl font-bold mb-4 text-white">
+                <div className="font-[Cabin,sans-serif] text-2xl font-medium mb-4 text-white">
                   {currentPet?.pet_name || "Pet"}
                 </div>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-base">
                   <div>
-                    <div className="text-white/70 font-normal">Age</div>
-                    <div className="font-bold text-white text-lg">
-                      {currentPet?.age || "13"} years old
+                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
+                      Age
+                    </div>
+                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
+                      {currentPet?.age || "Unknown"} years old
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/70 font-normal">Gender</div>
-                    <div className="font-bold text-white text-lg">
-                      {currentPet?.gender || "Male"}
+                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
+                      Gender
+                    </div>
+                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
+                      {currentPet?.gender || "Unknown"}
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/70 font-normal">Breed</div>
-                    <div className="font-bold text-white text-lg">
-                      {currentPet?.breed?.breed_name || "Chihuahua Mix"}
+                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
+                      Breed
+                    </div>
+                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
+                      {currentPet?.breed?.breed_name || "Unknown"}
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/70 font-normal">Colour</div>
-                    <div className="font-bold text-white text-lg">
-                      {currentPet?.color || "Brown Tan"}
+                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
+                      Colour
+                    </div>
+                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
+                      {currentPet?.color || "Unknown"}
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/70 font-normal">
+                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
                       Microchip Number
                     </div>
-                    <div className="font-bold text-white text-lg">
-                      {currentPet?.microchip || "0192837465"}
+                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
+                      {currentPet?.microchip || "Unknown"}
                     </div>
                   </div>
                   <div>
-                    <div className="text-white/70 font-normal">Birthdate</div>
-                    <div className="font-bold text-white text-lg">
-                      {currentPet?.dob || "21/8/13"}
+                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
+                      Birthdate
+                    </div>
+                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
+                      {currentPet?.dob || "Unknown"}
                     </div>
                   </div>
                 </div>
@@ -221,130 +252,172 @@ const PetProfile: React.FC = () => {
           <div className="flex flex-col flex-1 gap-6 h-full min-w-0">
             {/* Health Summary */}
             <div className="bg-[#EDCC79] rounded-[12px] p-responsive border border-black flex flex-col min-w-0">
-              <h2 className="text-responsive-2xl font-[Cabin,sans-serif] font-bold mb-4 text-[#1C232E]">
+              <h2 className="text-2xl font-medium font-[Cabin,sans-serif] mb-4 text-[#1C232E]">
                 Health Summary
               </h2>
               <div className="flex flex-col md:flex-row gap-4 md:gap-12 mb-4">
                 <div>
-                  <div className="text-[#1C232E] opacity-60 text-base">
+                  <div className="text-[#1C232E]/60 text-sm font-[Cabin,sans-serif]">
                     Spay/Neuter Status
                   </div>
-                  <div className="font-bold text-[#1C232E] text-lg">
+                  <div className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
                     {currentPet?.spay_neuter === true
                       ? "Neutered"
                       : "Not Neutered"}
                   </div>
                 </div>
                 <div>
-                  <div className="text-[#1C232E] opacity-60 text-base">
+                  <div className="text-[#1C232E]/60 text-sm font-[Cabin,sans-serif]">
                     Weight
                   </div>
-                  <div className="font-bold text-[#1C232E] text-lg">
+                  <div className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
                     {currentPet?.weight ? `${currentPet.weight}lbs` : "12lbs"}
                   </div>
                 </div>
                 <div>
-                  <div className="text-[#1C232E] opacity-60 text-base">
+                  <div className="text-[#1C232E]/60 text-sm font-[Cabin,sans-serif]">
                     Special Notes
                   </div>
-                  <div className="font-bold text-[#1C232E] text-lg">
+                  <div className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
                     {currentPet?.notes || (
-                      <span className="opacity-60 font-normal">
-                        Allergic to chicken. Anxious during grooming.
+                      <span className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
+                        Unknown{" "}
                       </span>
                     )}
                   </div>
                 </div>
               </div>
+              {/* Last Vet Visit */}
               <div className="mb-2">
-                <div className="text-[#1C232E]/60 text-base mb-1">
+                <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
                   Last Vet Visit
                 </div>
-                <div className="text-[#1C232E] font-normal flex flex-row flex-wrap items-center text-lg gap-2">
+                <div className="flex flex-wrap items-center gap-2 text-base text-[#1C232E] font-[Cabin,sans-serif]">
                   <span className="font-bold">
                     {!currentPet?.last_visit ||
-                    Object.keys(currentPet.last_visit).length === 0
-                      ? "3/4/24"
+                    Object.keys(currentPet.last_visit || {}).length === 0
+                      ? "--"
                       : new Date(
                           currentPet.last_visit.created_at
-                        ).toLocaleDateString("en-GB", {
+                        ).toLocaleDateString("en-US", {
+                          month: "short",
                           day: "numeric",
-                          month: "numeric",
                           year: "2-digit",
                         })}
                   </span>
-                  <span className="mx-2">|</span>
-                  <span>
-                    {!currentPet?.last_visit ||
-                    Object.keys(currentPet.last_visit).length === 0
-                      ? "Dr. Hemant Patel, Vet Office of New York"
-                      : (currentPet.last_visit.staff?.staff_name || "") +
-                          `, ` +
-                          (currentPet.last_visit.business?.business_name ||
-                            "") || "--"}
+                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                    |
                   </span>
-                  <span className="mx-2">|</span>
-                  <button className="font-bold flex flex-row items-center text-[#1C232E] hover:underline">
-                    View Document <IoIosArrowDroprightCircle className="ml-1" />
+                  <span className="font-medium">
+                    {!currentPet?.last_visit ||
+                    Object.keys(currentPet.last_visit || {}).length === 0
+                      ? "--"
+                      : `${currentPet.last_visit.staff?.staff_name || "--"}, ${
+                          currentPet.last_visit.business?.business_name || "--"
+                        }`}
+                  </span>
+                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                    |
+                  </span>
+                  <button
+                    className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif] "
+                    onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
+                  >
+                    View Document{" "}
+                    <IoIosArrowDroprightCircle className="text-lg" />
                   </button>
                 </div>
               </div>
+              {/* Next Vaccine Due */}
               <div>
-                <div className="text-[#1C232E]/60 text-base mb-1">
+                <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
                   Next Vaccine Due
                 </div>
-                <div className="flex flex-row flex-wrap items-center text-lg gap-2">
+                <div className="flex flex-wrap items-center gap-2 text-base font-[Cabin,sans-serif]">
                   <span className="font-bold text-[#1C232E]">
                     {!currentPet?.next_due_vaccine ||
-                    Object.keys(currentPet.next_due_vaccine).length === 0
-                      ? "K9 DA2PPV 3 Year (VANGUARD)"
+                    Object.keys(currentPet.next_due_vaccine || {}).length === 0
+                      ? "--"
                       : currentPet.next_due_vaccine.vaccine_name}
                   </span>
-                  <span className="mx-2 text-[#1C232E]">|</span>
-                  <span className="text-[#B91C1C] font-bold flex items-center">
-                    In 3 days <FaCircleExclamation className="ml-1" />
+                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                    |
                   </span>
-                  <span className="mx-2 text-[#1C232E]">|</span>
-                  <button className="font-bold flex flex-row items-center text-[#1C232E] hover:underline">
-                    View Document <IoIosArrowDroprightCircle className="ml-1" />
+                  {currentPet?.next_due_vaccine?.date_due ? (
+                    <span className="text-[#B91C1C] font-semibold flex items-center gap-1">
+                      In{" "}
+                      {Math.max(
+                        0,
+                        Math.ceil(
+                          (new Date(
+                            currentPet.next_due_vaccine.date_due
+                          ).getTime() -
+                            new Date().setHours(0, 0, 0, 0)) /
+                            (1000 * 60 * 60 * 24)
+                        )
+                      )}{" "}
+                      days
+                      <FaCircleExclamation className="text-base" />
+                    </span>
+                  ) : (
+                    <span className="text-[#B91C1C] font-semibold">--</span>
+                  )}
+                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                    |
+                  </span>
+                  <button
+                    className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif] "
+                    onClick={() => navigate(`/petowner/pet/${petId}/vaccine`)}
+                  >
+                    View Document{" "}
+                    <IoIosArrowDroprightCircle className="text-lg" />
                   </button>
                 </div>
               </div>
             </div>
             {/* Bottom row: Syd's Code & Your Details */}
-            <div className="flex flex-responsive-row gap-6 flex-1 h-0 min-h-0 w-full">
+            <div className="flex flex-responsive-row gap-6 flex-1 h-0 min-h-0 w-full items-stretch">
               {/* Syd's Code */}
-              <div className="bg-[#F6E3D0] rounded-[12px] border border-black p-responsive flex-1 flex flex-col items-start justify-between min-w-0 w-full mb-4 md:mb-0">
-                <div className="flex items-center w-full mb-4 justify-between">
-                  <div className="font-[Cabin,sans-serif] text-responsive-xl font-bold text-[#23272f]">
+              <div
+                className="bg-[#DC9A6B80] border border-black rounded-[16px] flex-1 flex flex-col justify-between p-6 min-w-0 w-full"
+                style={{ boxShadow: "none" }}
+              >
+                <div className="flex items-center justify-between mb-4 w-full">
+                  <div className="font-[Cabin,sans-serif] text-2xl font-bold text-[#23272f]">
                     {currentPet?.pet_name || "Pet"}'s Code
                   </div>
                   <Dialog>
                     <DialogTrigger asChild>
                       <button
-                        className="flex items-center gap-2 bg-[#EDCC79] text-[#23272f] px-3 py-1 rounded-xl font-semibold text-sm hover:opacity-90 border border-black"
+                        className="ml-4 flex cursor-pointer items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90"
                         title="Show QR Code"
                         type="button"
                       >
-                        <span className="hidden sm:inline">View QR</span>
                         <svg
+                          xmlns="http://www.w3.org/2000/svg"
                           width="20"
-                          height="20"
+                          height="21"
+                          viewBox="0 0 24 25"
                           fill="none"
-                          viewBox="0 0 24 24"
                         >
-                          <rect width="20" height="20" fill="#23272f" rx="4" />
-                          <text
-                            x="10"
-                            y="15"
-                            fill="#EDCC79"
-                            font-size="10"
-                            font-family="Arial"
-                            text-anchor="middle"
-                          >
-                            QR
-                          </text>
+                          <g clipPath="url(#clip0_1021_7408)">
+                            <path
+                              d="M12 3.3125V5.1875H10.125V3.3125H12ZM10.125 14.3281V17H12V14.3281H10.125ZM15.75 24.5V22.625H13.875V20.75H12V24.5H15.75ZM19.5 10.5781H13.875V12.4531H19.5V10.5781ZM19.5 14.3281H22.125V12.4531H19.5V14.3281ZM19.5 17V18.875H24V14.3281H22.125V17H19.5ZM13.875 0.5H12V3.3125H13.875V0.5ZM12 8.9375H13.875V5.1875H12V7.0625H10.125V12.4531H12V8.9375ZM0 10.5781V14.3281H1.875V12.4531H4.6875V10.5781H0ZM13.875 14.3281V12.4531H12V14.3281H13.875ZM17.625 16.2031H19.5V14.3281H17.625V16.2031ZM22.125 12.4531H24V10.5781H22.125V12.4531ZM15.75 14.3281H13.875V17H12V18.875H15.75V14.3281ZM10.125 20.75H12V18.875H10.125V20.75ZM15.75 18.875V20.75H19.5V18.875H15.75ZM21.375 22.625V20.75H19.5V22.625H21.375ZM24 24.5V22.625H21.375V24.5H24ZM17.625 24.5H19.5V22.625H17.625V24.5ZM8.4375 12.4531V10.5781H6.5625V12.4531H4.6875V14.3281H10.125V12.4531H8.4375ZM8.4375 8.9375H0V0.5H8.4375V8.9375ZM6.5625 2.375H1.875V7.0625H6.5625V2.375ZM5.15625 3.78125H3.28125V5.65625H5.15625V3.78125ZM24 0.5V8.9375H15.5625V0.5H24ZM22.125 2.375H17.4375V7.0625H22.125V2.375ZM20.7188 3.78125H18.8438V5.65625H20.7188V3.78125ZM0 16.0625H8.4375V24.5H0V16.0625ZM1.875 22.625H6.5625V17.9375H1.875V22.625ZM3.28125 21.2188H5.15625V19.3438H3.28125V21.2188Z"
+                              fill="black"
+                            />
+                          </g>
+                          <defs>
+                            <clipPath id="clip0_1021_7408">
+                              <rect
+                                width="24"
+                                height="24"
+                                fill="white"
+                                transform="translate(0 0.5)"
+                              />
+                            </clipPath>
+                          </defs>
                         </svg>
+                        <span className="hidden sm:inline">View QR</span>
                       </button>
                     </DialogTrigger>
                     <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
@@ -389,13 +462,13 @@ const PetProfile: React.FC = () => {
                     </DialogContent>
                   </Dialog>
                 </div>
-                <div className="flex flex-row gap-3 mb-4">
-                  {(currentPet?.qr_code_id || "X8TV4")
+                <div className="flex flex-row gap-2 mb-4">
+                  {(currentPet?.qr_code_id || "")
                     .split("")
                     .map((char: string, index: number) => (
                       <span
                         key={index}
-                        className="inline-flex w-10 h-12 bg-[#23272f] text-[#EDCC79] text-3xl rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center font-[Alike] shadow"
+                        className="inline-flex w-8 h-10  bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-2xl rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center font-[Alike]"
                       >
                         {char}
                       </span>
@@ -405,42 +478,48 @@ const PetProfile: React.FC = () => {
                   Share with care providers to give access to the profile.
                 </div>
               </div>
-              {/* Your Details */}
-              <div className="bg-[#E6E7C0] rounded-[12px] p-responsive flex-1 min-w-0 border border-black flex flex-col justify-between w-full">
-                <div className="font-[Cabin,sans-serif] text-responsive-xl font-bold mb-4 text-[#23272f]">
+              {/* Your Details - Responsive alignment with flex, grouped rows */}
+              <div className="bg-[#ABA75C80] rounded-[12px] p-responsive flex-1 min-w-0 border border-black flex flex-col justify-between w-full">
+                <div className="font-[Cabin,sans-serif] text-2xl font-medium mb-2 text-[#23272f]">
                   Your Details
                 </div>
-                <div className="grid grid-cols-2 gap-x-8 gap-y-2 text-base">
-                  <div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f]/60 font-normal">
-                      Name
+                <div className="w-full min-w-0 flex flex-col text-base">
+                  {/* Top row: Name | Location */}
+                  <div className="flex flex-col md:flex-row w-full">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                        Name
+                      </div>
+                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                        {humanProfile?.human_owner_name || "Unknown"}
+                      </div>
                     </div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f] font-bold">
-                      {humanProfile?.human_owner_name || "Monica Lee"}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f]/60 font-normal">
-                      Location
-                    </div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f] font-bold">
-                      {humanProfile?.location || "Dallas, Texas"}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f]/60 font-normal">
-                      Phone number
-                    </div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f] font-bold">
-                      {humanProfile?.phone || "565-555-5562"}
+                    <div className="flex-1 min-w-0">
+                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                        Location
+                      </div>
+                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                        {humanProfile?.location || "Unknown"}
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f]/60 font-normal">
-                      Email
+                  {/* Bottom row: Phone | Email */}
+                  <div className="flex flex-col md:flex-row w-full">
+                    <div className="flex-1 min-w-0">
+                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                        Phone number
+                      </div>
+                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                        {humanProfile?.phone || "Unknown"}
+                      </div>
                     </div>
-                    <div className="font-[Cabin,sans-serif] text-[#23272f] font-bold">
-                      {humanProfile?.email || "email@website.com"}
+                    <div className="flex-1 min-w-0">
+                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                        Email
+                      </div>
+                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                        {humanProfile?.email || "Unknown"}
+                      </div>
                     </div>
                   </div>
                 </div>

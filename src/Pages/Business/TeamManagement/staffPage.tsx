@@ -9,8 +9,18 @@ import businessServices from '../../../Services/businessServices';
 const StaffPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState<string | null>(null);
   const [showDeleteModal, setShowDeleteModal] = useState<string | null>(null);
   const [newMember, setNewMember] = useState({
+    staff_name: '',
+    role_name: 'Vet',
+    access_level: 'Full',
+    username: '',
+    email: '',
+    password: '',
+  });
+  const [editMember, setEditMember] = useState({
+    id: '',
     staff_name: '',
     role_name: 'Vet',
     access_level: 'Full',
@@ -88,6 +98,19 @@ const StaffPage = () => {
     }
   };
 
+  const handleEditMember = async () => {
+    if (editMember.staff_name && editMember.username && editMember.email) {
+      try {
+        await staffServices.updateStaff(editMember.id, editMember);
+        const response = await staffServices.getStaffList(1, 10, { role_name: roleFilter, access_level: permissionsFilter });
+        setStaffMembers(response.staff);
+        setShowEditModal(null);
+      } catch (error) {
+        console.error('Error updating staff:', error);
+      }
+    }
+  };
+
   const handleDeleteMember = async (staffId: string) => {
     try {
       await staffServices.removeStaff(staffId);
@@ -97,6 +120,19 @@ const StaffPage = () => {
     } catch (error) {
       console.error('Error deleting staff:', error);
     }
+  };
+
+  const handleOpenEditModal = (member: typeof staffMembers[0]) => {
+    setEditMember({
+      id: member.id,
+      staff_name: member.staff_name,
+      role_name: member.role_name,
+      access_level: member.access_level,
+      username: member.username,
+      email: member.email,
+      password: '',
+    });
+    setShowEditModal(member.id);
   };
 
   const filteredStaff = staffMembers?.filter((member) => {
@@ -234,7 +270,7 @@ const StaffPage = () => {
               </div>
             </div>
             <button
-              onClick={() => navigate('/business/team/add')}
+              onClick={() => setShowAddModal(true)}
               className="flex items-center gap-2 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-6 py-2 rounded-3xl font-semibold transition text-base"
             >
               <Plus className="w-4 h-4" />
@@ -259,16 +295,16 @@ const StaffPage = () => {
                   <tr>
                     <td colSpan={5} className="py-8 text-center text-gray-500 text-lg">Loading...</td>
                   </tr>
-                ) : filteredStaff.length === 0 ? (
+                ) : filteredStaff?.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="py-8 text-center text-gray-500 text-lg">No team found for your search</td>
                   </tr>
                 ) : (
-                  filteredStaff.map((member, index) => (
+                  filteredStaff?.map((member, index) => (
                     <tr
                       key={member.id}
                       className={`hover:bg-[#EDCC79] transition-colors cursor-pointer ${
-                        index !== filteredStaff.length - 1 ? 'border-b border-[#EDCC79]/20' : ''
+                        index !== filteredStaff?.length - 1 ? 'border-b border-[#EDCC79]/20' : ''
                       }`}
                     >
                       <td className="py-4 px-6 text-gray-800 font-medium">{member.staff_name}</td>
@@ -278,7 +314,7 @@ const StaffPage = () => {
                       <td className="py-4 px-6 flex items-center space-x-2">
                         <PencilLine
                           className="w-5 h-5 text-gray-600 cursor-pointer"
-                          onClick={() => navigate(`/business/team/edit/${member.id}`)}
+                          onClick={() => handleOpenEditModal(member)}
                         />
                         <Trash2
                           className="w-5 h-5 text-red-600 cursor-pointer"
@@ -296,8 +332,8 @@ const StaffPage = () => {
 
       {/* Add Member Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Add Team Member</h3>
               <button
@@ -314,7 +350,7 @@ const StaffPage = () => {
                   type="text"
                   value={newMember.staff_name}
                   onChange={(e) => setNewMember({ ...newMember, staff_name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                   placeholder="Enter full name"
                 />
               </div>
@@ -323,9 +359,9 @@ const StaffPage = () => {
                 <select
                   value={newMember.role_name}
                   onChange={(e) => setNewMember({ ...newMember, role_name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                 >
-                  {roleOptions.map((role) => (
+                  {roleOptions?.map((role) => (
                     <option key={role} value={role}>{role}</option>
                   ))}
                 </select>
@@ -335,9 +371,9 @@ const StaffPage = () => {
                 <select
                   value={newMember.access_level}
                   onChange={(e) => setNewMember({ ...newMember, access_level: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                 >
-                  {permissionsOptions.map((perm) => (
+                  {permissionsOptions?.map((perm) => (
                     <option key={perm} value={perm}>{perm}</option>
                   ))}
                 </select>
@@ -348,7 +384,7 @@ const StaffPage = () => {
                   type="text"
                   value={newMember.username}
                   onChange={(e) => setNewMember({ ...newMember, username: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                   placeholder="Enter username"
                 />
               </div>
@@ -358,7 +394,7 @@ const StaffPage = () => {
                   type="email"
                   value={newMember.email}
                   onChange={(e) => setNewMember({ ...newMember, email: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                   placeholder="Enter email"
                 />
               </div>
@@ -368,23 +404,119 @@ const StaffPage = () => {
                   type="password"
                   value={newMember.password}
                   onChange={(e) => setNewMember({ ...newMember, password: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                   placeholder="Enter password"
                 />
               </div>
             </div>
-            <div className="flex justify-end space-x-3 mt-6">
+            <div className="flex justify-center space-x-3 mt-6">
               <button
                 onClick={() => setShowAddModal(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddMember}
-                className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
               >
                 Add Member
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Edit Member Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold">Edit Team Member</h3>
+              <button
+                onClick={() => setShowEditModal(null)}
+                className="text-[#1C232E] hover:text-gray-600"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <input
+                  type="text"
+                  value={editMember.staff_name}
+                  onChange={(e) => setEditMember({ ...editMember, staff_name: e.target.value })}
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                  placeholder="Enter full name"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                <select
+                  value={editMember.role_name}
+                  onChange={(e) => setEditMember({ ...editMember, role_name: e.target.value })}
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                >
+                  {roleOptions?.map((role) => (
+                    <option key={role} value={role}>{role}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Permissions</label>
+                <select
+                  value={editMember.access_level}
+                  onChange={(e) => setEditMember({ ...editMember, access_level: e.target.value })}
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                >
+                  {permissionsOptions?.map((perm) => (
+                    <option key={perm} value={perm}>{perm}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1C232E] mb-1">Username</label>
+                <input
+                  type="text"
+                  value={editMember.username}
+                  onChange={(e) => setEditMember({ ...editMember, username: e.target.value })}
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                  placeholder="Enter username"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1C232E] mb-1">Email</label>
+                <input
+                  type="email"
+                  value={editMember.email}
+                  onChange={(e) => setEditMember({ ...editMember, email: e.target.value })}
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                  placeholder="Enter email"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1C232E] mb-1">Password (optional)</label>
+                <input
+                  type="password"
+                  value={editMember.password}
+                  onChange={(e) => setEditMember({ ...editMember, password: e.target.value })}
+                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                  placeholder="Enter new password (leave blank to keep unchanged)"
+                />
+              </div>
+            </div>
+            <div className="flex justify-end space-x-3 mt-6">
+              <button
+                onClick={() => setShowEditModal(null)}
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleEditMember}
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+              >
+                Save Changes
               </button>
             </div>
           </div>
@@ -434,7 +566,7 @@ const StaffPage = () => {
             <div className="mb-6 font-[cabin]">
               <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Role</h3>
               <div className="space-y-4">
-                {roleOptions.map((role) => (
+                {roleOptions?.map((role) => (
                   <label key={role} className="flex items-center cursor-pointer group">
                     <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
                       <input
@@ -455,7 +587,7 @@ const StaffPage = () => {
             <div className="mb-8 font-[cabin]">
               <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Permissions</h3>
               <div className="space-y-4">
-                {permissionsOptions.map((perm) => (
+                {permissionsOptions?.map((perm) => (
                   <label key={perm} className="flex items-center cursor-pointer group">
                     <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
                       <input

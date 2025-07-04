@@ -50,7 +50,7 @@ const SwitchProfilePage: React.FC = () => {
           avatar:
             pet.profile_picture && typeof pet.profile_picture === "string"
               ? pet.profile_picture
-              : "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80",
+              : "https://place.dog/300/200",
         }));
 
         setPets(formattedPets);

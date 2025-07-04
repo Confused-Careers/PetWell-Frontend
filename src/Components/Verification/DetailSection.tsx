@@ -50,7 +50,16 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       : undefined) ||
     pet.breed_obj?.breed_name;
   const petName = pet.pet_name || pet.name;
-  const petImage = pet.profile_picture_url || pet.image;
+  let petImage =
+    ((pet as any).profile_picture &&
+      typeof (pet as any).profile_picture === "string" &&
+      (pet as any).profile_picture) ||
+    (pet as any).profilePictureDocument?.document_url ||
+    (typeof (pet as any).profile_picture === "object" &&
+      (pet as any).profile_picture?.profilePictureDocument?.document_url) ||
+    pet.profile_picture_url ||
+    pet.image ||
+    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80";
   const petAge = pet.age || "";
   const petWeight = pet.weight || "";
   const petColor = pet.color || "";

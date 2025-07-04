@@ -494,8 +494,8 @@ const HomePage: React.FC = () => {
                 <img
                   src={
                     pet.profilePictureDocument === null
-                      ? `https://dog.ceo/api/breeds/image/random`
-                      : pet.profilePictureDocument.document_url
+                      ? `https://place.dog/300/200`
+                      : pet.profilePictureDocument?.document_url
                   }
                   alt={pet.pet_name || "Pet"}
                   className="w-full h-full object-cover"

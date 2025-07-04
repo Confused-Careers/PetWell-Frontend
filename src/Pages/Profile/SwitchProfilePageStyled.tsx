@@ -31,13 +31,12 @@ const SwitchProfilePage: React.FC = () => {
           age: pet.age ? `${pet.age} years` : "Unknown age",
           breed: pet.breed?.breed_name || pet.breed || "Unknown breed",
           avatar:
-            pet.profile_picture && typeof pet.profile_picture === "string"
-              ? pet.profile_picture
-              : pet.profilePictureDocument
-              ? `/api/v1/documents/${pet.profilePictureDocument}`
-              : pet.profile_picture_document_id
-              ? `/api/v1/documents/${pet.profile_picture_document_id}`
-              : "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80",
+            (pet.profile_picture &&
+              typeof pet.profile_picture === "string" &&
+              pet.profile_picture) ||
+            pet.profilePictureDocument?.document_url ||
+            pet.profile_picture?.profilePictureDocument?.document_url ||
+            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80",
         }));
         setPets(formattedPets);
       } catch (error) {
@@ -56,7 +55,7 @@ const SwitchProfilePage: React.FC = () => {
 
   const handleAddNew = () => {
     navigate("/upload-option");
-    };
+  };
 
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)]">
@@ -64,12 +63,12 @@ const SwitchProfilePage: React.FC = () => {
 
       {/* Go Back Button */}
       <div className="container mx-auto px-4 pt-3">
-          <button
-            className="text-[var(--color-primary)] cursor-pointer font-bold text-base flex items-center gap-1 mb-2 sm:mb-0"
-            onClick={() => navigate(-1)}
-          >
-            <IoIosArrowDropleftCircle /> Go Back
-          </button>{" "}
+        <button
+          className="text-[var(--color-primary)] cursor-pointer font-bold text-base flex items-center gap-1 mb-2 sm:mb-0"
+          onClick={() => navigate(-1)}
+        >
+          <IoIosArrowDropleftCircle /> Go Back
+        </button>{" "}
       </div>
 
       {/* Main Content */}
@@ -103,7 +102,6 @@ const SwitchProfilePage: React.FC = () => {
                     src={pet.avatar}
                     alt={pet.name}
                     className="w-full h-full object-cover rounded-[14px]"
-                    style={{ boxShadow: "0 2px 8px 0 rgba(44,44,44,0.10)" }}
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src =

@@ -70,6 +70,9 @@ function App() {
           element={<BusinessOTPVerificationPage />}
         />
         <Route path="/business-home" element={<BusinessHomePage />} />
+        <Route path="/business/team-management" element={<StaffPage />} />
+
+        {/* Pet Owner Routes */}
         <Route path="/business/profile" element={<BusinessProfile />} />
         <Route path="/business/pet/:petId/home" element={<PetBusinessHomePage />} />
         <Route path="/business/pet/:petId/add-vaccine" element={<AddVaccinePage />} />

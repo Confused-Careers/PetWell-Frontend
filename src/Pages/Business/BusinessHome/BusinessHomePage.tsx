@@ -12,7 +12,7 @@ const BusinessHomePage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <BusinessNavbar />
-      <main className="flex flex-col items-center w-full px-2 pt-6 sm:px-4 md:px-8 max-w-7xl mx-auto">
+      <main className="flex flex-col items-center w-full p-6 md:px-8 max-w-7xl mx-auto">
         {/* Welcome Header */}
         <div className="w-full flex flex-col items-start mt-3 mb-3">
           <p className="text-3xl sm:text-4xl font-lighter flex items-center gap-3 font-serif mb-2">

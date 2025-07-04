@@ -95,7 +95,7 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
               >
                 <td className="py-2 px-1.5 flex items-center gap-3 text-center">
                   <img
-                    src={pet.document_url || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
+                    src={pet.document_url || "https://place.dog/300/200"}
                     alt={pet.pet_name}
                     className="w-8 h-8 rounded-full object-cover border border-[var(--color-business-accent)]"
                   />

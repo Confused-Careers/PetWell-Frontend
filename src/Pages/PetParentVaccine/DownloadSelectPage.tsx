@@ -9,6 +9,7 @@ import { IoIosArrowDropleftCircle } from "react-icons/io";
 import {
   generateVaccinePDF,
 } from "../../Services/pdfServices";
+import { toast } from "sonner";
 
 // Helper function to determine vaccine status
 const processVaccine = (vaccine: any) => {
@@ -208,10 +209,10 @@ const DownloadSelectPage: React.FC = () => {
     try {
       // Generate PDF with selected vaccines
       const filename = generateVaccinePDF(vaccines, pet, selectedVaccines);
-      alert(`PDF downloaded successfully: ${filename}`);
+      toast.error(`PDF downloaded successfully: ${filename}`);
     } catch (error) {
       console.error("Error generating PDF:", error);
-      alert("Error generating PDF. Please try again.");
+      toast.error("Error generating PDF. Please try again.");
     }
   };
 

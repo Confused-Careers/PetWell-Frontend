@@ -21,7 +21,10 @@ const BusinessOTPVerificationPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      await authServices.verifyOTP({ identifier: email, otp_code: otp });
+      const response = await authServices.verifyOTP({ identifier: email, otp_code: otp });
+      if (response.access_token) {
+        localStorage.setItem("token", response.access_token);
+      }
       navigate("/business/signup/add-care-team");
     } catch (err: any) {
       setError(err.message || "OTP verification failed");

@@ -19,6 +19,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
 } from "../../../Components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 
 const VerificationPage: React.FC = () => {
@@ -148,7 +149,7 @@ const VerificationPage: React.FC = () => {
     const vaccineId = vaccine?.id || vaccine?._id || vaccine?.vaccine_id;
     if (!vaccineId) {
       console.error("No vaccine ID found in vaccine data:", vaccine);
-      alert("Error: Could not find vaccine ID. Please try again.");
+      toast.error("Error: Could not find vaccine ID. Please try again.");
       return;
     }
 

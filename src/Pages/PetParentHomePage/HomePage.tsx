@@ -9,7 +9,24 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
-import { Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw, PlusCircle } from "lucide-react";
+import {
+  Users,
+  Syringe,
+  FileText,
+  PawPrint,
+  UploadIcon,
+  RefreshCcw,
+  PlusCircle,
+} from "lucide-react";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { FaCircleExclamation } from "react-icons/fa6";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+} from "../../Components/ui/dialog";
+import QRCode from "react-qr-code";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -71,16 +88,19 @@ const HomePage: React.FC = () => {
         // Already expired
         return {
           soon: true,
-          warning: `${petName || "Your pet"
+          warning: `${
+            petName || "Your pet"
           }'s vaccine has expired. Please renew as soon as possible!`,
-          relativeExpiry: `Expired ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? "" : "s"
+          relativeExpiry: `Expired ${Math.abs(diffDays)} day${
+            Math.abs(diffDays) === 1 ? "" : "s"
           } ago`,
         };
       } else if (diffDays <= 7) {
         // Expiring within 7 days
         return {
           soon: true,
-          warning: `${petName || "Your pet"
+          warning: `${
+            petName || "Your pet"
           } is due for the vaccine soon. Schedule now!`,
           relativeExpiry: `In ${diffDays} day${diffDays === 1 ? "" : "s"}`,
         };
@@ -178,8 +198,10 @@ const HomePage: React.FC = () => {
           setLoading(false);
           return;
         }
+        console.log("[HomePage] Fetched pet data:", petData);
         setPet(petData);
         setPetName(petData.pet_name || "My Pet");
+        console.log("peyt:", pet);
 
         // Vaccines - using the same methodology as VaccinesPage
         const vaccinesRes = await vaccineServices.getAllPetVaccines(petData.id);
@@ -197,7 +219,6 @@ const HomePage: React.FC = () => {
             vaccinesArr = [vaccinesRes];
           }
         }
-
 
         // Filter vaccines by pet.id
         const matchingVaccines: any[] = vaccinesArr.filter((vaccine) => {
@@ -253,7 +274,7 @@ const HomePage: React.FC = () => {
             name: d.document_name || d.name || "",
             size: d.size ? `${(d.size / (1024 * 1024)).toFixed(1)} MB` : "",
             type,
-            url: d.document_url
+            url: d.document_url,
           };
         });
         setRawDocuments(mappedDocs);
@@ -275,7 +296,6 @@ const HomePage: React.FC = () => {
           }
         }
 
-
         // Filter teams by pet_id
         const matchingTeams: any[] = teamsArr.filter((team) => {
           const petIdMatch = team.pet && team.pet.id === petData.id;
@@ -285,9 +305,7 @@ const HomePage: React.FC = () => {
         // Extract team IDs for detailed fetching
         const teamIds = matchingTeams.map((team) => team.id).filter((id) => id); // Remove any undefined/null IDs
 
-
         if (teamIds.length === 0) {
-
           setTeams([]);
           setRawTeams([]);
           if (teamsArr.length > 0) {
@@ -313,7 +331,8 @@ const HomePage: React.FC = () => {
               address: b.address || "",
               avatar: b.profile_picture_document_id
                 ? `/api/v1/documents/${b.profile_picture_document_id}`
-                : `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100) + 1
+                : `https://randomuser.me/api/portraits/men/${
+                    Math.floor(Math.random() * 100) + 1
                   }.jpg`,
             };
           });
@@ -328,7 +347,6 @@ const HomePage: React.FC = () => {
     };
     fetchAll();
   }, [petId]);
-
 
   const handleSaveDocumentName = async (newName: string) => {
     try {
@@ -442,24 +460,30 @@ const HomePage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
         {/* Profile & Health Summary */}
-       {pet && <section className="mb-6 mt-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
-                <PawPrint className="w-full h-full text-[var(--color-logo)]" />
-              </span>
-          Welcome {pet.pet_name}!
-            </p>
-            <div>
-              <button
-              onClick={() => navigate(`/switch-profile`)}
-                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
-            >
-              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
-            </button>
+        {pet && (
+          <section className="mb-6 mt-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
+                <span className="flex items-center justify-center size-8 rounded-full bg-transparent">
+                  <PawPrint className="w-full h-full text-[var(--color-text)]" />
+                </span>
+                Welcome {pet.pet_name}!
+              </p> 
+             
+              <div>
+                <button
+                  onClick={() => navigate(`/petowner/pet/${petId}/switch-profile`)}
+                  className="w-full sm:w-auto px-4 sm:px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-1 border border-[#FFB23E] bg-[#FFB23E] text-center"
+                >
+                  <span className="flex items-center">
+                    <RefreshCcw className="w-5 h-5 mr-1" />
+                    Switch to Another Pet
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
-        </section>}
+          </section>
+        )}
 
         {pet && (
           <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full">
@@ -469,138 +493,212 @@ const HomePage: React.FC = () => {
               <div className="w-56 h-56 rounded-2xl overflow-hidden bg-[var(--color-card-profile)] flex items-center justify-center">
                 <img
                   src={
-                    pet.profilePictureDocument.document_url ||
-                    `https://randomuser.me/api/portraits/men/${Math.floor(
-                      Math.random() * 100
-                    ) + 1
-                    }.jpg`
+                    pet.profilePictureDocument === null
+                      ? `https://dog.ceo/api/breeds/image/random`
+                      : pet.profilePictureDocument.document_url
                   }
                   alt={pet.pet_name || "Pet"}
                   className="w-full h-full object-cover"
                 />
               </div>
               {/* Details */}
-              <div className="flex-1 flex flex-col justify-center md:pl-8 w-full">
-                <div className="text-2xl font-medium mb-2 text-[var(--color-text-bright)]">
+              <div className="flex-1 flex flex-col justify-center md:pl-6 w-full">
+                <div className="text-2xl tracking-tight font-medium font-[Cabin,sans-serif] mb-2 text-[var(--color-text-bright)]">
                   {pet.pet_name || "Pet"}
                 </div>
-                <div className="flex flex-wrap gap-x-4 text-base mb-2">
-                  <div  className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                <div className="flex flex-wrap text-base mb-2 font-[Cabin,sans-serif]">
+                  <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Age
                     </span>
-                    <div className="text-[var(--color-text-bright)]">
+                    <div className="text-base font-medium text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.age || "Unknown"} years old
                     </div>
                   </div>
-                  <div  className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                  <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Gender
                     </span>
-                    <div className="text-[var(--color-text-bright)]">{pet.gender || "Unknown"}</div>
-                  </div>
-                  <div  className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
-                      Microchip Number
-                    </span>
-                    <div className="text-[var(--color-text-bright)]">
-                      {pet.microchip || "Unknown"}
+                    <div className="text-base font-medium text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
+                      {pet.gender || "Unknown"}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                <div className="flex flex-wrap gap-y-1 text-base mb-2 font-[Cabin,sans-serif]">
                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Breed
                     </span>
-                    <div className="text-[var(--color-text-bright)]">
+                    <div className="text-base font-medium text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.breed?.breed_name || "Mixed Breed"}
                     </div>
                   </div>
                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Colour
                     </span>
-                    <div className="text-[var(--color-text-bright)]">{pet.color || "Unknown"}</div>
-                  </div>
-                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
-                      Birthdate
-                    </span>
-                    <div className="text-[var(--color-text-bright)]">{pet.dob || "Unknown"}</div>
+                    <div className="text-base font-medium  text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
+                      {pet.color || "Unknown"}
+                    </div>
                   </div>
                 </div>
-                
-                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
-                  <div className="flex gap-2 mb-2 justify-center items-center">
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[var(--color-text-faded)] opacity-70">
-                        {pet?.pet_name}'s Code
-                      </span>
-                      <div className="flex gap-1">
-                        {pet?.qr_code_id?.split("")
-                          .map((char: string, index: number) => (
-                            <span
-                              key={index}
-                              className="inline-flex w-6 h-8 font-medium bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-sm rounded-lg items-center justify-center shadow-sm select-all transition-all duration-150 hover:scale-105 text-center"
-                            >
-                              {char}
-                            </span>
-                          ))}
-                      </div>
-                    </div>
-
+                <div className="flex flex-col gap-2 mt-2 font-[Cabin,sans-serif]">
+                  <span className="text-[var(--color-text-faded)] text-md uppercase font-semibold font-[Cabin,sans-serif]">
+                    {pet?.pet_name}'s Code
+                  </span>
+                  <div className="flex gap-1 mb-2 items-center">
+                    {pet?.qr_code_id
+                      ?.split("")
+                      .map((char: string, index: number) => (
+                        <span
+                          key={index}
+                          className="inline-flex w-8 h-10  bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-2xl rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center font-[Alike]"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button
+                          className="ml-4 flex cursor-pointer items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90"
+                          title="Show QR Code"
+                          type="button"
+                        >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 24 25" fill="none">
+                            <g clipPath="url(#clip0_1021_7408)">
+                              <path d="M12 3.3125V5.1875H10.125V3.3125H12ZM10.125 14.3281V17H12V14.3281H10.125ZM15.75 24.5V22.625H13.875V20.75H12V24.5H15.75ZM19.5 10.5781H13.875V12.4531H19.5V10.5781ZM19.5 14.3281H22.125V12.4531H19.5V14.3281ZM19.5 17V18.875H24V14.3281H22.125V17H19.5ZM13.875 0.5H12V3.3125H13.875V0.5ZM12 8.9375H13.875V5.1875H12V7.0625H10.125V12.4531H12V8.9375ZM0 10.5781V14.3281H1.875V12.4531H4.6875V10.5781H0ZM13.875 14.3281V12.4531H12V14.3281H13.875ZM17.625 16.2031H19.5V14.3281H17.625V16.2031ZM22.125 12.4531H24V10.5781H22.125V12.4531ZM15.75 14.3281H13.875V17H12V18.875H15.75V14.3281ZM10.125 20.75H12V18.875H10.125V20.75ZM15.75 18.875V20.75H19.5V18.875H15.75ZM21.375 22.625V20.75H19.5V22.625H21.375ZM24 24.5V22.625H21.375V24.5H24ZM17.625 24.5H19.5V22.625H17.625V24.5ZM8.4375 12.4531V10.5781H6.5625V12.4531H4.6875V14.3281H10.125V12.4531H8.4375ZM8.4375 8.9375H0V0.5H8.4375V8.9375ZM6.5625 2.375H1.875V7.0625H6.5625V2.375ZM5.15625 3.78125H3.28125V5.65625H5.15625V3.78125ZM24 0.5V8.9375H15.5625V0.5H24ZM22.125 2.375H17.4375V7.0625H22.125V2.375ZM20.7188 3.78125H18.8438V5.65625H20.7188V3.78125ZM0 16.0625H8.4375V24.5H0V16.0625ZM1.875 22.625H6.5625V17.9375H1.875V22.625ZM3.28125 21.2188H5.15625V19.3438H3.28125V21.2188Z" fill="black"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_1021_7408">
+                                <rect width="24" height="24" fill="white" transform="translate(0 0.5)"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <span className="hidden sm:inline">View QR</span>
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
+                        <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
+                          Pet QR Code
+                        </DialogTitle>
+                        <div className="my-4 flex flex-col items-center">
+                          <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
+                            <QRCode value={pet?.qr_code_id || ""} size={180} />
+                          </div>
+                          <button
+                            className="mt-4 px-3 flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 py-2 rounded-3xl font-semibold transition text-base"
+                            onClick={() => {
+                              const svg = document.querySelector(
+                                "[data-slot='dialog-content'] svg"
+                              );
+                              if (!svg) return;
+                              const serializer = new XMLSerializer();
+                              const source = serializer.serializeToString(svg);
+                              const url =
+                                "data:image/svg+xml;charset=utf-8," +
+                                encodeURIComponent(source);
+                              const link = document.createElement("a");
+                              link.href = url;
+                              link.download = `${pet?.pet_name || "pet"}-qr.svg`;
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
+                          >
+                            Download QR
+                          </button>
+                        </div>
+                        <div className="text-center text-sm text-[var(--color-text)] mt-2">
+                          Scan this QR code to add this pet to a business
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </div>
-                  </div>
-                {/* Pet Code Example (if available) */}
-                {pet.code && (
-                  <div className="flex gap-2 mt-2">
-                    {pet.code.split("").map((char: string, idx: number) => (
-                      <span
-                        key={idx}
-                        className="bg-[var(--color-background)] border border-[var(--color-primary)] rounded-lg px-3 py-1 text-lg font-mono font-bold text-[var(--color-primary)]"
-                      >
-                        {char}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                </div>
               </div>
             </div>
             {/* Health Summary Card */}
-            <div className="flex-1/3 border border-[var(--color-primary)] bg-[var(--color-card-health-card)] rounded-3xl p-6 md:p-8 flex flex-col gap-2 flex-1 text-[var(--color-text)] shadow-lg">
-              <div className="text-2xl font-semibold mb-2">
+            <div className="bg-[#EDCC79] rounded-2xl p-6 border border-black flex flex-col md:basis-2/5 md:max-w-[40%] w-full">
+              <p className="text-2xl font-medium font-[Cabin,sans-serif] mb-4 text-[#1C232E] tracking-tight">
                 Health Summary
+              </p>
+              {/* Last Vet Visit */}
+              <div className="mb-6">
+                <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
+                  Last Vet Visit
+                </div>
+                <div className="flex flex-wrap items-center gap-2 text-base text-[#1C232E] font-[Cabin,sans-serif]">
+                  <span className="font-bold">
+                    {!pet.last_visit || Object.keys(pet.last_visit).length === 0
+                      ? "--"
+                      : new Date(pet.last_visit.created_at).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "2-digit",
+                          }
+                        )}
+                  </span>
+                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                    |
+                  </span>
+                  <span className="font-medium">
+                    {!pet.last_visit || Object.keys(pet.last_visit).length === 0
+                      ? "--"
+                      : `${pet.last_visit.staff?.staff_name || "--"}, ${
+                          pet.last_visit.business?.business_name || "--"
+                        }`}
+                  </span>
+                </div>
+                <button
+                  className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
+                  onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
+                >
+                  View Document{" "}
+                  <IoIosArrowDroprightCircle className="text-lg" />
+                </button>
               </div>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
-                <div>
-                  <span className="opacity-70">Spay/Neuter Status:</span>
-                  <span className="font-semibold ml-2">
-                    {pet.spay_neuter
-                      ? "Spayed/Neutered"
-                      : "Not Spayed/Neutered"}
-                  </span>
+              {/* Next Vaccine Due */}
+              <div>
+                <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
+                  Next Vaccine Due
                 </div>
-                <div>
-                  <span className="opacity-70">Weight</span>
-                  <span className="font-semibold ml-2">
-                    {pet.weight ? `${pet.weight} lbs` : "Unknown"}
+                <div className="flex flex-wrap items-center gap-2 text-base font-[Cabin,sans-serif]">
+                  <span className="font-bold text-[#1C232E]">
+                    {!pet.next_due_vaccine ||
+                    Object.keys(pet.next_due_vaccine).length === 0
+                      ? "--"
+                      : pet.next_due_vaccine.vaccine_name}
                   </span>
-                </div>
-                <div>
-                  <span className="opacity-70">Special Notes</span>
-                  <span className="font-semibold ml-2">
-                    {pet.notes || "No special notes"}
+                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                    |
                   </span>
+                  {pet.next_due_vaccine?.date_due ? (
+                    <span className="text-[#B91C1C] font-semibold flex items-center gap-1">
+                      In{" "}
+                      {Math.max(
+                        0,
+                        Math.ceil(
+                          (new Date(pet.next_due_vaccine.date_due).getTime() -
+                            new Date().setHours(0, 0, 0, 0)) /
+                            (1000 * 60 * 60 * 24)
+                        )
+                      )}{" "}
+                      days
+                      <FaCircleExclamation className="text-base" />
+                    </span>
+                  ) : (
+                    <span className="text-[#B91C1C] font-semibold">--</span>
+                  )}
                 </div>
-              </div>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
-                <div>
-                  <span className="opacity-70">Location</span>
-                  <span className="font-semibold ml-2">
-                    {pet.location || "Unknown"}
-                  </span>
-                </div>
+                <button
+                  className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
+                  onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
+                >
+                  View Document{" "}
+                  <IoIosArrowDroprightCircle className="text-lg" />
+                </button>
               </div>
             </div>
           </div>
@@ -617,7 +715,7 @@ const HomePage: React.FC = () => {
             </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
-                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+              className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
               <PlusCircle className="w-5 h-5 " /> Add New Vaccine
             </button>
@@ -640,7 +738,7 @@ const HomePage: React.FC = () => {
             </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
-                                className="w-auto px-5 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+              className="w-auto px-5 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
               <UploadIcon className="w-5 h-5" /> Upload New Document
             </button>
@@ -666,7 +764,7 @@ const HomePage: React.FC = () => {
             </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-team`)}
-                                className="w-auto px-12 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+              className="w-auto px-12 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
               <Users className="w-5 h-5" /> Add New Team
             </button>

@@ -5,7 +5,7 @@ import { X } from "lucide-react";
 import TeamAddedModal from "./TeamAddedModal";
 import teamServices from "../../Services/teamServices";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { IoIosPeople } from "react-icons/io";
+import { toast } from "sonner";
 
 
 const AddTeamPage: React.FC = () => {
@@ -58,11 +58,12 @@ const AddTeamPage: React.FC = () => {
       setShowTeamAdded(true);
       setModalOpen(false);
       setAddedTeamName(selectedTeam?.name || "");
+      toast.success('Team Added Successfully.')
     } catch (err) {
       const errorMsg =
         (err instanceof Error ? err.message : String(err)) ||
         "Failed to add team";
-      alert(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setLoading(false);
     }
@@ -79,29 +80,28 @@ const AddTeamPage: React.FC = () => {
          <IoIosArrowDropleftCircle /> Go Back
         </button>
         <div className="flex flex-col items-center w-full">
-          <div className="mb-4 sm:mb-6 flex justify-center items-center">
-            {/* Team SVG Icon with visible circular background */}
-            <span
-              style={{
-                backgroundColor: "var(--color-logo)",
-                borderRadius: "9999px",
-                width: "80px",
-                height: "80px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <IoIosPeople size={64} className="text-[var(--color-background)]" />
-            </span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-serif text-[var(--color-text)] mb-2 text-center">
-            Add A Team
-          </h1>
-          <p className="text-sm sm:text-base text-[var(--color-text)] mb-6 sm:mb-8 opacity-80 text-center px-4">
-            Search and add vets, groomers, or other care providers.
-          </p>
-          <div className="w-full max-w-md mt-2 flex flex-col items-center">
+           <div className="flex flex-col items-center w-full mb-6">
+       
+        <svg className="size-16" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="60" r="60" fill="#3C2A17"/>
+<path d="M82.761 62.1611H77.8115C78.316 63.5424 78.5916 65.033 78.5916 66.5866V85.2929C78.5916 85.9407 78.4789 86.5624 78.2738 87.1407H86.4564C89.513 87.1407 91.9997 84.6539 91.9997 81.5974V71.3998C91.9998 66.3056 87.8553 62.1611 82.761 62.1611Z" fill="white"/>
+<path d="M41.4082 66.5866C41.4082 65.0329 41.6838 63.5424 42.1883 62.1611H37.2388C32.1445 62.1611 28 66.3056 28 71.3999V81.5975C28 84.6541 30.4866 87.1408 33.5433 87.1408H41.726C41.5209 86.5623 41.4082 85.9407 41.4082 85.2929V66.5866Z" fill="white"/>
+<path d="M65.6576 57.3525H54.3423C49.248 57.3525 45.1035 61.497 45.1035 66.5913V85.2976C45.1035 86.318 45.9308 87.1454 46.9513 87.1454H73.0486C74.0691 87.1454 74.8963 86.3181 74.8963 85.2976V66.5913C74.8963 61.497 70.7518 57.3525 65.6576 57.3525Z" fill="white"/>
+<path d="M59.9994 32.8555C53.8729 32.8555 48.8887 37.8397 48.8887 43.9664C48.8887 48.122 51.1823 51.7514 54.5696 53.6569C56.1762 54.5606 58.0284 55.0771 59.9994 55.0771C61.9704 55.0771 63.8227 54.5606 65.4293 53.6569C68.8167 51.7514 71.1102 48.1219 71.1102 43.9664C71.1102 37.8399 66.126 32.8555 59.9994 32.8555Z" fill="white"/>
+<path d="M40.4891 43.2119C35.9072 43.2119 32.1797 46.9394 32.1797 51.5213C32.1797 56.1032 35.9072 59.8307 40.4891 59.8307C41.6513 59.8307 42.7581 59.5899 43.7635 59.1572C45.5017 58.4088 46.935 57.0841 47.8218 55.4247C48.4443 54.2601 48.7985 52.9314 48.7985 51.5213C48.7985 46.9395 45.071 43.2119 40.4891 43.2119Z" fill="white"/>
+<path d="M79.5106 43.2119C74.9287 43.2119 71.2012 46.9394 71.2012 51.5213C71.2012 52.9316 71.5553 54.2602 72.1778 55.4247C73.0647 57.0842 74.4979 58.4089 76.2362 59.1572C77.2416 59.5899 78.3483 59.8307 79.5106 59.8307C84.0924 59.8307 87.82 56.1032 87.82 51.5213C87.82 46.9394 84.0924 43.2119 79.5106 43.2119Z" fill="white"/>
+</svg>
+
+
+        <p className="text-3xl mt-6 font-lighter flex items-center gap-3 font-serif">
+          Add A Team
+        </p>
+        <p className=" text-[var(--color-text)] font-normal mb-6 text-center max-w-xl">
+          Search and add vets, groomers, or other care providers.
+        </p>
+      </div>
+          
+          <div className="w-full max-w-sm mt-2 flex flex-col items-center">
             <label
               className="block text-[var(--color-text)] opacity-60 mb-2 ml-1 self-start"
               htmlFor="search"
@@ -116,7 +116,7 @@ const AddTeamPage: React.FC = () => {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full h-11 px-5 pr-12 rounded-md bg-white bg-opacity-[0.04] border border-[#232b41] text-[var(--color-text)] placeholder-black placeholder-opacity-60 text-base font-normal focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition-all duration-150 shadow-none"
+              className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
                   placeholder="Search by name, clinic, or location"
                   style={{ color: "#000000" }}
                 />
@@ -221,7 +221,7 @@ const AddTeamPage: React.FC = () => {
               <X className="w-6 h-6 cursor-pointer" />
             </button>
             <h2
-              className="text-2xl flex justify-start items-start text-left mb-4 w-full"
+              className="text-2xl flex justify-start font-serif items-start text-left mb-4 w-full"
               style={{ color: "var(--color-text)" }}
             >
               Add to team?

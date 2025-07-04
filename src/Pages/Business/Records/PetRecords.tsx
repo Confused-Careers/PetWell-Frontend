@@ -114,17 +114,17 @@ const PetRecords = () => {
       <div className={`min-h-screen flex flex-col ${showFilter ? "blur-sm pointer-events-none" : ""}`}>
         <BusinessNavbar />
         <div className="w-full px-2 sm:px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center justify-between mb-4 py-3 px-6">
-              <h1 className="font-[400] font-[Cabin,sans-serif] text-[#1C232E] text-[44px]">Pet Records</h1>
+          <div className="flex items-center justify-between  mt-6 mb-4">
+            <div className="flex items-center justify-between py-3">
+              <p className="text-2xl font-lighter flex items-center gap-3 font-serif">Pet Records</p>
             </div>
             <div className="flex items-center gap-4">
-              <button className="flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors" onClick={() => setShowFilter(true)}>
+              <button className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors" onClick={() => setShowFilter(true)}>
                 Filters    <IoIosArrowDown className="ml-2"/>
               </button>
               <div className="relative">
                 <button
-                  className="flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors"
+                  className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors"
                   onClick={() => setShowSortDropdown((prev) => !prev)}
                   type="button"
                 >
@@ -259,31 +259,41 @@ const PetRecords = () => {
         <div className="fixed inset-0 flex justify-end z-50">
           <div className="w-[35%] bg-[#3C2A17] h-full px-14 py-3 overflow-y-auto text-white">
             <div className="flex justify-between items-center mb-6 space-y-4">
-              <h2 className="text-xl font-[400] text-[#EBD5BD] pt-6">Filters</h2>
-              <button onClick={() => setShowFilter(false)} className="hover:text-gray-300 text-4xl text-[#EBD5BD]">
+              <h2 className="text-xl font-[400] font-[alike] text-[#EBD5BD] pt-6">Filters</h2>
+              <button onClick={() => setShowFilter(false)} className="cursor-pointer hover:text-gray-300 text-4xl text-[#EBD5BD]">
                 ×
               </button>
             </div>
             
-            <div className="mb-6">
+            <div className="mb-6 font-[cabin">
               <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Species</h3>
               <div className="space-y-4">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={speciesFilter === "550e8400-e29b-41d4-a716-446655440001"}
-                    onChange={(e) => setSpeciesFilter(e.target.checked ? "550e8400-e29b-41d4-a716-446655440001" : null)}
-                    className="mr-2 w-5 h-5 accent-[#FFB23E] appearance-none rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none"
-                  />
+                <label className="flex items-center cursor-pointer group">
+                  <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={speciesFilter === "550e8400-e29b-41d4-a716-446655440001"}
+                      onChange={(e) => setSpeciesFilter(e.target.checked ? "550e8400-e29b-41d4-a716-446655440001" : null)}
+                      className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                    />
+                    {speciesFilter === "550e8400-e29b-41d4-a716-446655440001" && (
+                      <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                    )}
+                  </span>
                   <span className="text-md text-[#EBD5BD]">Dog</span>
                 </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={speciesFilter === "550e8400-e29b-41d4-a716-446655440002"}
-                    onChange={(e) => setSpeciesFilter(e.target.checked ? "550e8400-e29b-41d4-a716-446655440002" : null)}
-                    className="mr-2 w-5 h-5 accent-[#FFB23E] appearance-none rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none"
-                  />
+                <label className="flex items-center cursor-pointer group">
+                  <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={speciesFilter === "550e8400-e29b-41d4-a716-446655440002"}
+                      onChange={(e) => setSpeciesFilter(e.target.checked ? "550e8400-e29b-41d4-a716-446655440002" : null)}
+                      className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                    />
+                    {speciesFilter === "550e8400-e29b-41d4-a716-446655440002" && (
+                      <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                    )}
+                  </span>
                   <span className="text-md text-[#EBD5BD]">Cat</span>
                 </label>
               </div>
@@ -293,13 +303,18 @@ const PetRecords = () => {
               <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Doctor Visited</h3>
               <div className="space-y-4">
                 {vets.map((vet) => (
-                  <label key={vet.id} className="flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={doctorFilter === vet.id}
-                      onChange={(e) => setDoctorFilter(e.target.checked ? vet.id : null)}
-                      className="mr-2 w-5 h-5 accent-[#FFB23E] appearance-none rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none"
-                    />
+                  <label key={vet.id} className="flex items-center cursor-pointer group">
+                    <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={doctorFilter === vet.id}
+                        onChange={(e) => setDoctorFilter(e.target.checked ? vet.id : null)}
+                        className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                      />
+                      {doctorFilter === vet.id && (
+                        <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                      )}
+                    </span>
                     <span className="text-md text-[#EBD5BD]">{vet.staff_name}</span>
                   </label>
                 ))}
@@ -309,31 +324,46 @@ const PetRecords = () => {
             <div className="mb-8 ">
               <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Visit</h3>
               <div className="space-y-4">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={durationFilter === "this_week"}
-                    onChange={(e) => setDurationFilter(e.target.checked ? "this_week" : null)}
-                    className="mr-2 w-5 h-5 accent-[#FFB23E] appearance-none rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none"
-                  />
+                <label className="flex items-center cursor-pointer group">
+                  <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={durationFilter === "this_week"}
+                      onChange={(e) => setDurationFilter(e.target.checked ? "this_week" : null)}
+                      className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                    />
+                    {durationFilter === "this_week" && (
+                      <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                    )}
+                  </span>
                   <span className="text-md text-[#EBD5BD]">This week</span>
                 </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={durationFilter === "this_month"}
-                    onChange={(e) => setDurationFilter(e.target.checked ? "this_month" : null)}
-                    className="mr-2 w-5 h-5 accent-[#FFB23E] appearance-none rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none"
-                  />
+                <label className="flex items-center cursor-pointer group">
+                  <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={durationFilter === "this_month"}
+                      onChange={(e) => setDurationFilter(e.target.checked ? "this_month" : null)}
+                      className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                    />
+                    {durationFilter === "this_month" && (
+                      <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                    )}
+                  </span>
                   <span className="text-md text-[#EBD5BD]">This month</span>
                 </label>
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={durationFilter === "last_3_months"}
-                    onChange={(e) => setDurationFilter(e.target.checked ? "last_3_months" : null)}
-                    className="mr-2 w-5 h-5 accent-[#FFB23E] appearance-none rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none"
-                  />
+                <label className="flex items-center cursor-pointer group">
+                  <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                    <input
+                      type="checkbox"
+                      checked={durationFilter === "last_3_months"}
+                      onChange={(e) => setDurationFilter(e.target.checked ? "last_3_months" : null)}
+                      className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                    />
+                    {durationFilter === "last_3_months" && (
+                      <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                    )}
+                  </span>
                   <span className="text-md text-[#EBD5BD]">Last 3 months</span>
                 </label>
               </div>
@@ -342,13 +372,13 @@ const PetRecords = () => {
             <div className="flex gap-3">
               <button
                 onClick={handleResetFilters}
-                className="flex-1 px-4 py-2 bg-transparent border border-[#FFA500] text-[#FFA500] rounded-[60px] hover:bg-[#FFA500] hover:text-white transition-colors"
+                className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-card-button)] bg-transparent hover:opacity-90 hover:text-[var(--color-card-button)] px-0 py-2 rounded-3xl font-semibold transition text-base"
               >
                 Reset Filters
               </button>
               <button
                 onClick={handleFilterApply}
-                className="flex-1 px-4 py-2 bg-[#FFA500] text-black rounded-[60px] hover:bg-[#FF8C00] transition-colors"
+                className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
               >
                 Apply Filters
               </button>

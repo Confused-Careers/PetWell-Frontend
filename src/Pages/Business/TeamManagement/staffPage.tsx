@@ -70,7 +70,7 @@ const StaffPage = () => {
 
         // Fetch staff list with filters
         const response = await staffServices.getStaffList(1, 10, { 
-          role_name: roleFilter ?? undefined, 
+          role: roleFilter ?? undefined, 
           access_level: permissionsFilter ?? undefined 
         });
         console.log("Fetched staff list:", response.data);

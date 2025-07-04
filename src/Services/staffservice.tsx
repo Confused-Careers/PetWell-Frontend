@@ -8,7 +8,6 @@ interface AddStaffData {
   email: string;
   password: string;
   role_name: string;
-  permissions: string;
 }
 
 // Interface for updating staff information
@@ -52,6 +51,7 @@ const staffServices = {
   // Add a new staff member
   async addStaff(data: AddStaffData): Promise<StaffResponse> {
     try {
+      console.log("Adding staff with data:", data);
       const response = await axios.post(
         `${SERVER_BASE_URL}/api/v1/businesses/staff`,
         data,

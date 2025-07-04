@@ -66,6 +66,7 @@ const AddNewPet: React.FC = () => {
       const response = await businessServices.createPetMapping({ qr_code_id: enteredCode });
       toast.success(`Pet added successfully. Say Hi! to ${response.pet_name}`);
       setCode(["", "", "", "", ""]);
+      window.location.reload(); 
       inputRefs.current[0]?.focus();
     } catch (error: any) {
       toast.error(error.message || "Failed to add pet. Please try again.");

@@ -90,7 +90,6 @@ const StaffPage = () => {
         await staffServices.addStaff({
           ...newMember,
           role_name: newMember.role_name,
-          permissions: newMember.access_level,
         });
         const response = await staffServices.getStaffList(1, 10, { role: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
         setStaffMembers(response.data)

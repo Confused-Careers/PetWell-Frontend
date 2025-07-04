@@ -38,6 +38,7 @@ const PetsUnderCare: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
+      console.log("Fetched pets:", response);
       const petsData = response as unknown as Pet[];
       setPets(petsData);
     } catch (error: any) {

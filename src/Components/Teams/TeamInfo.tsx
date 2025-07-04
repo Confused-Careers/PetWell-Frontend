@@ -22,7 +22,7 @@ const TeamBox: React.FC<TeamBoxProps> = ({ team, onDelete }) => {
   const phone = business.phone || "";
   const email = business.email || "";
   const address = business.address || "";
-  const avatar = business.profilePictureDocument.document_url;
+  const avatar = business.profilePictureDocument?.document_url;
   console.log(business)
 
   return (

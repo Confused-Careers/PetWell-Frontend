@@ -68,7 +68,7 @@ const BusinessNavbar: React.FC = () => {
       try {
         const res = await businessServices.getProfile();
         setBusinessName(res?.business_name || "Business");
-        setBusinessImage(res?.profile_picture || "https://randomuser.me/api/portraits/men/32.jpg");
+        setBusinessImage(res?.profilePictureDocument.document_url || "https://randomuser.me/api/portraits/men/32.jpg");
       } catch {
         setBusinessName("Business");
         setBusinessImage("https://randomuser.me/api/portraits/men/32.jpg");

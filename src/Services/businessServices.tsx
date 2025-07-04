@@ -92,6 +92,10 @@ interface PaginatedRequest {
 }
 
 interface BusinessResponse {
+  profilePictureDocument: {
+    document_url: string;
+    document_id: string;
+  }
   business_name: string;
   profile_picture: string;
   message: string;

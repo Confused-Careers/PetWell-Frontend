@@ -10,6 +10,9 @@ import { FaCircleExclamation } from "react-icons/fa6";
 
 // Define TypeScript interface for Pet
 interface Pet {
+  last_visit: any;
+  next_due_vaccine: any;
+  profilePictureDocument: any;
   human_owner: any;
   notes: ReactNode;
   spay_neuter: boolean;
@@ -55,7 +58,7 @@ const PetBusinessHomePage: React.FC = () => {
         }
 
         const petRes = await petServices.getPetById(petId);
-        console.log("[HomePage] Fetched pet data:", petRes);
+        console.log("[HomePage] Fetched pet response:", petRes);
         let petData: any = petRes;
         // If petRes is a PetResponse, extract .data
         if (petRes && petRes.data) petData = petRes.data;
@@ -124,7 +127,7 @@ const PetBusinessHomePage: React.FC = () => {
               <div className="flex flex-col items-center text-center mb-4">
                 <div className="w-full h-full rounded-[20px] overflow-hidden mb-2 bg-black">
                   <img
-                    src={pet.profile_picture || "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"}
+                    src={pet.profilePictureDocument?.document_url || "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"}
                     alt={pet.pet_name || "Pet"}
                     className="w-full h-full object-cover"
                   />
@@ -194,13 +197,36 @@ const PetBusinessHomePage: React.FC = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-[#1C232E]/60">Last Vet Visit</span>
                   </div>
-                  <div className="text-[#1C232E] font-[400] flex flex-row text-[20px]"><p className="font-[600] text-[20px]">3/4/24 &nbsp; </p> | &nbsp; Dr. Hemant Patel, Vet Office of New York &nbsp; | <p className="font-[600] text-[20px] flex flex-row">&nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
+                  <div className="text-[#1C232E] font-[400] flex flex-row text-[20px]">
+                    <>
+                      <p className="font-[600] text-[20px]">
+                        {!pet.last_visit || Object.keys(pet.last_visit).length === 0
+                          ? 'Not Visited Yet'
+                          : new Date(pet.last_visit.created_at).toLocaleDateString('en-GB', {
+                              day: 'numeric',
+                              month: 'numeric',
+                              year: '2-digit',
+                            })
+                        }
+                      </p>
+                      &nbsp; | &nbsp;
+                      {!pet.last_visit || Object.keys(pet.last_visit).length === 0
+                        ? 'Not Visited Yet'
+                        : ((pet.last_visit.staff?.staff_name || '') + `, ` +(pet.last_visit.business?.business_name || '') || '--')}
+                      &nbsp; | 
+                      <button className="font-[600] text-[20px] flex flex-row cursor-pointer">
+                        &nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1" onClick={() => navigate(`/business/pet/${petId}/documents`)}/>
+                      </button>
+                    </>
+                  </div>
                 </div>
                 <div className="pt-4 mb-2">
                   <div className="flex justify-between items-center">
                     <span className="text-[#1C232E]/60">Next Vaccine Due</span>
                   </div>
-                  <div className="text-red-500 font-[400] flex flex-row text-[20px]"><p className="font-[600] text-[20px] text-[#1C232E]">K9 DA2PPV 3 Year (VANGUARD) &nbsp;| </p>  &nbsp; In 3 days <FaCircleExclamation className="mt-1.5 ml-1"/>&nbsp; <p className="font-[600] text-[20px] flex flex-row text-[#1C232E]">| &nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1"/></p></div>
+                  <div className="text-red-500 font-[400] flex flex-row text-[20px]"><p className="font-[600] text-[20px] text-[#1C232E]"> {!pet.next_due_vaccine || Object.keys(pet.next_due_vaccine).length === 0 ? 'No vaccine due' : pet.next_due_vaccine.vaccine_name} &nbsp;<span className="font-[400]">|</span> </p>  &nbsp; In {pet.next_due_vaccine.date_due ? Math.max(0, Math.ceil((new Date(pet.next_due_vaccine.date_due).getTime() - new Date().setHours(0,0,0,0)) / (1000 * 60 * 60 * 24))) : "--"} days <FaCircleExclamation className="mt-1.5 ml-1"/>&nbsp; <p className="font-[600] text-[20px] flex flex-row text-[#1C232E]"><span className="font-[400]">|</span> &nbsp; <button className="font-[600] text-[20px] flex flex-row cursor-pointer">
+                        &nbsp; View Document <IoIosArrowDroprightCircle className="mt-1.5 ml-1" onClick={() => navigate(`/business/pet/${petId}/documents`)}/>
+                  </button></p></div>
                 </div>
               </div>
             <div className="flex flex-row gap-6 justify-center">

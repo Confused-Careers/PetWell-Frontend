@@ -185,7 +185,7 @@ const VerificationPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 text-amber-100 text-lg">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--color-background)] text-[var(--color-text)] text-lg">
         Loading...
       </div>
     );
@@ -200,16 +200,80 @@ const VerificationPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2  sm:p-4 md:p-8">
+    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative p-6 md:p-8">
       {/* Logo and header */}
       <div className="flex flex-col sm:flex-row w-full">
-        <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+        {/* Logo + Profile Dropdown Row (responsive) */}
+        <div className="flex flex-row items-center justify-between w-full sm:w-auto sm:justify-start h-8 mb-8 md:mb-0 gap-2 pt-4 sm:pt-0">
           <img
             src={PetWellLogo}
             alt="PetWell Logo"
             className="object-contain h-full w-auto"
           />
+          {/* Profile Dropdown: next to logo on mobile, right on desktop */}
+          <div className="flex sm:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-[var(--color-card)] transition">
+                  <Avatar className="w-9 h-auto">
+                    <AvatarImage
+                      src={
+                        (pet?.profile_picture &&
+                          typeof pet?.profile_picture === "string" &&
+                          pet?.profile_picture) ||
+                        pet?.profilePictureDocument?.document_url ||
+                        pet?.profile_picture?.profilePictureDocument
+                          ?.document_url ||
+                        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                      }
+                      alt={petName}
+                    />
+                    <AvatarFallback>{petName?.[0] || "P"}</AvatarFallback>
+                  </Avatar>
+                  <span className="font-[Cabin,sans-serif] text-base text-[var(--color-logo)] font-semibold">
+                    {petName || "Pet"}
+                  </span>
+                  <svg
+                    width="12"
+                    height="8"
+                    viewBox="0 0 12 8"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="ml-1"
+                  >
+                    <path
+                      d="M1 1.5L6 6.5L11 1.5"
+                      stroke="#3c2a17"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="min-w-[200px] bg-[var(--color-card-profile)] border border-[var(--color-logo)] rounded-xl shadow-lg p-0 mt-2"
+              >
+                <DropdownMenuItem
+                  className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card)] rounded-t-xl border-b border-[var(--color-logo)]/20 cursor-pointer"
+                  onClick={() => navigate(`/petowner/pet/${petId}/profile`)}
+                >
+                  Go to Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card)] rounded-b-xl cursor-pointer"
+                  onClick={() =>
+                    navigate(`/petowner/pet/${petId}/switch-profile`)
+                  }
+                >
+                  Not {petName}? Switch Profile
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
+        {/* Centered header text */}
         <div className="flex-1 flex flex-col items-center mb-6">
           <p className="font-[Alike,serif] text-3xl text-[#1C232E] mb-0 text-center leading-tight">
             Here's what we know. Check it out!
@@ -219,7 +283,8 @@ const VerificationPage: React.FC = () => {
             profile.
           </span>
         </div>
-        <div className="flex justify-center sm:justify-end h-8 mb-8 md:mb-0">
+        {/* Profile Dropdown for desktop (right aligned) */}
+        <div className="hidden sm:flex justify-end h-8 mb-8 md:mb-0">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-[var(--color-card)] transition">
@@ -264,7 +329,7 @@ const VerificationPage: React.FC = () => {
               className="min-w-[200px] bg-[var(--color-card-profile)] border border-[var(--color-logo)] rounded-xl shadow-lg p-0 mt-2"
             >
               <DropdownMenuItem
-                className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card)] rounded-t-xl border-b border-[var(--color-logo)]/20 cursor-pointer"
+                className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card] rounded-t-xl border-b border-[var(--color-logo)]/20 cursor-pointer"
                 onClick={() => navigate(`/petowner/pet/${petId}/profile`)}
               >
                 Go to Profile
@@ -281,7 +346,7 @@ const VerificationPage: React.FC = () => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto w-full sm:px-4">
+      <div className="max-w-7xl mx-auto w-full">
         <DetailSection pet={pet} user={human} />
         {/* Vaccines Section */}
         <div className="flex items-center justify-between gap-4 mb-3 sm:mb-4 mt-8 sm:mt-10">
@@ -295,9 +360,9 @@ const VerificationPage: React.FC = () => {
           </div>
           <button
             onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
-            className="px-8 py-2 cursor-pointer rounded-full bg-[var(--color-card-button)] text-[var(--color-black)] font-semibold font-[Cabin,sans-serif] flex items-center gap-2 shadow-sm hover:brightness-105 transition-all text-base"
+            className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
           >
-            <PlusCircle className="w-5 h-5" /> Add New Vaccine
+            <PlusCircle className="w-5 h-5 " /> Add New Vaccine
           </button>
         </div>
         {Array.isArray(vaccines) && vaccines.length > 0 ? (
@@ -320,7 +385,7 @@ const VerificationPage: React.FC = () => {
           </div>
           <button
             onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
-            className="px-8 py-2 cursor-pointer rounded-full bg-[var(--color-card-button)] text-[var(--color-black)] font-semibold font-[Cabin,sans-serif] flex items-center gap-2 shadow-sm hover:brightness-105 transition-all text-base"
+            className="w-auto px-5 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
           >
             <UploadIcon className="w-5 h-5" /> Upload New Document
           </button>
@@ -335,10 +400,10 @@ const VerificationPage: React.FC = () => {
         ) : (
           <p className="text-gray-400">No documents found</p>
         )}
-        <div className="flex justify-end gap-4 sm:gap-8  sm:mt-8 w-full">
+        <div className="flex justify-end gap-4 sm:gap-8 sm:mb-4 sm:mt-8 w-full">
           <button
-            className="w-[300px] font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E] mb-8 mt-2"
             onClick={() => navigate(`/petowner/pet/${petId}/home`)}
+            className="w-auto px-5 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
           >
             Next
           </button>

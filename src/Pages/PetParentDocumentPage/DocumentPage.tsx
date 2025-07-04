@@ -342,7 +342,7 @@ const DocumentPage: React.FC = () => {
         </div>
         {/* Custom Tabs and Sort Row */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-8 w-full">
-          <div className="flex gap-3 mb-2 sm:mb-0">
+          <div className="flex gap-3 max-sm:flex-col mb-2 sm:mb-0 bg-[var(--color-background)]">
             {tabOptions.map((tab) => (
               <button
                 key={tab.value}
@@ -359,41 +359,43 @@ const DocumentPage: React.FC = () => {
               </button>
             ))}
           </div>
-          <div className="flex justify-end w-full sm:w-auto relative">
+            <div className="flex justify-end w-full sm:w-auto relative">
             <button
               type="button"
-              className="w-auto flex items-center justify-between bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)] font-medium cursor-pointer"
+              className="w-full sm:w-auto flex items-center justify-between bg-[var(--color-card)] border border-[var(--color-border)] rounded-full px-3 py-2 text-[var(--color-text)] font-medium cursor-pointer"
               onClick={() => setShowSortDropdown((v) => !v)}
               id="sort-by-btn"
             >
+              <span className="truncate">
               Sort By: {sortOptions.find((opt) => opt.value === sortBy)?.label}
+              </span>
               <IoIosArrowDown className="ml-2" />
             </button>
             {showSortDropdown && (
               <div
-                className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto"
-                style={{ top: "100%" }}
+              className="absolute z-20 left-0 right-0 mt-2 bg-[var(--color-card)] border border-[var(--color-border)] rounded-lg shadow-lg max-h-60 overflow-auto"
+              style={{ top: "100%" }}
               >
-                {sortOptions.map((opt, idx) => (
-                  <button
-                    key={opt.value}
-                    className={`block w-auto text-left px-4 py-2 hover:bg-[var(--color-accent-hover)] ${
-                      sortBy === opt.value ? "font-bold" : ""
-                    } ${idx === 0 ? "rounded-t" : ""} ${
-                      idx === sortOptions.length - 1 ? "rounded-b" : ""
-                    }`}
-                    style={{ background: "white", color: "var(--color-text)" }}
-                    onClick={() => {
-                      setSortBy(opt.value);
-                      setShowSortDropdown(false);
-                    }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+              {sortOptions.map((opt, idx) => (
+                <button
+                key={opt.value}
+                className={`block w-full text-left px-4 py-2 hover:bg-[var(--color-accent-hover)] ${
+                  sortBy === opt.value ? "font-bold" : ""
+                } ${idx === 0 ? "rounded-t" : ""} ${
+                  idx === sortOptions.length - 1 ? "rounded-b" : ""
+                }`}
+                style={{ background: "white", color: "var(--color-text)" }}
+                onClick={() => {
+                  setSortBy(opt.value);
+                  setShowSortDropdown(false);
+                }}
+                >
+                {opt.label}
+                </button>
+              ))}
               </div>
             )}
-          </div>
+            </div>
         </div>
         {/* Document Grid */}
         {getFilteredDocs().length > 0 ? (

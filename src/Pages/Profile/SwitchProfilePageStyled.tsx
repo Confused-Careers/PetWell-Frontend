@@ -89,7 +89,7 @@ const SwitchProfilePage: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-wrap justify-start gap-8 max-w-7xl mx-auto">
+          <div className="flex flex-wrap max-sm:justify-center gap-8 max-w-7xl mx-auto">
             {pets.map((pet) => (
               <div
                 key={pet.id}

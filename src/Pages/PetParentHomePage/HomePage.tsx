@@ -458,21 +458,23 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
+      <div className="container mx-auto max-w-7xl pt-6 pb-12">
         {/* Profile & Health Summary */}
         {pet && (
-          <section className="mb-6 mt-4">
+          <section className="mb-6 mt-4 px-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
                 <span className="flex items-center justify-center size-8 rounded-full bg-transparent">
                   <PawPrint className="w-full h-full text-[var(--color-text)]" />
                 </span>
                 Welcome {pet.pet_name}!
-              </p> 
-             
+              </p>
+
               <div>
                 <button
-                  onClick={() => navigate(`/petowner/pet/${petId}/switch-profile`)}
+                  onClick={() =>
+                    navigate(`/petowner/pet/${petId}/switch-profile`)
+                  }
                   className="w-full sm:w-auto px-4 sm:px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-1 border border-[#FFB23E] bg-[#FFB23E] text-center"
                 >
                   <span className="flex items-center">
@@ -486,7 +488,7 @@ const HomePage: React.FC = () => {
         )}
 
         {pet && (
-          <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full px-4">
             {/* Pet Profile Card */}
             <div className="border  border-black bg-[var(--color-card-profile)] rounded-3xl p-6 flex flex-col md:flex-row items-center flex-2/3 text-[var(--color-white)] shadow-lg">
               {/* Image */}
@@ -494,7 +496,7 @@ const HomePage: React.FC = () => {
                 <img
                   src={
                     pet.profilePictureDocument === null
-                      ? `https://place.dog/300/200`
+                      ? "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
                       : pet.profilePictureDocument?.document_url
                   }
                   alt={pet.pet_name || "Pet"}
@@ -564,13 +566,27 @@ const HomePage: React.FC = () => {
                           title="Show QR Code"
                           type="button"
                         >
-                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 24 25" fill="none">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="21"
+                            viewBox="0 0 24 25"
+                            fill="none"
+                          >
                             <g clipPath="url(#clip0_1021_7408)">
-                              <path d="M12 3.3125V5.1875H10.125V3.3125H12ZM10.125 14.3281V17H12V14.3281H10.125ZM15.75 24.5V22.625H13.875V20.75H12V24.5H15.75ZM19.5 10.5781H13.875V12.4531H19.5V10.5781ZM19.5 14.3281H22.125V12.4531H19.5V14.3281ZM19.5 17V18.875H24V14.3281H22.125V17H19.5ZM13.875 0.5H12V3.3125H13.875V0.5ZM12 8.9375H13.875V5.1875H12V7.0625H10.125V12.4531H12V8.9375ZM0 10.5781V14.3281H1.875V12.4531H4.6875V10.5781H0ZM13.875 14.3281V12.4531H12V14.3281H13.875ZM17.625 16.2031H19.5V14.3281H17.625V16.2031ZM22.125 12.4531H24V10.5781H22.125V12.4531ZM15.75 14.3281H13.875V17H12V18.875H15.75V14.3281ZM10.125 20.75H12V18.875H10.125V20.75ZM15.75 18.875V20.75H19.5V18.875H15.75ZM21.375 22.625V20.75H19.5V22.625H21.375ZM24 24.5V22.625H21.375V24.5H24ZM17.625 24.5H19.5V22.625H17.625V24.5ZM8.4375 12.4531V10.5781H6.5625V12.4531H4.6875V14.3281H10.125V12.4531H8.4375ZM8.4375 8.9375H0V0.5H8.4375V8.9375ZM6.5625 2.375H1.875V7.0625H6.5625V2.375ZM5.15625 3.78125H3.28125V5.65625H5.15625V3.78125ZM24 0.5V8.9375H15.5625V0.5H24ZM22.125 2.375H17.4375V7.0625H22.125V2.375ZM20.7188 3.78125H18.8438V5.65625H20.7188V3.78125ZM0 16.0625H8.4375V24.5H0V16.0625ZM1.875 22.625H6.5625V17.9375H1.875V22.625ZM3.28125 21.2188H5.15625V19.3438H3.28125V21.2188Z" fill="black"/>
+                              <path
+                                d="M12 3.3125V5.1875H10.125V3.3125H12ZM10.125 14.3281V17H12V14.3281H10.125ZM15.75 24.5V22.625H13.875V20.75H12V24.5H15.75ZM19.5 10.5781H13.875V12.4531H19.5V10.5781ZM19.5 14.3281H22.125V12.4531H19.5V14.3281ZM19.5 17V18.875H24V14.3281H22.125V17H19.5ZM13.875 0.5H12V3.3125H13.875V0.5ZM12 8.9375H13.875V5.1875H12V7.0625H10.125V12.4531H12V8.9375ZM0 10.5781V14.3281H1.875V12.4531H4.6875V10.5781H0ZM13.875 14.3281V12.4531H12V14.3281H13.875ZM17.625 16.2031H19.5V14.3281H17.625V16.2031ZM22.125 12.4531H24V10.5781H22.125V12.4531ZM15.75 14.3281H13.875V17H12V18.875H15.75V14.3281ZM10.125 20.75H12V18.875H10.125V20.75ZM15.75 18.875V20.75H19.5V18.875H15.75ZM21.375 22.625V20.75H19.5V22.625H21.375ZM24 24.5V22.625H21.375V24.5H24ZM17.625 24.5H19.5V22.625H17.625V24.5ZM8.4375 12.4531V10.5781H6.5625V12.4531H4.6875V14.3281H10.125V12.4531H8.4375ZM8.4375 8.9375H0V0.5H8.4375V8.9375ZM6.5625 2.375H1.875V7.0625H6.5625V2.375ZM5.15625 3.78125H3.28125V5.65625H5.15625V3.78125ZM24 0.5V8.9375H15.5625V0.5H24ZM22.125 2.375H17.4375V7.0625H22.125V2.375ZM20.7188 3.78125H18.8438V5.65625H20.7188V3.78125ZM0 16.0625H8.4375V24.5H0V16.0625ZM1.875 22.625H6.5625V17.9375H1.875V22.625ZM3.28125 21.2188H5.15625V19.3438H3.28125V21.2188Z"
+                                fill="black"
+                              />
                             </g>
                             <defs>
                               <clipPath id="clip0_1021_7408">
-                                <rect width="24" height="24" fill="white" transform="translate(0 0.5)"/>
+                                <rect
+                                  width="24"
+                                  height="24"
+                                  fill="white"
+                                  transform="translate(0 0.5)"
+                                />
                               </clipPath>
                             </defs>
                           </svg>
@@ -599,7 +615,9 @@ const HomePage: React.FC = () => {
                                 encodeURIComponent(source);
                               const link = document.createElement("a");
                               link.href = url;
-                              link.download = `${pet?.pet_name || "pet"}-qr.svg`;
+                              link.download = `${
+                                pet?.pet_name || "pet"
+                              }-qr.svg`;
                               document.body.appendChild(link);
                               link.click();
                               document.body.removeChild(link);
@@ -675,26 +693,31 @@ const HomePage: React.FC = () => {
                     |
                   </span>
                   {pet.next_due_vaccine?.date_due ? (
-                    <span className="text-[#B91C1C] font-semibold flex items-center gap-1">
-                      In{" "}
-                      {Math.max(
+                    (() => {
+                      const daysLeft = Math.max(
                         0,
                         Math.ceil(
                           (new Date(pet.next_due_vaccine.date_due).getTime() -
                             new Date().setHours(0, 0, 0, 0)) /
                             (1000 * 60 * 60 * 24)
                         )
-                      )}{" "}
-                      days
-                      <FaCircleExclamation className="text-base" />
-                    </span>
+                      );
+                      return (
+                        <span className="font-semibold flex items-center gap-1 text-[#1C232E]">
+                          In {daysLeft} days
+                          {daysLeft < 6 && (
+                            <FaCircleExclamation className="text-[#B91C1C] text-base" />
+                          )}
+                        </span>
+                      );
+                    })()
                   ) : (
                     <span className="text-[#B91C1C] font-semibold">--</span>
                   )}
                 </div>
                 <button
                   className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
-                  onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
+                  onClick={() => navigate(`/petowner/pet/${petId}/vaccine`)}
                 >
                   View Document{" "}
                   <IoIosArrowDroprightCircle className="text-lg" />
@@ -705,7 +728,7 @@ const HomePage: React.FC = () => {
         )}
 
         {/* Vaccine Section */}
-        <section className="mb-6">
+        <section className="mb-6 px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
@@ -728,7 +751,7 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Document Section */}
-        <section className="mb-6">
+        <section className="mb-6 px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
@@ -754,7 +777,7 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Team Section */}
-        <section className="mb-6">
+        <section className="mb-6 px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">

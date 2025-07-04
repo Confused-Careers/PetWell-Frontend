@@ -16,7 +16,11 @@ interface Pet {
   owner?: string;
 }
 
-const RecentlyAddedPets: React.FC = () => {
+interface RecentlyAddedPetsProps {
+  setCount?: (count: number) => void;
+}
+
+const RecentlyAddedPets: React.FC<RecentlyAddedPetsProps> = ({ setCount }) => {
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -33,8 +37,10 @@ const RecentlyAddedPets: React.FC = () => {
         staff_name: pet.staff_name || "Dr. Patel",
       }));
       setPets(mappedPets);
+      if (setCount) setCount(mappedPets.length);
     } catch (error: any) {
       toast.error(error.message || "Failed to fetch recently added pets.");
+      if (setCount) setCount(0);
     } finally {
       setLoading(false);
     }

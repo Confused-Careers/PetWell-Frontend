@@ -1,7 +1,9 @@
-import { ChevronRight, Search, X, Plus } from 'lucide-react';
-import React from 'react'
-import { useState } from 'react';
+import { ChevronRight, Search, X, Plus, PencilLine, ChevronDown } from 'lucide-react';
+
+import { useState, useMemo } from 'react';
 import BusinessNavbar from '../../../Components/BusinessComponents/BusinessNavbar';
+import { CiSearch } from 'react-icons/ci';
+import { useNavigate } from 'react-router-dom';
 
 const StaffPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -12,6 +14,9 @@ const StaffPage = () => {
     permissions: 'Full Access',
     username: ''
   });
+  const [showFilter, setShowFilter] = useState(false);
+  const [roleFilter, setRoleFilter] = useState<string | null>(null);
+  const [permissionsFilter, setPermissionsFilter] = useState<string | null>(null);
 
   const [staffMembers, setStaffMembers] = useState([
     { id: 1, name: 'Dr. Hemant Patel', role: 'Vet', permissions: 'Full Access', username: 'hemantpatel45' },
@@ -21,6 +26,12 @@ const StaffPage = () => {
     { id: 5, name: 'Dr. Mia Thompson', role: 'Vet', permissions: 'Full Access', username: 'pawsitive_vet' },
     { id: 6, name: 'Dr. Felix Carter', role: 'Vet', permissions: 'Full Access', username: 'vetexpert_99' }
   ]);
+
+  const navigate = useNavigate();
+
+  // Replace dynamic uniqueRoles and uniquePermissions with static options
+  const roleOptions = ["Vet", "Assistant", "Manager", "Receptionist"];
+  const permissionsOptions = ["Full Access", "Editor Access", "View Only Access"];
 
   const handleAddMember = () => {
     if (newMember.name && newMember.username) {
@@ -33,69 +44,114 @@ const StaffPage = () => {
     }
   };
 
-  const filteredStaff = staffMembers.filter(member =>
-    member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    member.username.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Filter staff by search, role, and permissions
+  const filteredStaff = staffMembers.filter(member => {
+    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) || member.username.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = !roleFilter || member.role === roleFilter;
+    const matchesPermissions = !permissionsFilter || member.permissions === permissionsFilter;
+    return matchesSearch && matchesRole && matchesPermissions;
+  });
+
+  const handleResetFilters = () => {
+    setRoleFilter(null);
+    setPermissionsFilter(null);
+  };
 
   return (
     <div className="min-h-screen bg-[#FFF8E5]">
       <BusinessNavbar />
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="w-full px-2 sm:px-4 md:px-8 max-w-7xl mx-auto">
         {/* Business Section */}
-        <div className="border-2 border-dotted border-[#3B7EDB] rounded-2xl mb-8 overflow-visible pl-8 pr-4 pt-4 pb-8 relative">
-          <h2 className="text-2xl font-serif font-bold underline underline-offset-4 text-[#1C232E] mb-4 ml-2">Your Business</h2>
-          <div className="bg-[#6A8293] rounded-2xl border-2 border-dotted border-[#3B7EDB] px-8 py-6 flex items-start space-x-8 mt-2">
-            <div className="w-48 h-48 bg-white rounded-2xl overflow-hidden flex-shrink-0 border-2 border-dotted border-[#3B7EDB]">
-              <img 
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif mt-6 mb-4">Your Business</p>
+          <div className="bg-[#6A8293] rounded-2xl border px-8 py-6 flex items-start space-x-8 mt-2 mb-6">
+             <img 
                 src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=160&h=160&fit=crop&crop=face" 
                 alt="Veterinarian with dog"
-                className="w-full h-full object-cover"
+                className="object-cover rounded-lg"
+                style={{ maxWidth: "500px", maxHeight: "400px", width: "100%", height: "auto" }}
               />
-            </div>
-            <div className="flex-1">
-              <div className="flex items-start justify-between">
+           
+            <div className="flex-1 ">
+              <div className="flex items-start justify-between font-cabin ">
                 <div>
-                  <h3 className="text-2xl font-bold mb-4 text-white font-serif">Vet Office of New York</h3>
+                  <p className="text-2xl font-medium mb-4 text-[var(--color-background)]">Vet Office of New York</p>
                   <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-base">
                     <div>
-                      <p className="text-white/70 text-sm">Phone</p>
-                      <p className="text-white font-medium">(555) 555-5555</p>
+                      <p className="text-[var(--color-background)]/70 text-sm">Phone</p>
+                      <p className="text-[var(--color-background)] font-medium">(555) 555-5555</p>
                     </div>
                     <div>
-                      <p className="text-white/70 text-sm">Email</p>
-                      <p className="text-white font-medium">info@vetoffice.com</p>
+                      <p className="text-[var(--color-background)]/70 text-sm">Email</p>
+                      <p className="text-[var(--color-background)] font-medium">info@vetoffice.com</p>
                     </div>
                     <div>
-                      <p className="text-white/70 text-sm">Website</p>
-                      <p className="text-white font-medium">www.vetoffice.com</p>
+                      <p className="text-[var(--color-background)]/70 text-sm">Website</p>
+                      <p className="text-[var(--color-background)] font-medium">www.vetoffice.com</p>
                     </div>
                   </div>
                   <div className="mt-4">
-                    <p className="text-white/70 text-sm">Address</p>
-                    <p className="text-white font-medium">78 Hudson St, New York</p>
+                    <p className="text-[var(--color-background)]/70 text-sm">Address</p>
+                    <p className="text-[var(--color-background)] font-medium">78 Hudson St, New York</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <button className="w-10 h-10 bg-black rounded-lg hover:bg-gray-800 flex items-center justify-center transition-colors">
-                    <span className="text-white font-bold text-lg">𝕏</span>
-                  </button>
-                  <button className="w-10 h-10 bg-orange-500 rounded-lg hover:bg-orange-600 flex items-center justify-center transition-colors">
-                    <span className="text-white text-lg">📷</span>
-                  </button>
-                  <button className="w-10 h-10 bg-blue-600 rounded-lg hover:bg-blue-700 flex items-center justify-center transition-colors">
-                    <span className="text-white font-bold text-lg">f</span>
-                  </button>
-                  <button className="ml-4 p-2 hover:bg-white/10 rounded-lg transition-colors">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                  {/* X (Twitter) */}
+                  <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-black rounded-lg hover:bg-gray-800 flex items-center justify-center transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <g clip-path="url(#clip0_1021_9360)">
+    <rect width="48" height="48" rx="8" fill="white"/>
+    <path d="M25.6049 23.1804L36.4067 38.6308H31.9736L23.1592 26.0233V26.0225L21.8651 24.1717L11.5684 9.44312H16.0014L24.3109 21.3297L25.6049 23.1804Z" fill="black"/>
+    <path d="M42.8135 0H5.1865C2.32215 0 0 2.32215 0 5.1865V42.8135C0 45.6779 2.32215 48 5.1865 48H42.8135C45.6779 48 48 45.6779 48 42.8135V5.1865C48 2.32215 45.6779 0 42.8135 0ZM30.6159 40.7049L21.6962 27.7234L10.5287 40.7049H7.64245L20.4147 25.859L7.64245 7.27042H17.3841L25.8304 19.563L36.4053 7.27042H39.2915L27.1124 21.4279H27.1116L40.3576 40.7049H30.6159Z" fill="black"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_1021_9360">
+      <rect width="48" height="48" rx="8" fill="white"/>
+    </clipPath>
+  </defs>
+</svg>
+                  </a>
+                  {/* Instagram */}
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 rounded-lg flex items-center justify-center transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <g clip-path="url(#clip0_1021_9368)">
+    <path d="M2.99942 3.26609C-0.772578 7.18409 -0.000578046 11.3461 -0.000578046 23.9901C-0.000578046 34.4901 -1.83258 45.0161 7.75542 47.4941C10.7494 48.2641 37.2774 48.2641 40.2674 47.4901C44.2594 46.4601 47.5074 43.2221 47.9514 37.5761C48.0134 36.7881 48.0134 11.2061 47.9494 10.4021C47.4774 4.38809 43.7754 0.922093 38.8974 0.220093C37.7794 0.0580928 37.5554 0.0100928 31.8194 9.27895e-05C11.4734 0.0100928 7.01342 -0.895907 2.99942 3.26609Z" fill="url(#paint0_linear_1021_9368)"/>
+    <path d="M23.9956 6.27809C16.7336 6.27809 9.83763 5.63209 7.20363 12.3921C6.11563 15.1841 6.27363 18.8101 6.27363 24.0021C6.27363 28.5581 6.12763 32.8401 7.20363 35.6101C9.83163 42.3741 16.7836 41.7261 23.9916 41.7261C30.9456 41.7261 38.1156 42.4501 40.7816 35.6101C41.8716 32.7901 41.7116 29.2181 41.7116 24.0021C41.7116 17.0781 42.0936 12.6081 38.7356 9.25209C35.3356 5.85209 30.7376 6.27809 23.9876 6.27809H23.9956ZM22.4076 9.47209C37.5556 9.44809 39.4836 7.76409 38.4196 31.1581C38.0416 39.4321 31.7416 38.5241 23.9976 38.5241C9.87763 38.5241 9.47163 38.1201 9.47163 23.9941C9.47163 9.70409 10.5916 9.48009 22.4076 9.46809V9.47209ZM33.4556 12.4141C32.2816 12.4141 31.3296 13.3661 31.3296 14.5401C31.3296 15.7141 32.2816 16.6661 33.4556 16.6661C34.6296 16.6661 35.5816 15.7141 35.5816 14.5401C35.5816 13.3661 34.6296 12.4141 33.4556 12.4141ZM23.9956 14.9001C18.9696 14.9001 14.8956 18.9761 14.8956 24.0021C14.8956 29.0281 18.9696 33.1021 23.9956 33.1021C29.0216 33.1021 33.0936 29.0281 33.0936 24.0021C33.0936 18.9761 29.0216 14.9001 23.9956 14.9001ZM23.9956 18.0941C31.8056 18.0941 31.8156 29.9101 23.9956 29.9101C16.1876 29.9101 16.1756 18.0941 23.9956 18.0941Z" fill="white"/>
+  </g>
+  <defs>
+    <linearGradient id="paint0_linear_1021_9368" x1="3.09146" y1="44.9343" x2="47.7024" y2="6.32404" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFDD55"/>
+      <stop offset="0.5" stop-color="#FF543E"/>
+      <stop offset="1" stop-color="#C837AB"/>
+    </linearGradient>
+    <clipPath id="clip0_1021_9368">
+      <rect width="48" height="48" fill="white"/>
+    </clipPath>
+  </defs>
+</svg>
+                  </a>
+                  {/* Facebook */}
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-blue-600 rounded-lg hover:bg-blue-700 flex items-center justify-center transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+  <g clip-path="url(#clip0_1021_9372)">
+    <rect width="48" height="48" rx="9" fill="#1877F2"/>
+    <path d="M48 24C48 35.9794 39.2231 45.9084 27.75 47.7084V30.9375H33.3422L34.4062 24H27.75V19.4981C27.75 17.5997 28.68 15.75 31.6613 15.75H34.6875V9.84375C34.6875 9.84375 31.9406 9.375 29.3147 9.375C23.8331 9.375 20.25 12.6975 20.25 18.7125V24H14.1562V30.9375H20.25V47.7084C8.77688 45.9084 0 35.9794 0 24C0 10.7456 10.7456 0 24 0C37.2544 0 48 10.7456 48 24Z" fill="#1877F2"/>
+    <path d="M33.3422 30.9375L34.4062 24H27.75V19.498C27.75 17.6001 28.6798 15.75 31.6612 15.75H34.6875V9.84375C34.6875 9.84375 31.941 9.375 29.3152 9.375C23.833 9.375 20.25 12.6975 20.25 18.7125V24H14.1562V30.9375H20.25V47.7084C21.4719 47.9001 22.7242 48 24 48C25.2758 48 26.5281 47.9001 27.75 47.7084V30.9375H33.3422Z" fill="white"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_1021_9372">
+      <rect width="48" height="48" rx="9" fill="white"/>
+    </clipPath>
+  </defs>
                     </svg>
-                  </button>
+                  </a>
+                 
+                    <PencilLine className="size-{20} cursor-pointer text-[var(--color-background)]" />
+                 
                 </div>
               </div>
               <div className="mt-6">
-                <p className="text-white/70 text-sm mb-2">Description</p>
-                <p className="text-white text-sm leading-relaxed">
+                <p className="text-[var(--color-background)]/70 text-sm mb-2">Description</p>
+                <p className="text-[var(--color-background)] text-sm leading-relaxed">
                   The Vet Office of New York is a premier veterinary clinic dedicated to providing exceptional care 
                   for pets in the heart of the city. Our experienced team of veterinarians and staff are committed 
                   to ensuring the health and well-being of your furry companions.
@@ -103,67 +159,84 @@ const StaffPage = () => {
               </div>
             </div>
           </div>
-        </div>
+        
 
         {/* Team Section */}
-        <div className="border-2 border-dotted border-[#3B7EDB] rounded-2xl overflow-visible pl-8 pr-4 pt-4 pb-8 relative">
-          <h2 className="text-2xl font-serif font-bold underline underline-offset-4 text-[#1C232E] mb-4 ml-2">Your Team</h2>
-          <div className="flex justify-between items-center mb-6 mr-4">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif mb-4">Your Team</p>
+        <div className=" rounded-2xl overflow-visible mb-12 relative">
+
+          {/* Controls Row */}
+          <div className="flex justify-between items-center mb-4">
             <div className="flex items-center space-x-4">
-              <button className="flex items-center text-sm text-[#1C232E] hover:text-[#FFB23E] transition-colors border border-[#1C232E] rounded-full px-4 py-2 bg-white">
-                Filters 
-                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+              {/* Filters Button */}
+              <button onClick={() => setShowFilter(true)} className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors">
+                <span className="mr-2">Filters</span>
+                <ChevronDown className="w-4 h-4" />
               </button>
+              
+              {/* Search Bar */}
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#1C232E]/50 w-4 h-4" />
                 <input
-                  type="text"
+                  className="border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C232E]/20 transition-colors"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 pr-4 py-2 border border-[#1C232E] rounded-full focus:outline-none focus:ring-2 focus:ring-[#FFB23E] text-[#1C232E] bg-white"
                 />
+                <CiSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#1C232E]/60" />
               </div>
             </div>
+            
+            {/* Add Member Button */}
             <button
-              onClick={() => setShowAddModal(true)}
-              className="bg-[#FFB23E] hover:bg-[#e6a036] text-[#1C232E] px-6 py-2 rounded-full flex items-center space-x-2 font-medium transition-colors border border-[#1C232E] shadow-none"
+              onClick={() => navigate('/business/team/add')}
+              className="flex items-center gap-2 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-6 py-2 rounded-3xl font-semibold transition text-base"
             >
               <Plus className="w-4 h-4" />
               <span>Add Member</span>
             </button>
           </div>
+          
           {/* Staff Table */}
-          <div className="bg-[#EDCC79] rounded-2xl border-2 border-dotted border-[#3B7EDB] overflow-hidden mr-4">
+          <div className="bg-[#EDCC79]/50 rounded-2xl overflow-hidden shadow-sm">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-[#1C232E]/20">
-                  <th className="text-center py-4 px-6 font-bold text-[#1C232E] text-base font-serif underline underline-offset-4">Staff Name</th>
-                  <th className="text-center py-4 px-6 font-bold text-[#1C232E] text-base font-serif underline underline-offset-4">Role</th>
-                  <th className="text-center py-4 px-6 font-bold text-[#1C232E] text-base font-serif underline underline-offset-4">Permissions</th>
-                  <th className="text-center py-4 px-6 font-bold text-[#1C232E] text-base font-serif underline underline-offset-4">Username</th>
-                  <th className="w-16"></th>
+                <tr>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Staff Name</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Role</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Permissions</th>
+                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Username</th>
+                  <th className="w-12 py-4 px-6"></th>
                 </tr>
               </thead>
               <tbody>
-                {filteredStaff.map((member) => (
-                  <tr key={member.id} className="border-b border-[#1C232E]/10 hover:bg-[#1C232E]/5 transition-colors">
-                    <td className="py-4 px-6 text-[#1C232E] font-medium text-center">{member.name}</td>
-                    <td className="py-4 px-6 text-[#1C232E] text-center">{member.role}</td>
-                    <td className="py-4 px-6 text-[#1C232E] text-center">{member.permissions}</td>
-                    <td className="py-4 px-6 text-[#1C232E] text-center">{member.username}</td>
-                    <td className="py-4 px-6 text-center">
-                      <ChevronRight className="w-5 h-5 text-[#1C232E]/60 mx-auto" />
-                    </td>
+                {filteredStaff.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-8 text-center text-gray-500 text-lg">No team found for your search</td>
                   </tr>
-                ))}
+                ) : (
+                  filteredStaff.map((member, index) => (
+                    <tr
+                      key={member.id}
+                      className={`hover:bg-[#EDCC79] transition-colors cursor-pointer ${
+                        index !== filteredStaff.length - 1 ? 'border-b border-[#EDCC79]/20' : ''
+                      }`}
+                    >
+                      <td className="py-4 px-6 text-gray-800 font-medium">{member.name}</td>
+                      <td className="py-4 px-6 text-gray-800">{member.role}</td>
+                      <td className="py-4 px-6 text-gray-800">{member.permissions}</td>
+                      <td className="py-4 px-6 text-gray-800">{member.username}</td>
+                      <td className="py-4 px-6">
+                        <ChevronRight className="w-5 h-5 text-gray-600" />
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
           </div>
         </div>
       </div>
+      
       {/* Add Member Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -236,6 +309,74 @@ const StaffPage = () => {
                 className="px-4 py-2 bg-orange-400 hover:bg-orange-500 text-white rounded-md"
               >
                 Add Member
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Filter Sidebar */}
+      {showFilter && (
+        <div className="fixed inset-0 flex justify-end z-50">
+          <div className="w-[35%] bg-[#3C2A17] h-full px-14 py-3 overflow-y-auto text-white">
+            <div className="flex justify-between items-center mb-6 space-y-4">
+              <h2 className="text-xl font-[400] font-[alike] text-[#EBD5BD] pt-6">Filters</h2>
+              <button onClick={() => setShowFilter(false)} className="cursor-pointer hover:text-gray-300 text-4xl text-[#EBD5BD]">×</button>
+            </div>
+            <div className="mb-6 font-[cabin]">
+              <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Role</h3>
+              <div className="space-y-4">
+                {roleOptions.map(role => (
+                  <label key={role} className="flex items-center cursor-pointer group">
+                    <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={roleFilter === role}
+                        onChange={e => setRoleFilter(e.target.checked ? role : null)}
+                        className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                      />
+                      {roleFilter === role && (
+                        <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                      )}
+                    </span>
+                    <span className="text-md text-[#EBD5BD]">{role}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="mb-8 font-[cabin]">
+              <h3 className="text-sm font-[400] text-[#EBD5BD] mb-3">By Permissions</h3>
+              <div className="space-y-4">
+                {permissionsOptions.map(perm => (
+                  <label key={perm} className="flex items-center cursor-pointer group">
+                    <span className="relative w-5 h-5 mr-2 flex items-center justify-center">
+                      <input
+                        type="checkbox"
+                        checked={permissionsFilter === perm}
+                        onChange={e => setPermissionsFilter(e.target.checked ? perm : null)}
+                        className="appearance-none w-5 h-5 rounded-[4px] border border-[#FFB23E] bg-[#3C2A17] checked:bg-[#FFB23E] checked:border-[#FFB23E] focus:outline-none cursor-pointer"
+                      />
+                      {permissionsFilter === perm && (
+                        <span className="absolute text-white text-base pointer-events-none select-none">✓</span>
+                      )}
+                    </span>
+                    <span className="text-md text-[#EBD5BD]">{perm}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={handleResetFilters}
+                className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-card-button)] bg-transparent hover:opacity-90 hover:text-[var(--color-card-button)] px-0 py-2 rounded-3xl font-semibold transition text-base"
+              >
+                Reset Filters
+              </button>
+              <button
+                onClick={() => setShowFilter(false)}
+                className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
+              >
+                Apply Filters
               </button>
             </div>
           </div>

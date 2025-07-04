@@ -2,31 +2,52 @@ import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
 import businessServices from "../../Services/businessServices";
-import { Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 
 const BusinessNavbar: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [, setIsDropdownOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [, setIsMobileDropdownOpen] = useState(false);
+  const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [businessName, setBusinessName] = useState<string>("Business");
   const [businessImage, setBusinessImage] = useState<string>(
     "https://randomuser.me/api/portraits/men/32.jpg"
   );
-  const [, ] = useState<string[]>(["", "", "", "", ""]);
-  const [] = useState(false);
-
+  const [code, setCode] = useState(["", "", "", "", ""]);
+  const [isSubmitting, ] = useState(false);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
-  const handleMobileDropdownToggle = () =>
-    setIsMobileDropdownOpen((open) => !open);
+  const handleMobileDropdownToggle = () => setIsMobileDropdownOpen((open) => !open);
   
   const handleNavigation = (path: string) => {
     navigate(path);
     setIsMobileMenuOpen(false);
+  };
+
+  // Handle code input change
+  const handleCodeChange = (value: string, idx: number) => {
+    if (!/^[0-9a-zA-Z]?$/.test(value)) return;
+    const newCode = [...code];
+    newCode[idx] = value;
+    setCode(newCode);
+    if (value && idx < 4) {
+      inputRefs.current[idx + 1]?.focus();
+    }
+  };
+  // Handle code input keydown
+  const handleCodeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
+    if (e.key === "Backspace" && !code[idx] && idx > 0) {
+      inputRefs.current[idx - 1]?.focus();
+    }
+  };
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/business/login");
   };
 
   useEffect(() => {
@@ -158,14 +179,14 @@ const BusinessNavbar: React.FC = () => {
                 alt="Business"
                 className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-primary)]"
               />
-              {/*<ChevronDown
+           <ChevronDown
                 size={16}
                 className={`text-[var(--color-text)] transition-transform ${
                   isMobileDropdownOpen ? "rotate-180" : ""
                 }`}
-              />*/}
+              />
             </button>
-            {/* {isMobileDropdownOpen && (
+        {isMobileDropdownOpen && (
               <div
                 className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
                 style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
@@ -227,7 +248,7 @@ const BusinessNavbar: React.FC = () => {
                   </button>
                 </div>
               </div>
-            )} */}
+            )} 
           </div>
         </nav>
       </div>
@@ -271,7 +292,7 @@ const BusinessNavbar: React.FC = () => {
           {/* Right: Profile */}
           <div className="flex items-center gap-4">
             {/* Bell Icon */}
-            {/*<div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent">
+           <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent">
               <svg
                 width="22"
                 height="22"
@@ -285,7 +306,7 @@ const BusinessNavbar: React.FC = () => {
                 <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
                 <path d="M13.73 21a2 2 0 01-3.46 0" />
               </svg>
-            </div>*/}
+            </div>
             {/* Profile */}
             <div className="relative">
               <div
@@ -300,7 +321,7 @@ const BusinessNavbar: React.FC = () => {
                 <span className="text-[var(--color-text)] font-semibold text-base">
                   {businessName}
                 </span>
-                {/*<svg
+                <svg
                   className={`w-4 h-4 text-[var(--color-text)] transition-transform ${
                     isDropdownOpen ? "rotate-180" : ""
                   }`}
@@ -314,9 +335,9 @@ const BusinessNavbar: React.FC = () => {
                     strokeWidth={2}
                     d="M19 9l-7 7-7-7"
                   />
-                </svg>*/}
+                </svg>
               </div>
-              {/* {isDropdownOpen && (
+             {isDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
                   style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
@@ -379,7 +400,7 @@ const BusinessNavbar: React.FC = () => {
                     </button>
                   </div>
                 </div>
-              )} */}
+              )} 
             </div>
           </div>
         </div>

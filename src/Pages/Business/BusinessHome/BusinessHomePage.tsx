@@ -11,8 +11,8 @@ const BusinessHomePage: React.FC = () => {
       <BusinessNavbar />
       <main className="flex flex-col items-center w-full px- pt-6 sm:px-4 md:px-8 max-w-7xl mx-auto">
         {/* Welcome Header */}
-        <div className="w-full flex flex-col items-start mt-6 mb-3">
-          <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+        <div className="w-full flex flex-col items-start mt-3 mb-3">
+          <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
             Welcome!
           </p>
         </div>
@@ -42,9 +42,17 @@ const BusinessHomePage: React.FC = () => {
         </div>
         {/* Pets Under Your Care */}
         <div className="w-full flex flex-col items-start">
-        <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+        <div className="w-full flex items-center justify-between mb-2">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             Pets Under Your Care
           </p>
+          <a
+            href="/business/pets"
+            className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
+          >
+            View All Pets <IoIosArrowDroprightCircle />
+          </a>
+        </div>
           <PetsUnderCare />
         </div>
       </main>

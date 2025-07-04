@@ -34,6 +34,7 @@ import BusinessDocumentPage from "./Pages/Business/Pet/BusinessPetDocument";
 import UploadOptionPage from "./Pages/Authentication/ProfileCreation/uploadOptionPage";
 import SwitchProfilePageStyled from "./Pages/Profile/SwitchProfilePageStyled";
 import StaffPage from "./Pages/Business/TeamManagement/staffPage";
+import AddTeamMemberPage from "./Pages/Business/TeamManagement/AddTeamMemberPage";
 
 function App() {
   return (
@@ -71,6 +72,7 @@ function App() {
         />
         <Route path="/business-home" element={<BusinessHomePage />} />
         <Route path="/business/team-management" element={<StaffPage />} />
+        <Route path="/business/team/add" element={<AddTeamMemberPage />} />
 
         {/* Pet Owner Routes */}
         <Route path="/business/profile" element={<BusinessProfile />} />

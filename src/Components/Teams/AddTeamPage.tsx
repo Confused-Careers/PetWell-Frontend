@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../Layout/Navbar";
-import { useNavigate } from "react-router-dom";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "../ui/dialog";
+import { useNavigate, useParams } from "react-router-dom";
+import { X } from "lucide-react";
 import TeamAddedModal from "./TeamAddedModal";
 import teamServices from "../../Services/teamServices";
-import petServices from "../../Services/petServices";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+import { IoIosPeople } from "react-icons/io";
+
 
 const AddTeamPage: React.FC = () => {
   const navigate = useNavigate();
+  const { petId } = useParams<{ petId: string }>();
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [selectedTeam, setSelectedTeam] = useState<any>(null);
@@ -32,7 +28,6 @@ const AddTeamPage: React.FC = () => {
     teamServices
       .searchBusinesses(search)
       .then((res) => {
-        console.log("Raw API response:", res);
         const businesses = Array.isArray(res) ? res : [];
         const results = businesses.map((b: any) => ({
           id: b.id,
@@ -41,7 +36,6 @@ const AddTeamPage: React.FC = () => {
           email: b.email || "",
           avatar: "https://randomuser.me/api/portraits/men/32.jpg",
         }));
-        console.log("Mapped results:", results);
         setSearchResults(results);
       })
       .finally(() => setLoading(false));
@@ -53,15 +47,12 @@ const AddTeamPage: React.FC = () => {
     setLoading(true);
     try {
       // Get user's pets (assume first pet)
-      const petsRes = await petServices.getPetsByOwner();
-      let petsArr = Array.isArray(petsRes) ? petsRes : petsRes.data;
-      if (!petsArr) petsArr = [];
-      if (!Array.isArray(petsArr)) petsArr = [petsArr];
-      if (petsArr.length === 0) throw new Error("No pet found");
-      const petId = petsArr[0].id;
       // Add team (business) for this pet
+      if (!petId) {
+        throw new Error("No pet selected.");
+      }
       await teamServices.createTeam({
-        pet_id: petId,
+        pet_id: petId as string,
         business_id: selectedTeam.id,
       });
       setShowTeamAdded(true);
@@ -82,40 +73,29 @@ const AddTeamPage: React.FC = () => {
       <Navbar />
       <div className="container pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 pr-4 sm:pr-6 md:pr-8 pl-4 sm:pl-6 md:pl-8 mx-auto max-w-8xl flex flex-col items-center">
         <button
-          className="text-[var(--color-primary)] text-sm sm:text-base font-medium mb-6 sm:mb-8 self-start flex items-center gap-2 hover:underline"
+          className="text-[var(--color-primary)] text-sm sm:text-base font-medium mb-6 sm:mb-8 self-start flex items-center gap-2 cursor-pointer"
           onClick={() => navigate(-1)}
         >
-          <span className="text-lg sm:text-xl">&lt;</span> Go Back
+         <IoIosArrowDropleftCircle /> Go Back
         </button>
         <div className="flex flex-col items-center w-full">
-          <div className="mb-4 sm:mb-6">
-            {/* Team SVG Icon */}
-            <svg
-              width="60"
-              height="60"
-              className="sm:w-20 sm:h-20"
-              viewBox="0 0 80 80"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+          <div className="mb-4 sm:mb-6 flex justify-center items-center">
+            {/* Team SVG Icon with visible circular background */}
+            <span
+              style={{
+                backgroundColor: "var(--color-logo)",
+                borderRadius: "9999px",
+                width: "80px",
+                height: "80px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              <circle
-                cx="40"
-                cy="40"
-                r="40"
-                fill="#EBD5BD"
-                fillOpacity="0.15"
-              />
-              <path
-                d="M40 46c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10Z"
-                fill="#EBD5BD"
-              />
-              <path
-                d="M24 60c0-8.837 7.163-16 16-16s16 7.163 16 16v2c0 1.105-.895 2-2 2H26c-1.105 0-2-.895-2-2v-2Z"
-                fill="#EBD5BD"
-              />
-            </svg>
+              <IoIosPeople size={64} className="text-[var(--color-background)]" />
+            </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[var(--color-text)] mb-2 text-center">
+          <h1 className="text-2xl sm:text-3xl font-serif text-[var(--color-text)] mb-2 text-center">
             Add A Team
           </h1>
           <p className="text-sm sm:text-base text-[var(--color-text)] mb-6 sm:mb-8 opacity-80 text-center px-4">
@@ -123,7 +103,7 @@ const AddTeamPage: React.FC = () => {
           </p>
           <div className="w-full max-w-md mt-2 flex flex-col items-center">
             <label
-              className="block text-[var(--color-text)] opacity-60 font-semibold mb-2 ml-1 self-start"
+              className="block text-[var(--color-text)] opacity-60 mb-2 ml-1 self-start"
               htmlFor="search"
             >
               Search for a care provider
@@ -216,61 +196,98 @@ const AddTeamPage: React.FC = () => {
                     })}
                   </div>
                 )}
-                <Dialog open={modalOpen} onOpenChange={setModalOpen}>
-                  <DialogContent className="bg-[#1C232E] border-[var(--color-modal-border)] max-w-md rounded-2xl p-8">
-                    <DialogHeader>
-                      <DialogTitle className="text-[var(--color-text)] text-3xl font-serif font-bold mb-2">
-                        Add to team?
-                      </DialogTitle>
-                    </DialogHeader>
-                    <DialogDescription className="text-[var(--color-text)] text-base mb-6">
-                      Once added, you can view and manage this provider from
-                      your Team list.
-                    </DialogDescription>
-                    {selectedTeam && (
-                      <div className="flex items-center gap-4 bg-[var(--color-card)] rounded-lg px-4 py-3 mb-6">
-                        <img
-                          src={selectedTeam.avatar}
-                          alt={selectedTeam.name}
-                          className="w-12 h-12 rounded-full object-cover"
-                        />
-                        <div>
-                          <div className="font-semibold text-lg text-[var(--color-text)]">
-                            {selectedTeam.name}
-                          </div>
-                          <div className="text-sm text-[var(--color-text)] opacity-60">
-                            {selectedTeam.address}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    <div className="flex gap-4 justify-end mt-2">
-                      <DialogClose asChild>
-                        <button className="px-8 py-2 rounded-lg border border-[var(--color-primary)] text-[var(--color-primary)] bg-transparent font-medium text-lg hover:bg-[var(--color-primary)] hover:text-black transition-all duration-150">
-                          Cancel
-                        </button>
-                      </DialogClose>
-                      <button
-                        className="px-8 py-2 rounded-lg bg-[var(--color-primary)] text-[var(--color-primary-foreground)] font-medium text-lg hover:opacity-90 transition-all duration-150"
-                        onClick={handleAddTeam}
-                        disabled={loading}
-                      >
-                        {loading ? "Adding..." : "Yes, Add to Team"}
-                      </button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {modalOpen && selectedTeam && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+          <div
+            className="rounded-2xl px-6 sm:px-8 py-6 sm:py-8 w-full max-w-md shadow-2xl relative flex flex-col items-center border"
+            style={{
+              backgroundColor: "var(--color-background)",
+              borderColor: "var(--color-primary)",
+              color: "var(--color-text)",
+            }}
+          >
+            <button
+              className="absolute right-4 top-4 text-[var(--color-text)] hover:text-[var(--color-primary)]"
+              onClick={() => setModalOpen(false)}
+              aria-label="Close"
+              disabled={loading}
+            >
+              <X className="w-6 h-6 cursor-pointer" />
+            </button>
+            <h2
+              className="text-2xl flex justify-start items-start text-left mb-4 w-full"
+              style={{ color: "var(--color-text)" }}
+            >
+              Add to team?
+            </h2>
+            <div
+              className="flex items-center gap-4 rounded-lg px-4 py-3 mb-6 w-full border"
+              style={{
+                backgroundColor: "color-mix(in srgb, var(--color-card-profile) 60%, transparent)",
+                borderColor: "var(--color-text)",
+              }}
+            >
+              <img
+                src={selectedTeam.avatar}
+                alt={selectedTeam.name}
+                className="w-12 h-12 rounded-full object-cover"
+              />
+              <div>
+                <div
+                  className="font-semibold text-lg"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {selectedTeam.name}
+                </div>
+                <div
+                  className="text-sm opacity-60"
+                  style={{ color: "var(--color-text)" }}
+                >
+                  {selectedTeam.address ||
+                    selectedTeam.description ||
+                    selectedTeam.email}
+                </div>
+              </div>
+            </div>
+            <p
+              className="text-sm flex justify-star text-left mb-6"
+              style={{ color: "var(--color-text)" }}
+            >
+              Once added, you can view and manage this provider from your Team
+              list.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center w-full">
+              <button
+                className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base"
+                onClick={() => setModalOpen(false)}
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button
+                className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
+                onClick={handleAddTeam}
+                disabled={loading}
+              >
+                {loading ? "Adding..." : "Yes, Add to team"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Team Added Modal */}
       {showTeamAdded && (
         <TeamAddedModal
           teamName={addedTeamName}
           onClose={() => setShowTeamAdded(false)}
-          onGoHome={() => navigate("/home")}
+          onGoHome={() => navigate(`/petowner/pet/${petId}/home`)}
           onAddMore={() => {
             setShowTeamAdded(false);
             setSearch("");

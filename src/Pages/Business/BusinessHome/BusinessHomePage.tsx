@@ -1,29 +1,55 @@
-import React from 'react';
-import AddNewPet from '../../../Components/BusinessComponents/AddNewPet';
-import RecentlyAddedPets from '../../../Components/BusinessComponents/RecentlyAddedPets';
-import PetsUnderCare from '../../../Components/BusinessComponents/PetsUnderCare';
-import BusinessNavbar from '../../../Components/BusinessComponents/BusinessNavbar';
+import React from "react";
+import AddNewPet from "../../../Components/BusinessComponents/AddNewPet";
+import RecentlyAddedPets from "../../../Components/BusinessComponents/RecentlyAddedPets";
+import PetsUnderCare from "../../../Components/BusinessComponents/PetsUnderCare";
+import BusinessNavbar from "../../../Components/BusinessComponents/BusinessNavbar";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 const BusinessHomePage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-[var(--color-background,#181F29)] px-8 py-6">
+    <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <BusinessNavbar />
-      <h1 className="text-3xl font-alike text-[var(--color-text,#ebd5bd)] font-normal mb-6 mt-4">Welcome!</h1>
-      <div className="flex flex-col gap-8">
-        <div className="flex flex-row gap-6">
-          <div className="w-1/3">
+      <main className="flex flex-col items-center w-full px- pt-6 sm:px-4 md:px-8 max-w-7xl mx-auto">
+        {/* Welcome Header */}
+        <div className="w-full flex flex-col items-start mt-6 mb-3">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+            Welcome!
+          </p>
+        </div>
+        {/* Add New Pet & Recently Added Pets */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-12 mb-8">
+          <div className="w-full flex flex-col items-start">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif mb-3">
+              Add New Pet
+            </p>
             <AddNewPet />
           </div>
-          <div className="flex-1">
+          <div className="w-full flex flex-col items-start">
+            <div className="w-full flex items-center">
+              <p className="text-2xl font-lighter flex items-center gap-3 font-serif flex-1">
+                Recently Added Pets
+              </p>
+              <a
+                href="/business/pets"
+                className="text-[var(--color-primary)] text-sm sm:text-base font-medium self-start flex items-center gap-2 cursor-pointer"
+                style={{ alignSelf: "flex-start" }}
+              >
+              View All Pets <IoIosArrowDroprightCircle /> 
+              </a>
+            </div>
             <RecentlyAddedPets />
           </div>
         </div>
-        <div>
+        {/* Pets Under Your Care */}
+        <div className="w-full flex flex-col items-start">
+        <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+            Pets Under Your Care
+          </p>
           <PetsUnderCare />
         </div>
-      </div>
+      </main>
     </div>
   );
 };
 
-export default BusinessHomePage; 
+export default BusinessHomePage;

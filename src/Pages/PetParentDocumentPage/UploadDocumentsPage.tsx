@@ -1,18 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import UploadDocument from "../../Components/UploadDocument/UploadDocuments";
 import Loader from "../../Components/ui/Loader";
 import Navbar from "../../Components/Layout/Navbar";
+import BusinessNavbar from "../../Components/BusinessComponents/BusinessNavbar";
 import petServices from "../../Services/petServices";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+
+// Define TypeScript interface for Pet
+interface Pet {
+  id: string;
+  pet_name: string;
+  profile_picture?: string;
+}
 
 const UploadDocuments: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
-  const [showLoader, setShowLoader] = React.useState(false);
-  const [pet, setPet] = useState<any>(null);
+  const location = useLocation(); // Added to check the current route
+  const [showLoader, setShowLoader] = useState(false);
+  const [pet, setPet] = useState<Pet | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
+
+  // Determine which Navbar to use based on the route
+  const isBusinessRoute = location.pathname.startsWith("/business");
+  const NavComponent = isBusinessRoute ? BusinessNavbar : Navbar;
 
   // Fetch pet details
   useEffect(() => {
@@ -107,8 +121,8 @@ const UploadDocuments: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[#101624] text-[#EBD5BD]">
-        <Navbar />
+      <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[var(--color-background)] text-[var(--color-text)]">
+        <NavComponent />
         <div className="text-center">Loading...</div>
       </div>
     );
@@ -116,8 +130,8 @@ const UploadDocuments: React.FC = () => {
 
   if (!pet) {
     return (
-      <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[#101624] text-[#EBD5BD]">
-        <Navbar />
+      <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[var(--color-background)] text-[var(--color-text)]">
+        <NavComponent />
         <div className="text-center">{error || "Pet not found"}</div>
       </div>
     );
@@ -125,17 +139,15 @@ const UploadDocuments: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
-      <Navbar />
+      <NavComponent />
       {/* Profile Image and Back Button */}
       <div className="mt-16 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
         <button
-          className="absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[#EBD5BD] hover:text-[#FFA500] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent hover:border-[#FFA500] z-10"
-          onClick={() =>
-            navigate(`/petowner/pet/${actualPetId || petId}/documents`)
-          }
+          className="cursor-pointer absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent z-10"
+          onClick={() => navigate(-1)}
           aria-label="Back"
         >
-          <span className="text-lg sm:text-xl">&#8592;</span> Back
+          <IoIosArrowDropleftCircle /> Go Back
         </button>
         <img
           src={
@@ -144,28 +156,28 @@ const UploadDocuments: React.FC = () => {
               : "https://randomuser.me/api/portraits/men/32.jpg"
           }
           alt="Profile"
-          className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-[#EBD5BD] shadow-lg mt-4"
+          className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-[var(--color-text)] shadow-lg mt-4"
         />
-        <h1 className="mt-4 sm:mt-6 text-2xl sm:text-3xl md:text-4xl font-bold text-[#EBD5BD] text-center">
+        <h1 className="mt-4 sm:mt-6 text-2xl font-lighter flex items-center gap-3 font-serif">
           Upload documents for {pet.pet_name}
         </h1>
-        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[#EBD5BD] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center px-4">
+        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center">
           Keep your pet's records safe and accessible — from vaccine
           certificates to vet bills.
         </p>
       </div>
       {/* UploadDocument component handles upload logic and UI */}
-      {showLoader && <Loader />}
       <UploadDocument
         onUpload={handleUpload}
         onNext={() => {
           setShowLoader(true);
           setTimeout(() => {
             setShowLoader(false);
-            navigate(`/petowner/pet/${actualPetId || petId}/documents`);
+            navigate(-1);
           }, 2000);
         }}
       />
+      {showLoader && <Loader />}
     </div>
   );
 };

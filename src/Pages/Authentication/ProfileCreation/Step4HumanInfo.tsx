@@ -1,5 +1,4 @@
 import React from "react";
-import PetWellLogo from "../../../Assets/PetWell.png";
 import Stepper from "./Stepper";
 import authServices from "../../../Services/authServices";
 import type { FormData } from "./types";
@@ -66,9 +65,7 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
         (field) => !form[field as keyof typeof form]
       );
       if (missingFields.length > 0) {
-        throw new Error(
-          `Missing required fields: ${missingFields.join(", ")}`
-        );
+        throw new Error(`Missing required fields: ${missingFields.join(", ")}`);
       }
       const formData = new FormData();
       // Human owner data
@@ -135,9 +132,13 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
         
         // Provide helpful suggestions for common errors
         if (errorMessage.includes("Username already exists")) {
-          errorMessage = "Username already exists. Please choose a different username or try adding numbers (e.g., " + form.owner_username + "123).";
+          errorMessage =
+            "Username already exists. Please choose a different username or try adding numbers (e.g., " +
+            form.owner_username +
+            "123).";
         } else if (errorMessage.includes("Email already exists")) {
-          errorMessage = "Email already exists. Please use a different email address or try logging in instead.";
+          errorMessage =
+            "Email already exists. Please use a different email address or try logging in instead.";
         }
       }
       
@@ -155,18 +156,7 @@ const Step4HumanInfo: React.FC<Step4HumanInfoProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative">
-      <img
-        src={PetWellLogo}
-        alt="PetWell Logo"
-        className="w-16 h-16 object-contain absolute left-20 top-10"
-        style={{ left: 80, top: 40 }}
-      />
-      <div className="flex justify-center w-full max-w-5xl mt-12 mb-6">
-        <h1 className="text-[40px] font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
-          Welcome to your pet's new digital home.
-        </h1>
-      </div>
+    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
       <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Stepper currentStep={4} />
         <h2 className="text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-8 mt-2">

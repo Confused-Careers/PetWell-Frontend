@@ -36,6 +36,7 @@ interface BusinessSearchResponse {
 const teamServices = {
   async createTeam(data: CreateTeamData): Promise<TeamResponse> {
     try {
+      console.log("data;",data)
       const response = await axios.post(
         `${SERVER_BASE_URL}/api/v1/teams/create`,
         data,
@@ -46,6 +47,7 @@ const teamServices = {
           },
         }
       );
+      console.log("response:",response.data)
       if (!response.data) {
         throw new Error("Invalid response from server");
       }

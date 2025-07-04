@@ -5,9 +5,16 @@ import SwitchProfileModal from "../../Components/Profile/SwitchProfileModal";
 import petServices from "../../Services/petServices";
 import humanOwnerServices from "../../Services/humanOwnerServices";
 import { storeLastPetId } from "../../utils/petNavigation";
-import { generatePetCode } from "../../utils/petCodeGenerator";
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from "../../Components/ui/dialog";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+} from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
+import { RefreshCcw } from "lucide-react";
+import { IoIosArrowDropleftCircle } from "react-icons/io";
+
 
 const PetProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -40,7 +47,7 @@ const PetProfile: React.FC = () => {
           id: pet.id,
           name: pet.pet_name,
           age: `${pet.age} years`,
-          breed: "Mixed Breed", // You might want to fetch breed info separately
+          breed: pet.breed?.breed_name || "Mixed Breed",
           avatar:
             pet.profile_picture && typeof pet.profile_picture === "string"
               ? pet.profile_picture
@@ -111,8 +118,6 @@ const PetProfile: React.FC = () => {
   }, []);
 
   // Navigation handlers
-  const handleEditProfile = () =>
-    navigate(`/petowner/pet/${petId}/edit-profile`);
   const handleSwitchProfile = () => setShowSwitchModal(true);
   const handleModalSwitch = (selectedPetId: string) => {
     setShowSwitchModal(false);
@@ -125,7 +130,7 @@ const PetProfile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#181e29] text-[#EBD5BD] px-0 sm:px-8 pb-10">
+    <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] px-0 sm:px-8 pb-10">
       <Navbar onSwitchProfile={handleSwitchProfile} />
       <SwitchProfileModal
         isOpen={showSwitchModal}
@@ -140,32 +145,26 @@ const PetProfile: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
           <div>
             <button
-              className="text-[#FFB23E] text-base font-medium flex items-center gap-2 hover:underline mb-2 sm:mb-0"
+              className="text-[var(--color-primary)] cursor-pointer text-base font-medium flex items-center gap-2 mb-2 sm:mb-0"
               onClick={() => navigate(`/petowner/pet/${petId}/home`)}
             >
-              <span className="text-xl">&lt;</span> Go Back
+              <IoIosArrowDropleftCircle /> Go Back
             </button>
             <h1 className="text-3xl font-serif font-bold">Pet Profile</h1>
           </div>
           <div className="flex flex-row gap-4">
             <button
-              className="border border-[#FFB23E] text-[#FFB23E] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[#FFB23E] hover:text-black transition text-base"
-              onClick={handleEditProfile}
-            >
-              ✏️ Edit Profile
-            </button>
-            <button
-              className="border border-[#FFB23E] text-[#FFB23E] px-6 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-[#FFB23E] hover:text-black transition text-base"
+              className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-6 py-2 rounded-3xl font-semibold transition text-base flex items-center gap-2"
               onClick={handleSwitchProfile}
             >
-              Switch to Another Pet
+              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
             </button>
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-6">
           {/* Left: Pet Card */}
-          <div className="bg-[#23272f] rounded-2xl p-6 flex flex-col items-center w-full max-w-xs min-w-[260px]">
-            <div className="w-48 h-48 rounded-xl overflow-hidden mb-4 bg-[#23272f] flex items-center justify-center">
+          <div className="bg-[var(--color-card-profile)] border border-[var(--color-text)] rounded-2xl p-6 flex flex-col items-center w-full max-w-xs min-w-[260px]">
+            <div className="w-48 h-48 rounded-xl overflow-hidden mb-4 bg-[var(--color-card)] flex items-center justify-center">
               <img
                 src={
                   currentPet?.profile_picture ||
@@ -176,180 +175,159 @@ const PetProfile: React.FC = () => {
               />
             </div>
             <div className="w-full">
-              <div className="text-2xl font-bold mb-2">
+              <div className="font-[Cabin,sans-serif] text-xl font-bold mb-2 text-[var(--color-text-bright)]">
                 {currentPet?.pet_name || "Pet"}
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Age</span>
-                  <div className="font-bold">
-                    {currentPet?.age || "Unknown"} years old
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Age</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.age || "Unknown"} years old</div>
                 </div>
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Gender</span>
-                  <div className="font-bold">
-                    {currentPet?.gender || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Gender</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.gender || "Unknown"}</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Breed</span>
-                  <div className="font-bold">
-                    {currentPet?.breed_name || "Mixed Breed"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Breed</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.breed?.breed_name || "Mixed Breed"}</div>
                 </div>
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Colour</span>
-                  <div className="font-bold">
-                    {currentPet?.color || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Colour</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.color || "Unknown"}</div>
                 </div>
               </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm mb-2">
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">
-                    Microchip Number
-                  </span>
-                  <div className="font-bold">
-                    {currentPet?.microchip || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Microchip Number</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.microchip || "Unknown"}</div>
                 </div>
                 <div>
-                  <span className="text-[#EBD5BD] opacity-70">Birthdate</span>
-                  <div className="font-bold">
-                    {currentPet?.dob || "Unknown"}
-                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Birthdate</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.dob || "Unknown"}</div>
                 </div>
               </div>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <button className="mt-4 px-4 py-2 bg-[#FFB23E] text-black rounded-lg font-semibold hover:bg-[#e6a832] transition">
-                  Show QR Code
-                </button>
-              </DialogTrigger>
-              <DialogContent className="flex flex-col items-center bg-[#23272f] rounded-2xl border border-[#FFB23E] p-8 shadow-2xl max-w-xs w-full">
-                <DialogTitle className="text-xl font-bold text-[#FFB23E] mb-2">Pet QR Code</DialogTitle>
-                <div className="my-4 flex flex-col items-center">
-                  <div className="bg-white p-4 rounded-xl shadow-md border border-[#EBD5BD]">
-                    <QRCode value={`${currentPet?.id || ""}|${generatePetCode(currentPet?.id || "")}`} size={180} />
-                  </div>
-                  <button
-                    className="mt-4 px-4 py-2 bg-[#FFB23E] text-black rounded-lg font-semibold hover:bg-[#e6a832] transition"
-                    onClick={() => {
-                      const svg = document.querySelector("[data-slot='dialog-content'] svg");
-                      if (!svg) return;
-                      const serializer = new XMLSerializer();
-                      const source = serializer.serializeToString(svg);
-                      const url = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(source);
-                      const link = document.createElement("a");
-                      link.href = url;
-                      link.download = `${currentPet?.pet_name || 'pet'}-qr.svg`;
-                      document.body.appendChild(link);
-                      link.click();
-                      document.body.removeChild(link);
-                    }}
-                  >
-                    Download QR
-                  </button>
-                </div>
-                <div className="text-center text-sm text-[var(--color-text)] mt-2">Scan this QR code to add this pet to a business</div>
-              </DialogContent>
-            </Dialog>
           </div>
           {/* Right: Main Info */}
           <div className="flex-1 flex flex-col gap-6">
-            {/* Buttons Row - move above the main card */}
-
             {/* Health Summary */}
-            <div className="bg-[#23272f] rounded-2xl p-6 flex flex-col gap-2">
-              <div className="text-xl font-bold mb-2">Health Summary</div>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
+            <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-health-card)] p-6 md:p-8 w-full max-w-full" style={{marginBottom: 24}}>
+              <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Health Summary</div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-2 mb-4">
                 <div>
-                  <span className="opacity-70">Spay/Neuter Status</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.spay_neuter
-                      ? "Spayed/Neutered"
-                      : "Not Spayed/Neutered"}
-                  </span>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Spay/Neuter Status</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.spay_neuter ? "Neutered" : "Not Neutered"}</div>
                 </div>
                 <div>
-                  <span className="opacity-70">Weight</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.weight
-                      ? `${currentPet.weight} lbs`
-                      : "Unknown"}
-                  </span>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Weight</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.weight ? `${currentPet.weight}lbs` : "Unknown"}</div>
                 </div>
                 <div>
-                  <span className="opacity-70">Special Notes</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.notes || "No special notes"}
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
-                <div>
-                  <span className="opacity-70">Location</span>
-                  <span className="font-bold ml-2">
-                    {currentPet?.location || "Unknown"}
-                  </span>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Special Notes</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.notes || "-"}</div>
                 </div>
               </div>
             </div>
             {/* Syd's Code & Your Details */}
             <div className="flex flex-col md:flex-row gap-6">
               {/* Syd's Code */}
-              <div className="bg-[#23272f] rounded-2xl p-6 flex-1 flex flex-col items-center min-w-[260px]">
-                <div className="text-xl font-bold mb-3 w-full">
+              <div
+                className="rounded-[16px] border border-black p-6 md:p-8 w-full max-w-full flex flex-col items-start"
+                style={{
+                  marginBottom: 24,
+                  background: "rgba(220, 154, 107, 0.50)",
+                }}
+              >
+                <div className="font-[Cabin,sans-serif] text-lg font-bold mb-4 text-[var(--color-text)] flex items-center gap-2">
                   {currentPet?.pet_name || "Pet"}'s Code
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-xs px-4"
+                        title="Show QR Code"
+                        type="button"
+                      >
+                        View QR Code
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
+                      <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
+                        Pet QR Code
+                      </DialogTitle>
+                      <div className="my-4 flex flex-col items-center">
+                        <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
+                          <QRCode
+                            value={currentPet?.qr_code_id || ""}
+                            size={180}
+                          />
+                        </div>
+                        <button
+                          className="mt-4 px-3 flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
+                          onClick={() => {
+                            const svg = document.querySelector(
+                              "[data-slot='dialog-content'] svg"
+                            );
+                            if (!svg) return;
+                            const serializer = new XMLSerializer();
+                            const source = serializer.serializeToString(svg);
+                            const url =
+                              "data:image/svg+xml;charset=utf-8," +
+                              encodeURIComponent(source);
+                            const link = document.createElement("a");
+                            link.href = url;
+                            link.download = `${currentPet?.pet_name || "pet"}-qr.svg`;
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                          }}
+                        >
+                          Download QR
+                        </button>
+                      </div>
+                      <div className="text-center text-sm text-[var(--color-text)] mt-2">
+                        Scan this QR code to add this pet to a business
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
-                <div className="flex gap-2 mb-2 justify-center items-center">
-                  {generatePetCode(currentPet?.id || "").split('').map((char, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex w-10 h-10 bg-[#fff] bg-opacity-80 text-[#23272f] text-xl font-extrabold rounded-lg items-center justify-center border-2 border-[#EBD5BD] shadow-sm tracking-widest select-all text-center"
-                      style={{ boxShadow: "0 2px 8px 0 rgba(44, 44, 44, 0.10)" }}
-                    >
-                      {char}
-                    </span>
-                  ))}
+                <div className="flex flex-row gap-3 mb-4">
+                  {(currentPet?.qr_code_id || "")
+                    .split("")
+                    .map((char: string, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex w-12 h-12 md:w-14 md:h-14 bg-[var(--color-text)] text-[var(--color-background)] text-2xl md:text-3xl font-[Cabin,sans-serif] font-bold rounded-[10px] items-center justify-center select-all text-center"
+                        style={{ boxShadow: "0 2px 8px 0 rgba(44,44,44,0.10)" }}
+                      >
+                        {char}
+                      </span>
+                    ))}
                 </div>
-                <div className="text-xs text-[#EBD5BD] text-opacity-70 text-center">
+                <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 text-sm text-left">
                   Share with care providers to give access to the profile.
                 </div>
               </div>
               {/* Your Details */}
-              <div className="bg-[#23272f] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px]">
-                <div className="text-xl font-bold mb-3 w-full">
-                  Your Details
-                </div>
-                <div className="flex flex-col gap-2 text-base">
+              <div className="rounded-[16px] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px] border border-[var(--color-text)]" style={{ backgroundColor: "rgba(171, 167, 92, 0.20)", marginBottom: 24 }}>
+                <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Your Details</div>
+                <div className="flex flex-col gap-2 text-sm">
                   <div>
-                    <span className="opacity-70">Name</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.human_owner_name || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Name</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.human_owner_name || "Unknown"}</div>
                   </div>
                   <div>
-                    <span className="opacity-70">Location</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.location || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Location</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.location || "Unknown"}</div>
                   </div>
                   <div>
-                    <span className="opacity-70">Phone number</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.phone || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Phone number</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.phone || "Unknown"}</div>
                   </div>
                   <div>
-                    <span className="opacity-70">Email</span>
-                    <span className="font-bold ml-2">
-                      {humanProfile?.email || "Unknown"}
-                    </span>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Email</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.email || "Unknown"}</div>
                   </div>
                 </div>
               </div>

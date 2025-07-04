@@ -9,6 +9,7 @@ import vaccineServices from "../../Services/vaccineServices";
 import teamServices from "../../Services/teamServices";
 import RenameDocumentModal from "../../Components/Document/RenameDocumentModal";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
+import { Users, Syringe, FileText, PawPrint, UploadIcon, RefreshCcw, PlusCircle } from "lucide-react";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -70,19 +71,16 @@ const HomePage: React.FC = () => {
         // Already expired
         return {
           soon: true,
-          warning: `${
-            petName || "Your pet"
+          warning: `${petName || "Your pet"
           }'s vaccine has expired. Please renew as soon as possible!`,
-          relativeExpiry: `Expired ${Math.abs(diffDays)} day${
-            Math.abs(diffDays) === 1 ? "" : "s"
+          relativeExpiry: `Expired ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? "" : "s"
           } ago`,
         };
       } else if (diffDays <= 7) {
         // Expiring within 7 days
         return {
           soon: true,
-          warning: `${
-            petName || "Your pet"
+          warning: `${petName || "Your pet"
           } is due for the vaccine soon. Schedule now!`,
           relativeExpiry: `In ${diffDays} day${diffDays === 1 ? "" : "s"}`,
         };
@@ -154,23 +152,14 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const fetchAll = async () => {
-      console.log("fetchAll running...");
-      console.log("[HomePage] Starting fetchAll with petId from URL:", petId);
       setLoading(true);
       setError(null);
       try {
-        console.log("[HomePage] petId:", petId);
         if (!petId) {
           setLoading(false);
           return;
         }
-
-        console.log(
-          "[HomePage] Fetching pet details with getPetById for ID:",
-          petId
-        );
         const petRes = await petServices.getPetById(petId);
-        console.log("[HomePage] getPetById response:", petRes);
         let petData: any = petRes;
         // If petRes is a PetResponse, extract .data
         if (petRes && petRes.data) petData = petRes.data;
@@ -191,16 +180,9 @@ const HomePage: React.FC = () => {
         }
         setPet(petData);
         setPetName(petData.pet_name || "My Pet");
-        console.log(
-          "[HomePage] Successfully fetched pet:",
-          petData.pet_name,
-          "with ID:",
-          petData.id
-        );
 
         // Vaccines - using the same methodology as VaccinesPage
         const vaccinesRes = await vaccineServices.getAllPetVaccines(petData.id);
-        console.log("[HomePage] vaccinesRes:", vaccinesRes);
         let vaccinesArr: any[] = [];
 
         // Handle different response structures for vaccines
@@ -216,29 +198,17 @@ const HomePage: React.FC = () => {
           }
         }
 
-        // Log full vaccine objects to debug structure
-        console.log("[HomePage] Raw vaccine objects:", vaccinesArr);
 
         // Filter vaccines by pet.id
         const matchingVaccines: any[] = vaccinesArr.filter((vaccine) => {
           const petIdMatch = vaccine.pet && vaccine.pet.id === petData.id;
-          console.log("[HomePage] Filtering vaccine:", {
-            vaccineId: vaccine.id,
-            petId: vaccine.pet?.id,
-            actualPetId: petData.id,
-            matches: petIdMatch,
-          });
           return petIdMatch;
         });
-
-        console.log("[HomePage] matchingVaccines:", matchingVaccines);
 
         // Extract vaccine IDs for detailed fetching
         const vaccineIds = matchingVaccines
           .map((vaccine) => vaccine.id)
           .filter((id) => id); // Remove any undefined/null IDs
-
-        console.log("[HomePage] Filtered vaccine IDs for pet:", vaccineIds);
 
         if (vaccineIds.length === 0) {
           setVaccines([]);
@@ -246,7 +216,6 @@ const HomePage: React.FC = () => {
         } else {
           // Fetch detailed vaccine information using vaccine IDs
           const detailedVaccines = await fetchVaccineDetails(vaccineIds);
-          console.log("[HomePage] Detailed vaccines:", detailedVaccines);
 
           // Remove duplicates and store raw data
           const uniqueVaccines = removeDuplicateVaccines(detailedVaccines);
@@ -265,7 +234,6 @@ const HomePage: React.FC = () => {
               warning,
             };
           });
-          console.log("[HomePage] mappedVaccines", mappedVaccines);
           setVaccines(mappedVaccines);
         }
 
@@ -281,17 +249,17 @@ const HomePage: React.FC = () => {
           let ext = d.document_name?.split(".").pop()?.toLowerCase() || "";
           let type: "pdf" | "img" = ext === "pdf" ? "pdf" : "img";
           return {
+            id: d.id,
             name: d.document_name || d.name || "",
             size: d.size ? `${(d.size / (1024 * 1024)).toFixed(1)} MB` : "",
             type,
+            url: d.document_url
           };
         });
-        console.log("[HomePage] mappedDocs", mappedDocs);
         setRawDocuments(mappedDocs);
 
         // Teams - using the same methodology as VaccinesPage
         const teamsRes = await teamServices.getAllTeams();
-        console.log("[HomePage] teamsRes:", teamsRes);
         let teamsArr: any[] = [];
 
         // Handle different response structures for teams
@@ -307,68 +275,28 @@ const HomePage: React.FC = () => {
           }
         }
 
-        // Log full team objects to debug structure
-        console.log("[HomePage] Raw team objects:", teamsArr);
-        console.log("[HomePage] All teams with their pet IDs:");
-        teamsArr.forEach((team, index) => {
-          console.log(`[HomePage] Team ${index}:`, {
-            teamId: team.id,
-            teamName: team.business?.business_name || "Unknown",
-            petId: team.pet?.id || "No pet ID",
-            petName: team.pet?.pet_name || "Unknown pet",
-          });
-        });
 
         // Filter teams by pet_id
         const matchingTeams: any[] = teamsArr.filter((team) => {
           const petIdMatch = team.pet && team.pet.id === petData.id;
-          console.log("[HomePage] Filtering team:", {
-            teamId: team.id,
-            teamName: team.business?.business_name || "Unknown",
-            petId: team.pet?.id,
-            actualPetId: petData.id,
-            matches: petIdMatch,
-          });
           return petIdMatch;
         });
-
-        // TEMPORARY DEBUG: Show all teams to verify API is working
-        console.log(
-          "[HomePage] TEMPORARY DEBUG - All teams without filtering:",
-          teamsArr
-        );
-        if (teamsArr.length > 0 && matchingTeams.length === 0) {
-          console.log(
-            "[HomePage] DEBUG: Showing all teams instead of filtered teams"
-          );
-          // Uncomment the next line to show all teams for debugging
-          // const matchingTeams = teamsArr; // This would show all teams
-        }
-
-        console.log("[HomePage] matchingTeams:", matchingTeams);
 
         // Extract team IDs for detailed fetching
         const teamIds = matchingTeams.map((team) => team.id).filter((id) => id); // Remove any undefined/null IDs
 
-        console.log("[HomePage] Filtered team IDs for pet:", teamIds);
 
         if (teamIds.length === 0) {
-          console.log(
-            "[HomePage] No teams found for current pet. Available teams:",
-            teamsArr.length
-          );
+
           setTeams([]);
           setRawTeams([]);
           if (teamsArr.length > 0) {
-            console.log(
-              "[HomePage] Teams exist but none match the current pet ID:",
-              petData.id
-            );
+            // If no matching teams but teams exist, show a message
+            console.warn("[HomePage] No matching teams found for this pet.");
           }
         } else {
           // Fetch detailed team information using team IDs
           const detailedTeams = await fetchTeamDetails(teamIds);
-          console.log("[HomePage] Detailed teams:", detailedTeams);
 
           // Remove duplicates and store raw data
           const uniqueTeams = removeDuplicateTeams(detailedTeams);
@@ -385,12 +313,10 @@ const HomePage: React.FC = () => {
               address: b.address || "",
               avatar: b.profile_picture_document_id
                 ? `/api/v1/documents/${b.profile_picture_document_id}`
-                : `https://randomuser.me/api/portraits/men/${
-                    Math.floor(Math.random() * 100) + 1
+                : `https://randomuser.me/api/portraits/men/${Math.floor(Math.random() * 100) + 1
                   }.jpg`,
             };
           });
-          console.log("[HomePage] mappedTeams", mappedTeams);
           setTeams(mappedTeams);
         }
       } catch (err: any) {
@@ -403,30 +329,34 @@ const HomePage: React.FC = () => {
     fetchAll();
   }, [petId]);
 
-  const handleEditDocument = (idx: number) => {
-    setEditDocIdx(idx);
-    setEditDocName(rawDocuments[idx]?.name || "");
-  };
 
   const handleSaveDocumentName = async (newName: string) => {
-    if (editDocIdx === null) return;
     try {
+      if (editDocIdx === null) throw new Error("No document selected");
       const doc = rawDocuments[editDocIdx];
-      if (!doc.id) throw new Error("No document id");
+      if (!doc.id) throw new Error("No document ID");
       await petServices.updateDocumentName(doc.id, newName);
-      setRawDocuments((prevDocs: any[]) =>
-        prevDocs.map((d, i) => (i === editDocIdx ? { ...d, name: newName } : d))
-      );
       setEditDocIdx(null);
+      setEditDocName("");
     } catch (err) {
-      setEditDocIdx(null);
+      console.error("Failed to rename document:", err);
+    }
+  };
+
+  const handleDeleteDocument = async (idx: number) => {
+    try {
+      const doc = rawDocuments[idx];
+      if (!doc.id) throw new Error("No document ID");
+      await petServices.deleteDocument(doc.id);
+      setRawDocuments((prevDocs: any[]) =>
+        prevDocs.filter((_, i) => i !== idx)
+      );
+    } catch (err) {
+      console.error("Failed to delete document:", err);
     }
   };
 
   const handleEditVaccine = (idx: number) => {
-    console.log("[HomePage] handleEditVaccine called with idx:", idx);
-    console.log("[HomePage] rawVaccines at idx:", rawVaccines[idx]);
-    console.log("[HomePage] vaccines at idx:", vaccines[idx]);
     setEditVaccineIdx(idx);
   };
 
@@ -507,81 +437,255 @@ const HomePage: React.FC = () => {
     );
   }
 
-  // Debug logging for teams
-  console.log(
-    "[HomePage] Final rawTeams state passed to TeamSection:",
-    rawTeams
-  );
-  console.log("[HomePage] RawTeams array length:", rawTeams.length);
-
   return (
-    <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
+    <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold mb-6 sm:mb-8">
+      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
+        {/* Profile & Health Summary */}
+       {pet && <section className="mb-6 mt-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
+                <PawPrint className="w-full h-full text-[var(--color-logo)]" />
+              </span>
           Welcome {pet.pet_name}!
-        </h1>
+            </p>
+            <div>
+              <button
+              onClick={() => navigate(`/switch-profile`)}
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+            >
+              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
+            </button>
+            </div>
+          </div>
+        </section>}
 
-        <div className="mb-8 sm:mb-10 md:mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold">Vaccines</h2>
-                <button
-              onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
-                >
-                  <span className="text-lg">+</span> Add New Vaccine
-                </button>
+        {pet && (
+          <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full">
+            {/* Pet Profile Card */}
+            <div className="border  border-black bg-[var(--color-card-profile)] rounded-3xl p-6 flex flex-col md:flex-row items-center flex-2/3 text-[var(--color-white)] shadow-lg">
+              {/* Image */}
+              <div className="w-56 h-56 rounded-2xl overflow-hidden bg-[var(--color-card-profile)] flex items-center justify-center">
+                <img
+                  src={
+                    pet.profilePictureDocument.document_url ||
+                    `https://randomuser.me/api/portraits/men/${Math.floor(
+                      Math.random() * 100
+                    ) + 1
+                    }.jpg`
+                  }
+                  alt={pet.pet_name || "Pet"}
+                  className="w-full h-full object-cover"
+                />
               </div>
+              {/* Details */}
+              <div className="flex-1 flex flex-col justify-center md:pl-8 w-full">
+                <div className="text-2xl font-medium mb-2 text-[var(--color-text-bright)]">
+                  {pet.pet_name || "Pet"}
+                </div>
+                <div className="flex flex-wrap gap-x-4 text-base mb-2">
+                  <div  className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Age
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">
+                      {pet.age || "Unknown"} years old
+                    </div>
+                  </div>
+                  <div  className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Gender
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">{pet.gender || "Unknown"}</div>
+                  </div>
+                  <div  className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Microchip Number
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">
+                      {pet.microchip || "Unknown"}
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Breed
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">
+                      {pet.breed?.breed_name || "Mixed Breed"}
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Colour
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">{pet.color || "Unknown"}</div>
+                  </div>
+                   <div className="flex-1">
+                    <span className="text-[var(--color-text-faded)] opacity-70">
+                      Birthdate
+                    </span>
+                    <div className="text-[var(--color-text-bright)]">{pet.dob || "Unknown"}</div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
+                  <div className="flex gap-2 mb-2 justify-center items-center">
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[var(--color-text-faded)] opacity-70">
+                        {pet?.pet_name}'s Code
+                      </span>
+                      <div className="flex gap-1">
+                        {pet?.qr_code_id?.split("")
+                          .map((char: string, index: number) => (
+                            <span
+                              key={index}
+                              className="inline-flex w-6 h-8 font-medium bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-sm rounded-lg items-center justify-center shadow-sm select-all transition-all duration-150 hover:scale-105 text-center"
+                            >
+                              {char}
+                            </span>
+                          ))}
+                      </div>
+                    </div>
+
+                  </div>
+                  </div>
+                {/* Pet Code Example (if available) */}
+                {pet.code && (
+                  <div className="flex gap-2 mt-2">
+                    {pet.code.split("").map((char: string, idx: number) => (
+                      <span
+                        key={idx}
+                        className="bg-[var(--color-background)] border border-[var(--color-primary)] rounded-lg px-3 py-1 text-lg font-mono font-bold text-[var(--color-primary)]"
+                      >
+                        {char}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* Health Summary Card */}
+            <div className="flex-1/3 border border-[var(--color-primary)] bg-[var(--color-card-health-card)] rounded-3xl p-6 md:p-8 flex flex-col gap-2 flex-1 text-[var(--color-text)] shadow-lg">
+              <div className="text-2xl font-semibold mb-2">
+                Health Summary
+              </div>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
+                <div>
+                  <span className="opacity-70">Spay/Neuter Status:</span>
+                  <span className="font-semibold ml-2">
+                    {pet.spay_neuter
+                      ? "Spayed/Neutered"
+                      : "Not Spayed/Neutered"}
+                  </span>
+                </div>
+                <div>
+                  <span className="opacity-70">Weight</span>
+                  <span className="font-semibold ml-2">
+                    {pet.weight ? `${pet.weight} lbs` : "Unknown"}
+                  </span>
+                </div>
+                <div>
+                  <span className="opacity-70">Special Notes</span>
+                  <span className="font-semibold ml-2">
+                    {pet.notes || "No special notes"}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-8 gap-y-2 text-base mb-2">
+                <div>
+                  <span className="opacity-70">Location</span>
+                  <span className="font-semibold ml-2">
+                    {pet.location || "Unknown"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Vaccine Section */}
+        <section className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+                <Syringe className="w-5 h-5 text-[var(--color-white)]" />
+              </span>
+              Vaccines
+            </p>
+            <button
+              onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+            >
+              <PlusCircle className="w-5 h-5 " /> Add New Vaccine
+            </button>
+          </div>
           <VaccineSection
-            vaccines={vaccines}
+            vaccines={vaccines.slice(0, 3)}
             onEditVaccine={handleEditVaccine}
             onViewAll={() => navigate(`/petowner/pet/${petId}/vaccine`)}
           />
-            </div>
+        </section>
 
-        <div className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-            <h2 className="text-2xl font-bold">Recently Uploaded Documents</h2>
-              <button
+        {/* Document Section */}
+        <section className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+                <FileText className="w-5 h-5 text-[var(--color-white)]" />
+              </span>
+              Recently Uploaded Documents
+            </p>
+            <button
               onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
-              >
-                <span className="text-lg">+</span> Upload New Document
-              </button>
-            </div>
-            <DocumentSection
-            documents={rawDocuments}
-              onEditDocument={handleEditDocument}
-            onViewAll={() => navigate(`/petowner/pet/${petId}/documents`)}
+                                className="w-auto px-5 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+            >
+              <UploadIcon className="w-5 h-5" /> Upload New Document
+            </button>
+          </div>
+          <DocumentSection
+            documents={rawDocuments.slice(0, 6)}
+            onEditDocument={async (index: number, newName: string) => {
+              setEditDocIdx(index);
+              setEditDocName(newName);
+            }}
+            onDeleteDocument={handleDeleteDocument}
           />
-        </div>
+        </section>
 
-        <div className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-            <h2 className="text-2xl font-bold">Your Teams</h2>
+        {/* Team Section */}
+        <section className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+                <Users className="w-5 h-5 text-[var(--color-white)]" />
+              </span>
+              Your Teams
+            </p>
             <button
               onClick={() => navigate(`/petowner/pet/${petId}/add-team`)}
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition"
+                                className="w-auto px-12 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
             >
-              <span className="text-lg">+</span> Add New Team
+              <Users className="w-5 h-5" /> Add New Team
             </button>
           </div>
           <TeamSection
-            teams={rawTeams}
+            teams={rawTeams.slice(0, 3)}
             onViewAll={() => navigate(`/petowner/pet/${petId}/team`)}
           />
-        </div>
+        </section>
       </div>
 
-      {/* Modals */}
-            {editDocIdx !== null && (
-              <RenameDocumentModal
-                open={true}
-                initialName={editDocName}
-                onClose={() => setEditDocIdx(null)}
-                onSave={handleSaveDocumentName}
-              />
-            )}
+      {editDocIdx !== null && (
+        <RenameDocumentModal
+          open={true}
+          initialName={editDocName}
+          onClose={() => setEditDocIdx(null)}
+          onSave={handleSaveDocumentName}
+        />
+      )}
       {editVaccineIdx !== null && (
         <EditVaccineModal
           open={true}

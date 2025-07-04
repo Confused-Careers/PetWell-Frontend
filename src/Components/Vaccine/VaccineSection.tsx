@@ -1,5 +1,7 @@
 import React from "react";
 import VaccineInfo from "./VaccineInfo";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface Vaccine {
   name: string;
@@ -18,37 +20,41 @@ interface VaccineBoxProps {
 const VaccineSection: React.FC<VaccineBoxProps> = ({
   vaccines,
   onEditVaccine,
-  onViewAll,
 }) => {
+  const navigate = useNavigate();
+  const { petId } = useParams<{ petId: string }>(); // Add useParams inside the component
   return (
-    <section className="mb-6 sm:mb-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mb-4">
+    <section>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
         {vaccines.map((vaccine, idx) => (
-          <div key={idx}>
+          <div key={idx} className="w-full flex">
             <VaccineInfo
               name={vaccine.name}
               administered={vaccine.administered}
               expires={vaccine.expires}
               soon={vaccine.soon}
               warning={vaccine.warning}
-              showEdit={true}
+              showEdit={!!onEditVaccine}
               onEdit={onEditVaccine ? () => onEditVaccine(idx) : undefined}
             />
           </div>
         ))}
+        {vaccines.length == 0 && <div>No Vaccine Added</div>}
       </div>
-      <div className="mt-2">
-        <a
-          href="#"
-          className="text-[var(--color-primary)] font-medium hover:underline text-sm sm:text-base"
-          onClick={(e) => {
-            e.preventDefault();
-            onViewAll && onViewAll();
-          }}
-        >
-          View All Vaccines &gt;
-        </a>
-      </div>
+      {vaccines.length != 0 && (
+        <div className="mt-4 flex justify-start">
+          <a
+            href="#"
+            className="text-[var(--color-primary)] font-medium text-base flex items-center gap-1"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(`/petowner/pet/${petId}/vaccine`);
+            }}
+          >
+            View All Vaccines <IoIosArrowDroprightCircle />
+          </a>
+        </div>
+      )}
     </section>
   );
 };

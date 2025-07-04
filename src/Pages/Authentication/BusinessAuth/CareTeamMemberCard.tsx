@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pencil, X, Share2 } from 'lucide-react';
+import React from "react";
+import {  X, Share2,  Edit2Icon } from "lucide-react";
 
 interface CareTeamMemberCardProps {
   name: string;
@@ -16,36 +16,51 @@ const CareTeamMemberCard: React.FC<CareTeamMemberCardProps> = ({
   access,
   onEdit,
   onDelete,
-  onShare,
+
 }) => {
   return (
-    <div className="bg-[#2A2F36] rounded-xl p-6 w-full max-w-xl shadow flex flex-col gap-2 relative">
-      <div className="flex items-start justify-between">
-        <div>
-          <div className="text-lg font-cabin text-white font-semibold">{name}</div>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="bg-[#23272F] text-[#FDBA3B] text-xs px-2 py-1 rounded font-cabin">{role}</span>
-            <span className="text-xs text-[#EBD5BD] font-cabin italic">{access}</span>
+    <div className="bg-[#faebc5] border rounded-xl p-4 w-full max-w-xl shadow flex flex-col gap-2 relative min-h-[160px] justify-between">
+      <div className="flex items-start gap-3 justify-between">
+        <div className="flex-1">
+          <div className="text-[24px] font-semibold text-[#1C232E]">
+            {name}
+          </div>
+          <div className="flex items-center gap-2 mt-1">
+            <span className="text-xs text-[#1C232E] bg-[#EDCC79] p-0.5 px-1 rounded-sm font-normal">
+              {role}
+            </span>
+            <span className="text-xs text-[#1C232E] italic">
+               {access} Access
+            </span>
           </div>
         </div>
-        <div className="flex gap-2">
-          <button onClick={onEdit} className="p-1 rounded hover:bg-[#23272F]">
-            <Pencil className="w-4 h-4 text-[#FDBA3B]" />
-          </button>
-          <button onClick={onDelete} className="p-1 rounded hover:bg-[#23272F]">
-            <X className="w-4 h-4 text-[#A0A0A0]" />
-          </button>
+        <div>
+          <div className="flex gap-3 justify-center items-center">
+            <div
+             title="Share Username & Password"
+              onClick={onEdit}
+              className="rounded hover:bg-[var(--color-border)] cursor-pointer"
+            >
+              <Edit2Icon className="size-4 opacity-60" fill="text-[#1C232E]" />
+            </div>
+            <div
+              title="Delete Care Team Member"
+              onClick={onDelete}
+              className="rounded hover:bg-[var(--color-border)] cursor-pointer"
+            >
+              <X className="size-4 text-[#1C232E] opacity-60" />
+            </div>
+          </div>
         </div>
       </div>
-      <hr className="my-3 border-[#393E46]" />
-      <button
-        onClick={onShare}
-        className="flex items-center gap-2 text-[#FDBA3B] font-cabin font-medium text-base hover:underline"
-      >
-        <Share2 className="w-5 h-5" /> Share Username & Password
-      </button>
+      <div className="flex items-center gap-2 mt-2">
+        <Share2 className="size-4" fill="text-[#1C232E]"/>
+        <span className="text-sm text-[#1C232E] font-medium">
+          Share Username & Password
+        </span>
+      </div>
     </div>
   );
 };
 
-export default CareTeamMemberCard; 
+export default CareTeamMemberCard;

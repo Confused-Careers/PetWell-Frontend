@@ -88,8 +88,8 @@ const UploadDocument: React.FC<UploadDocumentProps> = ({
     <div className="w-full flex flex-col items-center mt-8">
       {/* Upload Card */}
       {uploads.length === 0 && (
-        <div className="flex flex-col items-center w-full mt-12">
-          <div className="mx-auto w-full max-w-xl bg-[var(--color-card)] rounded-2xl shadow-xl p-10 flex flex-col items-center">
+        <div className="flex flex-col items-center w-full mt-12 cursor-pointer">
+          <div className="mx-auto w-full max-w-xl bg-[var(--color-card)] rounded-2xl border border-[var(--color-border)] p-10 flex flex-col items-center">
             <label
               htmlFor="file-upload"
               className="flex flex-col items-center cursor-pointer"

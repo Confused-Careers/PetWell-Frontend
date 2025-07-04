@@ -1,5 +1,4 @@
 import React from "react";
-import PetWellLogo from "../../../Assets/PetWell.png";
 import Stepper from "./Stepper";
 import authServices from "../../../Services/authServices";
 import ProfileCreationSuccessModal from "./ProfileCreationSuccessModal";
@@ -96,18 +95,7 @@ const Step5OTPVerification: React.FC<Step5OTPVerificationProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative">
-      <img
-        src={PetWellLogo}
-        alt="PetWell Logo"
-        className="w-16 h-16 object-contain absolute left-20 top-10"
-        style={{ left: 80, top: 40 }}
-      />
-      <div className="flex justify-center w-full max-w-5xl mt-12 mb-6">
-        <h1 className="text-[40px] font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
-          Welcome to your pet's new digital home.
-        </h1>
-      </div>
+    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
       <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Stepper currentStep={5} />
         <h2 className="text-2xl font-[Cabin,sans-serif] text-[#EBD5BD] font-normal mb-2 mt-2">
@@ -185,4 +173,4 @@ const Step5OTPVerification: React.FC<Step5OTPVerificationProps> = ({
   );
 };
 
-export default Step5OTPVerification;
+export default Step5OTPVerification; 

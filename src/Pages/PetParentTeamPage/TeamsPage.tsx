@@ -4,15 +4,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import TeamBox from "../../Components/Teams/TeamInfo";
 import teamServices from "../../Services/teamServices";
 import petServices from "../../Services/petServices";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "../../Components/ui/dialog";
+import { Users, PlusCircle, X } from "lucide-react";
 
 const TeamsPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +13,7 @@ const TeamsPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [pet, setPet] = useState<any>(null);
   const [actualPetId, setActualPetId] = useState<string | null>(null);
@@ -231,12 +224,16 @@ const TeamsPage: React.FC = () => {
   const handleConfirmDelete = async () => {
     if (!selectedTeam) return;
     try {
+      setIsDeleting(true);
       await teamServices.deleteTeam(selectedTeam.id);
       setTeams(teams.filter((team) => team.id !== selectedTeam.id));
       setOpen(false);
       setSelectedTeam(null);
     } catch (err) {
       console.error("Failed to delete team:", err);
+      setError("Failed to delete team. Please try again.");
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -265,30 +262,29 @@ const TeamsPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
-            {pet.pet_name}'s Team
-          </h1>
-          <div className="flex gap-3 sm:gap-4">
-            <button
-              onClick={() =>
-                navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
-              }
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
-            >
-              <span className="text-lg">+</span> Add New Team
-            </button>
-          </div>
+      <div className="container mx-auto max-w-7xl pt-8 pb-12 px-4 sm:px-6 md:px-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+          <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+            <Users className="w-9 h-9 text-[var(--color-logo)]" />
+            {pet.pet_name}&apos;s Teams
+          </p>
+          <button
+            onClick={() =>
+              navigate(`/petowner/pet/${actualPetId || petId}/add-team`)
+            }
+            className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+          >
+            <PlusCircle className="w-6 h-6" /> Add New Team
+          </button>
         </div>
 
         {error && (
-          <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-3 sm:px-4 py-2 sm:py-3 rounded-lg mb-4 sm:mb-6 text-sm sm:text-base">
+          <div className="bg-red-500/10 border border-red-500/20 text-red-500 px-4 py-3 rounded-lg mb-8 text-base">
             {error}
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {teams.map((team, index) => (
             <TeamBox
               key={team.id}
@@ -298,36 +294,78 @@ const TeamsPage: React.FC = () => {
           ))}
         </div>
 
-        {teams.length === 0 && !error && (
-          <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">No teams found</div>
-          </div>
-        )}
+        {teams.length==0 && <div className="flex justify-center">No Teams Added</div>}
 
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Delete Team</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to delete "{selectedTeam?.name}"? This
-                action cannot be undone.
-              </DialogDescription>
-            </DialogHeader>
-            <div className="flex justify-end gap-3">
-              <DialogClose asChild>
-                <button className="px-4 py-2 text-gray-500 hover:text-gray-700">
+        {open && selectedTeam && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+            <div
+              className="rounded-2xl px-6 py-7 w-full max-w-sm shadow-2xl relative flex flex-col items-center border"
+              style={{
+                backgroundColor: "var(--color-background)",
+                borderColor: "var(--color-border)",
+                color: "var(--color-text)",
+                fontFamily: 'Cabin, sans-serif',
+              }}
+            >
+              <button
+                className="absolute right-4 top-4 text-[var(--color-text)] hover:text-[var(--color-primary)] text-2xl"
+                onClick={() => setOpen(false)}
+                aria-label="Close"
+                disabled={isDeleting}
+                style={{ background: 'none', border: 'none' }}
+              >
+                <X className="w-6 h-6 cursor-pointer" />
+              </button>
+              <div className="w-full flex">
+                <h2
+                  className="text-2xl mb-2 text-left"
+                  style={{ color: "var(--color-text)", fontFamily: 'Cabin, sans-serif' }}
+                >
+                  Remove team?
+                </h2>
+              </div>
+              <p className="text-base flex text-left mb-5" style={{ color: "var(--color-text)", fontFamily: 'Cabin, sans-serif' }}>
+                Are you sure you want to remove the following team from your profile?
+              </p>
+              {/* Team Card */}
+              <div className="flex items-center gap-4 w-full bg-[var(--color-card-team)] rounded-lg px-4 py-3 mb-7 border border-[var(--color-border)]">
+                <img
+                  src={selectedTeam.business?.profile_picture_document_id
+                    ? `/api/v1/documents/${selectedTeam.business.profile_picture_document_id}`
+                    : `https://randomuser.me/api/portraits/men/32.jpg`}
+                  alt={selectedTeam.business?.business_name || 'Team'}
+                  className="w-12 h-12 rounded-full object-cover"
+                />
+                <div className="flex flex-col">
+                  <span className="font-bold text-lg text-[var(--color-text)]" style={{ fontFamily: 'Cabin, sans-serif' }}>
+                    {selectedTeam.business?.business_name || selectedTeam.business_name || 'Unknown Team'}
+                  </span>
+                  <span className="text-sm text-[var(--color-text)]/60 mt-1" style={{ fontFamily: 'Cabin, sans-serif' }}>
+                    {selectedTeam.business?.address || 'No address provided'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-row gap-4 justify-center w-full mt-2">
+                <button
+                  className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base"
+                  style={{ fontFamily: 'Cabin, sans-serif', height: 44 }}
+                  onClick={() => setOpen(false)}
+                  disabled={isDeleting}
+                >
                   Cancel
                 </button>
-              </DialogClose>
-              <button
-                onClick={handleConfirmDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Delete
-              </button>
+                <button
+                  className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-0 py-2 rounded-3xl font-semibold transition text-base"
+                  style={{ fontFamily: 'Cabin, sans-serif', height: 44 }}
+                  onClick={handleConfirmDelete}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? "Removing..." : "Yes, remove"}
+                </button>
+              </div>
             </div>
-          </DialogContent>
-        </Dialog>
+          </div>
+        )}
       </div>
     </div>
   );

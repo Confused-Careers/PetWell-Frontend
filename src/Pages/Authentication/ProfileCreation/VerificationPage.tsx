@@ -6,6 +6,20 @@ import DocumentSection from "../../../Components/Document/DocumentSection";
 import EditVaccineModal from "../../../Components/Vaccine/EditVaccineModal";
 import petServices from "../../../Services/petServices";
 import humanOwnerServices from "../../../Services/humanOwnerServices";
+import DetailSection from "../../../Components/Verification/DetailSection";
+import { PlusCircle, UploadIcon, Syringe, FileText } from "lucide-react";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback,
+} from "../../../Components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "../../../Components/ui/dropdown-menu";
+
 
 const VerificationPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +37,8 @@ const VerificationPage: React.FC = () => {
     open: boolean;
     vaccine: any;
   }>({ open: false, vaccine: null });
+
+  const [, ] = useState(false);
 
   useEffect(() => {
     if (!petId) return;
@@ -115,38 +131,9 @@ const VerificationPage: React.FC = () => {
   }, [petId]);
 
   // Robust property access for pet
-  const breed =
-    (typeof pet?.breed_name === "string" ? pet.breed_name : "") ||
-    (typeof pet?.breed === "string" ? pet.breed : "") ||
-    (typeof pet?.breed_obj?.breed_name === "string"
-      ? pet.breed_obj.breed_name
-      : "") ||
-    (typeof pet?.breed === "object" && pet?.breed?.breed_name
-      ? String(pet.breed.breed_name)
-      : "") ||
-    "";
-  const species =
-    (typeof pet?.breed_species?.species_name === "string"
-      ? pet.breed_species.species_name
-      : "") ||
-    (typeof pet?.breed_species_name === "string"
-      ? pet.breed_species_name
-      : "") ||
-    (typeof pet?.breed_species === "string" ? pet.breed_species : "") ||
-    "";
   const petName = pet?.pet_name || pet?.name || "";
-  const petImage = pet?.profile_picture_url || pet?.image || null;
-  const petAge = pet?.age || "";
-  const petWeight = pet?.weight || "";
-  const petColor = pet?.color || "";
-  const petMicrochip = pet?.microchip || "";
-  const petBirthdate = pet?.dob || pet?.birthdate || "";
 
   // Robust property access for user
-  const userName = human?.human_owner_name || human?.name || "";
-  const userLocation = human?.location || "";
-  const userPhone = human?.phone || "";
-  const userEmail = human?.email || "";
 
   // Handlers for editing
   const handleEditVaccine = (index: number) => {
@@ -213,164 +200,99 @@ const VerificationPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen w-screen font-sans flex flex-col items-center bg-[#101624] text-[#EBD5BD]">
-      {/* Logo and Header */}
-      <div className="absolute left-10 top-8">
-        <img
-          src={PetWellLogo}
-          alt="PetWell Logo"
-          className="w-12 h-12 object-contain"
-        />
-      </div>
-      <div className="flex flex-col items-center w-full max-w-6xl mt-10 mb-4 px-8">
-        <h1 className="text-4xl font-bold text-[#EBD5BD] mb-2">
-          Here's what we know. Check it out!
-        </h1>
-        <p className="text-[#EBD5BD] opacity-80 mb-8 text-lg text-center">
-          You can review, edit, or add notes before saving it to {petName}'s
-          profile.
-        </p>
-      </div>
-      <div className="w-full max-w-6xl px-8">
-        {/* Pet and User Details Section (inline) */}
-        <div className="flex flex-col md:flex-row gap-8 justify-start mt-8 w-full max-w-6xl mx-auto">
-          {/* Pet's Details Column */}
-          <div className="flex flex-col flex-1 min-w-[280px] max-w-md">
-            <span className="text-2xl font-serif font-semibold text-[var(--color-modal-foreground)] mb-2 block">
-              Your Pet's Details
-            </span>
-            <div className="bg-[var(--color-card)] rounded-2xl shadow-lg p-6 sm:p-8 flex-1 relative">
-              <div className="flex items-center gap-4 mb-6">
-                {petImage ? (
-                  <img
-                    src={petImage}
-                    alt={petName}
-                    className="w-14 h-14 rounded-full object-cover border-2 border-[var(--color-primary)]"
-                  />
-                ) : (
-                  <div className="w-14 h-14 rounded-full bg-gray-600 border-2 border-[var(--color-primary)] flex items-center justify-center">
-                    <span className="text-white text-lg font-bold">
-                      {petName?.charAt(0)?.toUpperCase() || "P"}
-                    </span>
-                  </div>
-                )}
-                <span className="text-xl font-bold text-[var(--color-text)]">
-                  {petName}
-                </span>
-              </div>
-              <div className="grid grid-cols-2 gap-y-6 gap-x- text-base">
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Age
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petAge}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Weight
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petWeight}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Breed
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {breed}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Species
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {species}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Colour
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petColor}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Microchip Number
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petMicrochip}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Birthdate
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {petBirthdate}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {/* User Details Column */}
-          <div className="flex flex-col flex-1 min-w-[280px] max-w-md">
-            <span className="text-2xl font-serif font-semibold text-[var(--color-modal-foreground)] mb-2 block">
-              Your Details
-            </span>
-            <div className="bg-[var(--color-card)] rounded-2xl shadow-lg p-8 flex-1 relative">
-              <div className="grid grid-cols-2 gap-y-6 gap-x-8 text-base">
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Name
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userName}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    {/* Empty for layout */}
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]"></div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Location
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userLocation}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Phone number
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userPhone}
-                  </div>
-                </div>
-                <div>
-                  <div className="text-[var(--color-modal-foreground)] text-sm mb-1">
-                    Email
-                  </div>
-                  <div className="font-bold text-lg text-[var(--color-text)]">
-                    {userEmail}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2  sm:p-4 md:p-8">
+      {/* Logo and header */}
+      <div className="flex flex-col sm:flex-row w-full">
+        <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="object-contain h-full w-auto"
+          />
         </div>
+        <div className="flex-1 flex flex-col items-center">
+          <p className="font-[Alike,serif] text-3xl text-[#1C232E] mb-0 text-center leading-tight">
+            Here's what we know. Check it out!
+          </p>
+          <span className="font-[Alike,serif] text-[#1C232E] text-base sm:text-lg opacity-70 mt-1 text-center">
+            You can review, edit, or add notes before saving it to {petName}'s
+            profile.
+          </span>
+        </div>
+        <div className="flex justify-center sm:justify-end h-8 mb-8 md:mb-0">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-[var(--color-card)] transition">
+                <Avatar className="w-9 h-9 border-2 border-[var(--color-logo)]">
+                  <AvatarImage
+                    src={
+                      pet?.profile_picture ||
+                      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                    }
+                    alt={petName}
+                  />
+                  <AvatarFallback>{petName?.[0] || "P"}</AvatarFallback>
+                </Avatar>
+                <span className="font-[Cabin,sans-serif] text-base text-[var(--color-logo)] font-semibold">
+                  {petName || "Pet"}
+                </span>
+                <svg
+                  width="12"
+                  height="8"
+                  viewBox="0 0 12 8"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="ml-1"
+                >
+                  <path
+                    d="M1 1.5L6 6.5L11 1.5"
+                    stroke="#3c2a17"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="min-w-[200px] bg-[var(--color-card-profile)] border border-[var(--color-logo)] rounded-xl shadow-lg p-0 mt-2"
+            >
+              <DropdownMenuItem
+                className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card)] rounded-t-xl border-b border-[var(--color-logo)]/20 cursor-pointer"
+                onClick={() => navigate(`/petowner/pet/${petId}/profile`)}
+              >
+                Go to Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card)] rounded-b-xl cursor-pointer"
+                onClick={() => navigate(`/switch-profile`)}
+              >
+                Not {petName}? Switch Profile
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto w-full sm:px-4">
+        <DetailSection pet={pet} user={human} />
         {/* Vaccines Section */}
-        <h2 className="text-xl font-semibold mb-4 mt-10">
-          {String(petName || "")}'s Vaccines
-        </h2>
+        <div className="flex items-center justify-between gap-4 mb-3 sm:mb-4 mt-8 sm:mt-10">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+              <Syringe className="w-5 h-5 text-[var(--color-white)]" />
+            </span>
+            <h2 className="text-xl font-serif font-normal text-[var(--color-text)]">
+              Vaccines
+            </h2>
+          </div>
+          <button
+            onClick={() => navigate(`/petowner/pet/${petId}/add-vaccine`)}
+            className="px-8 py-2 cursor-pointer rounded-full bg-[var(--color-card-button)] text-[var(--color-black)] font-semibold font-[Cabin,sans-serif] flex items-center gap-2 shadow-sm hover:brightness-105 transition-all text-base"
+          >
+            <PlusCircle className="w-5 h-5" /> Add New Vaccine
+          </button>
+        </div>
         {Array.isArray(vaccines) && vaccines.length > 0 ? (
           <VaccineSection
             vaccines={vaccines}
@@ -380,29 +302,41 @@ const VerificationPage: React.FC = () => {
           <p className="text-gray-400">No vaccines found</p>
         )}
         {/* Uploaded Documents Section */}
-        <h2 className="text-xl font-semibold mb-4 mt-10">Upload Documents</h2>
+        <div className="flex items-center justify-between gap-4 mb-3 sm:mb-4 mt-8 sm:mt-10">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
+              <FileText className="w-5 h-5 text-[var(--color-white)]" />
+            </span>
+            <h2 className="text-xl font-serif font-normal text-[var(--color-text)]">
+              Documents
+            </h2>
+          </div>
+          <button
+            onClick={() => navigate(`/petowner/pet/${petId}/upload`)}
+            className="px-8 py-2 cursor-pointer rounded-full bg-[var(--color-card-button)] text-[var(--color-black)] font-semibold font-[Cabin,sans-serif] flex items-center gap-2 shadow-sm hover:brightness-105 transition-all text-base"
+          >
+            <UploadIcon className="w-5 h-5" /> Upload New Document
+          </button>
+        </div>
         {Array.isArray(documents) && documents.length > 0 ? (
           <DocumentSection
             documents={documents}
             onEditDocument={(index) => {
-              // This will be handled by DocumentBox's internal modal
               console.log("Edit document at index:", index);
             }}
           />
         ) : (
           <p className="text-gray-400">No documents found</p>
         )}
-        <div className="flex justify-end gap-8 mt-8 w-full">
+        <div className="flex justify-end gap-4 sm:gap-8  sm:mt-8 w-full">
           <button
-            className="px-8 py-3 mb-4 rounded-lg bg-[#FFA500] text-white font-semibold text-lg hover:brightness-110 transition"
+            className="w-[300px] font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E] mb-8 mt-2"
             onClick={() => navigate(`/petowner/pet/${petId}/home`)}
           >
             Next
           </button>
         </div>
       </div>
-      {/* ProfileDropdown, if needed */}
-
       {/* Edit Vaccine Modal */}
       <EditVaccineModal
         open={editVaccineModal.open}

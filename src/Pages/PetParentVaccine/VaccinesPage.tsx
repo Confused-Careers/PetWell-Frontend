@@ -5,6 +5,7 @@ import VaccineInfo from "../../Components/Vaccine/VaccineInfo";
 import EditVaccineModal from "../../Components/Vaccine/EditVaccineModal";
 import vaccineServices from "../../Services/vaccineServices";
 import petServices from "../../Services/petServices";
+import { Download, PlusCircle } from "lucide-react";
 
 const VaccinesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -23,9 +24,11 @@ const VaccinesPage: React.FC = () => {
       const key = [
         vaccine.id,
         vaccine.vaccine_name || vaccine.name,
-        vaccine.date_administered || vaccine.administered_date || vaccine.administered,
+        vaccine.date_administered ||
+          vaccine.administered_date ||
+          vaccine.administered,
         vaccine.date_due || vaccine.expiry_date || vaccine.expires,
-        vaccine.staff_id || vaccine.administered_by || ""
+        vaccine.staff_id || vaccine.administered_by || "",
       ].join("|");
       if (seen.has(key)) {
         return false;
@@ -239,9 +242,7 @@ const VaccinesPage: React.FC = () => {
         // Remove duplicates before setting state
         const uniqueVaccines = removeDuplicateVaccines(matchingVaccines);
         setVaccines(uniqueVaccines);
-        setError(
-          uniqueVaccines.length === 0 ? "No vaccines found for this pet." : null
-        );
+       
       } catch (err) {
         console.error("Failed to fetch vaccines:", err);
         setError(
@@ -285,27 +286,27 @@ const VaccinesPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-4 sm:pt-6 md:pt-8 pb-8 sm:pb-10 md:pb-12 px-4 sm:px-6 md:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold">
-            {pet?.pet_name || "Pet"}'s Vaccines
-          </h1>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+            <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+            {pet?.pet_name ? `${pet.pet_name}'s Vaccines` : "Vaccines"}
+          </p>
+          <div className="flex flex-row gap-4">
             <button
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E]"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/download-select`)
               }
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
             >
-              <span className="text-lg">+</span> Download Vaccine records
+              <Download className="w-5 h-5" /> Download Records
             </button>
             <button
+                                className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)
               }
-              className="border border-[var(--color-primary)] text-[var(--color-primary)] px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 hover:bg-[var(--color-primary)] hover:text-[var(--color-background)] transition text-sm sm:text-base"
             >
-              <span className="text-lg">+</span> Add New Vaccine
+              <PlusCircle className="w-5 h-5" /> Add New Vaccine
             </button>
           </div>
         </div>
@@ -316,7 +317,7 @@ const VaccinesPage: React.FC = () => {
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {vaccines.map((vaccine, index) => {
             const expiryDate =
               vaccine.date_due || vaccine.expiry_date || vaccine.expires || "";
@@ -344,7 +345,7 @@ const VaccinesPage: React.FC = () => {
 
         {vaccines.length === 0 && !error && (
           <div className="text-center py-8 sm:py-12">
-            <div className="text-gray-400 text-base sm:text-lg mb-4">No vaccines found</div>
+            {vaccines.length==0 && <div>No Vaccine Added</div>}
             <button
               onClick={() =>
                 navigate(`/petowner/pet/${actualPetId}/add-vaccine`)

@@ -431,6 +431,30 @@ const petServices = {
       throw new Error("Multiple document upload failed");
     }
   },
+
+  async deleteDocument(documentId: string): Promise<{ message: string }> {
+    try {
+      const response = await axios.delete(
+        `${SERVER_BASE_URL}/api/v1/pets/documents/${documentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+          },
+        }
+      );
+      if (!response.data) {
+        throw new Error("Invalid response from server");
+      }
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response && error.response.data) {
+        throw new Error(
+          error.response.data.message || "Document deletion failed"
+        );
+      }
+      throw new Error("Document deletion failed");
+    }
+  },
 };
 
 export default petServices;

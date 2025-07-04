@@ -6,6 +6,7 @@ import Step2HealthBasics from "./Step2HealthBasics";
 import Step3SafetyAndID from "./Step3SafetyAndID";
 import Step4HumanInfo from "./Step4HumanInfo";
 import Step5OTPVerification from "./Step5OTPVerification";
+import PetWellLogo from "../../../Assets/PetWell.png";
 
 const ProfileCreation: React.FC = () => {
   const [step, setStep] = useState(1);
@@ -81,7 +82,19 @@ const ProfileCreation: React.FC = () => {
   // Render the appropriate step component
   switch (step) {
     case 1:
-    return (
+      return (
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Your Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Step1BasicPetInfo
           form={form}
           setForm={setForm}
@@ -89,9 +102,23 @@ const ProfileCreation: React.FC = () => {
           setError={setError}
           onNext={() => goToStep(2)}
         />
+          </div>
+        </div>
       );
     case 2:
-    return (
+      return (
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Your Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Step2HealthBasics
           form={form}
           setForm={setForm}
@@ -99,9 +126,23 @@ const ProfileCreation: React.FC = () => {
           setError={setError}
           onNext={() => goToStep(3)}
         />
+          </div>
+        </div>
       );
     case 3:
-    return (
+      return (
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Your Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Step3SafetyAndID
           form={form}
           setForm={setForm}
@@ -109,9 +150,23 @@ const ProfileCreation: React.FC = () => {
           setError={setError}
           onNext={() => goToStep(4)}
         />
+          </div>
+        </div>
       );
     case 4:
-    return (
+      return (
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Your Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Step4HumanInfo
           form={form}
           setForm={setForm}
@@ -121,9 +176,23 @@ const ProfileCreation: React.FC = () => {
           setLoading={setLoading}
           onNext={() => goToStep(5)}
         />
+          </div>
+        </div>
       );
     case 5:
-    return (
+      return (
+        <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center w-full relative px-4 sm:px-6 md:px-8">
+          <img
+            src={PetWellLogo}
+            alt="PetWell Logo"
+            className="w-16 h-16 object-contain absolute left-4 top-4 sm:left-10 sm:top-10 md:left-20 md:top-10"
+          />
+          <div className="flex justify-center w-full max-w-5xl mt-12 mb-6 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-[Alike,serif] text-[#EBD5BD] font-normal text-center">
+              Create Your Profile
+            </h1>
+          </div>
+          <div className="flex flex-col items-center flex-1 w-full max-w-5xl mx-auto">
         <Step5OTPVerification
           form={form}
           otp={otp}
@@ -140,13 +209,15 @@ const ProfileCreation: React.FC = () => {
           onNavigateHome={handleNavigateHome}
           onNavigateUpload={handleNavigateUpload}
         />
+          </div>
+        </div>
       );
     default:
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-[#1C232E] text-red-400 text-lg">
-      Something went wrong. Please refresh the page or start again.
-    </div>
-  );
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-[#1C232E] text-red-400 text-lg">
+          Something went wrong. Please refresh the page or start again.
+        </div>
+      );
   }
 };
 

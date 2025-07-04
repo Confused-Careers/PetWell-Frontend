@@ -29,30 +29,40 @@ body::-webkit-scrollbar {
 
 @layer base {
   :root {
-    --color-primary: #ffb23e;
-    --color-primary-foreground: #232b3e;
-    --color-background: #101624;
+    /* Main Colors */
+    --color-background: #fff8e5;
     --color-card: #ebd5bd1a;
-    --color-modal: #232b3e;
-    --color-modal-foreground: #ebd5bd;
-    --color-modal-border: #232b41;
-    --color-text: #ebd5bd;
-    --color-warning: #ffa500;
-    --color-shadow: #232b41;
-    --color-accent: #ebd5bd1a;
-    --color-danger: #ff4d4f;
-    --color-success: #22c55e;
-    --color-link: #ffa500;
-    --color-border: #232b41;
-    --color-input: #232b3e;
-    --color-secondary: #232b3e;
-    --color-secondary-foreground: #ebd5bd;
-    --color-destructive: #ff4d4f;
-    --color-ring: #ffa500;
-    --color-accent-foreground: #ffa500;
-    --color-accent-hover: #ffb733;
+    --color-card-vaccine-green: #aba75c80;
+    --color-card-vaccine-red: #dc9a6b80;
+    --color-card-document: #edcc7980;
+    --color-card-team: #6a829380;
+    --color-card-profile: #6a8293;
+    --color-card-health-card: #edcc79;
+    --color-card-button: #ffb23e;
+    --color-card-yellow: #edcc79;
+    --color-card-red: #dc9a6b80;
+    --color-text: #1c232e;
+    --color-text-faded: #c3c9c4;
+    --color-text-faded-verify: #1C232E99;
+    --color-text-bright: #fff8e5;
+    --color-warning: #990D0D;
+    --color-logo: #3c2a17;
+    --color-opacity: #1C232E80;
+    --color-border: #000
+
+    /* Essential System Colors */
     --color-white: #fff;
     --color-black: #000;
+
+    /* Business Colors */
+    --color-business-card-bg: #F6E7C0;
+    --color-business-card-shadow: rgba(60,42,23,0.08);
+    --color-business-section-bg: #fff8e5;
+    --color-business-heading: #3c2a17;
+    --color-business-subheading: #6a8293;
+    --color-business-accent: #ffb23e;
+    --color-business-blue: #6A8293;
+    --color-business-green: #ABA75C;
   }
   body {
     background-color: var(--color-background);
@@ -154,7 +164,6 @@ body::-webkit-scrollbar {
 
 /* Responsive Design System */
 
-
 /* Base responsive container */
 .container {
   width: 100%;
@@ -171,37 +180,37 @@ body::-webkit-scrollbar {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
   }
-  
+
   body {
     font-size: 14px;
   }
-  
+
   h1 {
     font-size: 1.5rem;
     line-height: 1.2;
   }
-  
+
   h2 {
     font-size: 1.25rem;
     line-height: 1.3;
   }
-  
+
   h3 {
     font-size: 1.125rem;
     line-height: 1.4;
   }
-  
+
   .btn {
     min-height: 44px;
     padding: 0.75rem 1rem;
     font-size: 0.875rem;
   }
-  
+
   .card {
     padding: 1rem;
     margin-bottom: 1rem;
   }
-  
+
   .grid {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -215,34 +224,34 @@ body::-webkit-scrollbar {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
-  
+
   body {
     font-size: 16px;
   }
-  
+
   h1 {
     font-size: 2rem;
   }
-  
+
   h2 {
     font-size: 1.5rem;
   }
-  
+
   h3 {
     font-size: 1.25rem;
   }
-  
+
   .btn {
     min-height: 48px;
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
   }
-  
+
   .card {
     padding: 1.5rem;
     margin-bottom: 1.5rem;
   }
-  
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
@@ -256,34 +265,34 @@ body::-webkit-scrollbar {
     padding-left: 2rem;
     padding-right: 2rem;
   }
-  
+
   body {
     font-size: 18px;
   }
-  
+
   h1 {
     font-size: 2.5rem;
   }
-  
+
   h2 {
     font-size: 2rem;
   }
-  
+
   h3 {
     font-size: 1.5rem;
   }
-  
+
   .btn {
     min-height: 52px;
     padding: 1rem 2rem;
     font-size: 1.125rem;
   }
-  
+
   .card {
     padding: 2rem;
     margin-bottom: 2rem;
   }
-  
+
   .grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
@@ -295,10 +304,6 @@ body::-webkit-scrollbar {
   .container {
     max-width: 1280px;
   }
-  
-  .grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
 }
 
 /* Extra large desktops (1536px+) */
@@ -309,7 +314,11 @@ body::-webkit-scrollbar {
 }
 
 /* Touch-friendly interactive elements */
-button, a, input, select, textarea {
+button,
+a,
+input,
+select,
+textarea {
   min-height: 44px;
   min-width: 44px;
 }
@@ -457,23 +466,23 @@ button, a, input, select, textarea {
   .p-responsive {
     padding: 0.75rem;
   }
-  
+
   .p-responsive-md {
     padding: 1rem;
   }
-  
+
   .p-responsive-lg {
     padding: 1.5rem;
   }
-  
+
   .m-responsive {
     margin: 0.75rem;
   }
-  
+
   .m-responsive-md {
     margin: 1rem;
   }
-  
+
   .m-responsive-lg {
     margin: 1.5rem;
   }
@@ -486,8 +495,8 @@ body::-webkit-scrollbar {
 
 /* Hide scrollbar for IE, Edge and Firefox */
 body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 input[type="password"]::-ms-reveal,
@@ -497,4 +506,30 @@ input[type="password"]::-webkit-input-decoration,
 input[type="password"]::-webkit-input-clear-button,
 input[type="password"]::-webkit-input-password-toggle-button {
   display: none !important;
+}
+
+/* Wide rounded button utility */
+.btn-wide-rounded {
+  width: 350px;
+  height: 64px;
+  gap: 10px;
+  border: none;
+  border-radius: 80px;
+  padding-top: 16px;
+  padding-right: 32px;
+  padding-bottom: 16px;
+  padding-left: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.125rem;
+  font-weight: 600;
+  background: var(--color-card-button);
+  color: var(--color-text);
+  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+}
+
+.btn-wide-rounded:hover {
+  filter: brightness(0.95);
 }

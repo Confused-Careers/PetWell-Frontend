@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
-import { Button } from "../../Components/ui/button";
-import { Input } from "../../Components/ui/input";
-import { Card } from "../../Components/ui/card";
+import { ArrowLeft, Loader2, Mail, KeyRound } from "lucide-react";
 import authServices from "../../Services/authServices";
 
-type ResetStep = "request" | "verify" | "reset";
+type ResetStep = "request" | "reset";
 
 const ForgotPasswordPage: React.FC = () => {
   const navigate = useNavigate();
@@ -16,7 +14,6 @@ const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [resendTimer, setResendTimer] = useState(0);
 
   // Timer effect for resend OTP
@@ -35,42 +32,6 @@ const ForgotPasswordPage: React.FC = () => {
     setLoading(true);
     try {
       await authServices.forgotPassword({ identifier: email });
-      setCurrentStep("verify");
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleResendOTP = async () => {
-    setError("");
-    setLoading(true);
-    try {
-      await authServices.resendOTP({
-        email,
-        otp_type: "ForgotPassword",
-      });
-      setError("OTP resent successfully");
-      setResendTimer(10); // 60 seconds timer
-    } catch (err: any) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleVerifyOTP = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-    try {
-      const response = await authServices.verifyOTP({
-        identifier: email,
-        otp_code: otp,
-      });
-
-      console.log("OTP verification response:", response);
       setCurrentStep("reset");
     } catch (err: any) {
       setError(err.message);
@@ -79,17 +40,14 @@ const ForgotPasswordPage: React.FC = () => {
     }
   };
 
+
   const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
     setLoading(true);
+
     try {
+      // Directly reset password with OTP and new password
       await authServices.resetPassword({
         email,
         otp_code: otp,
@@ -106,144 +64,158 @@ const ForgotPasswordPage: React.FC = () => {
   };
 
   const renderRequestOTP = () => (
-    <form onSubmit={handleRequestOTP} className="space-y-4">
-      <h2 className="text-2xl font-[Alike,serif] text-[#EBD5BD] text-center">
+    <form onSubmit={handleRequestOTP} className="w-full space-y-4">
+      <h2 className="text-2xl font-[Alike,serif] text-[var(--color-text)] text-center">
         Forgot Password
       </h2>
-      <p className="text-sm text-[#EBD5BD]/60 text-center">
+      <p className="text-sm text-[var(--color-text)] opacity-70 text-center">
         Enter your email address and we'll send you an OTP to reset your
         password.
       </p>
-      <Input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <Button
-        type="submit"
-        className="w-full bg-[#FFB23E] hover:bg-[#ffb733] text-black"
-        disabled={loading}
-      >
-        {loading ? "Sending..." : "Send OTP"}
-      </Button>
-    </form>
-  );
 
-  const renderVerifyOTP = () => (
-    <form onSubmit={handleVerifyOTP} className="space-y-4">
-      <h2 className="text-2xl font-[Alike,serif] text-[#EBD5BD] text-center">
-        Enter OTP
-      </h2>
-      <p className="text-sm text-[#EBD5BD]/60 text-center">
-        Enter the OTP sent to {email}
-      </p>
-      <Input
-        type="text"
-        placeholder="Enter OTP"
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        required
-      />
-      <Button
+      <div className="space-y-2">
+        <label
+          className="block text-[var(--color-text)] text-sm font-medium"
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <div className="relative">
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full pl-10 pr-3 py-2 rounded-md bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+            placeholder="Enter your email"
+            required
+          />
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text)] opacity-70" />
+        </div>
+      </div>
+
+      <button
         type="submit"
-        className="w-full bg-[#FFB23E] hover:bg-[#ffb733] text-black"
         disabled={loading}
+        className="w-full py-2 rounded-md bg-[var(--color-primary)] text-[var(--color-black)] font-semibold hover:opacity-90 transition-colors flex items-center justify-center gap-2"
       >
-        {loading ? "Verifying..." : "Verify OTP"}
-      </Button>
-      <Button
-        type="button"
-        variant="ghost"
-        className="w-full"
-        onClick={handleResendOTP}
-        disabled={loading || resendTimer > 0}
-      >
-        {resendTimer > 0 ? `Resend OTP (${resendTimer}s)` : "Resend OTP"}
-      </Button>
+        {loading ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>Sending OTP...</span>
+          </>
+        ) : (
+          "Send OTP"
+        )}
+      </button>
     </form>
   );
 
   const renderResetPassword = () => (
-    <form onSubmit={handleResetPassword} className="space-y-4">
-      <h2 className="text-2xl font-[Alike,serif] text-[#EBD5BD] text-center">
+    <form onSubmit={handleResetPassword} className="w-full space-y-4">
+      <h2 className="text-2xl font-[Alike,serif] text-[var(--color-text)] text-center">
         Reset Password
       </h2>
-      <p className="text-sm text-[#EBD5BD]/60 text-center">
-        Enter the OTP and your new password
+      <p className="text-sm text-[var(--color-text)] opacity-70 text-center">
+        Enter the OTP sent to {email} and your new password
       </p>
-      <Input
-        type="text"
-        placeholder="Enter OTP"
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        required
-      />
-      <Input
-        type="password"
-        placeholder="New Password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-        required
-      />
-      <Input
-        type="password"
-        placeholder="Confirm New Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        required
-      />
-      <Button
+
+      <div className="space-y-2">
+        <label
+          className="block text-[var(--color-text)] text-sm font-medium"
+          htmlFor="otp"
+        >
+          OTP
+        </label>
+        <input
+          type="text"
+          id="otp"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          className="w-full px-3 py-2 rounded-md bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+          placeholder="Enter OTP"
+          required
+        />
+      </div>
+
+      <div className="space-y-2">
+        <label
+          className="block text-[var(--color-text)] text-sm font-medium"
+          htmlFor="newPassword"
+        >
+          New Password
+        </label>
+        <div className="relative">
+          <input
+            type="password"
+            id="newPassword"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+            className="w-full pl-10 pr-3 py-2 rounded-md bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
+            placeholder="Enter new password"
+            required
+          />
+          <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text)] opacity-70" />
+        </div>
+      </div>
+
+      <button
         type="submit"
-        className="w-full bg-[#FFB23E] hover:bg-[#ffb733] text-black"
         disabled={loading}
+        className="w-full py-2 rounded-md bg-[var(--color-primary)] text-[var(--color-black)] font-semibold hover:opacity-90 transition-colors flex items-center justify-center gap-2"
       >
-        {loading ? "Resetting..." : "Reset Password"}
-      </Button>
+        {loading ? (
+          <>
+            <Loader2 className="w-5 h-5 animate-spin" />
+            <span>Resetting Password...</span>
+          </>
+        ) : (
+          "Reset Password"
+        )}
+      </button>
     </form>
   );
 
   return (
-    <div className="min-h-screen bg-[#1C232E] flex flex-col items-center justify-center p-4 sm:p-6">
-      {/* Logo */}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-background)] px-4 py-8">
+      {/* Logo Section */}
       <div className="absolute left-4 sm:left-8 top-4 sm:top-8">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-[var(--color-text)] opacity-70 hover:opacity-100 transition-opacity"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span>Back</span>
+        </button>
+      </div>
+
+      <div className="flex flex-col items-center mb-8">
         <img
           src={PetWellLogo}
           alt="PetWell Logo"
-          className="w-12 h-12 sm:w-16 sm:h-16"
+          className="w-16 h-16 object-contain mb-4 drop-shadow-lg"
         />
       </div>
 
-      {/* Main Content */}
-      <Card className="w-full max-w-sm sm:max-w-md p-6 sm:p-8 bg-[#23272f] border-[#3a4152]">
+      <div className="w-full max-w-md bg-[var(--color-card)] rounded-2xl shadow-xl p-6 sm:p-8">
         {error && (
-          <div
-            className={`mb-4 p-3 rounded-md text-sm ${
-              error === "OTP resent successfully"
-                ? "bg-green-500/10 border border-green-500/50 text-green-500"
-                : "bg-red-500/10 border border-red-500/50 text-red-500"
-            }`}
-          >
+          <div className="mb-4 p-3 rounded-md bg-[var(--color-warning)]/10 border border-[var(--color-warning)] text-[var(--color-warning)] text-sm">
             {error}
           </div>
         )}
 
-        {currentStep === "request" && renderRequestOTP()}
-        {currentStep === "verify" && renderVerifyOTP()}
-        {currentStep === "reset" && renderResetPassword()}
+        {currentStep === "request" ? renderRequestOTP() : renderResetPassword()}
 
-        <div className="mt-4 sm:mt-6 text-center text-xs sm:text-sm text-[#EBD5BD]/60">
+        <div className="mt-6 text-center text-sm text-[var(--color-text)] opacity-70">
           Remember your password?{" "}
-          <Button
-            variant="link"
-            className="text-[#FFB23E] hover:text-[#ffb733] text-xs sm:text-sm"
+          <button
             onClick={() => navigate("/login")}
+            className="text-[var(--color-primary)] hover:opacity-90 transition-opacity"
           >
             Sign in
-          </Button>
+          </button>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };

@@ -255,17 +255,6 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                   {item.name}
                 </button>
               ))}
-              <button
-                onClick={handleNotificationDropdownToggle}
-                className="w-full text-sm px-4 py-2 rounded-lg font-medium transition-colors text-[var(--color-text)] hover:bg-[var(--color-accent-hover)] flex items-center justify-between"
-              >
-                Notifications
-                {unreadCount > 0 && (
-                  <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
             </div>
           </nav>
         </div>
@@ -273,7 +262,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
 
       {/* Mobile Top Navbar */}
       <div className="lg:hidden">
-        <nav className="flex items-center justify-between px-3 py-3 bg-transparent w-full">
+        <nav className="flex items-center justify-between px-3 bg-transparent w-full">
           <div className="flex items-center space-x-3">
             <button
               onClick={handleMobileMenuToggle}

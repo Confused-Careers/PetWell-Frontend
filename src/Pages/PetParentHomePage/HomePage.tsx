@@ -22,10 +22,10 @@ import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { FaCircleExclamation } from "react-icons/fa6";
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogTitle,
-  DialogTrigger,
-} from "@radix-ui/react-dialog";
+} from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
 
 const HomePage: React.FC = () => {
@@ -463,24 +463,22 @@ const HomePage: React.FC = () => {
         {pet && (
           <section className="mb-6 mt-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-              {/* <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
-                  <PawPrint className="w-full h-full text-[var(--color-logo)]" />
+              <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
+                <span className="flex items-center justify-center size-8 rounded-full bg-transparent">
+                  <PawPrint className="w-full h-full text-[var(--color-text)]" />
                 </span>
                 Welcome {pet.pet_name}!
-              </p> */}
-              <p className="text-2xl font-semibold font-[Cabin,sans-serif] flex items-center gap-3 mb-2">
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
-                  <PawPrint className="w-full h-full text-[var(--color-logo)]" />
-                </span>
-                Welcome {pet.pet_name}!
-              </p>
+              </p> 
+             
               <div>
                 <button
                   onClick={() => navigate(`/petowner/pet/switch-profile`)}
-                  className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+                  className="w-full sm:w-auto px-4 sm:px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-1 border border-[#FFB23E] bg-[#FFB23E] text-center"
                 >
-                  <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
+                  <span className="flex items-center">
+                    <RefreshCcw className="w-5 h-5 mr-1" />
+                    Switch to Another Pet
+                  </span>
                 </button>
               </div>
             </div>
@@ -505,7 +503,7 @@ const HomePage: React.FC = () => {
               </div>
               {/* Details */}
               <div className="flex-1 flex flex-col justify-center md:pl-6 w-full">
-                <div className="text-3xl tracking-tight font-semibold font-[Cabin,sans-serif] mb-2 text-[var(--color-text-bright)]">
+                <div className="text-2xl tracking-tight font-medium font-[Cabin,sans-serif] mb-2 text-[var(--color-text-bright)]">
                   {pet.pet_name || "Pet"}
                 </div>
                 <div className="flex flex-wrap text-base mb-2 font-[Cabin,sans-serif]">
@@ -513,7 +511,7 @@ const HomePage: React.FC = () => {
                     <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Age
                     </span>
-                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
+                    <div className="text-base font-medium text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.age || "Unknown"} years old
                     </div>
                   </div>
@@ -521,7 +519,7 @@ const HomePage: React.FC = () => {
                     <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Gender
                     </span>
-                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
+                    <div className="text-base font-medium text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.gender || "Unknown"}
                     </div>
                   </div>
@@ -531,7 +529,7 @@ const HomePage: React.FC = () => {
                     <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Breed
                     </span>
-                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
+                    <div className="text-base font-medium text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.breed?.breed_name || "Mixed Breed"}
                     </div>
                   </div>
@@ -539,7 +537,7 @@ const HomePage: React.FC = () => {
                     <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Colour
                     </span>
-                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
+                    <div className="text-base font-medium  text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.color || "Unknown"}
                     </div>
                   </div>
@@ -548,7 +546,7 @@ const HomePage: React.FC = () => {
                   <span className="text-[var(--color-text-faded)] text-md uppercase font-semibold font-[Cabin,sans-serif]">
                     {pet?.pet_name}'s Code
                   </span>
-                  <div className="flex gap-1 mb-2">
+                  <div className="flex gap-1 mb-2 items-center">
                     {pet?.qr_code_id
                       ?.split("")
                       .map((char: string, index: number) => (
@@ -559,31 +557,39 @@ const HomePage: React.FC = () => {
                           {char}
                         </span>
                       ))}
-                  </div>
-                  <div className="w-full flex justify-start">
                     <Dialog>
                       <DialogTrigger asChild>
                         <button
-                          className="cursor-pointer text-[var(--color-text)] bg-[#FFB23E] hover:opacity-90 py-2 px-8 rounded-3xl font-semibold transition text-base shadow-md font-[Cabin,sans-serif]"
+                          className="ml-4 flex cursor-pointer py-3 px-5 items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90"
                           title="Show QR Code"
                           type="button"
                         >
-                          View QR Code
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="21" viewBox="0 0 24 25" fill="none">
+                            <g clipPath="url(#clip0_1021_7408)">
+                              <path d="M12 3.3125V5.1875H10.125V3.3125H12ZM10.125 14.3281V17H12V14.3281H10.125ZM15.75 24.5V22.625H13.875V20.75H12V24.5H15.75ZM19.5 10.5781H13.875V12.4531H19.5V10.5781ZM19.5 14.3281H22.125V12.4531H19.5V14.3281ZM19.5 17V18.875H24V14.3281H22.125V17H19.5ZM13.875 0.5H12V3.3125H13.875V0.5ZM12 8.9375H13.875V5.1875H12V7.0625H10.125V12.4531H12V8.9375ZM0 10.5781V14.3281H1.875V12.4531H4.6875V10.5781H0ZM13.875 14.3281V12.4531H12V14.3281H13.875ZM17.625 16.2031H19.5V14.3281H17.625V16.2031ZM22.125 12.4531H24V10.5781H22.125V12.4531ZM15.75 14.3281H13.875V17H12V18.875H15.75V14.3281ZM10.125 20.75H12V18.875H10.125V20.75ZM15.75 18.875V20.75H19.5V18.875H15.75ZM21.375 22.625V20.75H19.5V22.625H21.375ZM24 24.5V22.625H21.375V24.5H24ZM17.625 24.5H19.5V22.625H17.625V24.5ZM8.4375 12.4531V10.5781H6.5625V12.4531H4.6875V14.3281H10.125V12.4531H8.4375ZM8.4375 8.9375H0V0.5H8.4375V8.9375ZM6.5625 2.375H1.875V7.0625H6.5625V2.375ZM5.15625 3.78125H3.28125V5.65625H5.15625V3.78125ZM24 0.5V8.9375H15.5625V0.5H24ZM22.125 2.375H17.4375V7.0625H22.125V2.375ZM20.7188 3.78125H18.8438V5.65625H20.7188V3.78125ZM0 16.0625H8.4375V24.5H0V16.0625ZM1.875 22.625H6.5625V17.9375H1.875V22.625ZM3.28125 21.2188H5.15625V19.3438H3.28125V21.2188Z" fill="black"/>
+                            </g>
+                            <defs>
+                              <clipPath id="clip0_1021_7408">
+                                <rect width="24" height="24" fill="white" transform="translate(0 0.5)"/>
+                              </clipPath>
+                            </defs>
+                          </svg>
+                          <span className="hidden sm:inline">View QR</span>
                         </button>
                       </DialogTrigger>
-                      <DialogContent className="flex flex-col items-center bg-[#7A93A3] rounded-2xl border border-black p-8 shadow-2xl max-w-md w-full">
-                        <DialogTitle className="text-3xl font-bold text-[#23272f] mb-6 text-center font-[Cabin,sans-serif]">
+                      <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full">
+                        <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
                           Pet QR Code
                         </DialogTitle>
                         <div className="my-4 flex flex-col items-center">
-                          <div className="bg-white p-4 rounded-xl shadow-md border border-[#23272f]">
+                          <div className="bg-white p-4 rounded-xl shadow-md border border-[var(--color-primary)]">
                             <QRCode value={pet?.qr_code_id || ""} size={180} />
                           </div>
                           <button
-                            className="mt-6 px-6 py-2 cursor-pointer text-[#23272f] bg-[#FFB23E] hover:opacity-90 rounded-2xl font-semibold transition text-base shadow font-[Cabin,sans-serif]"
+                            className="mt-4 px-3 flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 py-2 rounded-3xl font-semibold transition text-base"
                             onClick={() => {
                               const svg = document.querySelector(
-                                '[data-slot="dialog-content"] svg, .radix-dialog-content svg, .DialogContent svg, .bg-white svg'
+                                "[data-slot='dialog-content'] svg"
                               );
                               if (!svg) return;
                               const serializer = new XMLSerializer();
@@ -593,9 +599,7 @@ const HomePage: React.FC = () => {
                                 encodeURIComponent(source);
                               const link = document.createElement("a");
                               link.href = url;
-                              link.download = `${
-                                pet?.pet_name || "pet"
-                              }-qr.svg`;
+                              link.download = `${pet?.pet_name || "pet"}-qr.svg`;
                               document.body.appendChild(link);
                               link.click();
                               document.body.removeChild(link);
@@ -604,7 +608,7 @@ const HomePage: React.FC = () => {
                             Download QR
                           </button>
                         </div>
-                        <div className="text-center text-sm text-[#23272f] mt-4 font-[Cabin,sans-serif]">
+                        <div className="text-center text-sm text-[var(--color-text)] mt-2">
                           Scan this QR code to add this pet to a business
                         </div>
                       </DialogContent>
@@ -615,9 +619,9 @@ const HomePage: React.FC = () => {
             </div>
             {/* Health Summary Card */}
             <div className="bg-[#EDCC79] rounded-2xl p-6 border border-black flex flex-col md:basis-2/5 md:max-w-[40%] w-full">
-              <h2 className="text-md font-semibold font-[Cabin,sans-serif] mb-4 text-[#1C232E] tracking-tight">
+              <p className="text-2xl font-medium font-[Cabin,sans-serif] mb-4 text-[#1C232E] tracking-tight">
                 Health Summary
-              </h2>
+              </p>
               {/* Last Vet Visit */}
               <div className="mb-6">
                 <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
@@ -648,7 +652,7 @@ const HomePage: React.FC = () => {
                   </span>
                 </div>
                 <button
-                  className="mt-2 font-semibold text-base text-[#1C232E] flex items-center gap-1 hover:underline font-[Cabin,sans-serif]"
+                  className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
                   onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
                 >
                   View Document{" "}
@@ -689,7 +693,7 @@ const HomePage: React.FC = () => {
                   )}
                 </div>
                 <button
-                  className="mt-2 font-semibold text-base text-[#1C232E] flex items-center gap-1 hover:underline font-[Cabin,sans-serif]"
+                  className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
                   onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
                 >
                   View Document{" "}

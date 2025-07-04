@@ -62,7 +62,6 @@ const PetBusinessHomePage: React.FC = () => {
   const [editDocName, setEditDocName] = useState<string>("");
   const [editVaccineIdx, setEditVaccineIdx] = useState<number | null>(null);
   const [pet, setPet] = useState<Pet | null>(null);
-  const [activeTab, setActiveTab] = useState<"profile" | "vaccines" | "documents">("profile");
 
   // Handle saving document name
   const handleSaveDocumentName = (newName: string) => {

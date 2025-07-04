@@ -522,7 +522,7 @@ const PetProfile: React.FC = () => {
         </div>
       </div>
       {/* Responsive tweaks for iPad screens */}
-      <style jsx>{`
+      <style>{`
         @media (max-width: 1024px) and (min-width: 768px) {
           .flex-responsive-row {
             flex-direction: column !important;

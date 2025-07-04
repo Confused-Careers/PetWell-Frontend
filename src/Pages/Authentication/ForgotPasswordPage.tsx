@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
-import { ArrowLeft, Loader2, Mail, KeyRound } from "lucide-react";
+import { Loader2} from "lucide-react";
 import authServices from "../../Services/authServices";
 
 type ResetStep = "request" | "reset";
@@ -62,119 +62,6 @@ const ForgotPasswordPage: React.FC = () => {
       setLoading(false);
     }
   };
-
-  const renderRequestOTP = () => (
-    <form onSubmit={handleRequestOTP} className="w-full space-y-4">
-      <h2 className="text-2xl font-[Alike,serif] text-[var(--color-text)] text-center">
-        Forgot Password
-      </h2>
-      <p className="text-sm text-[var(--color-text)] opacity-70 text-center">
-        Enter your email address and we'll send you an OTP to reset your
-        password.
-      </p>
-
-      <div className="space-y-2">
-        <label
-          className="block text-[var(--color-text)] text-sm font-medium"
-          htmlFor="email"
-        >
-          Email
-        </label>
-        <div className="relative">
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full pl-10 pr-3 py-2 rounded-md bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
-            placeholder="Enter your email"
-            required
-          />
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text)] opacity-70" />
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full py-2 rounded-md bg-[var(--color-primary)] text-[var(--color-black)] font-semibold hover:opacity-90 transition-colors flex items-center justify-center gap-2"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Sending OTP...</span>
-          </>
-        ) : (
-          "Send OTP"
-        )}
-      </button>
-    </form>
-  );
-
-  const renderResetPassword = () => (
-    <form onSubmit={handleResetPassword} className="w-full space-y-4">
-      <h2 className="text-2xl font-[Alike,serif] text-[var(--color-text)] text-center">
-        Reset Password
-      </h2>
-      <p className="text-sm text-[var(--color-text)] opacity-70 text-center">
-        Enter the OTP sent to {email} and your new password
-      </p>
-
-      <div className="space-y-2">
-        <label
-          className="block text-[var(--color-text)] text-sm font-medium"
-          htmlFor="otp"
-        >
-          OTP
-        </label>
-        <input
-          type="text"
-          id="otp"
-          value={otp}
-          onChange={(e) => setOtp(e.target.value)}
-          className="w-full px-3 py-2 rounded-md bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
-          placeholder="Enter OTP"
-          required
-        />
-      </div>
-
-      <div className="space-y-2">
-        <label
-          className="block text-[var(--color-text)] text-sm font-medium"
-          htmlFor="newPassword"
-        >
-          New Password
-        </label>
-        <div className="relative">
-          <input
-            type="password"
-            id="newPassword"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full pl-10 pr-3 py-2 rounded-md bg-[var(--color-card)] border border-[var(--color-text)]/20 text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] transition"
-            placeholder="Enter new password"
-            required
-          />
-          <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-text)] opacity-70" />
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full py-2 rounded-md bg-[var(--color-primary)] text-[var(--color-black)] font-semibold hover:opacity-90 transition-colors flex items-center justify-center gap-2"
-      >
-        {loading ? (
-          <>
-            <Loader2 className="w-5 h-5 animate-spin" />
-            <span>Resetting Password...</span>
-          </>
-        ) : (
-          "Reset Password"
-        )}
-      </button>
-    </form>
-  );
 
   return (
     <div className="h-screen w-screen flex flex-col bg-[var(--color-background)] w-full px-2 pt-24 sm:p-4 md:p-8">

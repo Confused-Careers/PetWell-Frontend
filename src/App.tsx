@@ -32,6 +32,7 @@ import PetRecords from "./Pages/Business/Records/PetRecords";
 import BusinessVaccinesPage from "./Pages/Business/Pet/BusinessPetVaccine";
 import BusinessDocumentPage from "./Pages/Business/Pet/BusinessPetDocument";
 import UploadOptionPage from "./Pages/Authentication/ProfileCreation/uploadOptionPage";
+import SwitchProfilePageStyled from "./Pages/Profile/SwitchProfilePageStyled";
 import StaffPage from "./Pages/Business/TeamManagement/staffPage";
 
 function App() {
@@ -48,17 +49,28 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/add-pet-profile" element={<AddPetProfile />} />
         <Route path="/verify" element={<VerificationPage />} />
-        <Route path="/pet-parent-onboarding-choice" element={<PetParentOnboardingChoice />} />
+        <Route
+          path="/pet-parent-onboarding-choice"
+          element={<PetParentOnboardingChoice />}
+        />
         <Route path="/upload-option" element={<UploadOptionPage />} />
 
         <Route path="/business/signup" element={<BusinessSignupPage />} />
         <Route path="/business/signup/form" element={<BusinessSignupForm />} />
-        <Route path="/business/signup/add-care-team" element={<AddCareTeamPage />} />
-        <Route path="/business/:businessId/home" element={<BusinessHomePage />} />
-        <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
+        <Route
+          path="/business/signup/add-care-team"
+          element={<AddCareTeamPage />}
+        />
+        <Route
+          path="/business/:businessId/home"
+          element={<BusinessHomePage />}
+        />
+        <Route
+          path="/business/signup/otp"
+          element={<BusinessOTPVerificationPage />}
+        />
         <Route path="/business-home" element={<BusinessHomePage />} />
         <Route path="/business/profile" element={<BusinessProfile />} />
-        <Route path="/business/team-management" element={<StaffPage />} />
         <Route path="/business/pet/:petId/home" element={<PetBusinessHomePage />} />
         <Route path="/business/pet/:petId/add-vaccine" element={<AddVaccinePage />} />
         <Route path="/business/pet/:petId/upload" element={<UploadDocuments />} />
@@ -69,18 +81,39 @@ function App() {
         {/* Pet Owner Routes */}
         <Route path="/petowner/pet/:petId/home" element={<HomePage />} />
         <Route path="/petowner/pet/:petId/vaccine" element={<VaccinesPage />} />
-        <Route path="/petowner/pet/:petId/documents" element={<DocumentPage />} />
+        <Route
+          path="/petowner/pet/:petId/documents"
+          element={<DocumentPage />}
+        />
         <Route path="/petowner/pet/:petId/team" element={<TeamsPage />} />
-        <Route path="/petowner/pet/:petId/add-vaccine" element={<AddVaccinePage />} />
-        <Route path="/petowner/pet/:petId/upload" element={<UploadDocuments />} />
+        <Route
+          path="/petowner/pet/:petId/add-vaccine"
+          element={<AddVaccinePage />}
+        />
+        <Route
+          path="/petowner/pet/:petId/upload"
+          element={<UploadDocuments />}
+        />
         <Route path="/petowner/pet/:petId/add-team" element={<AddTeamPage />} />
         <Route path="/petowner/pet/:petId/profile" element={<PetProfile />} />
-        <Route path="/petowner/pet/:petId/download-select" element={<DownloadSelectPage />} />
-        <Route path="/petowner/pet/:petId/upload-documents" element={<UploadingDocAfterEnterPage />} />
-        <Route path="/petowner/pet/:petId/verify" element={<VerificationPage />} />
+        <Route
+          path="/petowner/pet/:petId/download-select"
+          element={<DownloadSelectPage />}
+        />
+        <Route
+          path="/petowner/pet/:petId/upload-documents"
+          element={<UploadingDocAfterEnterPage />}
+        />
+        <Route
+          path="/petowner/pet/:petId/verify"
+          element={<VerificationPage />}
+        />
 
         {/* Profile Management Routes */}
-        <Route path="/switch-profile" element={<SwitchProfilePage />} />
+        <Route
+          path="/petowner/pet/switch-profile"
+          element={<SwitchProfilePageStyled />}
+        />
       </Routes>
     </div>
   );

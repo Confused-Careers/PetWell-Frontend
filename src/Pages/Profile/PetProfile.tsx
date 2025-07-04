@@ -15,7 +15,6 @@ import QRCode from "react-qr-code";
 import { RefreshCcw } from "lucide-react";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
-
 const PetProfile: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
@@ -118,7 +117,9 @@ const PetProfile: React.FC = () => {
   }, []);
 
   // Navigation handlers
-  const handleSwitchProfile = () => setShowSwitchModal(true);
+  const handleSwitchProfile = () => {
+    navigate("/petowner/pet/switch-profile");
+  };
   const handleModalSwitch = (selectedPetId: string) => {
     setShowSwitchModal(false);
     // Navigate to the selected pet's home page
@@ -126,7 +127,7 @@ const PetProfile: React.FC = () => {
   };
   const handleAddNewPet = () => {
     setShowSwitchModal(false);
-    navigate("/add-pet-profile");
+    navigate("/upload-option");
   };
 
   return (
@@ -180,32 +181,56 @@ const PetProfile: React.FC = () => {
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Age</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.age || "Unknown"} years old</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">
+                    Age
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">
+                    {currentPet?.age || "Unknown"} years old
+                  </div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Gender</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.gender || "Unknown"}</div>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
-                <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Breed</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.breed?.breed_name || "Mixed Breed"}</div>
-                </div>
-                <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Colour</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.color || "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">
+                    Gender
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">
+                    {currentPet?.gender || "Unknown"}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Microchip Number</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.microchip || "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">
+                    Breed
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">
+                    {currentPet?.breed?.breed_name || "Mixed Breed"}
+                  </div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">Birthdate</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">{currentPet?.dob || "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">
+                    Colour
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">
+                    {currentPet?.color || "Unknown"}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
+                <div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">
+                    Microchip Number
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">
+                    {currentPet?.microchip || "Unknown"}
+                  </div>
+                </div>
+                <div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-faded)] text-sm font-normal">
+                    Birthdate
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text-bright)] text-base font-bold">
+                    {currentPet?.dob || "Unknown"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -213,20 +238,37 @@ const PetProfile: React.FC = () => {
           {/* Right: Main Info */}
           <div className="flex-1 flex flex-col gap-6">
             {/* Health Summary */}
-            <div className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-health-card)] p-6 md:p-8 w-full max-w-full" style={{marginBottom: 24}}>
-              <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Health Summary</div>
+            <div
+              className="rounded-[16px] border border-[var(--color-text)] bg-[var(--color-card-health-card)] p-6 md:p-8 w-full max-w-full"
+              style={{ marginBottom: 24 }}
+            >
+              <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">
+                Health Summary
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-2 mb-4">
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Spay/Neuter Status</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.spay_neuter ? "Neutered" : "Not Neutered"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">
+                    Spay/Neuter Status
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">
+                    {currentPet?.spay_neuter ? "Neutered" : "Not Neutered"}
+                  </div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Weight</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.weight ? `${currentPet.weight}lbs` : "Unknown"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">
+                    Weight
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">
+                    {currentPet?.weight ? `${currentPet.weight}lbs` : "Unknown"}
+                  </div>
                 </div>
                 <div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">Special Notes</div>
-                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">{currentPet?.notes || "-"}</div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/70 text-sm font-normal">
+                    Special Notes
+                  </div>
+                  <div className="font-[Cabin,sans-serif] text-[var(--color-text)] text-base font-bold">
+                    {currentPet?.notes || "-"}
+                  </div>
                 </div>
               </div>
             </div>
@@ -277,7 +319,9 @@ const PetProfile: React.FC = () => {
                               encodeURIComponent(source);
                             const link = document.createElement("a");
                             link.href = url;
-                            link.download = `${currentPet?.pet_name || "pet"}-qr.svg`;
+                            link.download = `${
+                              currentPet?.pet_name || "pet"
+                            }-qr.svg`;
                             document.body.appendChild(link);
                             link.click();
                             document.body.removeChild(link);
@@ -310,24 +354,48 @@ const PetProfile: React.FC = () => {
                 </div>
               </div>
               {/* Your Details */}
-              <div className="rounded-[16px] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px] border border-[var(--color-text)]" style={{ backgroundColor: "rgba(171, 167, 92, 0.20)", marginBottom: 24 }}>
-                <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">Your Details</div>
+              <div
+                className="rounded-[16px] rounded-2xl p-6 flex-1 flex flex-col min-w-[260px] border border-[var(--color-text)]"
+                style={{
+                  backgroundColor: "rgba(171, 167, 92, 0.20)",
+                  marginBottom: 24,
+                }}
+              >
+                <div className="font-[Cabin,sans-serif] text-xl font-bold mb-4 text-[var(--color-text)]">
+                  Your Details
+                </div>
                 <div className="flex flex-col gap-2 text-sm">
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Name</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.human_owner_name || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">
+                      Name
+                    </div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">
+                      {humanProfile?.human_owner_name || "Unknown"}
+                    </div>
                   </div>
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Location</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.location || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">
+                      Location
+                    </div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">
+                      {humanProfile?.location || "Unknown"}
+                    </div>
                   </div>
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Phone number</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.phone || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">
+                      Phone number
+                    </div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">
+                      {humanProfile?.phone || "Unknown"}
+                    </div>
                   </div>
                   <div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">Email</div>
-                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">{humanProfile?.email || "Unknown"}</div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)]/60 font-normal">
+                      Email
+                    </div>
+                    <div className="font-[Cabin,sans-serif] text-[var(--color-text)] font-bold">
+                      {humanProfile?.email || "Unknown"}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -36,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const notificationDropdownRef = useRef<HTMLDivElement>(null);
   const [petName, setPetName] = useState<string>("Pet");
   const [petImage, setPetImage] = useState<string>(
-    "https://randomuser.me/api/portraits/men/32.jpg"
+    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
   );
   const [petQrCode, setPetQrCode] = useState<string>("");
   const [showQRModal, setShowQRModal] = useState(false);
@@ -186,7 +186,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       try {
         if (!petId) {
           setPetName("Pet");
-          setPetImage("https://randomuser.me/api/portraits/men/32.jpg");
+          setPetImage(
+            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+          );
           setPetQrCode("");
           return;
         }
@@ -200,20 +202,25 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
         if (petData && petData.pet_name) {
           setPetName(petData.pet_name);
           const profilePic = petData.profile_picture;
-          if (profilePic && typeof profilePic === "string") {
-            setPetImage(profilePic);
-          } else {
-            setPetImage("https://randomuser.me/api/portraits/men/32.jpg");
-          }
+          let avatar =
+            (profilePic && typeof profilePic === "string" && profilePic) ||
+            petData.profilePictureDocument?.document_url ||
+            profilePic?.profilePictureDocument?.document_url ||
+            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80";
+          setPetImage(avatar);
           setPetQrCode(petData.qr_code_id || "");
         } else {
           setPetName("Pet");
-          setPetImage("https://randomuser.me/api/portraits/men/32.jpg");
+          setPetImage(
+            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+          );
           setPetQrCode("");
         }
       } catch {
         setPetName("Pet");
-        setPetImage("https://randomuser.me/api/portraits/men/32.jpg");
+        setPetImage(
+          "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+        );
         setPetQrCode("");
       }
     })();
@@ -310,13 +317,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               className="flex items-center space-x-1 focus:outline-none p-1"
             >
               <img
-                src={
-                  petImage
-                    ? petImage.startsWith("http")
-                      ? petImage
-                      : `/api/v1/documents/${petImage}`
-                    : "https://randomuser.me/api/portraits/men/32.jpg"
-                }
+                src={petImage}
                 alt="Pet"
                 className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-primary)]"
               />
@@ -659,13 +660,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                 onClick={handleDropdownToggle}
               >
                 <img
-                  src={
-                    petImage
-                      ? petImage.startsWith("http")
-                        ? petImage
-                        : `/api/v1/documents/${petImage}`
-                      : "https://randomuser.me/api/portraits/pet/32.jpg"
-                  }
+                  src={petImage}
                   alt="Pet"
                   className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-card-button)]"
                 />

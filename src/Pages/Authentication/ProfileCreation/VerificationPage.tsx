@@ -21,7 +21,6 @@ import {
 } from "../../../Components/ui/dropdown-menu";
 import { toast } from "sonner";
 
-
 const VerificationPage: React.FC = () => {
   const navigate = useNavigate();
   const { petId } = useParams<{ petId: string }>();
@@ -39,7 +38,7 @@ const VerificationPage: React.FC = () => {
     vaccine: any;
   }>({ open: false, vaccine: null });
 
-  const [, ] = useState(false);
+  const [,] = useState(false);
 
   useEffect(() => {
     if (!petId) return;
@@ -211,7 +210,7 @@ const VerificationPage: React.FC = () => {
             className="object-contain h-full w-auto"
           />
         </div>
-        <div className="flex-1 flex flex-col items-center">
+        <div className="flex-1 flex flex-col items-center mb-6">
           <p className="font-[Alike,serif] text-3xl text-[#1C232E] mb-0 text-center leading-tight">
             Here's what we know. Check it out!
           </p>
@@ -224,10 +223,15 @@ const VerificationPage: React.FC = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="flex items-center gap-2 px-2 py-1 rounded-full hover:bg-[var(--color-card)] transition">
-                <Avatar className="w-9 h-9 border-2 border-[var(--color-logo)]">
+                <Avatar className="w-9 h-auto">
                   <AvatarImage
                     src={
-                      pet?.profile_picture ||
+                      (pet?.profile_picture &&
+                        typeof pet?.profile_picture === "string" &&
+                        pet?.profile_picture) ||
+                      pet?.profilePictureDocument?.document_url ||
+                      pet?.profile_picture?.profilePictureDocument
+                        ?.document_url ||
                       "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
                     }
                     alt={petName}
@@ -267,7 +271,9 @@ const VerificationPage: React.FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="px-4 py-3 text-[var(--color-text)] font-[Cabin,sans-serif] text-base hover:bg-[var(--color-card)] rounded-b-xl cursor-pointer"
-                onClick={() => navigate(`/switch-profile`)}
+                onClick={() =>
+                  navigate(`/petowner/pet/${petId}/switch-profile`)
+                }
               >
                 Not {petName}? Switch Profile
               </DropdownMenuItem>

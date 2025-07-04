@@ -113,18 +113,18 @@ const PetRecords = () => {
     <>
       <div className={`min-h-screen flex flex-col ${showFilter ? "blur-sm pointer-events-none" : ""}`}>
         <BusinessNavbar />
-        <div className="w-full px-2 sm:px-4 md:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center justify-between  mt-6 mb-4">
-            <div className="flex items-center justify-between py-3">
+        <div className="w-full px-2  sm:px-4 md:px-8 max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mt-6 mb-4 gap-3 md:gap-0">
+            <div className="flex items-center py-3">
               <p className="text-2xl font-lighter flex items-center gap-3 font-serif">Pet Records</p>
             </div>
-            <div className="flex items-center gap-4">
-              <button className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors" onClick={() => setShowFilter(true)}>
+            <div className="flex flex-row items-stretch gap-2 sm:gap-4 w-full md:w-auto flex-wrap">
+              <button className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors w-auto flex-none justify-center" onClick={() => setShowFilter(true)}>
                 Filters    <IoIosArrowDown className="ml-2"/>
               </button>
-              <div className="relative">
+              <div className="relative w-auto flex-none">
                 <button
-                  className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors"
+                  className="cursor-pointer flex items-center border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 hover:bg-[#1C232E]/10 transition-colors w-auto flex-none justify-center"
                   onClick={() => setShowSortDropdown((prev) => !prev)}
                   type="button"
                 >
@@ -154,9 +154,9 @@ const PetRecords = () => {
                   </div>
                 )}
               </div>
-              <div className="relative">
+              <div className="relative w-auto flex-none">
                 <input
-                  className="border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C232E]/20 transition-colors"
+                  className="border border-[#1C232E] text-[#1C232E]/60 rounded-[60px] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#1C232E]/20 transition-colors w-auto flex-none"
                   placeholder="Search"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
@@ -165,18 +165,18 @@ const PetRecords = () => {
               </div>
             </div>
           </div>
-          <div className="overflow-x-auto bg-[#EDCC79]/50 rounded-2xl py-3 px-6 w-full mb-12 border border-black">
-            <table className="min-w-full text-left font-cabin mb-4 ">
+          <div className="overflow-x-auto bg-[#EDCC79]/50 rounded-2xl py-3 px-2 sm:px-4 md:px-6 w-full mb-12 border border-black">
+            <table className="min-w-full text-left font-cabin mb-4 text-xs sm:text-sm md:text-base">
               <thead>
-                <tr className="text-[#1C232E] text-base font-bold">
-                  <th className="py-3 px-4 font-bold text-center">Pet Name</th>
-                  <th className="py-3 px-4 font-bold text-center">Breed</th>
-                  <th className="py-3 px-4 font-bold text-center">Owner Name</th>
-                  <th className="py-3 px-4 font-bold text-center">Phone</th>
-                  <th className="py-3 px-4 font-bold text-center">Added On</th>
-                  <th className="py-3 px-4 font-bold text-center">Last Visit</th>
-                  <th className="py-3 px-4 font-bold text-center">Doctor Visited</th>
-                  <th className="py-3 px-4 font-bold text-center">Notes</th>
+                <tr className="text-[#1C232E] text-xs sm:text-base font-bold">
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Pet Name</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Breed</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Owner Name</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Phone</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Added On</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Last Visit</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Doctor Visited</th>
+                  <th className="py-2 sm:py-3 px-2 sm:px-4 font-bold text-center">Notes</th>
                   <th className="text-center"></th>
                 </tr>
               </thead>
@@ -257,7 +257,7 @@ const PetRecords = () => {
       </div>
       {showFilter && (
         <div className="fixed inset-0 flex justify-end z-50">
-          <div className="w-[35%] bg-[#3C2A17] h-full px-14 py-3 overflow-y-auto text-white">
+          <div className="w-full sm:w-[80%] md:w-[50%] lg:w-[35%] bg-[#3C2A17] h-full px-4 sm:px-8 md:px-14 py-3 overflow-y-auto text-white transition-all duration-300">
             <div className="flex justify-between items-center mb-6 space-y-4">
               <h2 className="text-xl font-[400] font-[alike] text-[#EBD5BD] pt-6">Filters</h2>
               <button onClick={() => setShowFilter(false)} className="cursor-pointer hover:text-gray-300 text-4xl text-[#EBD5BD]">

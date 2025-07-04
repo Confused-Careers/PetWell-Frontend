@@ -38,6 +38,7 @@ const PetsUnderCare: React.FC = () => {
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
+      console.log("Fetched pets:", response);
       const petsData = response as unknown as Pet[];
       setPets(petsData);
     } catch (error: any) {
@@ -143,7 +144,7 @@ const PetsUnderCare: React.FC = () => {
       {/* View All Pets row */}
       <div className="flex items-center justify-between cursor-pointer py-2 px-2 font-cabin font-bold text-base " onClick={() => window.location.href = '/business/pets/all'}>
       <a
-            href="/business/pets"
+            href="/business/pet-records"
             className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
           >
             View All Pets <IoIosArrowDroprightCircle />

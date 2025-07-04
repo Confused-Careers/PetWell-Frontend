@@ -10,6 +10,7 @@ interface PetProfileType {
   breed: string;
   avatar: string;
 }
+
 interface SwitchProfileModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -40,6 +41,7 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
       .then((res) => {
         if (res.data && !Array.isArray(res.data)) {
           const petData = res.data;
+          console.log("Pet data:", petData);
           // Map the pet data to match PetProfileType interface
           const mappedPet: PetProfileType = {
             id: petData.id,
@@ -75,19 +77,22 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-text)]/40">
-      <div className="relative bg-[var(--color-card-profile)] rounded-2xl shadow-2xl w-[400px] max-w-full p-8">
+      <div className="relative bg-[var(--color-background)] rounded-2xl shadow-2xl w-[90%] max-w-2xl max-h-[90vh] overflow-y-auto p-8">
         <button
-          className="absolute cursor-pointer top-6 right-6 text-[var(--color-card-yellow)] hover:text-[var(--color-card-button)] text-2xl font-light focus:outline-none"
+          className="absolute cursor-pointer top-6 right-6 text-[var(--color-text)] hover:text-[var(--color-card-button)] text-2xl font-light focus:outline-none"
           onClick={handleClose}
           aria-label="Close"
         >
           ×
         </button>
-        <div className="text-2xl font-lighter flex items-center gap-3 font-serif">
-          Switch profile?
-        </div>
-        <div className="text-sm text-[var(--color-text)] mb-6">
-          Choose a pet to view or manage their profile.
+        
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-serif font-light mb-4 text-[var(--color-text)]">
+            Switch profile?
+          </h2>
+          <p className="text-base text-[var(--color-text)]/80">
+            Choose a pet to view or manage their profile.
+          </p>
         </div>
 
         {loading ? (
@@ -102,35 +107,42 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-col gap-3 mb-8 max-h-72 overflow-y-auto pr-1 custom-scrollbar">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {pets.map((pet) => (
               <button
                 key={pet.id}
-                className="flex items-center justify-between cursor-pointer  w-full bg-[var(--color-background)] hover:opacity-80 border border-[var(--color-card-yellow)]/20 rounded-xl px-4 py-3 transition group"
+                className="bg-[var(--color-card-profile)] rounded-2xl p-6 cursor-pointer hover:opacity-90 transition-all duration-200 shadow-lg hover:shadow-xl flex flex-col items-center"
                 onClick={() => handleSwitch(pet.id)}
               >
-                <div className="flex items-center gap-3">
+                <div className="w-20 h-20 mb-4">
                   <img
                     src={pet.avatar}
                     alt={pet.name}
-                    className="w-10 h-10 rounded-full object-cover border-2 border-[var(--color-card-yellow)]"
+                    className="w-full h-full rounded-2xl object-cover border-2 border-[var(--color-border)]"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
                       target.src =
                         "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80";
                     }}
                   />
-                  <div className="flex flex-col items-start">
-                    <span className="text-base font-semibold text-[var(--color-text)]">
-                      {pet.name}
-                    </span>
-                    <span className="text-xs text-[var(--color-card-yellow)] mt-0.5">
-                      {pet.age} <span className="mx-1">|</span> {pet.breed}
-                    </span>
-                  </div>
                 </div>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  {pet.name}
+                </h3>
+                <p className="text-sm text-white/80 text-center">
+                  {pet.age} | {pet.breed}
+                </p>
+              </button>
+            ))}
+            
+            {/* Add New Pet Profile Card */}
+            <button
+              className="bg-[var(--color-background)] border-2 border-dashed border-[var(--color-border)]/30 rounded-2xl p-6 cursor-pointer hover:opacity-80 transition-all duration-200 flex flex-col items-center justify-center min-h-[160px]"
+              onClick={onAddNew}
+            >
+              <div className="w-12 h-12 bg-[var(--color-card-button)] rounded-full flex items-center justify-center mb-3">
                 <svg
-                  className="w-5 h-5 text-[var(--color-card-yellow)] group-hover:text-[var(--color-card-button)] transition"
+                  className="w-6 h-6 text-[var(--color-text)]"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -139,26 +151,23 @@ const SwitchProfileModal: React.FC<SwitchProfileModalProps> = ({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 5l7 7-7 7"
+                    d="M12 4v16m8-8H4"
                   />
                 </svg>
-              </button>
-            ))}
+              </div>
+              <p className="text-base font-semibold text-[var(--color-text)] text-center">
+                Add New Pet Profile
+              </p>
+            </button>
           </div>
         )}
 
-        <div className="flex gap-3 justify-end">
+        <div className="flex gap-3 justify-center">
           <button
-            className="flex-1 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-primary)] bg-transparent hover:opacity-90 hover:text-[var(--color-primary)] px-0 py-2 rounded-3xl font-semibold transition text-base"
+            className="px-8 py-3 cursor-pointer border border-[var(--color-card-button)] text-[var(--color-text)] bg-transparent hover:opacity-90 rounded-full font-semibold transition text-base"
             onClick={handleClose}
           >
             Cancel
-          </button>
-          <button
-            className="flex-[1.5] min-w-[180px] cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-4 py-2 rounded-3xl font-semibold transition text-base"
-            onClick={onAddNew}
-          >
-            Add new pet profile
           </button>
         </div>
       </div>

@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
 import { PencilLine, X } from 'lucide-react';
 
 const BusinessProfile = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{
+    business_name: string;
+    email: string;
+    phone: string;
+    website: string;
+    socials: { facebook: string; twitter: string; instagram: string; x: string };
+    description: string;
+    address: string;
+    profile_picture: string | File | null;
+  }>({
     business_name: "",
     email: "",
     phone: "",
@@ -49,7 +58,7 @@ const BusinessProfile = () => {
     fetchProfile();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: { target: { name: any; value: any; }; }) => {
     const { name, value } = e.target;
     if (name.startsWith("socials.")) {
       const key = name.split(".")[1];
@@ -62,13 +71,13 @@ const BusinessProfile = () => {
     }
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({ ...prev, profile_picture: e.target.files[0] }));
+      setFormData((prev) => ({ ...prev, profile_picture: e.target.files![0] }));
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (isSubmitting) return;
 
@@ -76,13 +85,19 @@ const BusinessProfile = () => {
     try {
       await businessServices.updateProfile({
         ...formData,
-        profile_picture: formData.profile_picture ?? undefined,
+        profile_picture: typeof formData.profile_picture === "object" && formData.profile_picture instanceof File
+          ? formData.profile_picture
+          : undefined,
       });
       toast.success("Profile updated successfully!");
       setShowModal(false);
       window.location.href = "/business/team-management";
     } catch (error) {
-      toast.error(error.message || "Failed to update profile.");
+      toast.error(
+        typeof error === "object" && error !== null && "message" in error
+          ? (error as { message?: string }).message || "Failed to update profile."
+          : "Failed to update profile."
+      );
     } finally {
       setIsSubmitting(false);
     }

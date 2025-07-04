@@ -121,7 +121,7 @@ const BusinessNavbar: React.FC = () => {
   // Handle logout
   const handleLogout = () => {
     localStorage.clear();
-    navigate("/business/login");
+    navigate("/login");
   };
 
   // Fetch notifications

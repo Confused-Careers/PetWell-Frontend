@@ -54,6 +54,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
 
   const handleLogout = () => {
     logout(petId);
+    localStorage.removeItem("token");
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
     setIsNotificationDropdownOpen(false);

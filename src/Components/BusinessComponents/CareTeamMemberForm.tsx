@@ -94,7 +94,6 @@ const CareTeamMemberForm: React.FC<CareTeamMemberFormProps> = ({
         await staffServices.updateStaff(staff.id, {
           staff_name: payload.staff_name,
           email: payload.email,
-          role_name: payload.role_name,
         });
       } else {
         // Add new staff

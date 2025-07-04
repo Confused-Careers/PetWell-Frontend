@@ -7,7 +7,7 @@ interface AddStaffData {
   staff_name: string;
   email: string;
   password: string;
-  role: string;
+  role_name: string;
   permissions: string;
 }
 
@@ -15,34 +15,33 @@ interface AddStaffData {
 interface UpdateStaffData {
   staff_name?: string;
   email?: string;
-  role?: string;
+  role_name?: string;
   permissions?: string;
 }
 
 // Interface for staff response
 interface StaffResponse {
   message: string;
-  staff?: {
+  data?: {
     id: string;
     username: string;
     staff_name: string;
     email: string;
-    role: string;
+    role_name: string;
     permissions: string;
-  };
+  }
 }
 
 // Interface for staff list response
 interface StaffListResponse {
-  data(data: any): unknown;
   message: string;
-  staff: {
+  data: {
     id: string;
     username: string;
     staff_name: string;
     email: string;
-    role: string;
-    permissions: string;
+    role_name: string;
+    access_level: string;
   }[];
   total: number;
   page: number;

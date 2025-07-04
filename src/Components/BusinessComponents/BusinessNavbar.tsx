@@ -129,7 +129,7 @@ const BusinessNavbar: React.FC = () => {
     try {
       const response = await notificationServices.getNotifications({});
       console.log("Fetched notifications:", response);
-      setNotifications(response);
+      setNotifications(response as unknown as Notification[] || []);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
@@ -148,7 +148,7 @@ const BusinessNavbar: React.FC = () => {
   // Mark notification as read
 
   // Dismiss notification
-  const handleDismiss = async (id: string, event: React.MouseEvent) => {
+  {/*const handleDismiss = async (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     try {
       await notificationServices.dismiss(id);
@@ -157,7 +157,7 @@ const BusinessNavbar: React.FC = () => {
     } catch (error) {
       console.error("Error dismissing notification:", error);
     }
-  };
+  };*/}
 
   // Mark all notifications as read
 

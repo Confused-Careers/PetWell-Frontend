@@ -1,5 +1,6 @@
 import axios from "axios";
 import { SERVER_BASE_URL } from "../utils/config";
+import type { SetStateAction } from "react";
 
 interface Notification {
   id: string;
@@ -25,6 +26,7 @@ interface NotificationFilter {
 }
 
 interface NotificationResponse {
+  length: SetStateAction<number>;
   message: string;
   data: Notification[];
 }

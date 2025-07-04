@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import BusinessNavbar from '../../../Components/BusinessComponents/BusinessNavbar';
 import { CiSearch } from 'react-icons/ci';
 import { useNavigate } from 'react-router-dom';
-import staffServices from '../../../Services/staffService';
+import staffServices from '../../../Services/staffservice';
 import businessServices from '../../../Services/businessServices';
 
 const StaffPage = () => {
@@ -57,7 +57,6 @@ const StaffPage = () => {
       try {
         // Fetch business profile
         const businessResponse = await businessServices.getProfile();
-        console.log('Business Profile Response:', businessResponse);
         setBusiness({
           business_name: businessResponse?.business_name || 'Vet Office of New York',
           email: businessResponse?.email || 'info@vetoffice.com',
@@ -71,9 +70,10 @@ const StaffPage = () => {
 
         // Fetch staff list with filters
         const response = await staffServices.getStaffList(1, 10, { 
-          role: roleFilter ?? undefined, 
+          role_name: roleFilter ?? undefined, 
           access_level: permissionsFilter ?? undefined 
         });
+        console.log("Fetched staff list:", response.data);
         setStaffMembers(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -89,17 +89,11 @@ const StaffPage = () => {
       try {
         await staffServices.addStaff({
           ...newMember,
-          role: newMember.role_name,
+          role_name: newMember.role_name,
           permissions: newMember.access_level,
         });
         const response = await staffServices.getStaffList(1, 10, { role: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
-        setStaffMembers(
-          response.staff.map((member: any) => ({
-            ...member,
-            role_name: member.role,
-            access_level: member.permissions,
-          }))
-        );
+        setStaffMembers(response.data)
         setNewMember({ staff_name: '', role_name: 'Veterinarian', access_level: 'Full Access', username: '', email: '', password: '' });
         setShowAddModal(false);
       } catch (error) {
@@ -112,14 +106,8 @@ const StaffPage = () => {
     if (editMember.staff_name && editMember.username && editMember.email) {
       try {
         await staffServices.updateStaff(editMember.id, editMember);
-        const response = await staffServices.getStaffList(1, 10, { role_name: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
-        setStaffMembers(
-          response.staff.map((member: any) => ({
-            ...member,
-            role_name: member.role,
-            access_level: member.permissions,
-          }))
-        );
+        const response = await staffServices.getStaffList(1, 10, { role: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
+        setStaffMembers(response.data);
         setShowEditModal(null);
       } catch (error) {
         console.error('Error updating staff:', error);
@@ -130,8 +118,8 @@ const StaffPage = () => {
   const handleDeleteMember = async (staffId: string) => {
     try {
       await staffServices.removeStaff(staffId);
-      const response = await staffServices.getStaffList(1, 10, { role_name: roleFilter, access_level: permissionsFilter });
-      setStaffMembers(response.staff);
+      const response = await staffServices.getStaffList(1, 10, { role: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
+      setStaffMembers(response.data);
       setShowDeleteModal(null);
     } catch (error) {
       console.error('Error deleting staff:', error);
@@ -299,10 +287,10 @@ const StaffPage = () => {
             <table className="w-full">
               <thead>
                 <tr>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Staff Name</th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Role</th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Permissions</th>
-                  <th className="text-left py-4 px-6 font-semibold text-gray-800">Username</th>
+                  <th className="py-4 px-6 font-semibold text-gray-800 items-center text-center">Staff Name</th>
+                  <th className="py-4 px-6 font-semibold text-gray-800 items-center text-center">Role</th>
+                  <th className=" py-4 px-6 font-semibold text-gray-800 items-center text-center">Permissions</th>
+                  <th className="py-4 px-6 font-semibold text-gray-800 items-center text-center">Username</th>
                   <th className="w-12 py-4 px-6"></th>
                 </tr>
               </thead>
@@ -323,11 +311,11 @@ const StaffPage = () => {
                         index !== filteredStaff?.length - 1 ? 'border-b border-[#EDCC79]/20' : ''
                       }`}
                     >
-                      <td className="py-4 px-6 text-gray-800 font-medium">{member.staff_name}</td>
-                      <td className="py-4 px-6 text-gray-800">{member.role_name}</td>
-                      <td className="py-4 px-6 text-gray-800">{member.access_level}</td>
-                      <td className="py-4 px-6 text-gray-800">{member.username}</td>
-                      <td className="py-4 px-6 flex items-center space-x-2">
+                      <td className="py-4 px-6 text-gray-800 font-medium items-center text-center">{member.staff_name}</td>
+                      <td className="py-4 px-6 text-gray-800 items-center text-center">{member.role_name}</td>
+                      <td className="py-4 px-6 text-gray-800 items-center text-center">{member.access_level}</td>
+                      <td className="py-4 px-6 text-gray-800 items-center text-center">{member.username}</td>
+                      <td className="py-4 px-6 flex items-center space-x-4  text-center">
                         <PencilLine
                           className="w-5 h-5 text-gray-600 cursor-pointer"
                           onClick={() => handleOpenEditModal(member)}

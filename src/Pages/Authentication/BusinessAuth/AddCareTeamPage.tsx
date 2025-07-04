@@ -43,7 +43,15 @@ const AddCareTeamPage: React.FC = () => {
   // Handle successful form submission
   const handleSuccess = () => {
     staffServices.getStaffList(1, 10).then((response) => {
-      setStaffList(response.staff);
+      const mappedStaff = response.data.map((staff: any) => ({
+        id: staff.id,
+        username: staff.username,
+        staff_name: staff.staff_name,
+        email: staff.email,
+        role_name: staff.role,
+        access_level: staff.permissions,
+      }));
+      setStaffList(mappedStaff);
       setEditingStaff(null);
       setShowForm(false); // close form after success
     }).catch((err) => {

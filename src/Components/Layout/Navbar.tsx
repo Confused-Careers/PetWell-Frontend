@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       const filter: any = { is_read: false };
       if (petId) filter.pet_id = petId;
       const data = await notificationServices.getNotifications(filter);
-      setNotifications(data);
+      setNotifications(data as unknown as Notification[]);
       setUnreadCount(data.length);
       setNotificationError(null);
     } catch (error: any) {
@@ -406,7 +406,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                         onSwitchProfile();
                         setIsMobileDropdownOpen(false);
                       } else {
-                        navigate(`/petowner/pet/${UrlpetId}/switch-profile`);
+                        navigate(`/petowner/pet/${petId}/switch-profile`);
                         setIsMobileDropdownOpen(false);
                       }
                     }}

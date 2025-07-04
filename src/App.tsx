@@ -13,7 +13,6 @@ import TeamsPage from "./Pages/PetParentTeamPage/TeamsPage";
 import AddTeamPage from "./Components/Teams/AddTeamPage";
 import LoginPage from "./Pages/Authentication/LoginPage";
 import PetProfile from "./Pages/Profile/PetProfile";
-import SwitchProfilePage from "./Pages/Profile/SwitchProfilePage";
 import ForgotPasswordPage from "./Pages/Authentication/ForgotPasswordPage";
 import SignupTypeSelectPage from "./Pages/Authentication/SignupTypeSelectPage";
 import PetParentSignupPage from "./Pages/Authentication/ProfileCreation/PetParentSignupPage";

@@ -463,7 +463,13 @@ const HomePage: React.FC = () => {
         {pet && (
           <section className="mb-6 mt-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-              <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+              {/* <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
+                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
+                  <PawPrint className="w-full h-full text-[var(--color-logo)]" />
+                </span>
+                Welcome {pet.pet_name}!
+              </p> */}
+              <p className="text-2xl font-semibold font-[Cabin,sans-serif] flex items-center gap-3 mb-2">
                 <span className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent">
                   <PawPrint className="w-full h-full text-[var(--color-logo)]" />
                 </span>
@@ -498,77 +504,123 @@ const HomePage: React.FC = () => {
                 />
               </div>
               {/* Details */}
-              <div className="flex-1 flex flex-col justify-center md:pl-4 w-full">
-                <div className="text-2xl font-medium mb-2 text-[var(--color-text-bright)]">
+              <div className="flex-1 flex flex-col justify-center md:pl-6 w-full">
+                <div className="text-3xl tracking-tight font-semibold font-[Cabin,sans-serif] mb-2 text-[var(--color-text-bright)]">
                   {pet.pet_name || "Pet"}
                 </div>
-                <div className="flex flex-wrap  text-base mb-2">
+                <div className="flex flex-wrap text-base mb-2 font-[Cabin,sans-serif]">
                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Age
                     </span>
-                    <div className="text-[var(--color-text-bright)]">
+                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.age || "Unknown"} years old
                     </div>
                   </div>
                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Gender
                     </span>
-                    <div className="text-[var(--color-text-bright)]">
+                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.gender || "Unknown"}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap  gap-y-1 text-base mb-2">
+                <div className="flex flex-wrap gap-y-1 text-base mb-2 font-[Cabin,sans-serif]">
                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Breed
                     </span>
-                    <div className="text-[var(--color-text-bright)]">
+                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.breed?.breed_name || "Mixed Breed"}
                     </div>
                   </div>
                   <div className="flex-1">
-                    <span className="text-[var(--color-text-faded)] opacity-70">
+                    <span className="text-[var(--color-text-faded)] text-sm font-[Cabin,sans-serif]">
                       Colour
                     </span>
-                    <div className="text-[var(--color-text-bright)]">
+                    <div className="text-base font-semibold text-[var(--color-text-bright)] font-[Cabin,sans-serif]">
                       {pet.color || "Unknown"}
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-x-8 gap-y-1 text-base mb-2">
-                  <div className="flex gap-2 mb-2 justify-center items-center">
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[var(--color-text-faded)] opacity-70">
-                        {pet?.pet_name}'s Code
-                      </span>
-                      <div className="flex gap-1">
-                        {pet?.qr_code_id
-                          ?.split("")
-                          .map((char: string, index: number) => (
-                            <span
-                              key={index}
-                              className="inline-flex w-6 h-8 font-medium bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-sm rounded-lg items-center justify-center shadow-sm select-all transition-all duration-150 hover:scale-105 text-center"
-                            >
-                              {char}
-                            </span>
-                          ))}
-                      </div>
-                    </div>
+                <div className="flex flex-col gap-2 mt-2 font-[Cabin,sans-serif]">
+                  <span className="text-[var(--color-text-faded)] text-md uppercase font-semibold font-[Cabin,sans-serif]">
+                    {pet?.pet_name}'s Code
+                  </span>
+                  <div className="flex gap-1 mb-2">
+                    {pet?.qr_code_id
+                      ?.split("")
+                      .map((char: string, index: number) => (
+                        <span
+                          key={index}
+                          className="inline-flex w-8 h-10  bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-2xl rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center font-[Alike]"
+                        >
+                          {char}
+                        </span>
+                      ))}
+                  </div>
+                  <div className="w-full flex justify-start">
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button
+                          className="cursor-pointer text-[var(--color-text)] bg-[#FFB23E] hover:opacity-90 py-2 px-8 rounded-3xl font-semibold transition text-base shadow-md font-[Cabin,sans-serif]"
+                          title="Show QR Code"
+                          type="button"
+                        >
+                          View QR Code
+                        </button>
+                      </DialogTrigger>
+                      <DialogContent className="flex flex-col items-center bg-[#7A93A3] rounded-2xl border border-black p-8 shadow-2xl max-w-md w-full">
+                        <DialogTitle className="text-3xl font-bold text-[#23272f] mb-6 text-center font-[Cabin,sans-serif]">
+                          Pet QR Code
+                        </DialogTitle>
+                        <div className="my-4 flex flex-col items-center">
+                          <div className="bg-white p-4 rounded-xl shadow-md border border-[#23272f]">
+                            <QRCode value={pet?.qr_code_id || ""} size={180} />
+                          </div>
+                          <button
+                            className="mt-6 px-6 py-2 cursor-pointer text-[#23272f] bg-[#FFB23E] hover:opacity-90 rounded-2xl font-semibold transition text-base shadow font-[Cabin,sans-serif]"
+                            onClick={() => {
+                              const svg = document.querySelector(
+                                '[data-slot="dialog-content"] svg, .radix-dialog-content svg, .DialogContent svg, .bg-white svg'
+                              );
+                              if (!svg) return;
+                              const serializer = new XMLSerializer();
+                              const source = serializer.serializeToString(svg);
+                              const url =
+                                "data:image/svg+xml;charset=utf-8," +
+                                encodeURIComponent(source);
+                              const link = document.createElement("a");
+                              link.href = url;
+                              link.download = `${
+                                pet?.pet_name || "pet"
+                              }-qr.svg`;
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            }}
+                          >
+                            Download QR
+                          </button>
+                        </div>
+                        <div className="text-center text-sm text-[#23272f] mt-4 font-[Cabin,sans-serif]">
+                          Scan this QR code to add this pet to a business
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   </div>
                 </div>
               </div>
             </div>
             {/* Health Summary Card */}
-            <div className="bg-[#EDCC79] rounded-3xl p-6 border border-black flex flex-col md:basis-2/5 md:max-w-[40%] w-full">
+            <div className="bg-[#EDCC79] rounded-2xl p-6 border border-black flex flex-col md:basis-2/5 md:max-w-[40%] w-full">
               <h2 className="text-md font-semibold font-[Cabin,sans-serif] mb-4 text-[#1C232E] tracking-tight">
                 Health Summary
               </h2>
               {/* Last Vet Visit */}
               <div className="mb-6">
-                <div className="text-[#1C232E]/60 text-xs mb-1 font-semibold font-[Cabin,sans-serif]">
+                <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
                   Last Vet Visit
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-base text-[#1C232E] font-[Cabin,sans-serif]">
@@ -605,7 +657,7 @@ const HomePage: React.FC = () => {
               </div>
               {/* Next Vaccine Due */}
               <div>
-                <div className="text-[#1C232E]/60 text-xs mb-1 font-semibold font-[Cabin,sans-serif]">
+                <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
                   Next Vaccine Due
                 </div>
                 <div className="flex flex-wrap items-center gap-2 text-base font-[Cabin,sans-serif]">

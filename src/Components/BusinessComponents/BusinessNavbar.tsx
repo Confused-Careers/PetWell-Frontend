@@ -325,22 +325,6 @@ const BusinessNavbar: React.FC = () => {
                                 {new Date(notification.created_at).toLocaleString()}
                               </span>
                             </div>
-                            <div className="flex gap-2">
-                              {!notification.is_read && (
-                                <button
-                                  onClick={(event) => handleMarkAsRead(notification.id, event)}
-                                  className="text-xs text-white hover:bg-white/10 px-2 py-1 rounded"
-                                >
-                                  Mark as Read
-                                </button>
-                              )}
-                              <button
-                                onClick={(event) => handleDismiss(notification.id, event)}
-                                className="text-xs text-red-200 hover:bg-red-400/10 px-2 py-1 rounded"
-                              >
-                                Dismiss
-                              </button>
-                            </div>
                           </div>
                         ))}
                       </div>
@@ -536,22 +520,6 @@ const BusinessNavbar: React.FC = () => {
                               <span className="block text-xs text-white/60">
                                 {new Date(notification.created_at).toLocaleString()}
                               </span>
-                            </div>
-                            <div className="flex gap-2">
-                              {!notification.is_read && (
-                                <button
-                                  onClick={(event) => handleMarkAsRead(notification.id, event)}
-                                  className="text-xs text-white hover:bg-white/10 px-2 py-1 rounded"
-                                >
-                                  Mark as Read
-                                </button>
-                              )}
-                              <button
-                                onClick={(event) => handleDismiss(notification.id, event)}
-                                className="text-xs text-red-200 hover:bg-red-400/10 px-2 py-1 rounded"
-                              >
-                                Dismiss
-                              </button>
                             </div>
                           </div>
                         ))}

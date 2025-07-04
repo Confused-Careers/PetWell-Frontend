@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
 import petServices from "../../Services/petServices";
+import notificationServices from "../../Services/notificationServices";
 import { logout } from "../../utils/petNavigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Bell } from "lucide-react";
 import QRCode from "react-qr-code";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 
@@ -13,6 +14,15 @@ interface NavbarProps {
   onSettings?: () => void;
 }
 
+interface Notification {
+  id: string;
+  message: string;
+  type: string;
+  is_read: boolean;
+  created_at: string;
+  pet_id?: string;
+}
+
 const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -20,29 +30,104 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const notificationDropdownRef = useRef<HTMLDivElement>(null);
   const [petName, setPetName] = useState<string>("Pet");
   const [petImage, setPetImage] = useState<string>(
     "https://randomuser.me/api/portraits/men/32.jpg"
   );
   const [petQrCode, setPetQrCode] = useState<string>("");
   const [showQRModal, setShowQRModal] = useState(false);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState<number>(0);
+  const [notificationError, setNotificationError] = useState<string | null>(null);
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
   const handleMobileDropdownToggle = () =>
     setIsMobileDropdownOpen((open) => !open);
+  const handleNotificationDropdownToggle = () => {
+    setIsNotificationDropdownOpen((open) => !open);
+    if (!isNotificationDropdownOpen) fetchNotifications();
+  };
 
   const handleLogout = () => {
     logout(petId);
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
+    setIsNotificationDropdownOpen(false);
     navigate("/login");
   };
 
   const handleNavigation = (path: string) => {
     navigate(path);
     setIsMobileMenuOpen(false);
+    setIsNotificationDropdownOpen(false);
+  };
+
+  const fetchNotifications = async () => {
+    try {
+      const filter: any = { is_read: false };
+      if (petId) filter.pet_id = petId;
+      const data = await notificationServices.getNotifications(filter);
+      setNotifications(data);
+      setUnreadCount(data.length);
+      setNotificationError(null);
+    } catch (error: any) {
+      console.error("Failed to fetch notifications:", error);
+      setNotificationError(error.message || "Failed to load notifications");
+    }
+  };
+
+  const handleMarkAsRead = async (id: string) => {
+    try {
+      await notificationServices.markAsRead(id);
+      setNotifications((prev) =>
+        prev.map((notif) =>
+          notif.id === id ? { ...notif, is_read: true } : notif
+        )
+      );
+      setUnreadCount((prev) => Math.max(0, prev - 1));
+    } catch (error: any) {
+      console.error("Failed to mark notification as read:", error);
+      setNotificationError(error.message || "Failed to mark notification as read");
+    }
+  };
+
+  const handleDismiss = async (id: string) => {
+    try {
+      await notificationServices.dismiss(id);
+      setNotifications((prev) => prev.filter((notif) => notif.id !== id));
+      setUnreadCount((prev) => Math.max(0, prev - (notifications.find(n => n.id === id)?.is_read ? 0 : 1)));
+    } catch (error: any) {
+      console.error("Failed to dismiss notification:", error);
+      setNotificationError(error.message || "Failed to dismiss notification");
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    try {
+      await notificationServices.markAllAsRead(petId);
+      setNotifications((prev) =>
+        prev.map((notif) => ({ ...notif, is_read: true }))
+      );
+      setUnreadCount(0);
+    } catch (error: any) {
+      console.error("Failed to mark all notifications as read:", error);
+      setNotificationError(error.message || "Failed to mark all notifications as read");
+    }
+  };
+
+  const handleDismissAll = async () => {
+    try {
+      await notificationServices.dismissAll(petId);
+      setNotifications([]);
+      setUnreadCount(0);
+    } catch (error: any) {
+      console.error("Failed to dismiss all notifications:", error);
+      setNotificationError(error.message || "Failed to dismiss all notifications");
+    }
   };
 
   useEffect(() => {
@@ -53,30 +138,31 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       ) {
         setIsDropdownOpen(false);
       }
+      if (
+        notificationDropdownRef.current &&
+        !notificationDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsNotificationDropdownOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Close mobile menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Element;
-      if (
-        !target.closest(".mobile-menu") &&
-        !target.closest(".mobile-menu-toggle")
-      ) {
-        setIsMobileMenuOpen(false);
-      }
-    };
-
     if (isMobileMenuOpen) {
+      const handleClickOutside = (event: MouseEvent) => {
+        const target = event.target as Element;
+        if (
+          !target.closest(".mobile-menu") &&
+          !target.closest(".mobile-menu-toggle")
+        ) {
+          setIsMobileMenuOpen(false);
+        }
+      };
       document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
@@ -89,17 +175,14 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
           return;
         }
 
-        // Fetch the specific pet by ID instead of all pets
         const petRes = await petServices.getPetById(petId);
         let petData: any = petRes;
 
-        // Handle different response structures
         if (petRes && petRes.data) petData = petRes.data;
         if (Array.isArray(petData)) petData = petData[0];
 
         if (petData && petData.pet_name) {
           setPetName(petData.pet_name);
-          // If profile_picture is a string (URL), use it. If not, fallback.
           const profilePic = petData.profile_picture;
           if (profilePic && typeof profilePic === "string") {
             setPetImage(profilePic);
@@ -118,6 +201,12 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
         setPetQrCode("");
       }
     })();
+  }, [petId]);
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000); // Poll every 60 seconds
+    return () => clearInterval(interval);
   }, [petId]);
 
   const navigationItems = [
@@ -139,10 +228,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
         className={`fixed top-0 left-0 h-full w-64 bg-[var(--color-card-profile)] shadow-2xl transform transition-transform duration-300 ease-in-out z-50 lg:hidden mobile-menu ${
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
-        style={{ borderRight: '2px solid var(--color-border)' }}
+        style={{ borderRight: "2px solid var(--color-border)" }}
       >
         <div className="flex flex-col h-full">
-          {/* Sidebar Header (just close button) */}
           <div className="flex items-center justify-end p-4 border-b border-[var(--color-border)]">
             <button
               onClick={handleMobileMenuToggle}
@@ -151,8 +239,6 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               <X size={20} />
             </button>
           </div>
-
-          {/* Navigation Items */}
           <nav className="flex-1 px-4 py-3">
             <div className="space-y-2">
               {navigationItems.map((item) => (
@@ -168,16 +254,26 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                   {item.name}
                 </button>
               ))}
+              <button
+                onClick={handleNotificationDropdownToggle}
+                className="w-full text-sm px-4 py-2 rounded-lg font-medium transition-colors text-[var(--color-text)] hover:bg-[var(--color-accent-hover)] flex items-center justify-between"
+              >
+                Notifications
+                {unreadCount > 0 && (
+                  <span className="bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
             </div>
           </nav>
         </div>
       </div>
 
-      {/* Mobile Top Navbar (only visible on mobile) */}
-      <div className="lg:hidden ">
+      {/* Mobile Top Navbar */}
+      <div className="lg:hidden">
         <nav className="flex items-center justify-between px-3 py-3 bg-transparent w-full">
           <div className="flex items-center space-x-3">
-            {/* Mobile Menu Toggle */}
             <button
               onClick={handleMobileMenuToggle}
               className="p-2 text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors mobile-menu-toggle"
@@ -190,8 +286,20 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               className="w-24 h-24 object-contain"
             />
           </div>
-          {/* Profile Dropdown on the right */}
-          <div className="relative flex items-center" ref={dropdownRef}>
+          <div className="relative flex items-center gap-2" ref={dropdownRef}>
+            <div className="relative">
+              <button
+                onClick={handleNotificationDropdownToggle}
+                className="p-2 text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors"
+              >
+                <Bell size={20} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+            </div>
             <button
               onClick={handleMobileDropdownToggle}
               className="flex items-center space-x-1 focus:outline-none p-1"
@@ -199,9 +307,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               <img
                 src={
                   petImage
-                    ? (petImage.startsWith('http')
-                        ? petImage
-                        : `/api/v1/documents/${petImage}`)
+                    ? petImage.startsWith("http")
+                      ? petImage
+                      : `/api/v1/documents/${petImage}`
                     : "https://randomuser.me/api/portraits/men/32.jpg"
                 }
                 alt="Pet"
@@ -243,14 +351,22 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     style={{ background: "transparent" }}
                     onClick={() => setShowQRModal(true)}
                   >
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/></svg>
+                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                      <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                      <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                      <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                      <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                    </svg>
                     View QR
                   </button>
                 </div>
                 <div className="flex flex-col py-2 font-[Cabin,sans-serif]">
                   <button
                     className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                    onClick={() => { navigate(`/petowner/pet/${petId}/profile`); setIsMobileDropdownOpen(false); }}
+                    onClick={() => {
+                      navigate(`/petowner/pet/${petId}/profile`);
+                      setIsMobileDropdownOpen(false);
+                    }}
                   >
                     View or Edit Profile
                   </button>
@@ -270,22 +386,101 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                   </button>
                   <button
                     className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                    onClick={() => { navigate("/reset-password"); setIsMobileDropdownOpen(false); }}
+                    onClick={() => {
+                      navigate("/reset-password");
+                      setIsMobileDropdownOpen(false);
+                    }}
                   >
                     Reset Password
                   </button>
                   <button
                     className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                    onClick={() => { navigate("/help-center"); setIsMobileDropdownOpen(false); }}
+                    onClick={() => {
+                      navigate("/help-center");
+                      setIsMobileDropdownOpen(false);
+                    }}
                   >
                     Help Center
                   </button>
                   <button
                     className="text-left px-5 py-3 text-base text-red-200 hover:bg-red-400/10 transition font-medium cursor-pointer"
-                    onClick={() => { handleLogout(); setIsMobileDropdownOpen(false); }}
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileDropdownOpen(false);
+                    }}
                   >
                     Log Out
                   </button>
+                </div>
+              </div>
+            )}
+            {isNotificationDropdownOpen && (
+              <div
+                className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
+                style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
+                ref={notificationDropdownRef}
+              >
+                <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif] text-center">
+                    Notifications
+                  </div>
+                  <div className="flex justify-between mb-2">
+                    <button
+                      className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                      onClick={handleMarkAllAsRead}
+                    >
+                      Mark All as Read
+                    </button>
+                    <button
+                      className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                      onClick={handleDismissAll}
+                    >
+                      Dismiss All
+                    </button>
+                  </div>
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  {notificationError ? (
+                    <div className="px-4 py-2 text-red-200 text-center">
+                      {notificationError}
+                    </div>
+                  ) : notifications.length === 0 ? (
+                    <div className="px-4 py-2 text-white/80 text-center">
+                      No new notifications
+                    </div>
+                  ) : (
+                    notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`px-4 py-2 border-b border-[var(--color-border)] flex justify-between items-center ${
+                          notification.is_read ? "bg-white/5" : "bg-white/10"
+                        }`}
+                      >
+                        <div className="text-sm text-white">
+                          <p className="font-medium">{notification.message}</p>
+                          <p className="text-xs text-white/60">
+                            {new Date(notification.created_at).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          {!notification.is_read && (
+                            <button
+                              className="text-xs text-white hover:bg-white/20 transition px-2 py-1 rounded"
+                              onClick={() => handleMarkAsRead(notification.id)}
+                            >
+                              Mark as Read
+                            </button>
+                          )}
+                          <button
+                            className="text-xs text-red-200 hover:bg-red-400/20 transition px-2 py-1 rounded"
+                            onClick={() => handleDismiss(notification.id)}
+                          >
+                            Dismiss
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             )}
@@ -303,7 +498,6 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             boxShadow: "0 2px 8px 0 rgba(0,0,0,0.02)",
           }}
         >
-          {/* Left: Logo */}
           <div className="flex items-center gap-3 h-6 ml-6">
             <img
               src={PetWellLogo}
@@ -311,7 +505,6 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               className="object-contain h-full w-auto"
             />
           </div>
-          {/* Center: Navigation */}
           <div className="flex items-center gap-2 xl:gap-4">
             {navigationItems.map((item) => (
               <button
@@ -328,26 +521,90 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               </button>
             ))}
           </div>
-          {/* Right: Notification + Profile */}
           <div className="flex items-center gap-4">
-            {/* Bell Icon */}
-            <div className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent">
-              <svg
-                width="22"
-                height="22"
-                fill="none"
-                stroke="var(--color-card-button)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
+            <div className="relative" ref={notificationDropdownRef}>
+              <button
+                onClick={handleNotificationDropdownToggle}
+                className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent relative"
               >
-                <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 01-3.46 0" />
-              </svg>
+                <Bell size={22} stroke="var(--color-card-button)" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-2 py-1">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+              {isNotificationDropdownOpen && (
+                <div
+                  className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
+                  style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
+                >
+                  <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                    <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
+                      Notifications
+                    </div>
+                    <div className="flex justify-between mb-2">
+                      <button
+                        className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                        onClick={handleMarkAllAsRead}
+                      >
+                        Mark All as Read
+                      </button>
+                      <button
+                        className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                        onClick={handleDismissAll}
+                      >
+                        Dismiss All
+                      </button>
+                    </div>
+                  </div>
+                  <div className="max-h-64 overflow-y-auto">
+                    {notificationError ? (
+                      <div className="px-4 py-2 text-red-200 text-center">
+                        {notificationError}
+                      </div>
+                    ) : notifications.length === 0 ? (
+                      <div className="px-4 py-2 text-white/80 text-center">
+                        No new notifications
+                      </div>
+                    ) : (
+                      notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className={`px-4 py-2 border-b border-[var(--color-border)] flex justify-between items-center ${
+                            notification.is_read ? "bg-white/5" : "bg-white/10"
+                          }`}
+                        >
+                          <div className="text-sm text-white">
+                            <p className="font-medium">{notification.message}</p>
+                            <p className="text-xs text-white/60">
+                              {new Date(notification.created_at).toLocaleString()}
+                            </p>
+                          </div>
+                          <div className="flex gap-2">
+                            {!notification.is_read && (
+                              <button
+                                className="text-xs text-white hover:bg-white/20 transition px-2 py-1 rounded"
+                                onClick={() => handleMarkAsRead(notification.id)}
+                              >
+                                Mark as Read
+                              </button>
+                            )}
+                            <button
+                              className="text-xs text-red-200 hover:bg-red-400/20 transition px-2 py-1 rounded"
+                              onClick={() => handleDismiss(notification.id)}
+                            >
+                              Dismiss
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-            {/* Profile */}
-            <div className="relative mr-3">
+            <div className="relative mr-3" ref={dropdownRef}>
               <div
                 className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition"
                 onClick={handleDropdownToggle}
@@ -355,9 +612,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                 <img
                   src={
                     petImage
-                      ? (petImage.startsWith('http')
-                          ? petImage
-                          : `/api/v1/documents/${petImage}`)
+                      ? petImage.startsWith("http")
+                        ? petImage
+                        : `/api/v1/documents/${petImage}`
                       : "https://randomuser.me/api/portraits/pet/32.jpg"
                   }
                   alt="Pet"
@@ -382,7 +639,6 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                   />
                 </svg>
               </div>
-              {/* Dropdown (improved position) */}
               {isDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
@@ -413,14 +669,22 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                       style={{ background: "transparent" }}
                       onClick={() => setShowQRModal(true)}
                     >
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/></svg>
+                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                      </svg>
                       View QR
                     </button>
                   </div>
                   <div className="flex flex-col py-2 font-[Cabin,sans-serif]">
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate(`/petowner/pet/${petId}/profile`); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate(`/petowner/pet/${petId}/profile`);
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       View or Edit Profile
                     </button>
@@ -440,19 +704,28 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate("/reset-password"); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/reset-password");
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Reset Password
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate("/help-center"); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/help-center");
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Help Center
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-red-200 hover:bg-red-400/10 transition font-medium cursor-pointer"
-                      onClick={() => { handleLogout(); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        handleLogout();
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Log Out
                     </button>

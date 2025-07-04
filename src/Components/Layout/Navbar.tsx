@@ -347,7 +347,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               </svg>
             </div>
             {/* Profile */}
-            <div className="relative">
+            <div className="relative mr-3">
               <div
                 className="flex items-center gap-2 cursor-pointer px-2 py-1 rounded-full hover:bg-[var(--color-card-button)]/30 transition"
                 onClick={handleDropdownToggle}
@@ -358,7 +358,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                       ? (petImage.startsWith('http')
                           ? petImage
                           : `/api/v1/documents/${petImage}`)
-                      : "https://randomuser.me/api/portraits/men/32.jpg"
+                      : "https://randomuser.me/api/portraits/pet/32.jpg"
                   }
                   alt="Pet"
                   className="w-8 h-8 rounded-full object-cover border-2 border-[var(--color-card-button)]"

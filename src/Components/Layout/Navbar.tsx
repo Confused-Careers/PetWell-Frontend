@@ -30,7 +30,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
-  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
+    useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationDropdownRef = useRef<HTMLDivElement>(null);
   const [petName, setPetName] = useState<string>("Pet");
@@ -41,7 +42,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const [showQRModal, setShowQRModal] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState<number>(0);
-  const [notificationError, setNotificationError] = useState<string | null>(null);
+  const [notificationError, setNotificationError] = useState<string | null>(
+    null
+  );
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
@@ -92,7 +95,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       setUnreadCount((prev) => Math.max(0, prev - 1));
     } catch (error: any) {
       console.error("Failed to mark notification as read:", error);
-      setNotificationError(error.message || "Failed to mark notification as read");
+      setNotificationError(
+        error.message || "Failed to mark notification as read"
+      );
     }
   };
 
@@ -100,7 +105,12 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
     try {
       await notificationServices.dismiss(id);
       setNotifications((prev) => prev.filter((notif) => notif.id !== id));
-      setUnreadCount((prev) => Math.max(0, prev - (notifications.find(n => n.id === id)?.is_read ? 0 : 1)));
+      setUnreadCount((prev) =>
+        Math.max(
+          0,
+          prev - (notifications.find((n) => n.id === id)?.is_read ? 0 : 1)
+        )
+      );
     } catch (error: any) {
       console.error("Failed to dismiss notification:", error);
       setNotificationError(error.message || "Failed to dismiss notification");
@@ -116,7 +126,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       setUnreadCount(0);
     } catch (error: any) {
       console.error("Failed to mark all notifications as read:", error);
-      setNotificationError(error.message || "Failed to mark all notifications as read");
+      setNotificationError(
+        error.message || "Failed to mark all notifications as read"
+      );
     }
   };
 
@@ -127,7 +139,9 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       setUnreadCount(0);
     } catch (error: any) {
       console.error("Failed to dismiss all notifications:", error);
-      setNotificationError(error.message || "Failed to dismiss all notifications");
+      setNotificationError(
+        error.message || "Failed to dismiss all notifications"
+      );
     }
   };
 
@@ -162,7 +176,8 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
         }
       };
       document.addEventListener("mousedown", handleClickOutside);
-      return () => document.removeEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [isMobileMenuOpen]);
 
@@ -315,9 +330,15 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             {isMobileDropdownOpen && (
               <div
                 className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
-                style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
+                style={{
+                  background: "var(--color-card-profile)",
+                  borderColor: "var(--color-border)",
+                }}
               >
-                <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                <div
+                  className="px-4 pt-4 pb-2 border-b"
+                  style={{ borderColor: "var(--color-border)" }}
+                >
                   <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif] text-center">
                     {petName}'s Code
                   </div>
@@ -327,7 +348,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                       .map((char: string, index: number) => (
                         <span
                           key={index}
-                          className="inline-flex w-8 h-10 font-bold bg-white text-[#23272f] text-xl rounded-lg items-center justify-center shadow-sm select-all text-center border border-[var(--color-border)]"
+                          className="inline-flex w-8 h-10  bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-2xl rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center font-[Alike]"
                         >
                           {char}
                         </span>
@@ -341,11 +362,29 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     style={{ background: "transparent" }}
                     onClick={() => setShowQRModal(true)}
                   >
-                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-                      <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
-                      <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
-                      <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
-                      <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="21"
+                      viewBox="0 0 24 25"
+                      fill="none"
+                    >
+                      <g clipPath="url(#clip0_1021_7408)">
+                        <path
+                          d="M12 3.3125V5.1875H10.125V3.3125H12ZM10.125 14.3281V17H12V14.3281H10.125ZM15.75 24.5V22.625H13.875V20.75H12V24.5H15.75ZM19.5 10.5781H13.875V12.4531H19.5V10.5781ZM19.5 14.3281H22.125V12.4531H19.5V14.3281ZM19.5 17V18.875H24V14.3281H22.125V17H19.5ZM13.875 0.5H12V3.3125H13.875V0.5ZM12 8.9375H13.875V5.1875H12V7.0625H10.125V12.4531H12V8.9375ZM0 10.5781V14.3281H1.875V12.4531H4.6875V10.5781H0ZM13.875 14.3281V12.4531H12V14.3281H13.875ZM17.625 16.2031H19.5V14.3281H17.625V16.2031ZM22.125 12.4531H24V10.5781H22.125V12.4531ZM15.75 14.3281H13.875V17H12V18.875H15.75V14.3281ZM10.125 20.75H12V18.875H10.125V20.75ZM15.75 18.875V20.75H19.5V18.875H15.75ZM21.375 22.625V20.75H19.5V22.625H21.375ZM24 24.5V22.625H21.375V24.5H24ZM17.625 24.5H19.5V22.625H17.625V24.5ZM8.4375 12.4531V10.5781H6.5625V12.4531H4.6875V14.3281H10.125V12.4531H8.4375ZM8.4375 8.9375H0V0.5H8.4375V8.9375ZM6.5625 2.375H1.875V7.0625H6.5625V2.375ZM5.15625 3.78125H3.28125V5.65625H5.15625V3.78125ZM24 0.5V8.9375H15.5625V0.5H24ZM22.125 2.375H17.4375V7.0625H22.125V2.375ZM20.7188 3.78125H18.8438V5.65625H20.7188V3.78125ZM0 16.0625H8.4375V24.5H0V16.0625ZM1.875 22.625H6.5625V17.9375H1.875V22.625ZM3.28125 21.2188H5.15625V19.3438H3.28125V21.2188Z"
+                          fill="black"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1021_7408">
+                          <rect
+                            width="24"
+                            height="24"
+                            fill="white"
+                            transform="translate(0 0.5)"
+                          />
+                        </clipPath>
+                      </defs>
                     </svg>
                     View QR
                   </button>
@@ -367,7 +406,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                         onSwitchProfile();
                         setIsMobileDropdownOpen(false);
                       } else {
-                        navigate("/switch-profile");
+                        navigate(`/petowner/pet/${UrlpetId}/switch-profile`);
                         setIsMobileDropdownOpen(false);
                       }
                     }}
@@ -407,10 +446,16 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             {isNotificationDropdownOpen && (
               <div
                 className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
-                style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
+                style={{
+                  background: "var(--color-card-profile)",
+                  borderColor: "var(--color-border)",
+                }}
                 ref={notificationDropdownRef}
               >
-                <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                <div
+                  className="px-4 pt-4 pb-2 border-b"
+                  style={{ borderColor: "var(--color-border)" }}
+                >
                   <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif] text-center">
                     Notifications
                   </div>
@@ -527,9 +572,17 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               {isNotificationDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
-                  style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
+                  style={{
+                    background: "var(--color-card-profile)",
+                    minWidth: 320,
+                    marginTop: 12,
+                    borderColor: "var(--color-border)",
+                  }}
                 >
-                  <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div
+                    className="px-4 pt-4 pb-2 border-b"
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
                       Notifications
                     </div>
@@ -566,16 +619,22 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                           }`}
                         >
                           <div className="text-sm text-white">
-                            <p className="font-medium">{notification.message}</p>
+                            <p className="font-medium">
+                              {notification.message}
+                            </p>
                             <p className="text-xs text-white/60">
-                              {new Date(notification.created_at).toLocaleString()}
+                              {new Date(
+                                notification.created_at
+                              ).toLocaleString()}
                             </p>
                           </div>
                           <div className="flex gap-2">
                             {!notification.is_read && (
                               <button
                                 className="text-xs text-white hover:bg-white/20 transition px-2 py-1 rounded"
-                                onClick={() => handleMarkAsRead(notification.id)}
+                                onClick={() =>
+                                  handleMarkAsRead(notification.id)
+                                }
                               >
                                 Mark as Read
                               </button>
@@ -632,10 +691,18 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
               {isDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
-                  style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
+                  style={{
+                    background: "var(--color-card-profile)",
+                    minWidth: 320,
+                    marginTop: 12,
+                    borderColor: "var(--color-border)",
+                  }}
                   ref={dropdownRef}
                 >
-                  <div className="px-5 pt-5 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div
+                    className="px-5 pt-5 pb-3 border-b"
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
                       {petName}'s Code
                     </div>
@@ -659,11 +726,48 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                       style={{ background: "transparent" }}
                       onClick={() => setShowQRModal(true)}
                     >
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" strokeWidth="2"/>
+                      <svg
+                        width="18"
+                        height="18"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <rect
+                          x="3"
+                          y="3"
+                          width="7"
+                          height="7"
+                          rx="1.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        <rect
+                          x="14"
+                          y="3"
+                          width="7"
+                          height="7"
+                          rx="1.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        <rect
+                          x="14"
+                          y="14"
+                          width="7"
+                          height="7"
+                          rx="1.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        <rect
+                          x="3"
+                          y="14"
+                          width="7"
+                          height="7"
+                          rx="1.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
                       </svg>
                       View QR
                     </button>
@@ -729,7 +833,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
 
       {showQRModal && (
         <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
-          <DialogContent className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full" style={{ zIndex: 9999 }}>
+          <DialogContent
+            className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full"
+            style={{ zIndex: 9999 }}
+          >
             <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
               Pet QR Code
             </DialogTitle>

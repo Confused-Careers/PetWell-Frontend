@@ -472,7 +472,7 @@ const HomePage: React.FC = () => {
              
               <div>
                 <button
-                  onClick={() => navigate(`/petowner/pet/switch-profile`)}
+                  onClick={() => navigate(`/petowner/pet/${petId}/switch-profile`)}
                   className="w-full sm:w-auto px-4 sm:px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-1 border border-[#FFB23E] bg-[#FFB23E] text-center"
                 >
                   <span className="flex items-center">
@@ -560,7 +560,7 @@ const HomePage: React.FC = () => {
                     <Dialog>
                       <DialogTrigger asChild>
                         <button
-                          className="ml-4 flex cursor-pointer py-3 px-5 items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90"
+                          className="ml-4 flex cursor-pointer items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90"
                           title="Show QR Code"
                           type="button"
                         >

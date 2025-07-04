@@ -116,7 +116,7 @@ function App() {
 
         {/* Profile Management Routes */}
         <Route
-          path="/petowner/pet/switch-profile"
+          path="/petowner/pet/:petId/switch-profile"
           element={<SwitchProfilePageStyled />}
         />
       </Routes>

@@ -7,15 +7,16 @@ interface AddStaffData {
   staff_name: string;
   email: string;
   password: string;
-  role_name: string;
-  access_level: string;
+  role: string;
+  permissions: string;
 }
 
 // Interface for updating staff information
 interface UpdateStaffData {
   staff_name?: string;
   email?: string;
-  role_name?: string;
+  role?: string;
+  permissions?: string;
 }
 
 // Interface for staff response
@@ -26,21 +27,22 @@ interface StaffResponse {
     username: string;
     staff_name: string;
     email: string;
-    role_name: string;
-    access_level: string;
+    role: string;
+    permissions: string;
   };
 }
 
 // Interface for staff list response
 interface StaffListResponse {
+  data(data: any): unknown;
   message: string;
   staff: {
     id: string;
     username: string;
     staff_name: string;
     email: string;
-    role_name: string;
-    access_level: string;
+    role: string;
+    permissions: string;
   }[];
   total: number;
   page: number;
@@ -121,12 +123,17 @@ const staffServices = {
     }
   },
 
-  // Get staff list with pagination
-  async getStaffList(page: number = 1, limit: number = 10): Promise<StaffListResponse> {
+  // Get staff list with pagination and optional filters
+  async getStaffList(
+    page: number = 1,
+    limit: number = 10,
+    filters: { role?: string; access_level?: string } = {}
+  ): Promise<StaffListResponse> {
     try {
       const response = await axios.get(
-        `${SERVER_BASE_URL}/api/v1/businesses/staff/get?page=${page}&limit=${limit}`,
+        `${SERVER_BASE_URL}/api/v1/businesses/staff/get`,
         {
+          params: { page, limit, ...filters },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -135,7 +142,6 @@ const staffServices = {
       if (!response.data) {
         throw new Error("Invalid response from server");
       }
-      console.log("Staff List Response:", response.data.data);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response && error.response.data) {

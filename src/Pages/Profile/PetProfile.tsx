@@ -161,19 +161,19 @@ const PetProfile: React.FC = () => {
           </div>
           <div className="flex flex-row gap-4">
             <button
-              className="flex-1 cursor-pointer text-[var(--color-text)] bg-[var(--color-card-button)] hover:opacity-90 px-6 py-2 rounded-3xl font-semibold transition text-base flex items-center gap-2"
-              onClick={handleSwitchProfile}
+              onClick={() => navigate(`/petowner/pet/${petId}/switch-profile`)}
+              className="w-full sm:w-auto px-4 sm:px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-1 border border-[#FFB23E] bg-[#FFB23E] text-center"
             >
-              <RefreshCcw className="w-5 h-5" /> Switch to Another Pet
+              <span className="flex items-center">
+                <RefreshCcw className="w-5 h-5 mr-1" />
+                Switch to Another Pet
+              </span>
             </button>
           </div>
         </div>
-        <div
-          className="flex flex-responsive-row gap-6 items-stretch w-full"
-          style={{ alignItems: "stretch" }}
-        >
+        <div className="flex flex-col md:flex-row gap-6 items-stretch w-full max-w-full md:max-w-none">
           {/* Pet Card (business style, responsive, health summary text) */}
-          <div className="bg-[#6A8293] rounded-[24px] p-3 text-white border border-black flex flex-col items-center w-full md:max-w-[350px] min-w-0">
+          <div className="bg-[#6A8293] rounded-[24px] p-3 text-white border border-black flex flex-col items-center w-full md:max-w-[350px] min-w-0 md:flex-shrink-0 md:basis-1/3">
             <div className="flex flex-col items-center text-center mb-2 w-full">
               <div className="w-full h-full rounded-[20px] overflow-hidden mb-2 bg-black">
                 <img
@@ -245,7 +245,7 @@ const PetProfile: React.FC = () => {
             </div>
           </div>
           {/* Right: Health Summary (top), then bottom row (Syd's Code + Your Details) */}
-          <div className="flex flex-col flex-1 gap-6 h-full min-w-0">
+          <div className="flex flex-col flex-1 gap-6 h-full min-w-0 md:basis-2/3">
             {/* Health Summary */}
             <div className="bg-[#EDCC79] rounded-[12px] p-responsive border border-black flex flex-col min-w-0">
               <h2 className="text-2xl font-medium font-[Cabin,sans-serif] mb-4 text-[#1C232E]">
@@ -521,6 +521,24 @@ const PetProfile: React.FC = () => {
           </div>
         </div>
       </div>
+      {/* Responsive tweaks for iPad screens */}
+      <style jsx>{`
+        @media (max-width: 1024px) and (min-width: 768px) {
+          .flex-responsive-row {
+            flex-direction: column !important;
+            gap: 2rem !important;
+          }
+          .md\\:max-w-[350px] {
+            max-width: 100% !important;
+          }
+          .md\\:basis-1\/3 {
+            flex-basis: 100% !important;
+          }
+          .md\\:basis-2\/3 {
+            flex-basis: 100% !important;
+          }
+        }
+      `}</style>
     </div>
   );
 };

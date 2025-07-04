@@ -26,7 +26,7 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
     vaccine?.date_due || vaccine?.expires || ""
   );
   const [administeredBy, setAdministeredBy] = useState(
-    vaccine?.administered_by || "Dr. John Doe"
+    vaccine?.administered_by || ""
   );
   const [verified, setVerified] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -110,8 +110,8 @@ const EditVaccineModal: React.FC<EditVaccineModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[var(--color-modal)]/60 backdrop-blur-sm px-2 sm:px-0">
-      <div className="relative bg-[var(--color-background)] rounded-2xl shadow-2xl px-4 sm:px-10 py-3 sm:py-4 w-full max-w-xs sm:max-w-md flex flex-col items-center border border-[var(--color-border)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+      <div className="relative bg-[var(--color-background)] rounded-2xl  px-4 sm:px-10 py-3 sm:py-4 w-full max-w-xs sm:max-w-md flex flex-col items-center border border-[var(--color-border)]">
           {/* Close button */}
           <button
             className="absolute top-3 right-3 sm:top-4 sm:right-4 cursor-pointer text-xl sm:text-2xl text-[var(--color-text)] hover:text-[var(--color-primary)]"

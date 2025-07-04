@@ -12,6 +12,7 @@ interface Pet {
   id: string;
   pet_name: string;
   profile_picture?: string;
+  profilePictureDocument?: { document_url: string };
 }
 
 const UploadDocuments: React.FC = () => {
@@ -139,9 +140,10 @@ const UploadDocuments: React.FC = () => {
 
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
+      <div className=" w-screen h-full justify-center items-center">
       <NavComponent />
       {/* Profile Image and Back Button */}
-      <div className="mt-16 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
+      <div className="mt-8 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
         <button
           className="cursor-pointer absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent z-10"
           onClick={() => navigate(-1)}
@@ -151,9 +153,15 @@ const UploadDocuments: React.FC = () => {
         </button>
         <img
           src={
-            pet.profile_picture && typeof pet.profile_picture === "string"
-              ? pet.profile_picture
-              : "https://randomuser.me/api/portraits/men/32.jpg"
+            (pet.profile_picture &&
+              typeof pet.profile_picture === "string" &&
+              pet.profile_picture) ||
+            (pet as any).profilePictureDocument?.document_url ||
+            (pet.profile_picture &&
+              typeof pet.profile_picture === "object" &&
+              (pet.profile_picture as any).profilePictureDocument
+                ?.document_url) ||
+            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
           }
           alt="Profile"
           className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-[var(--color-text)] shadow-lg mt-4"
@@ -178,7 +186,8 @@ const UploadDocuments: React.FC = () => {
         }}
       />
       {showLoader && <Loader />}
-    </div>
+      </div>
+      </div>
   );
 };
 

@@ -28,21 +28,25 @@ interface Pet {
   is_under_care?: boolean;
 }
 
-const PetsUnderCare: React.FC = () => {
+interface PetsUnderCareProps {
+  setCount?: (count: number) => void;
+}
+
+const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
   const [pets, setPets] = useState<Pet[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchPets = async () => {
     if (loading) return;
-
     setLoading(true);
     try {
       const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
-      console.log("Fetched pets:", response);
       const petsData = response as unknown as Pet[];
       setPets(petsData);
+      if (setCount) setCount(petsData.length);
     } catch (error: any) {
       toast.error(error.message || "Failed to fetch pets under care.");
+      if (setCount) setCount(0);
     } finally {
       setLoading(false);
     }
@@ -50,6 +54,7 @@ const PetsUnderCare: React.FC = () => {
 
   useEffect(() => {
     fetchPets();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -141,15 +146,6 @@ const PetsUnderCare: React.FC = () => {
           )}
         </tbody>
       </table>
-      {/* View All Pets row */}
-      <div className="flex items-center justify-between cursor-pointer py-2 px-2 font-cabin font-bold text-base " onClick={() => window.location.href = '/business/pets/all'}>
-      <a
-            href="/business/pet-records"
-            className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
-          >
-            View All Pets <IoIosArrowDroprightCircle />
-          </a>
-      </div>
     </div>
   );
 };

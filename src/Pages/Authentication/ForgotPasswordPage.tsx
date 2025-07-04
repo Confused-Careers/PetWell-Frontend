@@ -177,43 +177,128 @@ const ForgotPasswordPage: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--color-background)] px-4 py-8">
-      {/* Logo Section */}
-      <div className="absolute left-4 sm:left-8 top-4 sm:top-8">
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-[var(--color-text)] opacity-70 hover:opacity-100 transition-opacity"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Back</span>
-        </button>
-      </div>
-
-      <div className="flex flex-col items-center mb-8">
+    <div className="h-screen w-screen flex flex-col bg-[var(--color-background)] w-full px-2 pt-24 sm:p-4 md:p-8">
+      <div className="flex justify-center sm:justify-start h-8 mb-8 md:mb-0">
         <img
           src={PetWellLogo}
           alt="PetWell Logo"
-          className="w-16 h-16 object-contain mb-4 drop-shadow-lg"
+          className="object-contain h-full w-auto"
         />
       </div>
-
-      <div className="w-full max-w-md bg-[var(--color-card)] rounded-2xl shadow-xl p-6 sm:p-8">
+      <div className="w-screen flex flex-col h-full justify-center items-center">
+        <div className="bg-[var(--color-background)] rounded-2xl px-2 sm:px-5 md:px-7 py-4 sm:py-7 flex flex-col items-center w-full max-w-[700px] justify-center mx-auto">
+          <p className="font-[Alike,serif] text-3xl text-[#1C232E] sm:mb-2 mb-2 text-center leading-tight">
+            {currentStep === "request" ? "Forgot Password" : "Reset Password"}
+          </p>
+          <p className="mb-3 text-lg font-[Cabin] items-center flex justify-center text-center px-2">
+            {currentStep === "request"
+              ? "Enter your email address and we'll send you an OTP to reset your password."
+              : `Enter the OTP sent to ${email} and your new password`}
+          </p>
         {error && (
-          <div className="mb-4 p-3 rounded-md bg-[var(--color-warning)]/10 border border-[var(--color-warning)] text-[var(--color-warning)] text-sm">
+            <div className="w-full max-w-md mb-4 text-center text-[var(--color-warning)] bg-[var(--color-warning)]/10 rounded py-2 px-3 text-sm animate-fade-in">
             {error}
           </div>
         )}
-
-        {currentStep === "request" ? renderRequestOTP() : renderResetPassword()}
-
-        <div className="mt-6 text-center text-sm text-[var(--color-text)] opacity-70">
-          Remember your password?{" "}
-          <button
-            onClick={() => navigate("/login")}
-            className="text-[var(--color-primary)] hover:opacity-90 transition-opacity"
+          <form
+            className="w-full flex flex-col gap-4 sm:gap-5 max-w-sm mt-4"
+            onSubmit={currentStep === "request" ? handleRequestOTP : handleResetPassword}
+            autoComplete="on"
           >
-            Sign in
+            {currentStep === "request" ? (
+              <>
+                <div className="w-full flex flex-col gap-2">
+                  <label
+                    className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
+                    htmlFor="email"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                    placeholder="Type here"
+                    required
+                    autoFocus
+                  />
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="w-full flex flex-col gap-2">
+                  <label
+                    className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
+                    htmlFor="otp"
+                  >
+                    OTP
+                  </label>
+                  <input
+                    id="otp"
+                    type="text"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                    placeholder="Type here"
+                    required
+                  />
+                </div>
+                <div className="w-full flex flex-col gap-2">
+                  <label
+                    className="text-[#1C232E] text-sm font-[Cabin,sans-serif] font-medium"
+                    htmlFor="newPassword"
+                  >
+                    New Password
+                  </label>
+                  <input
+                    id="newPassword"
+                    type="password"
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
+                    placeholder="Type here"
+                    required
+                  />
+                </div>
+              </>
+            )}
+            <div className="w-full mt-5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6">
+              <button
+                type="button"
+            onClick={() => navigate("/login")}
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E]"
+              >
+                Go Back
+              </button>
+              <button
+                type="submit"
+                className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+                disabled={loading}
+              >
+                {loading && <Loader2 className="w-5 h-5 animate-spin" />}
+                {loading
+                  ? currentStep === "request"
+                    ? "Sending OTP..."
+                    : "Resetting Password..."
+                  : currentStep === "request"
+                  ? "Send OTP"
+                  : "Reset Password"}
           </button>
+            </div>
+          </form>
+          <div className="w-full mt-7 text-center">
+            <p className="font-[400] font-[Cabin,sans-serif] text-[#1C232E] text-sm sm:text-base">
+              Remember your password?
+              <span
+                onClick={() => navigate("/login")}
+                className="font-[700] font-[Cabin,sans-serif] text-[#FFB23E] ml-2 cursor-pointer"
+              >
+                Sign In
+              </span>
+            </p>
+          </div>
         </div>
       </div>
     </div>

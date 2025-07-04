@@ -2,6 +2,7 @@ import React from "react";
 import UploadStepper from "./UploadStepper";
 import authServices from "../../../Services/authServices";
 import type { FormData } from "./types";
+import { Eye, EyeOff } from "lucide-react";
 
 interface Step4HumanInfoUploadProps {
   form: FormData;
@@ -22,6 +23,8 @@ const Step4HumanInfoUpload: React.FC<Step4HumanInfoUploadProps> = ({
   setLoading,
   onNext,
 }) => {
+  const [showPassword, setShowPassword] = React.useState(false);
+
   const validateStep4 = () => {
     if (!form.owner_name.trim()) return "Owner name is required";
     if (!form.owner_location.trim()) return "Location is required";
@@ -186,17 +189,27 @@ const Step4HumanInfoUpload: React.FC<Step4HumanInfoUploadProps> = ({
 >
               Set a password
             </label>
-            <input
-              type="password"
-              placeholder="Password"
-              className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
-              value={form.owner_password}
-              onChange={(e) => {
-                setForm((f) => ({ ...f, owner_password: e.target.value }));
-                setError(null);
-              }}
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2  transition-all duration-200"
+                value={form.owner_password}
+                onChange={(e) => {
+                  setForm((f) => ({ ...f, owner_password: e.target.value }));
+                  setError(null);
+                }}
+                required
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute cursor-pointer right-2 top-1/2 -translate-y-1/2 text-[var(--color-text)]/70 hover:text-[var(--color-text)] transition"
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
           </div>
           {error && <div className="text-red-400 text-sm mb-2">{error}</div>}
           <button

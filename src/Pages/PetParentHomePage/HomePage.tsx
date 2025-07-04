@@ -458,10 +458,10 @@ const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <Navbar />
-      <div className="container mx-auto max-w-7xl pt-6 px-4 pb-12">
+      <div className="container mx-auto max-w-7xl pt-6 pb-12">
         {/* Profile & Health Summary */}
         {pet && (
-          <section className="mb-6 mt-4">
+          <section className="mb-6 mt-4 px-4">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
               <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
                 <span className="flex items-center justify-center size-8 rounded-full bg-transparent">
@@ -488,7 +488,7 @@ const HomePage: React.FC = () => {
         )}
 
         {pet && (
-          <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-10 mb-12 md:mb-16 w-full px-4">
             {/* Pet Profile Card */}
             <div className="border  border-black bg-[var(--color-card-profile)] rounded-3xl p-6 flex flex-col md:flex-row items-center flex-2/3 text-[var(--color-white)] shadow-lg">
               {/* Image */}
@@ -728,7 +728,7 @@ const HomePage: React.FC = () => {
         )}
 
         {/* Vaccine Section */}
-        <section className="mb-6">
+        <section className="mb-6 px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
@@ -751,7 +751,7 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Document Section */}
-        <section className="mb-6">
+        <section className="mb-6 px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">
@@ -777,7 +777,7 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Team Section */}
-        <section className="mb-6">
+        <section className="mb-6 px-4">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
               <span className="flex items-center justify-center w-10 h-10 rounded-full bg-[var(--color-logo)]">

@@ -200,7 +200,7 @@ const VerificationPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative px-2  sm:p-4 md:p-8">
+    <div className="min-h-screen bg-[var(--color-background)] flex flex-col items-center w-full relative p-6 md:p-8">
       {/* Logo and header */}
       <div className="flex flex-col sm:flex-row w-full">
         {/* Logo + Profile Dropdown Row (responsive) */}
@@ -346,7 +346,7 @@ const VerificationPage: React.FC = () => {
           </DropdownMenu>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto w-full sm:px-4">
+      <div className="max-w-7xl mx-auto w-full">
         <DetailSection pet={pet} user={human} />
         {/* Vaccines Section */}
         <div className="flex items-center justify-between gap-4 mb-3 sm:mb-4 mt-8 sm:mt-10">

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AddNewPet from "../../../Components/BusinessComponents/AddNewPet";
 import RecentlyAddedPets from "../../../Components/BusinessComponents/RecentlyAddedPets";
 import PetsUnderCare from "../../../Components/BusinessComponents/PetsUnderCare";
@@ -6,6 +6,9 @@ import BusinessNavbar from "../../../Components/BusinessComponents/BusinessNavba
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 
 const BusinessHomePage: React.FC = () => {
+  const [recentlyAddedCount, setRecentlyAddedCount] = useState<number>(0);
+  const [underCareCount, setUnderCareCount] = useState<number>(0);
+
   return (
     <div className="min-h-screen w-full bg-[var(--color-card)] text-[var(--color-text)] font-sans">
       <BusinessNavbar />
@@ -29,15 +32,17 @@ const BusinessHomePage: React.FC = () => {
               <p className="text-xl sm:text-2xl font-lighter flex items-center gap-3 font-serif ">
                 Recently Added Pets
               </p>
-              <a
-                href="/business/pet-records"
-                className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
-                style={{ alignSelf: "flex-start" }}
-              >
-                View All Pets <IoIosArrowDroprightCircle />
-              </a>
+              {recentlyAddedCount > 0 && (
+                <a
+                  href="/business/pet-records"
+                  className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
+                  style={{ alignSelf: "flex-start" }}
+                >
+                  View All Pets <IoIosArrowDroprightCircle />
+                </a>
+              )}
             </div>
-            <RecentlyAddedPets />
+            <RecentlyAddedPets setCount={setRecentlyAddedCount} />
           </div>
         </div>
         {/* Pets Under Your Care */}
@@ -46,14 +51,16 @@ const BusinessHomePage: React.FC = () => {
             <p className="text-xl sm:text-2xl font-lighter flex items-center gap-3 font-serif">
               Pets Under Your Care
             </p>
-            <a
-              href="/business/pet-records"
-              className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
-            >
-              View All Pets <IoIosArrowDroprightCircle />
-            </a>
+            {underCareCount > 0 && (
+              <a
+                href="/business/pet-records"
+                className="text-[var(--color-primary)] text-sm sm:text-base font-medium flex items-center gap-2 cursor-pointer"
+              >
+                View All Pets <IoIosArrowDroprightCircle />
+              </a>
+            )}
           </div>
-          <PetsUnderCare />
+          <PetsUnderCare setCount={setUnderCareCount} />
         </div>
       </main>
     </div>

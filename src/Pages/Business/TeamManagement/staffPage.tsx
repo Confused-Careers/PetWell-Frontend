@@ -87,9 +87,19 @@ const StaffPage = () => {
   const handleAddMember = async () => {
     if (newMember.staff_name && newMember.username && newMember.email && newMember.password) {
       try {
-        await staffServices.addStaff(newMember);
-        const response = await staffServices.getStaffList(1, 10, { role_name: roleFilter, access_level: permissionsFilter });
-        setStaffMembers(response.staff);
+        await staffServices.addStaff({
+          ...newMember,
+          role: newMember.role_name,
+          permissions: newMember.access_level,
+        });
+        const response = await staffServices.getStaffList(1, 10, { role: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
+        setStaffMembers(
+          response.staff.map((member: any) => ({
+            ...member,
+            role_name: member.role,
+            access_level: member.permissions,
+          }))
+        );
         setNewMember({ staff_name: '', role_name: 'Veterinarian', access_level: 'Full Access', username: '', email: '', password: '' });
         setShowAddModal(false);
       } catch (error) {
@@ -102,8 +112,14 @@ const StaffPage = () => {
     if (editMember.staff_name && editMember.username && editMember.email) {
       try {
         await staffServices.updateStaff(editMember.id, editMember);
-        const response = await staffServices.getStaffList(1, 10, { role_name: roleFilter, access_level: permissionsFilter });
-        setStaffMembers(response.staff);
+        const response = await staffServices.getStaffList(1, 10, { role_name: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
+        setStaffMembers(
+          response.staff.map((member: any) => ({
+            ...member,
+            role_name: member.role,
+            access_level: member.permissions,
+          }))
+        );
         setShowEditModal(null);
       } catch (error) {
         console.error('Error updating staff:', error);
@@ -333,7 +349,7 @@ const StaffPage = () => {
       {/* Add Member Modal */}
       {showAddModal && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4">
+          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4 border">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Add Team Member</h3>
               <button
@@ -429,7 +445,7 @@ const StaffPage = () => {
       {/* Edit Member Modal */}
       {showEditModal && (
         <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4">
+          <div className="bg-[#FFF8E5] rounded-lg p-6 w-full max-w-md mx-4 border">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Edit Team Member</h3>
               <button

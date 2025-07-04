@@ -329,22 +329,6 @@ const BusinessNavbar: React.FC = () => {
                         ))}
                       </div>
                     )}
-                    {notifications?.length > 0 && (
-                      <div className="flex justify-between mt-2">
-                        <button
-                          onClick={(event) => handleMarkAllAsRead(event)}
-                          className="text-xs text-white hover:bg-white/10 px-2 py-1 rounded font-[Cabin,sans-serif]"
-                        >
-                          Mark All as Read
-                        </button>
-                        <button
-                          onClick={(event) => handleDismissAll(event)}
-                          className="text-xs text-red-200 hover:bg-red-400/10 px-2 py-1 rounded font-[Cabin,sans-serif]"
-                        >
-                          Dismiss All
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
@@ -497,7 +481,7 @@ const BusinessNavbar: React.FC = () => {
               </button>
               {isNotificationDropdownOpen && (
                 <div
-                  className="absolute right-0 top-full w-80 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
+                  className="absolute right-0 top-full w-60 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
                   style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
                 >
                   <div className="px-5 pt-5 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
@@ -523,22 +507,6 @@ const BusinessNavbar: React.FC = () => {
                             </div>
                           </div>
                         ))}
-                      </div>
-                    )}
-                    {notifications?.length > 0 && (
-                      <div className="flex justify-between mt-2">
-                        <button
-                          onClick={(event) => handleMarkAllAsRead(event)}
-                          className="text-xs text-white hover:bg-white/10 px-2 py-1 rounded font-[Cabin,sans-serif]"
-                        >
-                          Mark All as Read
-                        </button>
-                        <button
-                          onClick={(event) => handleDismissAll(event)}
-                          className="text-xs text-red-200 hover:bg-red-400/10 px-2 py-1 rounded font-[Cabin,sans-serif]"
-                        >
-                          Dismiss All
-                        </button>
                       </div>
                     )}
                   </div>

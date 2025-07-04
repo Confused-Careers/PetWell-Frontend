@@ -146,20 +146,6 @@ const BusinessNavbar: React.FC = () => {
   };
 
   // Mark notification as read
-  const handleMarkAsRead = async (id: string, event: React.MouseEvent) => {
-    event.stopPropagation();
-    try {
-      await notificationServices.markAsRead(id);
-      setNotifications((prev) =>
-        prev?.map((notif) =>
-          notif.id === id ? { ...notif, is_read: true } : notif
-        )
-      );
-      setUnreadCount((prev) => prev - 1);
-    } catch (error) {
-      console.error("Error marking notification as read:", error);
-    }
-  };
 
   // Dismiss notification
   const handleDismiss = async (id: string, event: React.MouseEvent) => {
@@ -174,28 +160,8 @@ const BusinessNavbar: React.FC = () => {
   };
 
   // Mark all notifications as read
-  const handleMarkAllAsRead = async (event: React.MouseEvent) => {
-    event.stopPropagation();
-    try {
-      await notificationServices.markAllAsRead();
-      setNotifications((prev) => prev.map((notif) => ({ ...notif, is_read: true })));
-      setUnreadCount(0);
-    } catch (error) {
-      console.error("Error marking all notifications as read:", error);
-    }
-  };
 
   // Dismiss all notifications
-  const handleDismissAll = async (event: React.MouseEvent) => {
-    event.stopPropagation();
-    try {
-      await notificationServices.dismissAll();
-      setNotifications([]);
-      setUnreadCount(0);
-    } catch (error) {
-      console.error("Error dismissing all notifications:", error);
-    }
-  };
 
   // Close dropdowns when clicking outside
   useEffect(() => {

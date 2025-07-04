@@ -27,7 +27,7 @@ const RecentlyAddedPets: React.FC = () => {
       const response = await businessServices.getPetMappings({ limit: 5, page: 1 });
       const petsData: Pet[] = Array.isArray(response) ? response as Pet[] : [];
       // TEMP: Add mock last_visit if missing for UI testing
-      const mappedPets = petsData.map((pet, idx) => ({
+      const mappedPets = petsData.map((pet) => ({
         ...pet,
         last_visit: pet.last_visit || "2025-06-20", // DD/MM/YY for demo
         staff_name: pet.staff_name || "Dr. Patel",

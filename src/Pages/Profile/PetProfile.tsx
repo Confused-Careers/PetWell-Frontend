@@ -13,7 +13,6 @@ import {
 } from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
 import {
-  IoIosArrowDropleftCircle,
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
 import { FaCircleExclamation } from "react-icons/fa6";

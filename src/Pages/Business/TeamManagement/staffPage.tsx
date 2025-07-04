@@ -24,9 +24,7 @@ const StaffPage = () => {
     staff_name: '',
     role_name: 'Vet',
     access_level: 'Full',
-    username: '',
     email: '',
-    password: '',
   });
   const [showFilter, setShowFilter] = useState(false);
   const [roleFilter, setRoleFilter] = useState<string | null>(null);
@@ -102,9 +100,16 @@ const StaffPage = () => {
   };
 
   const handleEditMember = async () => {
-    if (editMember.staff_name && editMember.username && editMember.email) {
+    if (editMember.staff_name && editMember.email) {
       try {
-        await staffServices.updateStaff(editMember.id, editMember);
+        // in this edit member don't in object don't habe username or password
+        const editMemberData = {
+            staff_name: editMember.staff_name,
+            role_name: editMember.role_name,
+            access_level: editMember.access_level,
+            email: editMember.email,
+            };
+        await staffServices.updateStaff(editMember.id, editMemberData);
         const response = await staffServices.getStaffList(1, 10, { role: roleFilter ?? undefined, access_level: permissionsFilter ?? undefined });
         setStaffMembers(response.data);
         setShowEditModal(null);
@@ -131,9 +136,7 @@ const StaffPage = () => {
       staff_name: member.staff_name,
       role_name: member.role_name,
       access_level: member.access_level,
-      username: member.username,
       email: member.email,
-      password: '',
     });
     setShowEditModal(member.id);
   };
@@ -160,7 +163,7 @@ const StaffPage = () => {
           <img
             src={business.profile_picture}
             alt="Business profile"
-            className="object-cover rounded-lg w-full max-w-xs md:max-w-[500px] h-auto mb-4 md:mb-0"
+            className="object-cover rounded-lg w-[75%] max-w-xs md:max-w-[300px] mb-4 md:mb-0 aspect-square"
             style={{ maxHeight: '400px' }}
           />
           <div className="flex-1">
@@ -477,16 +480,6 @@ const StaffPage = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#1C232E] mb-1">Username</label>
-                <input
-                  type="text"
-                  value={editMember.username}
-                  onChange={(e) => setEditMember({ ...editMember, username: e.target.value })}
-                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
-                  placeholder="Enter username"
-                />
-              </div>
-              <div>
                 <label className="block text-sm font-medium text-[#1C232E] mb-1">Email</label>
                 <input
                   type="email"
@@ -494,16 +487,6 @@ const StaffPage = () => {
                   onChange={(e) => setEditMember({ ...editMember, email: e.target.value })}
                   className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
                   placeholder="Enter email"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-[#1C232E] mb-1">Password (optional)</label>
-                <input
-                  type="password"
-                  value={editMember.password}
-                  onChange={(e) => setEditMember({ ...editMember, password: e.target.value })}
-                  className="w-full text-sm rounded-md px-4 bg-white border border-black text-[var(--color-text)] placeholder-[var(--color-text)]/60 focus:outline-none focus:border-[#FFB23E] focus:border-2 transition-all duration-200"
-                  placeholder="Enter new password (leave blank to keep unchanged)"
                 />
               </div>
             </div>

@@ -77,6 +77,8 @@ const staffServices = {
   // Update staff information
   async updateStaff(staffId: string, data: UpdateStaffData): Promise<StaffResponse> {
     try {
+      console.log("Updating staff with ID:", staffId, "and data:", data);
+      // in this edit member don't in object don't habe username or password)
       const response = await axios.patch(
         `${SERVER_BASE_URL}/api/v1/businesses/staff/${staffId}`,
         data,

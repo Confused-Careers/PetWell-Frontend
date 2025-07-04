@@ -789,7 +789,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                           onSwitchProfile();
                           setIsDropdownOpen(false);
                         } else {
-                          navigate("/switch-profile");
+                          navigate(`/petowner/pet/${petId}/switch-profile`);
                           setIsDropdownOpen(false);
                         }
                       }}

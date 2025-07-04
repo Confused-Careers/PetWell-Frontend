@@ -172,16 +172,10 @@ const PetProfile: React.FC = () => {
           className="flex flex-responsive-row gap-6 items-stretch w-full"
           style={{ alignItems: "stretch" }}
         >
-          {/* Left: Pet Card (should stretch full height) */}
-          <div
-            className="flex-shrink-0 w-full md:w-auto"
-            style={{ minWidth: 0, maxWidth: 350 }}
-          >
-            <div
-              className="bg-[#6A8293] rounded-[16px] p-responsive text-white border border-black h-full flex flex-col items-center justify-start w-full min-w-0"
-              style={{ minHeight: 0, height: "100%" }}
-            >
-              <div className="w-48 h-48 rounded-xl overflow-hidden mb-4 bg-black flex items-center justify-center">
+          {/* Pet Card (business style, responsive, health summary text) */}
+          <div className="bg-[#6A8293] rounded-[24px] p-3 text-white border border-black flex flex-col items-center w-full md:max-w-[350px] min-w-0">
+            <div className="flex flex-col items-center text-center mb-2 w-full">
+              <div className="w-full h-full rounded-[20px] overflow-hidden mb-2 bg-black">
                 <img
                   src={
                     currentPet?.profile_picture ||
@@ -191,58 +185,60 @@ const PetProfile: React.FC = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="w-full">
-                <div className="font-[Cabin,sans-serif] text-2xl font-medium mb-4 text-white">
-                  {currentPet?.pet_name || "Pet"}
+            </div>
+            <h1 className="text-2xl font-[cabin, sans-serif] text-[#FFF8E5] font-[400] mb-4">
+              {currentPet?.pet_name || "Pet"}
+            </h1>
+            <div className="flex flex-col md:flex-row gap-4 md:gap-8 text-sm w-full">
+              <div className="flex flex-col gap-3 flex-1 w-full">
+                <div>
+                  <span className="text-[#FFF8E5]/60 text-sm font-[Cabin,sans-serif]">
+                    Age
+                  </span>
+                  <div className="font-medium text-[#FFF8E5] text-base font-[Cabin,sans-serif] break-words">
+                    {currentPet?.age || "Unknown"} years old
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-base">
-                  <div>
-                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
-                      Age
-                    </div>
-                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
-                      {currentPet?.age || "Unknown"} years old
-                    </div>
+                <div>
+                  <span className="text-[#FFF8E5]/60 text-sm font-[Cabin,sans-serif]">
+                    Breed
+                  </span>
+                  <div className="font-medium text-[#FFF8E5] text-base font-[Cabin,sans-serif] break-words">
+                    {currentPet?.breed?.breed_name || "Unknown"}
                   </div>
-                  <div>
-                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
-                      Gender
-                    </div>
-                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
-                      {currentPet?.gender || "Unknown"}
-                    </div>
+                </div>
+                <div>
+                  <span className="text-[#FFF8E5]/60 text-sm font-[Cabin,sans-serif]">
+                    Microchip Number
+                  </span>
+                  <div className="font-medium text-[#FFF8E5] text-base font-[Cabin,sans-serif] break-words">
+                    {currentPet?.microchip || "Unknown"}
                   </div>
-                  <div>
-                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
-                      Breed
-                    </div>
-                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
-                      {currentPet?.breed?.breed_name || "Unknown"}
-                    </div>
+                </div>
+              </div>
+              <div className="flex flex-col gap-3 flex-1 w-full">
+                <div>
+                  <span className="text-[#FFF8E5]/60 text-sm font-[Cabin,sans-serif]">
+                    Gender
+                  </span>
+                  <div className="font-medium text-[#FFF8E5] text-base font-[Cabin,sans-serif] break-words">
+                    {currentPet?.gender || "Unknown"}
                   </div>
-                  <div>
-                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
-                      Colour
-                    </div>
-                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
-                      {currentPet?.color || "Unknown"}
-                    </div>
+                </div>
+                <div>
+                  <span className="text-[#FFF8E5]/60 text-sm font-[Cabin,sans-serif]">
+                    Colour
+                  </span>
+                  <div className="font-medium text-[#FFF8E5] text-base font-[Cabin,sans-serif] break-words">
+                    {currentPet?.color || "Unknown"}
                   </div>
-                  <div>
-                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
-                      Microchip Number
-                    </div>
-                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
-                      {currentPet?.microchip || "Unknown"}
-                    </div>
-                  </div>
-                  <div>
-                    <div className="text-white/70 text-sm font-[Cabin,sans-serif] font-normal">
-                      Birthdate
-                    </div>
-                    <div className="font-medium text-white text-base font-[Cabin,sans-serif]">
-                      {currentPet?.dob || "Unknown"}
-                    </div>
+                </div>
+                <div>
+                  <span className="text-[#FFF8E5]/60 text-sm font-[Cabin,sans-serif]">
+                    Birthdate
+                  </span>
+                  <div className="font-medium text-[#FFF8E5] text-base font-[Cabin,sans-serif] break-words">
+                    {currentPet?.dob || "Unknown"}
                   </div>
                 </div>
               </div>
@@ -377,26 +373,25 @@ const PetProfile: React.FC = () => {
             </div>
             {/* Bottom row: Syd's Code & Your Details */}
             <div className="flex flex-responsive-row gap-6 flex-1 h-0 min-h-0 w-full items-stretch">
-              {/* Syd's Code */}
+              {/* Syd's Code - Responsive and consistent text */}
               <div
-                className="bg-[#DC9A6B80] border border-black rounded-[16px] flex-1 flex flex-col justify-between p-6 min-w-0 w-full"
+                className="bg-[#DC9A6B80] border border-black rounded-3xl flex-1 flex flex-col justify-between p-4 min-w-0 w-full"
                 style={{ boxShadow: "none" }}
               >
-                <div className="flex items-center justify-between mb-4 w-full">
-                  <div className="font-[Cabin,sans-serif] text-2xl font-bold text-[#23272f]">
+                <div className="flex flex-col md:flex-row items-center justify-between mb-4 w-full gap-2">
+                  <div className="font-[cabin, sans-serif] text-3xl font-[500] text-[#23272f] mb-2 md:mb-0">
                     {currentPet?.pet_name || "Pet"}'s Code
                   </div>
                   <Dialog>
                     <DialogTrigger asChild>
                       <button
-                        className="ml-4 flex cursor-pointer items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-3 py-1 rounded-full font-semibold text-sm hover:opacity-90"
+                        className="flex cursor-pointer items-center gap-2 bg-[var(--color-card-button)] text-[#23272f] px-2 py-1 rounded-full font-semibold text-sm hover:opacity-90"
                         title="Show QR Code"
                         type="button"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="21"
+                          className="size-6"
                           viewBox="0 0 24 25"
                           fill="none"
                         >
@@ -462,62 +457,60 @@ const PetProfile: React.FC = () => {
                     </DialogContent>
                   </Dialog>
                 </div>
-                <div className="flex flex-row gap-2 mb-4">
+                <div className="flex flex-wrap gap-2 mb-4 justify-center md:justify-start">
                   {(currentPet?.qr_code_id || "")
                     .split("")
                     .map((char: string, index: number) => (
                       <span
                         key={index}
-                        className="inline-flex w-8 h-10  bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-2xl rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center font-[Alike]"
+                        className="inline-flex w-8 h-10 bg-[var(--color-text-bright)] bg-opacity-80 text-[#23272f] text-[20px] font-[cabin, sans-serif] font-[500] rounded-lg items-center justify-center select-all transition-all duration-150 hover:scale-105 text-center"
                       >
                         {char}
                       </span>
                     ))}
                 </div>
-                <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-base text-left">
+                <div className="font-[cabin, sans-serif] text-[#23272f]/60 text-[16px] text-left">
                   Share with care providers to give access to the profile.
                 </div>
               </div>
-              {/* Your Details - Responsive alignment with flex, grouped rows */}
-              <div className="bg-[#ABA75C80] rounded-[12px] p-responsive flex-1 min-w-0 border border-black flex flex-col justify-between w-full">
-                <div className="font-[Cabin,sans-serif] text-2xl font-medium mb-2 text-[#23272f]">
+              {/* Your Details */}
+              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-full md:min-w-[55%]">
+                <h2 className="text-3xl font-[cabin, sans-serif] font-[500] mb-4 text-[#1C232E]">
                   Your Details
-                </div>
-                <div className="w-full min-w-0 flex flex-col text-base">
-                  {/* Top row: Name | Location */}
-                  <div className="flex flex-col md:flex-row w-full">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                </h2>
+                <div className="flex flex-col gap-2 text-sm">
+                  <div className="flex flex-row gap-4 items-start">
+                    <div>
+                      <span className="text-[#23272f] opacity-60 text-[16px]">
                         Name
-                      </div>
-                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                      </span>
+                      <div className="font-[500] text-[#23272f] text-[20px]">
                         {humanProfile?.human_owner_name || "Unknown"}
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                    <div>
+                      <span className="text-[#23272f] opacity-60 text-[16px]">
                         Location
-                      </div>
-                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                      </span>
+                      <div className="font-[500] text-[#23272f] text-[20px]">
                         {humanProfile?.location || "Unknown"}
                       </div>
                     </div>
                   </div>
-                  {/* Bottom row: Phone | Email */}
-                  <div className="flex flex-col md:flex-row w-full">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                  <div className="flex flex-row gap-4 items-start">
+                    <div>
+                      <span className="text-[#23272f] opacity-60 text-[16px]">
                         Phone number
-                      </div>
-                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                      </span>
+                      <div className="font-[500] text-[#23272f] text-[20px]">
                         {humanProfile?.phone || "Unknown"}
                       </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-[Cabin,sans-serif] text-[#23272f]/60 text-sm font-normal ">
+                    <div>
+                      <span className="text-[#23272f] opacity-60 text-[16px]">
                         Email
-                      </div>
-                      <div className="font-medium text-[#23272f] text-base font-[Cabin,sans-serif] min-w-0">
+                      </span>
+                      <div className="font-[500] text-[#23272f] text-[20px]">
                         {humanProfile?.email || "Unknown"}
                       </div>
                     </div>

@@ -291,7 +291,7 @@ const VaccinesPage: React.FC = () => {
             <p className="text-2xl font-lighter flex items-center gap-3 font-serif">
             {pet?.pet_name ? `${pet.pet_name}'s Vaccines` : "Vaccines"}
           </p>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row max-sm:flex-col gap-4">
             <button
                                 className="w-auto px-10 font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E]"
               onClick={() =>

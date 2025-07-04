@@ -76,14 +76,14 @@ const AddNewPet: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#6A8293] border  rounded-2xl p-2 flex flex-col items-center w-full max-w-md min-w-[400px] h-[196px] justify-center">
-      <div className="flex flex-row items-center mb-4 w-[94%] justify-center">
-        <p className="text-[#FFF8E5] text-[18px] font-cabin font-[400] text-start flex-1 leading-normal">
+    <div className="bg-[#6A8293] border  rounded-2xl p-2 flex flex-col items-center w-full max-w-md sm:min-w-[400px] h-[196px] justify-center">
+      <div className="flex flex-row items-center mb-4 sm:w-[94%] justify-center">
+        <p className="text-[#FFF8E5] text-md font-cabin font-[400] text-start flex-1 leading-normal">
           Enter the code shared by the pet parent.
         </p>
         <button
-          className="w-[30%] bg-[#FFB23E] cursor-pointer
-         text-black flex items-center justify-center text-[16px] font-[500] px-2 rounded-[80px]"
+          className="bg-[#FFB23E] cursor-pointer
+         text-black flex items-center justify-center text-sm font-[500] px-4 rounded-[80px]"
           onClick={() => setIsScannerOpen(true)}
         >
           <RiQrScan2Line className="mr-2" /> Scan QR
@@ -96,7 +96,7 @@ const AddNewPet: React.FC = () => {
             type="text"
             maxLength={1}
             disabled={isSubmitting}
-            className="w-14 h-16 rounded-xl bg-[#FFF8E5] text-[var(--color-business-heading)] text-2xl font-cabin text-center focus:outline-none border border-[var(--color-business-blue,#6A8293)] shadow-sm"
+            className="w-10 h-12 rounded-xl bg-[#FFF8E5] text-[var(--color-business-heading)] text-2xl font-cabin text-center focus:outline-none border border-[var(--color-business-blue,#6A8293)] shadow-sm"
             value={code[i]}
             onChange={(e) => handleChange(e.target.value, i)}
             onKeyDown={(e) => handleKeyDown(e, i)}

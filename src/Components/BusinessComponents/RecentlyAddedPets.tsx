@@ -64,7 +64,8 @@ const RecentlyAddedPets: React.FC<RecentlyAddedPetsProps> = ({ setCount }) => {
               <div key={pet.id} className="border rounded-2xl p-4 min-w-[340px] max-w-[340px] h-[170px] flex flex-col justify-between shadow-sm" style={{ backgroundColor: "#ABA75C80" }}>
                 <div className="flex flex-row justify-between items-start mb-2">
                   <div className="flex items-center gap-3">
-                    <img src={pet.image || "https://randomuser.me/api/portraits/med/animals/1.jpg"} alt={pet.pet_name} className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-business-accent)]" />
+                   
+                    <img src={pet.image || "https://place.dog/300/200"} alt={pet.pet_name} className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-business-accent)]" />
                     <span className="text-[var(--color-business-heading)] font-cabin font-bold text-lg ml-1">{pet.pet_name}</span>
                   </div>
                   <div className="flex flex-col">

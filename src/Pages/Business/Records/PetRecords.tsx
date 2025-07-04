@@ -201,7 +201,7 @@ const PetRecords = () => {
                     >
                       <td className="py-3 px-4 flex items-center gap-3">
                         <img
-                          src={pet.pet_image || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
+                          src={pet.pet_image || "https://place.dog/300/200"}
                           alt={pet.pet_name}
                           className="w-8 h-8 rounded-full object-cover border border-[var(--color-business-accent)]"
                         />

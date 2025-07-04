@@ -32,6 +32,7 @@ import PetRecords from "./Pages/Business/Records/PetRecords";
 import BusinessVaccinesPage from "./Pages/Business/Pet/BusinessPetVaccine";
 import BusinessDocumentPage from "./Pages/Business/Pet/BusinessPetDocument";
 import UploadOptionPage from "./Pages/Authentication/ProfileCreation/uploadOptionPage";
+import StaffPage from "./Pages/Business/TeamManagement/staffPage";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
         <Route path="/business/signup/otp" element={<BusinessOTPVerificationPage />} />
         <Route path="/business-home" element={<BusinessHomePage />} />
         <Route path="/business/profile" element={<BusinessProfile />} />
+        <Route path="/business/team-management" element={<StaffPage />} />
         <Route path="/business/pet/:petId/home" element={<PetBusinessHomePage />} />
         <Route path="/business/pet/:petId/add-vaccine" element={<AddVaccinePage />} />
         <Route path="/business/pet/:petId/upload" element={<UploadDocuments />} />

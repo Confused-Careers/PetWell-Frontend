@@ -79,7 +79,7 @@ const BusinessNavbar: React.FC = () => {
   const navigationItems = [
     { name: "Home", path: "/business-home" },
     { name: "Pet Records", path: "/business/pet-records" },
-    { name: "Team Management", path: "/business/signup/add-care-team" },
+    { name: "Team Management", path: "/business/team-management" },
   ];
 
 

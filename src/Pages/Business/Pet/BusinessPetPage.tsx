@@ -129,7 +129,7 @@ const PetBusinessHomePage: React.FC = () => {
                   <img
                     src={pet.profilePictureDocument?.document_url || "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"}
                     alt={pet.pet_name || "Pet"}
-                    className="w-full h-full object-cover"
+                    className="w-[350px] h-[253px] object-contain"
                   />
                 </div>
               </div>

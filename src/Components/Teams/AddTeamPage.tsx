@@ -5,7 +5,6 @@ import { X } from "lucide-react";
 import TeamAddedModal from "./TeamAddedModal";
 import teamServices from "../../Services/teamServices";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
-import { IoIosPeople } from "react-icons/io";
 import { toast } from "sonner";
 
 

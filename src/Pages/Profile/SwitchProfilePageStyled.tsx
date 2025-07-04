@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../Components/Layout/Navbar";
 import { useNavigate } from "react-router-dom";
 import petServices from "../../Services/petServices";
-import { getLastOrFirstPetId, storeLastPetId } from "../../utils/petNavigation";
+import {  storeLastPetId } from "../../utils/petNavigation";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
 
 interface PetProfileType {

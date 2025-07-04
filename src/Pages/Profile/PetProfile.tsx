@@ -12,9 +12,8 @@ import {
   DialogTitle,
 } from "../../Components/ui/dialog";
 import QRCode from "react-qr-code";
-import { RefreshCcw } from "lucide-react";
+
 import {
-  IoIosArrowDropleftCircle,
   IoIosArrowDroprightCircle,
 } from "react-icons/io";
 import { FaCircleExclamation } from "react-icons/fa6";

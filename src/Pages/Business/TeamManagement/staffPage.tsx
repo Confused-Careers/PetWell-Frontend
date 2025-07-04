@@ -1,4 +1,4 @@
-import { ChevronRight, Search, X, Plus, PencilLine, ChevronDown, Trash2 } from 'lucide-react';
+import { X, Plus, PencilLine, ChevronDown, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import BusinessNavbar from '../../../Components/BusinessComponents/BusinessNavbar';
 import { CiSearch } from 'react-icons/ci';

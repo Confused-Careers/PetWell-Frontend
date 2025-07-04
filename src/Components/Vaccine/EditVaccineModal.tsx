@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Syringe, X } from "lucide-react";
+import { X } from "lucide-react";
 import { toast } from "sonner";
 import vaccineServices from "../../Services/vaccineServices";
 

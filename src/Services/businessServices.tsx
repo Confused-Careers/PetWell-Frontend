@@ -92,6 +92,12 @@ interface PaginatedRequest {
 }
 
 interface BusinessResponse {
+  email: string;
+  phone: string;
+  website: string;
+  address: string;
+  description: string;
+  socials: { x: string; instagram: string; facebook: string; };
   profilePictureDocument: {
     document_url: string;
     document_id: string;

@@ -61,8 +61,8 @@ const RecentlyAddedPets: React.FC = () => {
                     <img src={pet.image || "https://randomuser.me/api/portraits/med/animals/1.jpg"} alt={pet.pet_name} className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-business-accent)]" />
                     <span className="text-[var(--color-business-heading)] font-cabin font-bold text-lg ml-1">{pet.pet_name}</span>
                   </div>
-                  <div className="flex flex-col items-end">
-                    <span className="text-xs text-[var(--color-business-heading)] font-cabin">Added On</span>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-[var(--color-business-heading)] font-cabin text-start items-start">Added On</span>
                     <span className="font-bold text-sm">{new Date(pet.created_at as string).toLocaleDateString("en-GB")}</span>
                   </div>
                 </div>
@@ -75,11 +75,11 @@ const RecentlyAddedPets: React.FC = () => {
                     <div className="flex flex-col items-end">
                       <div className="flex flex-row items-center gap-2 mt-0.5">
                         <div className="flex flex-col items-start">
-                          <span className="text-xs text-[var(--color-business-heading)] font-cabin mb-0.5">Last Visit</span>
+                          <span className="text-xs text-[var(--color-business-heading)] font-cabin mb-0.5 text-end">Last Visit</span>
                           <span className="font-bold text-sm">{new Date(pet.last_visit as string).toLocaleDateString("en-GB")}</span>
                         </div>
-                        <span className="mx-2 text-[var(--color-business-heading)] text-sm">|</span>
-                        <span className="text-sm">{pet.staff_name || "N/A"}</span>
+                        {/*<span className="mx-2 text-[var(--color-business-heading)] text-sm">|</span>
+                        <span className="text-sm">{pet.staff_name || "N/A"}</span>*/}
                       </div>
                     </div>
                   </div>

@@ -75,14 +75,14 @@ const AddNewPet: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#6A8293] border  rounded-2xl p-6 flex flex-col items-center w-full max-w-md min-w-[430px] h-[230px] justify-center">
-      <div className="flex flex-row items-center mb-4 w-full">
-        <p className="text-[#FFF8E5] text-[20px] font-cabin font-[400] text-start ml-4.5 flex-1 leading-normal">
+    <div className="bg-[#6A8293] border  rounded-2xl p-2 flex flex-col items-center w-full max-w-md min-w-[400px] h-[196px] justify-center">
+      <div className="flex flex-row items-center mb-4 w-[94%] justify-center">
+        <p className="text-[#FFF8E5] text-[18px] font-cabin font-[400] text-start flex-1 leading-normal">
           Enter the code shared by the pet parent.
         </p>
         <button
           className="w-[30%] bg-[#FFB23E] cursor-pointer
-         text-black flex items-center justify-center ml-4 text-[16px] font-[500] px-2 rounded-[80px]"
+         text-black flex items-center justify-center text-[16px] font-[500] px-2 rounded-[80px]"
           onClick={() => setIsScannerOpen(true)}
         >
           <RiQrScan2Line className="mr-2" /> Scan QR

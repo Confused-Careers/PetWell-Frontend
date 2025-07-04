@@ -52,31 +52,31 @@ const PetsUnderCare: React.FC = () => {
   }, []);
 
   return (
-    <div className="overflow-x-auto bg-[#EDCC79]/50 rounded-2xl py-3 px-6 w-full mb-12 border border-black font-[cabin, serif]">
+    <div className="overflow-x-auto bg-[#EDCC79]/50 rounded-2xl py-2 px-6 w-full mb-12 border border-black font-[cabin, serif]">
       <table className="min-w-full text-left font-cabin mb-4 ">
         <thead>
           <tr className="text-[#1C232E] text-base font-bold">
-            <th className="py-3 px-4 font-bold text-center">Pet Name</th>
-            <th className="py-3 px-4 font-bold text-center">Breed</th>
-            <th className="py-3 px-4 font-bold text-center">Owner Name</th>
-            <th className="py-3 px-4 font-bold text-center">Phone</th>
-            <th className="py-3 px-4 font-bold text-center">Added On</th>
-            <th className="py-3 px-4 font-bold text-center">Last Visit</th>
-            <th className="py-3 px-4 font-bold text-center">Doctor Visited</th>
-            <th className="py-3 px-4 font-bold text-center">Notes</th>
+            <th className="py-2 px-1.5 font-bold text-center">Pet Name</th>
+            <th className="py-2 px-1.5 font-bold text-center">Breed</th>
+            <th className="py-2 px-1.5 font-bold text-center">Owner Name</th>
+            <th className="py-2 px-1.5 font-bold text-center">Phone</th>
+            <th className="py-2 px-1.5 font-bold text-center">Added On</th>
+            <th className="py-2 px-1.5 font-bold text-center">Last Visit</th>
+            <th className="py-2 px-1.5 font-bold text-center">Doctor Visited</th>
+            <th className="py-2 px-1.5 font-bold text-center">Notes</th>
             <th className="text-center"></th>
           </tr>
         </thead>
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={9} className="py-3 px-4 text-center text-[#1C232E]">
+              <td colSpan={9} className="py-2 px-1.5 text-center text-[#1C232E]">
                 Loading...
               </td>
             </tr>
           ) : pets.length === 0 ? (
             <tr>
-              <td colSpan={9} className="py-3 px-4 text-center text-[#1C232E]">
+              <td colSpan={9} className="py-2 px-1.5 text-center text-[#1C232E]">
                 No pets under care.
               </td>
             </tr>
@@ -87,7 +87,7 @@ const PetsUnderCare: React.FC = () => {
                 className="last:border-b-0 hover:bg-[#EDCC79] transition cursor-pointer"
                 onClick={() => window.location.href = `/business/pet/${pet.pet_id}/home`}
               >
-                <td className="py-3 px-4 flex items-center gap-3">
+                <td className="py-2 px-1.5 flex items-center gap-3 text-center">
                   <img
                     src={pet.document_url || "https://randomuser.me/api/portraits/med/animals/1.jpg"}
                     alt={pet.pet_name}
@@ -97,23 +97,23 @@ const PetsUnderCare: React.FC = () => {
                     {pet.pet_name}
                   </span>
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.breed_name || "N/A"}
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.human_owner_name || "Unknown"}
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.human_owner_phone || "N/A"}
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {new Date(pet.created_at as string).toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
                   })}
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.last_visit
                     ? new Date(pet.last_visit as string).toLocaleDateString(undefined, {
                         year: "numeric",
@@ -122,13 +122,13 @@ const PetsUnderCare: React.FC = () => {
                       })
                     : "N/A"}
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.doctor_name || "N/A"}
                 </td>
-                <td className="py-3 px-4 text-[var(--color-business-heading)]">
+                <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.record_note || "N/A"}
                 </td>
-                <td className="py-3 px-4 text-[#1C232E] cursor-pointer text-xl">
+                <td className="py-2 px-1.5 text-[#1C232E] cursor-pointer text-xl text-center">
                   <a
                     href={`/business/pet/${pet.pet_id}/home`}
                     className="text-[var(--color-business-heading)] hover:text-[var(--color-business-accent)]"

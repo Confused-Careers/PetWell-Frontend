@@ -12,7 +12,7 @@ const BusinessHomePage: React.FC = () => {
       <main className="flex flex-col items-center w-full px- pt-6 sm:px-4 md:px-8 max-w-7xl mx-auto">
         {/* Welcome Header */}
         <div className="w-full flex flex-col items-start mt-3 mb-3">
-          <p className="text-3xl font-lighter flex items-center gap-3 font-serif">
+          <p className="text-4xl font-lighter flex items-center gap-3 font-serif mb-2">
             Welcome!
           </p>
         </div>

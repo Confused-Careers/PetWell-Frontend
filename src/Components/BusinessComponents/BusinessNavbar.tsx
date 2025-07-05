@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Scanner } from '@yudiel/react-qr-scanner';
+import { Scanner } from "@yudiel/react-qr-scanner";
 import { RiQrScan2Line } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 import PetWellLogo from "../../Assets/PetWell.png";
 import businessServices from "../../Services/businessServices";
 import notificationServices from "../../Services/notificationServices";
 import { ChevronDown, Menu, X } from "lucide-react";
+import PetBusinessAvatar from "../../Assets/PetBusinessAvatar.svg";
 
 interface Notification {
   id: string;
@@ -16,7 +17,12 @@ interface Notification {
   business?: { id: string };
   staff?: { id: string };
   message: string;
-  type: 'VaccineAdded' | 'DocumentUploaded' | 'VaccineDue' | 'PetBirthday' | 'StaffAdded';
+  type:
+    | "VaccineAdded"
+    | "DocumentUploaded"
+    | "VaccineDue"
+    | "PetBirthday"
+    | "StaffAdded";
   is_read: boolean;
   status: string;
   created_at: string;
@@ -29,14 +35,13 @@ const BusinessNavbar: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileDropdownOpen, setIsMobileDropdownOpen] = useState(false);
-  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] = useState(false);
+  const [isNotificationDropdownOpen, setIsNotificationDropdownOpen] =
+    useState(false);
   const [isScannerOpen, setIsScannerOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationDropdownRef = useRef<HTMLDivElement>(null);
   const [businessName, setBusinessName] = useState<string>("Business");
-  const [businessImage, setBusinessImage] = useState<string>(
-    "https://randomuser.me/api/portraits/men/32.jpg"
-  );
+  const [businessImage, setBusinessImage] = useState<string>(PetBusinessAvatar);
   const [code, setCode] = useState(["", "", "", "", ""]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -45,8 +50,10 @@ const BusinessNavbar: React.FC = () => {
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
-  const handleMobileDropdownToggle = () => setIsMobileDropdownOpen((open) => !open);
-  const handleNotificationDropdownToggle = () => setIsNotificationDropdownOpen((open) => !open);
+  const handleMobileDropdownToggle = () =>
+    setIsMobileDropdownOpen((open) => !open);
+  const handleNotificationDropdownToggle = () =>
+    setIsNotificationDropdownOpen((open) => !open);
 
   const handleNavigation = (path: string) => {
     navigate(path);
@@ -65,7 +72,10 @@ const BusinessNavbar: React.FC = () => {
   };
 
   // Handle code input keydown
-  const handleCodeKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, idx: number) => {
+  const handleCodeKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    idx: number
+  ) => {
     if (e.key === "Backspace" && !code[idx] && idx > 0) {
       inputRefs.current[idx - 1]?.focus();
     } else if (e.key === "Enter" && code.every((char) => char !== "")) {
@@ -92,7 +102,9 @@ const BusinessNavbar: React.FC = () => {
   // Handle QR scan error
   const handleScanError = (err: any) => {
     console.error(err);
-    toast.error("Error accessing camera. Please ensure permissions are granted.");
+    toast.error(
+      "Error accessing camera. Please ensure permissions are granted."
+    );
   };
 
   // Submit code
@@ -107,7 +119,9 @@ const BusinessNavbar: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      const response = await businessServices.createPetMapping({ qr_code_id: enteredCode });
+      const response = await businessServices.createPetMapping({
+        qr_code_id: enteredCode,
+      });
       toast.success(`Pet added successfully. Say Hi! to ${response.pet_name}`);
       setCode(["", "", "", "", ""]);
       inputRefs.current[0]?.focus();
@@ -129,7 +143,7 @@ const BusinessNavbar: React.FC = () => {
     try {
       const response = await notificationServices.getNotifications({});
       console.log("Fetched notifications:", response);
-      setNotifications(response as unknown as Notification[] || []);
+      setNotifications((response as unknown as Notification[]) || []);
     } catch (error) {
       console.error("Error fetching notifications:", error);
     }
@@ -148,7 +162,8 @@ const BusinessNavbar: React.FC = () => {
   // Mark notification as read
 
   // Dismiss notification
-  {/*const handleDismiss = async (id: string, event: React.MouseEvent) => {
+  {
+    /*const handleDismiss = async (id: string, event: React.MouseEvent) => {
     event.stopPropagation();
     try {
       await notificationServices.dismiss(id);
@@ -157,7 +172,8 @@ const BusinessNavbar: React.FC = () => {
     } catch (error) {
       console.error("Error dismissing notification:", error);
     }
-  };*/}
+  };*/
+  }
 
   // Mark all notifications as read
 
@@ -210,7 +226,9 @@ const BusinessNavbar: React.FC = () => {
       try {
         const res = await businessServices.getProfile();
         setBusinessName(res?.business_name || "Business");
-        setBusinessImage(res?.profilePictureDocument.document_url || "https://randomuser.me/api/portraits/men/32.jpg");
+        setBusinessImage(
+          res?.profilePictureDocument.document_url || PetBusinessAvatar
+        );
       } catch {
         setBusinessName("Business");
         setBusinessImage("https://randomuser.me/api/portraits/men/32.jpg");
@@ -318,10 +336,16 @@ const BusinessNavbar: React.FC = () => {
               {isNotificationDropdownOpen && (
                 <div
                   className="fixed left-0 right-0 top-16 mx-auto w-full max-w-[200px] sm:max-w-[200px] rounded-xl shadow-2xl border z-[100] px-2"
-                  style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
+                  style={{
+                    background: "var(--color-card-profile)",
+                    borderColor: "var(--color-border)",
+                  }}
                   ref={notificationDropdownRef}
                 >
-                  <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div
+                    className="px-4 pt-4 pb-2 border-b"
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
                       Notifications
                     </div>
@@ -330,7 +354,10 @@ const BusinessNavbar: React.FC = () => {
                         No notifications
                       </div>
                     ) : (
-                      <div className="max-h-60 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                      <div
+                        className="max-h-60 overflow-y-auto scrollbar-hide"
+                        style={{ scrollbarWidth: "none" }}
+                      >
                         {notifications?.map((notification) => (
                           <div
                             key={notification.id}
@@ -339,7 +366,9 @@ const BusinessNavbar: React.FC = () => {
                             <div className="text-sm text-white font-[Cabin,sans-serif] flex-1">
                               {notification.message}
                               <span className="block text-xs text-white/60">
-                                {new Date(notification.created_at).toLocaleString()}
+                                {new Date(
+                                  notification.created_at
+                                ).toLocaleString()}
                               </span>
                             </div>
                           </div>
@@ -371,10 +400,16 @@ const BusinessNavbar: React.FC = () => {
               {isMobileDropdownOpen && (
                 <div
                   className="fixed left-0 right-0 top-16 mx-auto w-full max-w-xs sm:max-w-sm rounded-xl shadow-2xl border z-[100] px-2"
-                  style={{ background: "var(--color-card-profile)", borderColor: "var(--color-border)" }}
+                  style={{
+                    background: "var(--color-card-profile)",
+                    borderColor: "var(--color-border)",
+                  }}
                   ref={dropdownRef}
                 >
-                  <div className="px-4 pt-4 pb-2 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div
+                    className="px-4 pt-4 pb-2 border-b"
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif] text-center">
                       Add New Pet?
                     </div>
@@ -389,7 +424,9 @@ const BusinessNavbar: React.FC = () => {
                           value={code[i]}
                           onChange={(e) => handleCodeChange(e.target.value, i)}
                           onKeyDown={(e) => handleCodeKeyDown(e, i)}
-                          ref={(el) => { inputRefs.current[i] = el; }}
+                          ref={(el) => {
+                            inputRefs.current[i] = el;
+                          }}
                         />
                       ))}
                     </div>
@@ -408,25 +445,37 @@ const BusinessNavbar: React.FC = () => {
                   <div className="flex flex-col py-2 font-[Cabin,sans-serif]">
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate('/business/profile'); setIsMobileDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/business/profile");
+                        setIsMobileDropdownOpen(false);
+                      }}
                     >
                       Edit Profile
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate('/reset-password'); setIsMobileDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/reset-password");
+                        setIsMobileDropdownOpen(false);
+                      }}
                     >
                       Reset Password
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate('/help-center'); setIsMobileDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/help-center");
+                        setIsMobileDropdownOpen(false);
+                      }}
                     >
                       Help Center
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-red-200 hover:bg-red-400/10 transition font-medium cursor-pointer"
-                      onClick={() => { handleLogout(); setIsMobileDropdownOpen(false); }}
+                      onClick={() => {
+                        handleLogout();
+                        setIsMobileDropdownOpen(false);
+                      }}
                     >
                       Log Out
                     </button>
@@ -453,7 +502,7 @@ const BusinessNavbar: React.FC = () => {
               src={PetWellLogo}
               alt="PetWell Logo"
               className="object-contain h-full w-auto cursor-pointer"
-              onClick={() => navigate('/business-home')}
+              onClick={() => navigate("/business-home")}
             />
           </div>
           <div className="flex items-center gap-2 xl:gap-4">
@@ -501,9 +550,17 @@ const BusinessNavbar: React.FC = () => {
               {isNotificationDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-48 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
-                  style={{ background: "var(--color-card-profile)", minWidth: 320, marginTop: 12, borderColor: "var(--color-border)" }}
+                  style={{
+                    background: "var(--color-card-profile)",
+                    minWidth: 320,
+                    marginTop: 12,
+                    borderColor: "var(--color-border)",
+                  }}
                 >
-                  <div className="px-5 pt-5 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div
+                    className="px-5 pt-5 pb-3 border-b"
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
                       Notifications
                     </div>
@@ -512,7 +569,10 @@ const BusinessNavbar: React.FC = () => {
                         No notifications
                       </div>
                     ) : (
-                      <div className="max-h-60 overflow-y-auto scrollbar-hide" style={{ scrollbarWidth: 'none' }}>
+                      <div
+                        className="max-h-60 overflow-y-auto scrollbar-hide"
+                        style={{ scrollbarWidth: "none" }}
+                      >
                         {notifications?.map((notification) => (
                           <div
                             key={notification.id}
@@ -521,7 +581,9 @@ const BusinessNavbar: React.FC = () => {
                             <div className="text-sm text-white font-[Cabin,sans-serif] flex-1">
                               {notification.message}
                               <span className="block text-xs text-white/60">
-                                {new Date(notification.created_at).toLocaleString()}
+                                {new Date(
+                                  notification.created_at
+                                ).toLocaleString()}
                               </span>
                             </div>
                           </div>
@@ -565,10 +627,18 @@ const BusinessNavbar: React.FC = () => {
               {isDropdownOpen && (
                 <div
                   className="absolute right-0 top-full w-48 rounded-2xl shadow-2xl border z-50 animate-fadeIn"
-                  style={{ background: "var(--color-card-profile)", minWidth: 256, marginTop: 12, borderColor: "var(--color-border)" }}
+                  style={{
+                    background: "var(--color-card-profile)",
+                    minWidth: 256,
+                    marginTop: 12,
+                    borderColor: "var(--color-border)",
+                  }}
                   ref={dropdownRef}
                 >
-                  <div className="px-5 pt-5 pb-3 border-b" style={{ borderColor: "var(--color-border)" }}>
+                  <div
+                    className="px-5 pt-5 pb-3 border-b"
+                    style={{ borderColor: "var(--color-border)" }}
+                  >
                     <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
                       Add New Pet?
                     </div>
@@ -583,7 +653,9 @@ const BusinessNavbar: React.FC = () => {
                           value={code[i]}
                           onChange={(e) => handleCodeChange(e.target.value, i)}
                           onKeyDown={(e) => handleCodeKeyDown(e, i)}
-                          ref={(el) => { inputRefs.current[i] = el; }}
+                          ref={(el) => {
+                            inputRefs.current[i] = el;
+                          }}
                         />
                       ))}
                     </div>
@@ -602,25 +674,37 @@ const BusinessNavbar: React.FC = () => {
                   <div className="flex flex-col py-2 font-[Cabin,sans-serif]">
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate('/business/profile'); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/business/profile");
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Edit Profile
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate('/reset-password'); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/reset-password");
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Reset Password
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-white hover:bg-white/10 transition font-medium border-b border-[var(--color-border)] cursor-pointer"
-                      onClick={() => { navigate('/help-center'); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        navigate("/help-center");
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Help Center
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-red-200 hover:bg-red-400/10 transition font-medium cursor-pointer"
-                      onClick={() => { handleLogout(); setIsDropdownOpen(false); }}
+                      onClick={() => {
+                        handleLogout();
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       Log Out
                     </button>

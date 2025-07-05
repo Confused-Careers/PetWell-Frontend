@@ -5,6 +5,7 @@ import SwitchProfileModal from "../../Components/Profile/SwitchProfileModal";
 import petServices from "../../Services/petServices";
 import humanOwnerServices from "../../Services/humanOwnerServices";
 import { storeLastPetId } from "../../utils/petNavigation";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 import {
   Dialog,
   DialogTrigger,
@@ -178,8 +179,15 @@ const PetProfile: React.FC = () => {
               <div className="w-full h-full rounded-[20px] overflow-hidden mb-2 bg-black">
                 <img
                   src={
+                    (currentPet?.profile_picture &&
+                      typeof currentPet?.profile_picture === "string" &&
+                      currentPet?.profile_picture) ||
                     currentPet?.profilePictureDocument?.document_url ||
-                    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                    (currentPet?.profile_picture &&
+                      typeof currentPet?.profile_picture === "object" &&
+                      currentPet?.profile_picture.profilePictureDocument
+                        ?.document_url) ||
+                    PetAvatar
                   }
                   alt={currentPet?.pet_name || "Pet"}
                   className="w-full h-full object-cover"
@@ -375,7 +383,7 @@ const PetProfile: React.FC = () => {
             <div className="flex flex-responsive-row gap-6 flex-1 h-0 min-h-0 w-full items-stretch">
               {/* Syd's Code - Responsive and consistent text */}
               <div
-                className="bg-[#DC9A6B80] border border-black rounded-3xl flex-1 flex flex-col justify-between p-4 min-w-0 w-full"
+                className="bg-[#DC9A6B80] border border-black rounded-3xl basis-40 flex flex-col justify-between p-4 min-w-0 w-full"
                 style={{ boxShadow: "none" }}
               >
                 <div className="flex flex-col md:flex-row items-center justify-between mb-4 w-full gap-2">
@@ -474,12 +482,12 @@ const PetProfile: React.FC = () => {
                 </div>
               </div>
               {/* Your Details */}
-              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-full md:min-w-[55%]">
+              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-0 basis-60 flex flex-col">
                 <h2 className="text-3xl font-[cabin, sans-serif] font-[500] mb-4 text-[#1C232E]">
                   Your Details
                 </h2>
                 <div className="flex flex-col gap-2 text-sm">
-                  <div className="flex flex-row gap-4 items-start">
+                  <div className="flex flex-row gap-4 items-start min-w-0">
                     <div>
                       <span className="text-[#23272f] opacity-60 text-[16px]">
                         Name
@@ -497,12 +505,15 @@ const PetProfile: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-4 items-start">
+                  <div className="flex flex-row gap-4 items-start min-w-0">
                     <div>
                       <span className="text-[#23272f] opacity-60 text-[16px]">
                         Phone number
                       </span>
-                      <div className="font-[500] text-[#23272f] text-[20px]">
+                      <div
+                        className="font-[500] text-[#23272f] text-[20px] truncate max-w-[180px] sm:max-w-[240px] md:max-w-[320px] lg:max-w-[400px] min-w-0"
+                        title={humanProfile?.phone || "Unknown"}
+                      >
                         {humanProfile?.phone || "Unknown"}
                       </div>
                     </div>
@@ -510,7 +521,10 @@ const PetProfile: React.FC = () => {
                       <span className="text-[#23272f] opacity-60 text-[16px]">
                         Email
                       </span>
-                      <div className="font-[500] text-[#23272f] text-[20px]">
+                      <div
+                        className="font-[500] text-[#23272f] text-[20px] break-words max-w-full min-w-0"
+                        title={humanProfile?.email || "Unknown"}
+                      >
                         {humanProfile?.email || "Unknown"}
                       </div>
                     </div>
@@ -521,24 +535,6 @@ const PetProfile: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Responsive tweaks for iPad screens */}
-      <style>{`
-        @media (max-width: 1024px) and (min-width: 768px) {
-          .flex-responsive-row {
-            flex-direction: column !important;
-            gap: 2rem !important;
-          }
-          .md\\:max-w-[350px] {
-            max-width: 100% !important;
-          }
-          .md\\:basis-1\/3 {
-            flex-basis: 100% !important;
-          }
-          .md\\:basis-2\/3 {
-            flex-basis: 100% !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };

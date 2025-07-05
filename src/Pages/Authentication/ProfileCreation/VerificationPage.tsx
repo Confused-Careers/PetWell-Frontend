@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PetWellLogo from "../../../Assets/PetWell.png";
+import PetAvatar from "../../../Assets/PetAvatar.svg";
 import VaccineSection from "../../../Components/Vaccine/VaccineSection";
 import DocumentSection from "../../../Components/Document/DocumentSection";
 import EditVaccineModal from "../../../Components/Vaccine/EditVaccineModal";
@@ -224,7 +225,7 @@ const VerificationPage: React.FC = () => {
                         pet?.profilePictureDocument?.document_url ||
                         pet?.profile_picture?.profilePictureDocument
                           ?.document_url ||
-                        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                        PetAvatar
                       }
                       alt={petName}
                     />
@@ -297,7 +298,7 @@ const VerificationPage: React.FC = () => {
                       pet?.profilePictureDocument?.document_url ||
                       pet?.profile_picture?.profilePictureDocument
                         ?.document_url ||
-                      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                      PetAvatar
                     }
                     alt={petName}
                   />

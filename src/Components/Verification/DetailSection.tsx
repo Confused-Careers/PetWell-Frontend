@@ -1,5 +1,6 @@
 import React from "react";
 import { Pencil } from "lucide-react";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 
 interface PetDetails {
   name?: string;
@@ -59,7 +60,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
       (pet as any).profile_picture?.profilePictureDocument?.document_url) ||
     pet.profile_picture_url ||
     pet.image ||
-    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80";
+    PetAvatar;
   const petAge = pet.age || "";
   const petWeight = pet.weight || "";
   const petColor = pet.color || "";

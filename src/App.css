@@ -533,3 +533,22 @@ input[type="password"]::-webkit-input-password-toggle-button {
 .btn-wide-rounded:hover {
   filter: brightness(0.95);
 }
+
+/* Custom flex-basis utilities for 60/40 split */
+.basis-60 {
+  flex-basis: 60%;
+}
+.basis-40 {
+  flex-basis: 40%;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .flex-responsive-row {
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+  .basis-60, .basis-40 {
+    flex-basis: 100% !important;
+    width: 100% !important;
+  }
+}

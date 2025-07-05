@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import petServices from "../../Services/petServices";
 import { storeLastPetId } from "../../utils/petNavigation";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 
 interface PetProfileType {
   id: string;
@@ -36,7 +37,7 @@ const SwitchProfilePage: React.FC = () => {
               pet.profile_picture) ||
             pet.profilePictureDocument?.document_url ||
             pet.profile_picture?.profilePictureDocument?.document_url ||
-            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80",
+            PetAvatar,
         }));
         setPets(formattedPets);
       } catch (error) {
@@ -104,8 +105,7 @@ const SwitchProfilePage: React.FC = () => {
                     className="w-full h-full object-cover rounded-[14px]"
                     onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src =
-                        "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80";
+                      target.src = PetAvatar;
                     }}
                   />
                 </div>

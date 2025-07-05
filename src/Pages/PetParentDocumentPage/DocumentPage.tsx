@@ -24,7 +24,7 @@ async function fetchFileSize(url: string): Promise<number | undefined> {
 
 const tabOptions = [
   { value: "all", label: "All" },
-  { value: "user", label: "Uploaded by you" },
+  { value: "user", label: "Uploaded by the Parent" },
   { value: "team", label: "Uploaded by your team" },
 ];
 

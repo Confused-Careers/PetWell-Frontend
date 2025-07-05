@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import PetWellLogo from "../../Assets/PetWell.png";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 import petServices from "../../Services/petServices";
 import notificationServices from "../../Services/notificationServices";
 import { logout } from "../../utils/petNavigation";
@@ -23,6 +24,67 @@ interface Notification {
   pet_id?: string;
 }
 
+const LogoutModal = ({
+  open,
+  onClose,
+  onLogout,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onLogout: () => void;
+}) => {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm p-4">
+      <div className="bg-[#FFF8E5] rounded-2xl px-6 sm:px-8 md:px-10 py-6 sm:py-8 min-w-lg shadow-2xl relative flex flex-col items-center border border-[var(--color-modal-border)] max-w-md w-full">
+        <button
+          className="absolute cursor-pointer right-4 sm:right-6 md:right-8 top-4 sm:top-6 md:top-8 text-2xl sm:text-3xl md:text-4xl text-[var(--color-modal-foreground)] hover:text-[var(--color-danger)] font-bold flex items-center justify-center focus:outline-none focus:ring-0 focus:ring-offset-0"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+        <p className="text-2xl sm:text-3xl font-lighter flex items-center gap-3 font-serif mb-2 mt-2 text-center">
+          Log out of your account?
+        </p>
+        <div className="w-full text-center mb-6 sm:mb-8 mt-2">
+          <p className="block text-[var(--color-modal-foreground)] mb-2 font-medium text-base">
+            You'll need to log in again to access your account.
+          </p>
+        </div>
+        <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-6 mt-2">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border-2 border-[#FFB23E] bg-white"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onLogout}
+            className="w-full font-semibold cursor-pointer py-2 rounded-3xl text-[var(--color-black)] font-[Cabin,sans-serif] hover:opacity-80 transition-all duration-200 flex items-center justify-center gap-2 border border-[#FFB23E] bg-[#FFB23E]"
+          >
+            Log Out
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,9 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationDropdownRef = useRef<HTMLDivElement>(null);
   const [petName, setPetName] = useState<string>("Pet");
-  const [petImage, setPetImage] = useState<string>(
-    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
-  );
+  const [petImage, setPetImage] = useState<string>(PetAvatar);
   const [petQrCode, setPetQrCode] = useState<string>("");
   const [showQRModal, setShowQRModal] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -45,6 +105,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
   const [notificationError, setNotificationError] = useState<string | null>(
     null
   );
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const handleDropdownToggle = () => setIsDropdownOpen((open) => !open);
   const handleMobileMenuToggle = () => setIsMobileMenuOpen((open) => !open);
@@ -145,6 +206,11 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
     }
   };
 
+  const handleLogoutClick = () => {
+    setIsDropdownOpen(false);
+    setShowLogoutModal(true);
+  };
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -186,9 +252,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       try {
         if (!petId) {
           setPetName("Pet");
-          setPetImage(
-            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
-          );
+          setPetImage(PetAvatar);
           setPetQrCode("");
           return;
         }
@@ -206,21 +270,17 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             (profilePic && typeof profilePic === "string" && profilePic) ||
             petData.profilePictureDocument?.document_url ||
             profilePic?.profilePictureDocument?.document_url ||
-            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80";
+            PetAvatar;
           setPetImage(avatar);
           setPetQrCode(petData.qr_code_id || "");
         } else {
           setPetName("Pet");
-          setPetImage(
-            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
-          );
+          setPetImage(PetAvatar);
           setPetQrCode("");
         }
       } catch {
         setPetName("Pet");
-        setPetImage(
-          "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
-        );
+        setPetImage(PetAvatar);
         setPetQrCode("");
       }
     })();
@@ -462,13 +522,13 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                   </div>
                   <div className="flex justify-between mb-2">
                     <button
-                      className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                      className="text-xs text-white cursor-pointer hover:bg-white/10 transition font-medium px-2 py-1 rounded"
                       onClick={handleMarkAllAsRead}
                     >
                       Mark All as Read
                     </button>
                     <button
-                      className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                      className="text-xs text-white cursor-pointer hover:bg-white/10 transition font-medium px-2 py-1 rounded"
                       onClick={handleDismissAll}
                     >
                       Dismiss All
@@ -561,7 +621,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
             <div className="relative" ref={notificationDropdownRef}>
               <button
                 onClick={handleNotificationDropdownToggle}
-                className="flex items-center justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent relative"
+                className="flex items-center cursor-pointer justify-center w-10 h-10 rounded-full border border-[var(--color-card-button)] bg-transparent relative"
               >
                 <Bell size={22} stroke="var(--color-card-button)" />
                 {unreadCount > 0 && (
@@ -584,18 +644,18 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     className="px-4 pt-4 pb-2 border-b"
                     style={{ borderColor: "var(--color-border)" }}
                   >
-                    <div className="text-base font-bold text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
+                    <div className="text-base font-bold  text-white mb-2 tracking-wide font-[Cabin,sans-serif]">
                       Notifications
                     </div>
                     <div className="flex justify-between mb-2">
                       <button
-                        className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                        className="text-xs text-white cursor-pointer hover:bg-white/10 transition font-medium px-2 py-1 rounded"
                         onClick={handleMarkAllAsRead}
                       >
                         Mark All as Read
                       </button>
                       <button
-                        className="text-xs text-white hover:bg-white/10 transition font-medium px-2 py-1 rounded"
+                        className="text-xs text-white cursor-pointer hover:bg-white/10 transition font-medium px-2 py-1 rounded"
                         onClick={handleDismissAll}
                       >
                         Dismiss All
@@ -811,10 +871,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     </button>
                     <button
                       className="text-left px-5 py-3 text-base text-red-200 hover:bg-red-400/10 transition font-medium cursor-pointer"
-                      onClick={() => {
-                        handleLogout();
-                        setIsDropdownOpen(false);
-                      }}
+                      onClick={handleLogoutClick}
                     >
                       Log Out
                     </button>
@@ -829,7 +886,7 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
       {showQRModal && (
         <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
           <DialogContent
-            className="flex flex-col items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full"
+            className="flex flex-col cursor-pointer items-center bg-[var(--color-card-profile)] rounded-2xl border border-[var(--color-primary)] p-8 shadow-2xl max-w-xs w-full "
             style={{ zIndex: 9999 }}
           >
             <DialogTitle className="text-xl font-bold text-[var(--color-primary)] mb-2">
@@ -846,6 +903,12 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
           </DialogContent>
         </Dialog>
       )}
+
+      <LogoutModal
+        open={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        onLogout={handleLogout}
+      />
     </>
   );
 };

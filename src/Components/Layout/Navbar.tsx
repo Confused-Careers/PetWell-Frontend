@@ -421,7 +421,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                   <button
                     className="w-full flex items-center justify-center gap-2 border border-white text-white font-semibold rounded-xl py-2 mb-2 hover:bg-white/10 transition text-base font-[Cabin,sans-serif] cursor-pointer"
                     style={{ background: "transparent" }}
-                    onClick={() => setShowQRModal(true)}
+                    onClick={() => {
+                      setShowQRModal(true);
+                      setIsMobileDropdownOpen(false);
+                    }}
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -779,7 +782,10 @@ const Navbar: React.FC<NavbarProps> = ({ onSwitchProfile }) => {
                     <button
                       className="w-full flex items-center justify-center gap-2 border border-white text-white font-semibold rounded-xl py-2 mb-2 hover:bg-white/10 transition text-base font-[Cabin,sans-serif] cursor-pointer"
                       style={{ background: "transparent" }}
-                      onClick={() => setShowQRModal(true)}
+                      onClick={() => {
+                        setShowQRModal(true);
+                        setIsDropdownOpen(false);
+                      }}
                     >
                       <svg
                         width="18"

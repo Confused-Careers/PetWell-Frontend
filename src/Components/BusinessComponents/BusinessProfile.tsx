@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
-import { PencilLine, X } from "lucide-react";
+import { X } from "lucide-react";
+import { BiSolidPencil } from "react-icons/bi";
 
 const BusinessProfile = () => {
   const [formData, setFormData] = useState<{
@@ -169,7 +170,9 @@ const BusinessProfile = () => {
                 />
               ) : (
                 <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center border">
-                  <span className="text-gray-400">No Image</span>
+                  <span className="text-gray-400 text-sm text-center">
+                    No Image
+                  </span>
                 </div>
               )}
               <label className="flex items-center gap-1 cursor-pointer text-[#FFB23E] font-medium">
@@ -181,7 +184,7 @@ const BusinessProfile = () => {
                   accept="image/*"
                 />
                 <span className="text-sm flex items-center gap-1">
-                  <PencilLine className="size-4 text-[var(--color-card-button)]" />{" "}
+                  <BiSolidPencil className="size-4 text-[var(--color-card-button)]" />{" "}
                   Edit picture
                 </span>
               </label>

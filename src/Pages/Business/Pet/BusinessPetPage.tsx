@@ -232,119 +232,142 @@ const PetBusinessHomePage: React.FC = () => {
             {/* Right: Health Summary (top), then bottom row (Parent Details & Vaccines and Documents) */}
             <div className="flex flex-col flex-1 gap-6 h-full min-w-0 md:basis-2/3">
               {/* Health Summary */}
-              <div className="bg-[#EDCC79] rounded-3xl p-4 sm:p-6 border border-black flex flex-col min-w-0">
-                <h2 className="text-3xl font-[cabin, sans-serif] font-[500] mb-4 text-[#1C232E]">
+              <div className="bg-[#EDCC79] rounded-[12px] p-responsive border border-black flex flex-col min-w-0">
+                <h2 className="text-2xl font-medium font-[Cabin,sans-serif] mb-4 text-[#1C232E]">
                   Health Summary
                 </h2>
-                <div className="flex flex-col gap-4 text-sm mb-2">
-                  <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 items-start">
-                    <div>
-                      <span className="text-[#1C232E] opacity-60 text-[14px] sm:text-[16px]">
-                        Spay/Neuter Status
-                      </span>
-                      <div className="font-[500] text-[#1C232E] text-[16px] sm:text-[20px]">
-                        {pet.spay_neuter === true ? "Neutered" : "Not Neutered"}
-                      </div>
+                <div className="flex flex-col md:flex-row gap-4 md:gap-12 mb-4">
+                  <div>
+                    <div className="text-[#1C232E]/60 text-sm font-[Cabin,sans-serif]">
+                      Spay/Neuter Status
                     </div>
-                    <div>
-                      <span className="text-[#1C232E] opacity-60 text-[14px] sm:text-[16px]">
-                        Weight
-                      </span>
-                      <div className="font-[500] text-[#1C232E] text-[16px] sm:text-[20px]">
-                        {pet.weight ? `${pet.weight}lbs` : "12lbs"}
-                      </div>
+                    <div className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
+                      {pet.spay_neuter === true ? "Neutered" : "Not Neutered"}
                     </div>
-                    <div>
-                      <span className="text-[#1C232E] opacity-60 text-[14px] sm:text-[16px]">
-                        Special Notes
-                      </span>
-                      <div className="font-[500] text-[#1C232E] text-[16px] sm:text-[20px]">
-                        {pet.notes || "None"}
-                      </div>
+                  </div>
+                  <div>
+                    <div className="text-[#1C232E]/60 text-sm font-[Cabin,sans-serif]">
+                      Weight
+                    </div>
+                    <div className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
+                      {pet.weight ? `${pet.weight}lbs` : "12lbs"}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-[#1C232E]/60 text-sm font-[Cabin,sans-serif]">
+                      Special Notes
+                    </div>
+                    <div className="font-medium text-[#1C232E] text-base font-[Cabin,sans-serif]">
+                      {pet.notes || "None"}
                     </div>
                   </div>
                 </div>
-                <div className="pt-4 mb-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#1C232E]/60">Last Vet Visit</span>
+                {/* Last Vet Visit */}
+                <div className="mb-2">
+                  <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
+                    Last Vet Visit
                   </div>
-                  <div className="text-[#1C232E] font-[400] flex flex-col sm:flex-row text-[16px] sm:text-[20px] gap-2 sm:gap-4">
-                    <p className="font-[600] text-[16px] sm:text-[20px]">
+                  <div className="flex flex-wrap items-center gap-2 text-base text-[#1C232E] font-[Cabin,sans-serif]">
+                    <span className="font-bold">
                       {!pet.last_visit ||
-                      Object.keys(pet.last_visit).length === 0
-                        ? "Not Visited Yet"
+                      Object.keys(pet.last_visit || {}).length === 0
+                        ? "--"
                         : pet.last_visit.created_at
                         ? new Date(
                             pet.last_visit.created_at
-                          ).toLocaleDateString("en-GB", {
+                          ).toLocaleDateString("en-US", {
+                            month: "short",
                             day: "numeric",
-                            month: "numeric",
                             year: "2-digit",
                           })
-                        : ""}
-                    </p>
-                    <span className="hidden sm:inline"> | </span>
-                    <span className="block sm:inline">
-                      {!pet.last_visit ||
-                      Object.keys(pet.last_visit).length === 0
-                        ? "Not Visited Yet"
-                        : `${pet.last_visit.staff?.staff_name || ""}, ${
-                            pet.last_visit.business?.business_name || "--"
-                          }`}
+                        : "--"}
                     </span>
-                    <span className="hidden sm:inline"> | </span>
-                    <button
-                      className="font-[600] text-[16px] sm:text-[20px] flex flex-row cursor-pointer"
-                      onClick={() =>
-                        navigate(`/business/pet/${petId}/documents`)
-                      }
-                    >
-                      View Document
-                      <IoIosArrowDroprightCircle className="mt-1.5 ml-1" />
-                    </button>
+                    {pet.last_visit &&
+                      Object.keys(pet.last_visit || {}).length > 0 &&
+                      pet.last_visit.created_at && (
+                        <>
+                          <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                            |
+                          </span>
+                          <span className="font-medium">
+                            {`${pet.last_visit.staff?.staff_name || "--"}, ${
+                              pet.last_visit.business?.business_name || "--"
+                            }`}
+                          </span>
+                          <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                            |
+                          </span>
+                          <button
+                            className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
+                            onClick={() =>
+                              navigate(`/business/pet/${petId}/documents`)
+                            }
+                          >
+                            View Document{" "}
+                            <IoIosArrowDroprightCircle className="text-lg" />
+                          </button>
+                        </>
+                      )}
                   </div>
                 </div>
-                <div className="pt-4 mb-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#1C232E]/60">Next Vaccine Due</span>
+                {/* Next Vaccine Due */}
+                <div>
+                  <div className="text-[#1C232E]/60 mb-1 text-sm font-[Cabin,sans-serif]">
+                    Next Vaccine Due
                   </div>
-                  <div className="text-red-500 font-[400] flex flex-col sm:flex-row text-[16px] sm:text-[20px] gap-2 sm:gap-4">
-                    <p className="font-[600] text-[16px] sm:text-[20px] text-[#1C232E]">
+                  <div className="flex flex-wrap items-center gap-2 text-base font-[Cabin,sans-serif]">
+                    <span className="font-bold text-[#1C232E]">
                       {!pet.next_due_vaccine ||
-                      Object.keys(pet.next_due_vaccine).length === 0
-                        ? "No vaccine due"
+                      Object.keys(pet.next_due_vaccine || {}).length === 0
+                        ? "--"
                         : pet.next_due_vaccine.vaccine_name}
-                    </p>
-                    <span className="font-[400] text-[#1C232E]"> | </span>
-                    <span className="text-red-500">
-                      In{" "}
-                      {pet.next_due_vaccine?.date_due
-                        ? Math.max(
-                            0,
-                            Math.ceil(
-                              (new Date(
-                                pet.next_due_vaccine.date_due
-                              ).getTime() -
-                                new Date().setHours(0, 0, 0, 0)) /
-                                (1000 * 60 * 60 * 24)
-                            )
-                          )
-                        : "--"}{" "}
-                      days
                     </span>
-                    <FaCircleExclamation className="mt-1.5 ml-1 text-red-500" />
-                    <p className="font-[600] text-[16px] sm:text-[20px] flex flex-row text-[#1C232E]">
-                      <span className="font-[400]"> | &nbsp;</span>
-                      <button
-                        className="font-[600] text-[16px] sm:text-[20px] flex flex-row cursor-pointer"
-                        onClick={() =>
-                          navigate(`/business/pet/${petId}/documents`)
-                        }
-                      >
-                        View Document
-                        <IoIosArrowDroprightCircle className="mt-1.5 ml-1" />
-                      </button>
-                    </p>
+                    {pet.next_due_vaccine &&
+                      Object.keys(pet.next_due_vaccine || {}).length > 0 && (
+                        <>
+                          <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                            |
+                          </span>
+                          {pet.next_due_vaccine?.date_due ? (
+                            (() => {
+                              const daysLeft = Math.max(
+                                0,
+                                Math.ceil(
+                                  (new Date(
+                                    pet.next_due_vaccine.date_due
+                                  ).getTime() -
+                                    new Date().setHours(0, 0, 0, 0)) /
+                                    (1000 * 60 * 60 * 24)
+                                )
+                              );
+                              return (
+                                <span className="font-semibold flex items-center gap-1 text-[#1C232E]">
+                                  In {daysLeft} days
+                                  {daysLeft <= 6 && (
+                                    <FaCircleExclamation className="text-[#B91C1C] text-base" />
+                                  )}
+                                </span>
+                              );
+                            })()
+                          ) : (
+                            <span className="text-[#B91C1C] font-semibold">
+                              --
+                            </span>
+                          )}
+                          <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                            |
+                          </span>
+                          <button
+                            className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
+                            onClick={() =>
+                              navigate(`/business/pet/${petId}/vaccine`)
+                            }
+                          >
+                            View Document{" "}
+                            <IoIosArrowDroprightCircle className="text-lg" />
+                          </button>
+                        </>
+                      )}
                   </div>
                 </div>
               </div>

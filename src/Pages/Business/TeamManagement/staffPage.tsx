@@ -1,4 +1,4 @@
-import { X, Plus, PencilLine, ChevronDown, Trash2 } from "lucide-react";
+import { X, Plus, ChevronDown, Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import BusinessNavbar from "../../../Components/BusinessComponents/BusinessNavbar";
 import { CiSearch } from "react-icons/ci";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import staffServices from "../../../Services/staffservice";
 import businessServices from "../../../Services/businessServices";
 import PetBusinessAvatar from "../../../Assets/PetBusinessAvatar.svg";
+import { BiSolidPencil } from "react-icons/bi";
 
 const StaffPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -203,10 +204,18 @@ const StaffPage = () => {
       <BusinessNavbar />
       <div className="w-full px-2 sm:px-4 md:px-8 max-w-7xl mx-auto">
         {/* Business Section */}
-        <p className="text-2xl font-lighter flex items-center gap-3 font-serif mt-6 mb-4">
+        <p className="text-2xl font-lighter flex items-center gap-3 font-serif mt-3 mb-4">
           Your Business
         </p>
-        <div className="bg-[#6A8293] rounded-2xl border px-4 sm:px-8 py-6 flex flex-col md:flex-row items-start gap-6 md:gap-8 mt-2 mb-6">
+        <div className="bg-[#6A8293] rounded-2xl border px-4 sm:px-8 py-6 flex flex-col md:flex-row items-start gap-6 md:gap-8 mt-2 mb-6 relative">
+          <button
+            className="cursor-pointer absolute top-1 right-1 md:top-4 md:right-4 text-[var(--color-background)] p-1.5 rounded-full transition hover:bg-[var(--color-background)]/20 hidden md:flex"
+            aria-label="Edit Business Profile"
+            tabIndex={0}
+            onClick={() => navigate("/business/profile")}
+          >
+            <BiSolidPencil size={16} />
+          </button>
           <img
             src={business.profile_picture}
             alt="Business profile"
@@ -218,8 +227,8 @@ const StaffPage = () => {
               <p className="text-2xl font-medium text-[var(--color-background)]">
                 {business.business_name}
               </p>
-              <PencilLine
-                className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer text-[var(--color-background)] ml-2 flex-shrink-0"
+              <BiSolidPencil
+                className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer text-[var(--color-background)] ml-2 flex-shrink-0 md:hidden"
                 onClick={() => navigate("/business/profile")}
               />
             </div>
@@ -492,7 +501,7 @@ const StaffPage = () => {
                         {member.username}
                       </td>
                       <td className="py-4 px-6 flex items-center space-x-4  text-center">
-                        <PencilLine
+                        <BiSolidPencil
                           className="w-5 h-5 text-gray-600 cursor-pointer"
                           onClick={() => handleOpenEditModal(member)}
                         />

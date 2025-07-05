@@ -658,24 +658,28 @@ const HomePage: React.FC = () => {
                           }
                         )}
                   </span>
-                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
-                    |
-                  </span>
-                  <span className="font-medium">
-                    {!pet.last_visit || Object.keys(pet.last_visit).length === 0
-                      ? "--"
-                      : `${pet.last_visit.staff?.staff_name || "--"}, ${
+                  {pet.last_visit && Object.keys(pet.last_visit).length > 0 && (
+                    <>
+                      <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                        |
+                      </span>
+                      <span className="font-medium">
+                        {`${pet.last_visit.staff?.staff_name || "--"}, ${
                           pet.last_visit.business?.business_name || "--"
                         }`}
-                  </span>
+                      </span>
+                    </>
+                  )}
                 </div>
-                <button
-                  className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
-                  onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
-                >
-                  View Document{" "}
-                  <IoIosArrowDroprightCircle className="text-lg" />
-                </button>
+                {pet.last_visit && Object.keys(pet.last_visit).length > 0 && (
+                  <button
+                    className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
+                    onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
+                  >
+                    View Document{" "}
+                    <IoIosArrowDroprightCircle className="text-lg" />
+                  </button>
+                )}
               </div>
               {/* Next Vaccine Due */}
               <div>
@@ -689,39 +693,51 @@ const HomePage: React.FC = () => {
                       ? "--"
                       : pet.next_due_vaccine.vaccine_name}
                   </span>
-                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
-                    |
-                  </span>
-                  {pet.next_due_vaccine?.date_due ? (
-                    (() => {
-                      const daysLeft = Math.max(
-                        0,
-                        Math.ceil(
-                          (new Date(pet.next_due_vaccine.date_due).getTime() -
-                            new Date().setHours(0, 0, 0, 0)) /
-                            (1000 * 60 * 60 * 24)
-                        )
-                      );
-                      return (
-                        <span className="font-semibold flex items-center gap-1 text-[#1C232E]">
-                          In {daysLeft} days
-                          {daysLeft < 6 && (
-                            <FaCircleExclamation className="text-[#B91C1C] text-base" />
-                          )}
+                  {pet.next_due_vaccine &&
+                    Object.keys(pet.next_due_vaccine).length > 0 && (
+                      <>
+                        <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                          |
                         </span>
-                      );
-                    })()
-                  ) : (
-                    <span className="text-[#B91C1C] font-semibold">--</span>
-                  )}
+                        {pet.next_due_vaccine?.date_due ? (
+                          (() => {
+                            const daysLeft = Math.max(
+                              0,
+                              Math.ceil(
+                                (new Date(
+                                  pet.next_due_vaccine.date_due
+                                ).getTime() -
+                                  new Date().setHours(0, 0, 0, 0)) /
+                                  (1000 * 60 * 60 * 24)
+                              )
+                            );
+                            return (
+                              <span className="font-semibold flex items-center gap-1 text-[#1C232E]">
+                                In {daysLeft} days
+                                {daysLeft <= 6 && (
+                                  <FaCircleExclamation className="text-[#B91C1C] text-base" />
+                                )}
+                              </span>
+                            );
+                          })()
+                        ) : (
+                          <span className="text-[#B91C1C] font-semibold">
+                            --
+                          </span>
+                        )}
+                      </>
+                    )}
                 </div>
-                <button
-                  className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
-                  onClick={() => navigate(`/petowner/pet/${petId}/vaccine`)}
-                >
-                  View Document{" "}
-                  <IoIosArrowDroprightCircle className="text-lg" />
-                </button>
+                {pet.next_due_vaccine &&
+                  Object.keys(pet.next_due_vaccine).length > 0 && (
+                    <button
+                      className="mt-2 cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif]"
+                      onClick={() => navigate(`/petowner/pet/${petId}/vaccine`)}
+                    >
+                      View Document{" "}
+                      <IoIosArrowDroprightCircle className="text-lg" />
+                    </button>
+                  )}
               </div>
             </div>
           </div>

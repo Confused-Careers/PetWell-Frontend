@@ -6,6 +6,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import BusinessNavbar from "../../Components/BusinessComponents/BusinessNavbar";
 import petServices from "../../Services/petServices";
 import { IoIosArrowDropleftCircle } from "react-icons/io";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 
 // Define TypeScript interface for Pet
 interface Pet {
@@ -141,53 +142,53 @@ const UploadDocuments: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[var(--color-background)] text-[var(--color-text)] font-sans">
       <div className=" w-screen h-full justify-center items-center">
-      <NavComponent />
-      {/* Profile Image and Back Button */}
-      <div className="mt-8 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
-        <button
-          className="cursor-pointer absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent z-10"
-          onClick={() => navigate(-1)}
-          aria-label="Back"
-        >
-          <IoIosArrowDropleftCircle /> Go Back
-        </button>
-        <img
-          src={
-            (pet.profile_picture &&
-              typeof pet.profile_picture === "string" &&
-              pet.profile_picture) ||
-            (pet as any).profilePictureDocument?.document_url ||
-            (pet.profile_picture &&
-              typeof pet.profile_picture === "object" &&
-              (pet.profile_picture as any).profilePictureDocument
-                ?.document_url) ||
-            "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
-          }
-          alt="Profile"
-          className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-[var(--color-text)] shadow-lg mt-4"
+        <NavComponent />
+        {/* Profile Image and Back Button */}
+        <div className="mt-8 flex flex-col items-center w-full relative px-4 sm:px-6 md:px-8">
+          <button
+            className="cursor-pointer absolute left-4 sm:left-6 md:left-8 top-0 flex items-center gap-1 text-[var(--color-text)] hover:text-[var(--color-primary)] text-sm sm:text-base font-semibold px-2 py-1 rounded transition border border-transparent z-10"
+            onClick={() => navigate(-1)}
+            aria-label="Back"
+          >
+            <IoIosArrowDropleftCircle /> Go Back
+          </button>
+          <img
+            src={
+              (pet.profile_picture &&
+                typeof pet.profile_picture === "string" &&
+                pet.profile_picture) ||
+              (pet as any).profilePictureDocument?.document_url ||
+              (pet.profile_picture &&
+                typeof pet.profile_picture === "object" &&
+                (pet.profile_picture as any).profilePictureDocument
+                  ?.document_url) ||
+              PetAvatar
+            }
+            alt="Profile"
+            className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full object-cover border-4 border-[var(--color-text)] shadow-lg mt-4"
+          />
+          <h1 className="mt-4 sm:mt-6 text-2xl font-lighter flex items-center gap-3 font-serif">
+            Upload documents for {pet.pet_name}
+          </h1>
+          <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center">
+            Keep your pet's records safe and accessible — from vaccine
+            certificates to vet bills.
+          </p>
+        </div>
+        {/* UploadDocument component handles upload logic and UI */}
+        <UploadDocument
+          onUpload={handleUpload}
+          onNext={() => {
+            setShowLoader(true);
+            setTimeout(() => {
+              setShowLoader(false);
+              navigate(-1);
+            }, 2000);
+          }}
         />
-        <h1 className="mt-4 sm:mt-6 text-2xl font-lighter flex items-center gap-3 font-serif">
-          Upload documents for {pet.pet_name}
-        </h1>
-        <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg text-[var(--color-text)] opacity-80 max-w-sm sm:max-w-md md:max-w-xl text-center">
-          Keep your pet's records safe and accessible — from vaccine
-          certificates to vet bills.
-        </p>
+        {showLoader && <Loader />}
       </div>
-      {/* UploadDocument component handles upload logic and UI */}
-      <UploadDocument
-        onUpload={handleUpload}
-        onNext={() => {
-          setShowLoader(true);
-          setTimeout(() => {
-            setShowLoader(false);
-            navigate(-1);
-          }, 2000);
-        }}
-      />
-      {showLoader && <Loader />}
-      </div>
-      </div>
+    </div>
   );
 };
 

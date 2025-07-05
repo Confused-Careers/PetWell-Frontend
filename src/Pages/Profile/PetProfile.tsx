@@ -5,6 +5,7 @@ import SwitchProfileModal from "../../Components/Profile/SwitchProfileModal";
 import petServices from "../../Services/petServices";
 import humanOwnerServices from "../../Services/humanOwnerServices";
 import { storeLastPetId } from "../../utils/petNavigation";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 import {
   Dialog,
   DialogTrigger,
@@ -178,8 +179,15 @@ const PetProfile: React.FC = () => {
               <div className="w-full h-full rounded-[20px] overflow-hidden mb-2 bg-black">
                 <img
                   src={
+                    (currentPet?.profile_picture &&
+                      typeof currentPet?.profile_picture === "string" &&
+                      currentPet?.profile_picture) ||
                     currentPet?.profilePictureDocument?.document_url ||
-                    "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=facearea&w=400&h=400&q=80"
+                    (currentPet?.profile_picture &&
+                      typeof currentPet?.profile_picture === "object" &&
+                      currentPet?.profile_picture.profilePictureDocument
+                        ?.document_url) ||
+                    PetAvatar
                   }
                   alt={currentPet?.pet_name || "Pet"}
                   className="w-full h-full object-cover"
@@ -291,7 +299,7 @@ const PetProfile: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-2 text-base text-[#1C232E] font-[Cabin,sans-serif]">
                   <span className="font-bold">
                     {!currentPet?.last_visit ||
-                    Object.keys(currentPet.last_visit || {}).length === 0
+                    Object.keys(currentPet?.last_visit || {}).length === 0
                       ? "--"
                       : new Date(
                           currentPet.last_visit.created_at
@@ -301,27 +309,34 @@ const PetProfile: React.FC = () => {
                           year: "2-digit",
                         })}
                   </span>
-                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
-                    |
-                  </span>
-                  <span className="font-medium">
-                    {!currentPet?.last_visit ||
-                    Object.keys(currentPet.last_visit || {}).length === 0
-                      ? "--"
-                      : `${currentPet.last_visit.staff?.staff_name || "--"}, ${
-                          currentPet.last_visit.business?.business_name || "--"
-                        }`}
-                  </span>
-                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
-                    |
-                  </span>
-                  <button
-                    className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif] "
-                    onClick={() => navigate(`/petowner/pet/${petId}/documents`)}
-                  >
-                    View Document{" "}
-                    <IoIosArrowDroprightCircle className="text-lg" />
-                  </button>
+                  {currentPet?.last_visit &&
+                    Object.keys(currentPet?.last_visit || {}).length > 0 && (
+                      <>
+                        <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                          |
+                        </span>
+                        <span className="font-medium">
+                          {`${
+                            currentPet.last_visit.staff?.staff_name || "--"
+                          }, ${
+                            currentPet.last_visit.business?.business_name ||
+                            "--"
+                          }`}
+                        </span>
+                        <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                          |
+                        </span>
+                        <button
+                          className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif] "
+                          onClick={() =>
+                            navigate(`/petowner/pet/${petId}/documents`)
+                          }
+                        >
+                          View Document{" "}
+                          <IoIosArrowDroprightCircle className="text-lg" />
+                        </button>
+                      </>
+                    )}
                 </div>
               </div>
               {/* Next Vaccine Due */}
@@ -332,42 +347,57 @@ const PetProfile: React.FC = () => {
                 <div className="flex flex-wrap items-center gap-2 text-base font-[Cabin,sans-serif]">
                   <span className="font-bold text-[#1C232E]">
                     {!currentPet?.next_due_vaccine ||
-                    Object.keys(currentPet.next_due_vaccine || {}).length === 0
+                    Object.keys(currentPet?.next_due_vaccine || {}).length === 0
                       ? "--"
                       : currentPet.next_due_vaccine.vaccine_name}
                   </span>
-                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
-                    |
-                  </span>
-                  {currentPet?.next_due_vaccine?.date_due ? (
-                    <span className="text-[#B91C1C] font-semibold flex items-center gap-1">
-                      In{" "}
-                      {Math.max(
-                        0,
-                        Math.ceil(
-                          (new Date(
-                            currentPet.next_due_vaccine.date_due
-                          ).getTime() -
-                            new Date().setHours(0, 0, 0, 0)) /
-                            (1000 * 60 * 60 * 24)
-                        )
-                      )}{" "}
-                      days
-                      <FaCircleExclamation className="text-base" />
-                    </span>
-                  ) : (
-                    <span className="text-[#B91C1C] font-semibold">--</span>
-                  )}
-                  <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
-                    |
-                  </span>
-                  <button
-                    className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif] "
-                    onClick={() => navigate(`/petowner/pet/${petId}/vaccine`)}
-                  >
-                    View Document{" "}
-                    <IoIosArrowDroprightCircle className="text-lg" />
-                  </button>
+                  {currentPet?.next_due_vaccine &&
+                    Object.keys(currentPet?.next_due_vaccine || {}).length >
+                      0 && (
+                      <>
+                        <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                          |
+                        </span>
+                        {currentPet?.next_due_vaccine?.date_due ? (
+                          (() => {
+                            const daysLeft = Math.max(
+                              0,
+                              Math.ceil(
+                                (new Date(
+                                  currentPet.next_due_vaccine.date_due
+                                ).getTime() -
+                                  new Date().setHours(0, 0, 0, 0)) /
+                                  (1000 * 60 * 60 * 24)
+                              )
+                            );
+                            return (
+                              <span className="font-semibold flex items-center gap-1 text-[#1C232E]">
+                                In {daysLeft} days
+                                {daysLeft <= 6 && (
+                                  <FaCircleExclamation className="text-[#B91C1C] text-base" />
+                                )}
+                              </span>
+                            );
+                          })()
+                        ) : (
+                          <span className="text-[#B91C1C] font-semibold">
+                            --
+                          </span>
+                        )}
+                        <span className="mx-2 text-[#1C232E]/40 text-lg font-bold">
+                          |
+                        </span>
+                        <button
+                          className="cursor-pointer font-semibold text-base text-[#1C232E] flex items-center gap-1 font-[Cabin,sans-serif] "
+                          onClick={() =>
+                            navigate(`/petowner/pet/${petId}/vaccine`)
+                          }
+                        >
+                          View Document{" "}
+                          <IoIosArrowDroprightCircle className="text-lg" />
+                        </button>
+                      </>
+                    )}
                 </div>
               </div>
             </div>
@@ -375,7 +405,7 @@ const PetProfile: React.FC = () => {
             <div className="flex flex-responsive-row gap-6 flex-1 h-0 min-h-0 w-full items-stretch">
               {/* Syd's Code - Responsive and consistent text */}
               <div
-                className="bg-[#DC9A6B80] border border-black rounded-3xl flex-1 flex flex-col justify-between p-4 min-w-0 w-full"
+                className="bg-[#DC9A6B80] border border-black rounded-3xl basis-40 flex flex-col justify-between p-4 min-w-0 w-full"
                 style={{ boxShadow: "none" }}
               >
                 <div className="flex flex-col md:flex-row items-center justify-between mb-4 w-full gap-2">
@@ -474,12 +504,12 @@ const PetProfile: React.FC = () => {
                 </div>
               </div>
               {/* Your Details */}
-              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-full md:min-w-[55%]">
+              <div className="bg-[#ABA75C]/50 rounded-3xl p-4 border border-black min-w-0 basis-60 flex flex-col">
                 <h2 className="text-3xl font-[cabin, sans-serif] font-[500] mb-4 text-[#1C232E]">
                   Your Details
                 </h2>
                 <div className="flex flex-col gap-2 text-sm">
-                  <div className="flex flex-row gap-4 items-start">
+                  <div className="flex flex-row gap-4 items-start min-w-0">
                     <div>
                       <span className="text-[#23272f] opacity-60 text-[16px]">
                         Name
@@ -497,12 +527,15 @@ const PetProfile: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-row gap-4 items-start">
+                  <div className="flex flex-row gap-4 items-start min-w-0">
                     <div>
                       <span className="text-[#23272f] opacity-60 text-[16px]">
                         Phone number
                       </span>
-                      <div className="font-[500] text-[#23272f] text-[20px]">
+                      <div
+                        className="font-[500] text-[#23272f] text-[20px] truncate max-w-[180px] sm:max-w-[240px] md:max-w-[320px] lg:max-w-[400px] min-w-0"
+                        title={humanProfile?.phone || "Unknown"}
+                      >
                         {humanProfile?.phone || "Unknown"}
                       </div>
                     </div>
@@ -510,7 +543,10 @@ const PetProfile: React.FC = () => {
                       <span className="text-[#23272f] opacity-60 text-[16px]">
                         Email
                       </span>
-                      <div className="font-[500] text-[#23272f] text-[20px]">
+                      <div
+                        className="font-[500] text-[#23272f] text-[20px] break-words max-w-full min-w-0"
+                        title={humanProfile?.email || "Unknown"}
+                      >
                         {humanProfile?.email || "Unknown"}
                       </div>
                     </div>
@@ -521,24 +557,6 @@ const PetProfile: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Responsive tweaks for iPad screens */}
-      <style>{`
-        @media (max-width: 1024px) and (min-width: 768px) {
-          .flex-responsive-row {
-            flex-direction: column !important;
-            gap: 2rem !important;
-          }
-          .md\\:max-w-[350px] {
-            max-width: 100% !important;
-          }
-          .md\\:basis-1\/3 {
-            flex-basis: 100% !important;
-          }
-          .md\\:basis-2\/3 {
-            flex-basis: 100% !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
 import { IoIosArrowForward } from "react-icons/io";
+import PetAvatar from "../../Assets/PetAvatar.svg";
 
 interface Pet {
   document_url: string;
@@ -40,7 +41,10 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
     if (loading) return;
     setLoading(true);
     try {
-      const response = await businessServices.getPetMappings({ limit: 10, page: 1 });
+      const response = await businessServices.getPetMappings({
+        limit: 10,
+        page: 1,
+      });
       const petsData = response as unknown as Pet[];
       setPets(petsData);
       if (setCount) setCount(petsData.length);
@@ -68,7 +72,9 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
             <th className="py-2 px-1.5 font-bold text-center">Phone</th>
             <th className="py-2 px-1.5 font-bold text-center">Added On</th>
             <th className="py-2 px-1.5 font-bold text-center">Last Visit</th>
-            <th className="py-2 px-1.5 font-bold text-center">Doctor Visited</th>
+            <th className="py-2 px-1.5 font-bold text-center">
+              Doctor Visited
+            </th>
             <th className="py-2 px-1.5 font-bold text-center">Notes</th>
             <th className="text-center"></th>
           </tr>
@@ -76,13 +82,19 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
         <tbody>
           {loading ? (
             <tr>
-              <td colSpan={9} className="py-2 px-1.5 text-center text-[#1C232E]">
+              <td
+                colSpan={9}
+                className="py-2 px-1.5 text-center text-[#1C232E]"
+              >
                 Loading...
               </td>
             </tr>
           ) : pets.length === 0 ? (
             <tr>
-              <td colSpan={9} className="py-2 px-1.5 text-center text-[#1C232E]">
+              <td
+                colSpan={9}
+                className="py-2 px-1.5 text-center text-[#1C232E]"
+              >
                 No pets under care.
               </td>
             </tr>
@@ -91,11 +103,13 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
               <tr
                 key={pet.id}
                 className="last:border-b-0 hover:bg-[#EDCC79] transition cursor-pointer"
-                onClick={() => window.location.href = `/business/pet/${pet.pet_id}/home`}
+                onClick={() =>
+                  (window.location.href = `/business/pet/${pet.pet_id}/home`)
+                }
               >
                 <td className="py-2 px-1.5 flex items-center gap-3 text-center">
                   <img
-                    src={pet.document_url || "https://place.dog/300/200"}
+                    src={pet.document_url || PetAvatar}
                     alt={pet.pet_name}
                     className="w-8 h-8 rounded-full object-cover border border-[var(--color-business-accent)]"
                   />
@@ -113,19 +127,25 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
                   {pet.human_owner_phone || "N/A"}
                 </td>
                 <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
-                  {new Date(pet.created_at as string).toLocaleDateString(undefined, {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })}
+                  {new Date(pet.created_at as string).toLocaleDateString(
+                    undefined,
+                    {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    }
+                  )}
                 </td>
                 <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
                   {pet.last_visit
-                    ? new Date(pet.last_visit as string).toLocaleDateString(undefined, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })
+                    ? new Date(pet.last_visit as string).toLocaleDateString(
+                        undefined,
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        }
+                      )
                     : "N/A"}
                 </td>
                 <td className="py-2 px-1.5 text-[var(--color-business-heading)] text-center">
@@ -139,7 +159,9 @@ const PetsUnderCare: React.FC<PetsUnderCareProps> = ({ setCount }) => {
                     href={`/business/pet/${pet.pet_id}/home`}
                     className="text-[var(--color-business-heading)] hover:text-[var(--color-business-accent)]"
                     title="View Pet Details"
-                  ><IoIosArrowForward /></a>
+                  >
+                    <IoIosArrowForward />
+                  </a>
                 </td>
               </tr>
             ))

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import businessServices from "../../Services/businessServices";
 import { toast } from "sonner";
+import PetAvatar from "../../Assets/PetAvatar.svg"
 
 interface Pet {
   created_at: ReactNode;
@@ -9,7 +10,7 @@ interface Pet {
   human_owner_name: string;
   id: string;
   pet_name: string;
-  image?: string;
+  document_url?: string;
   added_on: string;
   last_visit?: string;
   doctor?: string;
@@ -65,7 +66,7 @@ const RecentlyAddedPets: React.FC<RecentlyAddedPetsProps> = ({ setCount }) => {
                 <div className="flex flex-row justify-between items-start mb-2">
                   <div className="flex items-center gap-3">
                    
-                    <img src={pet.image || "https://place.dog/300/200"} alt={pet.pet_name} className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-business-accent)]" />
+                    <img src={pet.document_url || PetAvatar} alt={pet.pet_name} className="w-12 h-12 rounded-full object-cover border-2 border-[var(--color-business-accent)]" />
                     <span className="text-[var(--color-business-heading)] font-cabin font-bold text-lg ml-1">{pet.pet_name}</span>
                   </div>
                   <div className="flex flex-col">
